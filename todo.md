@@ -445,3 +445,11 @@
 # Viagens e logística
 
 - [x] Implementar e publicar custos de viagens por deslocamento, integrados ao calendário, FinanceLedger, read model, tRPC, testes e documentação; push remoto verificado em `e0d3a5a06449c85dd4c93d2d4916e636dbb71901`.
+
+# Execução contínua dos passos 371–470
+
+- [x] Executar passos 371–390: bloco esportivo, calendário, reputação, torcida, bilheteria, prévias sociais e linha do tempo conforme `docs/proximas_100_implementacoes_371_470.md`; testes focados aprovados.
+- [ ] Executar passos 391–410: bloco de elenco, staff e formação conforme o roadmap versionado.
+- [ ] Executar passos 411–430: bloco econômico e comercial conforme o roadmap versionado.
+- [ ] Executar passos 431–450: bloco de IA, scouting e base conforme o roadmap versionado.
+- [ ] Executar passos 451–470: bloco de carreira, UX e governança conforme o roadmap versionado.
