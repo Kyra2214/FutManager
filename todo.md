@@ -242,3 +242,12 @@
 - [x] Cobrir os contratos P0-12 com testes em GameState temporário.
 - [x] Promover o Front P0-12 após matriz 20/20, regras configuráveis e testes temporários aprovados.
 - [x] Confirmar que a promoção de P0-12 não abre P0_GATE nem libera P1/P2.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-13.
+- [x] Executar a matriz P0-13 e corrigir apenas lacunas reais de calendário e temporadas.
+- [x] Criar calendário explícito de pré-temporada e janelas de descanso.
+- [x] Adicionar detecção de conflito com adiamento automático/auditável.
+- [x] Cobrir semanas sem partidas e várias partidas no calendário.
+- [x] Criar relatório de calendário congestionado.
+- [x] Cobrir restauração do relógio após rollback.
+- [x] Promover o Front P0-13 após matriz 20/20 e testes de calendário/relógio aprovados.
+- [x] Confirmar que P0-13 mantém SQL/GameState como fonte única e não altera bancos oficiais.

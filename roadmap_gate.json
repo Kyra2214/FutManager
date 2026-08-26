@@ -19,7 +19,7 @@
     {"front": 5, "title": "Clubes, seleções e identidades", "status": "CONSOLIDATED", "evidence": ["docs/p0_validation_evidence_2026-08-26.md", "docs/p0_front_05_matrix.json", "scripts/validate_p0_5_matrix.py", "scripts/audit_canonical_clubs.py", "/home/ubuntu/brasfoot_engine/engine/teams/identity.py", "/home/ubuntu/brasfoot_engine/tests/test_club_identity.py", "/home/ubuntu/brasfoot_engine/assets/README.md", "server/engineAssets.test.ts", "checkpoint"]},
     {"front": 11, "title": "Motor de partidas", "status": "CONSOLIDATED", "evidence": ["docs/p0_validation_evidence_2026-08-26.md", "docs/p0_front_11_matrix.json", "scripts/validate_p0_11_matrix.py", "scripts/validate_p0_match_engine.py", "/home/ubuntu/brasfoot_engine/engine/competitions/match_engine.py", "/home/ubuntu/brasfoot_engine/tests/test_phases16_17.py", "checkpoint"]},
     {"front": 12, "title": "Competições e classificação", "status": "CONSOLIDATED", "evidence": ["docs/p0_validation_evidence_2026-08-26.md", "docs/p0_front_12_matrix.json", "scripts/validate_p0_12_matrix.py", "/home/ubuntu/brasfoot_engine/engine/competitions/structure.py", "/home/ubuntu/brasfoot_engine/tests/test_competition_structure.py", "checkpoint"]},
-    {"front": 13, "title": "Calendário e temporadas", "status": "PENDING"},
+    {"front": 13, "title": "Calendário e temporadas", "status": "CONSOLIDATED", "evidence": ["docs/p0_validation_evidence_2026-08-26.md", "docs/p0_front_13_matrix.json", "scripts/validate_p0_13_matrix.py", "/home/ubuntu/brasfoot_engine/engine/world/calendar.py", "/home/ubuntu/brasfoot_engine/engine/world/time_and_finance.py", "/home/ubuntu/brasfoot_engine/tests/test_calendar_service.py", "checkpoint"]},
     {"front": 17, "title": "Economia mundial", "status": "PENDING"},
     {"front": 23, "title": "Frontend e tRPC", "status": "PENDING"},
     {"front": 25, "title": "Testes, entrega e operação", "status": "PENDING"}
@@ -35,5 +35,5 @@
     "12": ["docs/p0_validation_evidence_2026-08-26.md", "scripts/validate_p0_competitions_calendar.py"],
     "13": ["docs/p0_validation_evidence_2026-08-26.md", "scripts/validate_p0_competitions_calendar.py"]
   },
-  "front_statuses": {"1":"CONSOLIDATED","2":"CONSOLIDATED","3":"CONSOLIDATED","4":"CONSOLIDATED","5":"CONSOLIDATED","11":"CONSOLIDATED","12":"CONSOLIDATED","13":"PENDING","17":"PENDING","23":"PENDING","25":"PENDING"}
+  "front_statuses": {"1":"CONSOLIDATED","2":"CONSOLIDATED","3":"CONSOLIDATED","4":"CONSOLIDATED","5":"CONSOLIDATED","11":"CONSOLIDATED","12":"CONSOLIDATED","13":"CONSOLIDATED","17":"PENDING","23":"PENDING","25":"PENDING"}
 }

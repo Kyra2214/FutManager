@@ -94,3 +94,9 @@ A validação em GameState temporário passou com 5 testes no arquivo `tests/tes
 A matriz `scripts/validate_p0_12_matrix.py` confirmou `20/20 PASS` nos passos 221–240. O GameState agora registra formatos, pontos, desempates, fases, rodadas, ida/volta, pênaltis condicionais, status de competição, partidas suspensas/remarcadas, campeões, premiações por posição, transições configuráveis, pagamentos idempotentes e alertas de classificação. A classificação continua derivada dos resultados persistidos, enquanto o frontend permanece proibido de alterar a tabela.
 
 Os testes `tests/test_competition_structure.py` passaram em GameState temporário, incluindo limites de pênaltis/transições, finalização somente sem fixtures pendentes, histórico de campeão, premiação sem duplicidade e alertas sem duplicidade.
+
+## Matriz P0-13 — calendário e temporadas
+
+A matriz `scripts/validate_p0_13_matrix.py` confirmou `20/20 PASS` nos passos 241–260. O GameState agora possui períodos explícitos de pré-temporada, regular, final e pausa, janelas de descanso, agenda por clube, detecção e resolução auditável de conflitos, resumo de semanas vazias, relatório de congestionamento e histórico de relógio. O `LogicalClock` mantém avanço semanal como comando principal, oferece avanço diário opcional e restauração validada para rollback.
+
+Os testes `tests/test_calendar_service.py` passaram em GameState temporário, incluindo idempotência de períodos, conflitos, semana vazia, congestionamento, avanço diário/semanal e restauração do relógio. Nenhum banco oficial foi usado como destino de escrita.
