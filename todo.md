@@ -173,3 +173,7 @@
 - [x] Validar que o manifesto compartilhado contém somente contratos serializáveis e sem regras paralelas.
 - [x] Criar auditoria read-only do Front P0-3 para integridade SQLite, foreign keys, schema_versions, índices e hash do banco-base.
 - [x] Executar a auditoria P0-3 nos bancos oficiais em modo read-only, sem modificá-los.
+- [x] Criar auditoria read-only do Front P0-4 para jogadores canônicos, posições, status e vínculos de clubes.
+- [x] Executar a auditoria P0-4 sem alterar o banco-base ou o GameState.
+- [x] Criar auditoria read-only do Front P0-5 para clubes, seleções, países e IDs oficiais.
+- [x] Executar a auditoria P0-5 e registrar cobertura e duplicidades sem alterar o SQL.

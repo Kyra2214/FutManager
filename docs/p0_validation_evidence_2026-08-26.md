@@ -22,3 +22,11 @@ O Front P0-1 está `CONSOLIDATED` no `roadmap_gate.json`. Os fronts P0 restantes
 ## Auditoria P0-3 — banco e migrações
 
 A auditoria read-only `scripts/validate_p0_database.py` verificou os dois bancos oficiais. O banco-base possui 7 tabelas e hash SHA-256 conferido contra o manifesto; o GameState possui 97 tabelas, `schema_version=2` e os índices de ledger esperados disponíveis. Ambos retornaram `integrity_check=ok` e zero erros em `foreign_key_check`. Índices específicos do ciclo não são exigidos no banco-base imutável quando suas tabelas não existem.
+
+## Auditoria P0-4 — jogadores canônicos
+
+A auditoria read-only `scripts/audit_canonical_players.py` confirmou **231.911 jogadores**, com **231.911 chaves canônicas distintas**, nenhum campo obrigatório nulo, nenhuma posição desconhecida e nenhum vínculo duplicado jogador–time–categoria. As posições e status foram agregados diretamente do SQL: goleiros 27.078, laterais 38.881, zagueiros 41.236, meias 76.224 e atacantes 48.492; titulares 89.707 e reservas 146.015; 224 países com jogadores registrados. O relatório completo foi gravado em `brasfoot_engine/docs/canonical_players_audit.json`.
+
+## Auditoria P0-5 — clubes, seleções e identidades
+
+A auditoria read-only `scripts/audit_canonical_clubs.py` confirmou **8.399 clubes**, **86 seleções** e **224 países**, com zero duplicidade de `arquivo_origem` de clubes, zero duplicidade de códigos/nomes de seleções e zero vínculos de país órfãos. Foram observadas 140 colisões de nomes de clubes; elas são colisões de rótulo, não de identidade, pois a chave canônica continua sendo o identificador de origem/ID oficial. O resultado final foi `VALID`.
