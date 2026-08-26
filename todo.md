@@ -160,3 +160,5 @@
 - [x] Fazer o validador exigir descoberta, construção, validação e concluída.
 - [x] Fazer o validador exigir escopo essencial, avançado e experimental.
 - [x] Rerodar o validador do Front P0-1 após essas exigências.
+- [x] Corrigir o validador do gate para aceitar fronts P0 parcialmente consolidados enquanto P0_GATE permanecer CLOSED.
+- [x] Validar que o gate só abre quando todos os fronts P0 estiverem CONSOLIDATED.

@@ -15,9 +15,11 @@ assert len(fronts) == 25, len(fronts)
 assert fronts.count('P0') == len(gate['p0_fronts'])
 assert gate['sql_game_state_source_of_truth'] is True
 assert gate['p1_p2_blocked'] is (gate['p0_gate'] != 'OPEN')
+statuses = {front['status'] for front in gate['p0_fronts']}
+assert statuses <= {'PENDING', 'CONSOLIDATED'}
 if gate['p0_gate'] != 'OPEN':
-    assert all(front['status'] != 'CONSOLIDATED' for front in gate['p0_fronts'])
-    print('P0_GATE=CLOSED; P1/P2 bloqueados; SQL/GameState=fonte única declarada')
+    assert any(front['status'] != 'CONSOLIDATED' for front in gate['p0_fronts'])
+    print('P0_GATE=CLOSED; consolidação incremental permitida; P1/P2 bloqueados; SQL/GameState=fonte única declarada')
 else:
     assert all(front['status'] == 'CONSOLIDATED' for front in gate['p0_fronts'])
     print('P0_GATE=OPEN; todos os fronts P0 consolidados')
