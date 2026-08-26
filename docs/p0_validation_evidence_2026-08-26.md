@@ -30,3 +30,7 @@ A auditoria read-only `scripts/audit_canonical_players.py` confirmou **231.911 j
 ## Auditoria P0-5 — clubes, seleções e identidades
 
 A auditoria read-only `scripts/audit_canonical_clubs.py` confirmou **8.399 clubes**, **86 seleções** e **224 países**, com zero duplicidade de `arquivo_origem` de clubes, zero duplicidade de códigos/nomes de seleções e zero vínculos de país órfãos. Foram observadas 140 colisões de nomes de clubes; elas são colisões de rótulo, não de identidade, pois a chave canônica continua sendo o identificador de origem/ID oficial. O resultado final foi `VALID`.
+
+## Auditoria P0-11 — motor de partidas
+
+A auditoria `scripts/validate_p0_match_engine.py` confirmou a implementação de `CompetitionService.play`, seed determinístico, transição para `PLAYED`, commits controlados e testes existentes para partida inválida, partida já jogada, seed, rollback e idempotência. O resultado foi `VALID`; a cobertura estrutural foi registrada sem iniciar P1/P2.

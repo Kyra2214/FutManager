@@ -177,3 +177,5 @@
 - [x] Executar a auditoria P0-4 sem alterar o banco-base ou o GameState.
 - [x] Criar auditoria read-only do Front P0-5 para clubes, seleções, países e IDs oficiais.
 - [x] Executar a auditoria P0-5 e registrar cobertura e duplicidades sem alterar o SQL.
+- [x] Criar auditoria read-only/testável do Front P0-11 para partidas, determinismo, idempotência e rollback.
+- [x] Executar a auditoria P0-11 sem iniciar itens dependentes de P1/P2.
