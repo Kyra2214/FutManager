@@ -412,7 +412,7 @@
 - [x] P0-17 / passos 333/334/335: suportar investimentos, SAF/controle e auditoria de temporada.
 - [x] P0-17 / passos 336/337/338/339/340: validar idempotência, insolvência, rollback e limites do modelo.
 - [x] P1-18 / passos 341/342/343/344: exibir caixa atual/projetado e folhas por atletas, comissão e manutenção, com consolidação semanal derivada no backend.
-- [ ] P1-18 / passos 345/346/347: exibir patrocínio, bilheteria e premiações persistidas.
+- [x] P1-18 / passos 345/346/347: exibir patrocínio, bilheteria e premiações persistidas como categorias derivadas do FinanceLedger no resumo financeiro.
 - [x] P1-18 / passos 348/349/350: filtrar lançamentos e exportar relatório financeiro em CSV.
 - [x] P1-18 / passo 351: sinalizar saldo insuficiente usando alerta persistido do motor; passos 352/353 permanecem pendentes.
 - [x] P1-18 / passo 354: pré-visualizar impacto de contratação no motor, com caixa antes/depois, custo imediato, folha semanal e fórmula versionada; passos 355/356 permanecem pendentes.

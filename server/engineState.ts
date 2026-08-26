@@ -135,6 +135,9 @@ export type ClubWorkspaceDashboard = {
     ledgerIncome: number | null;
     ledgerExpense: number | null;
     projectedCash39Weeks: number | null;
+    sponsorshipIncome: number | null;
+    ticketIncome: number | null;
+    prizeIncome: number | null;
   };
   reputation: { sporting: number | null; national: number | null; international: number | null; commercial: number | null; historical: number | null };
   stadium: { name: string | null; capacity: number | null; level: number | null; status: string | null; source: "CLUB_STADIUM" | "TEAM_RECORD" | "UNAVAILABLE" };
@@ -518,7 +521,7 @@ function emptyClubWorkspace(message: string): ClubWorkspaceDashboard {
     career: null,
     club: null,
     squad: { total: 0, starters: 0, reserves: 0, injured: 0, players: [] },
-    finance: { cash: null, updatedAt: null, source: "UNAVAILABLE", budget: null, initialCash: null, weeklyPlayerPayroll: null, weeklyStaffPayroll: null, weeklyDepartmentMaintenance: null, weeklyTotal: null, teamPower: null, countryFactor: null, baseLevel: null, ledgerIncome: null, ledgerExpense: null, projectedCash39Weeks: null },
+    finance: { cash: null, updatedAt: null, source: "UNAVAILABLE", budget: null, initialCash: null, weeklyPlayerPayroll: null, weeklyStaffPayroll: null, weeklyDepartmentMaintenance: null, weeklyTotal: null, teamPower: null, countryFactor: null, baseLevel: null, ledgerIncome: null, ledgerExpense: null, projectedCash39Weeks: null, sponsorshipIncome: null, ticketIncome: null, prizeIncome: null },
     reputation: { sporting: null, national: null, international: null, commercial: null, historical: null },
     stadium: { name: null, capacity: null, level: null, status: null, source: "UNAVAILABLE" },
     training: { available: false, message: "O estado do motor ainda não possui CT persistido para este clube." },
@@ -581,7 +584,7 @@ export function getClubWorkspaceDashboard(
        ORDER BY injury.end_date ASC, injury.injury_id ASC`,
     ).all(clubId) as SQLiteRow[] : [];
     const legacyFinance = tableExists(db, "club_finances") ? db.prepare("SELECT cash, updated_at FROM club_finances WHERE club_id = ?").get(clubId) as SQLiteRow | undefined : undefined;
-    const ledgerColumns = tableExists(db, "financial_ledger") ? `COALESCE((SELECT SUM(amount) FROM financial_ledger WHERE club_id=state.club_id AND amount > 0), 0) AS ledger_income, COALESCE((SELECT SUM(-amount) FROM financial_ledger WHERE club_id=state.club_id AND amount < 0), 0) AS ledger_expense,` : `0 AS ledger_income, 0 AS ledger_expense,`;
+    const ledgerColumns = tableExists(db, "financial_ledger") ? `COALESCE((SELECT SUM(amount) FROM financial_ledger WHERE club_id=state.club_id AND amount > 0), 0) AS ledger_income, COALESCE((SELECT SUM(-amount) FROM financial_ledger WHERE club_id=state.club_id AND amount < 0), 0) AS ledger_expense, COALESCE((SELECT SUM(amount) FROM financial_ledger WHERE club_id=state.club_id AND amount > 0 AND category LIKE '%SPONSOR%'), 0) AS sponsorship_income, COALESCE((SELECT SUM(amount) FROM financial_ledger WHERE club_id=state.club_id AND amount > 0 AND category LIKE '%TICKET%'), 0) AS ticket_income, COALESCE((SELECT SUM(amount) FROM financial_ledger WHERE club_id=state.club_id AND amount > 0 AND category LIKE '%PRIZE%'), 0) AS prize_income,` : `0 AS ledger_income, 0 AS ledger_expense, 0 AS sponsorship_income, 0 AS ticket_income, 0 AS prize_income,`;
     const economicFinance = tableExists(db, "club_economic_state") && tableExists(db, "club_payroll_profiles") ? db.prepare(
       `SELECT state.cash, state.budget, state.updated_at, profile.initial_cash, profile.weekly_player_payroll,
               profile.weekly_staff_payroll, profile.weekly_department_maintenance, profile.team_power,
@@ -650,10 +653,11 @@ export function getClubWorkspaceDashboard(
             ledgerIncome: asNullableNumber(economicFinance.ledger_income),
             ledgerExpense: asNullableNumber(economicFinance.ledger_expense),
             projectedCash39Weeks: asNumber(economicFinance.cash) + Math.round((asNumber(economicFinance.ledger_income) - asNumber(economicFinance.ledger_expense)) * 39 / Math.max(1, asNumber(economicFinance.weekly_player_payroll) + asNumber(economicFinance.weekly_staff_payroll) + asNumber(economicFinance.weekly_department_maintenance))),
+            sponsorshipIncome: asNullableNumber(economicFinance.sponsorship_income), ticketIncome: asNullableNumber(economicFinance.ticket_income), prizeIncome: asNullableNumber(economicFinance.prize_income),
           }
         : legacyFinance
-          ? { cash: asNullableNumber(legacyFinance.cash), updatedAt: typeof legacyFinance.updated_at === "string" ? legacyFinance.updated_at : null, source: "LEGACY_FINANCE", budget: null, initialCash: null, weeklyPlayerPayroll: null, weeklyStaffPayroll: null, weeklyDepartmentMaintenance: null, weeklyTotal: null, teamPower: null, countryFactor: null, baseLevel: null, ledgerIncome: null, ledgerExpense: null, projectedCash39Weeks: null }
-          : { cash: null, updatedAt: null, source: "UNAVAILABLE", budget: null, initialCash: null, weeklyPlayerPayroll: null, weeklyStaffPayroll: null, weeklyDepartmentMaintenance: null, weeklyTotal: null, teamPower: null, countryFactor: null, baseLevel: null, ledgerIncome: null, ledgerExpense: null, projectedCash39Weeks: null },
+          ? { cash: asNullableNumber(legacyFinance.cash), updatedAt: typeof legacyFinance.updated_at === "string" ? legacyFinance.updated_at : null, source: "LEGACY_FINANCE", budget: null, initialCash: null, weeklyPlayerPayroll: null, weeklyStaffPayroll: null, weeklyDepartmentMaintenance: null, weeklyTotal: null, teamPower: null, countryFactor: null, baseLevel: null, ledgerIncome: null, ledgerExpense: null, projectedCash39Weeks: null, sponsorshipIncome: null, ticketIncome: null, prizeIncome: null }
+          : { cash: null, updatedAt: null, source: "UNAVAILABLE", budget: null, initialCash: null, weeklyPlayerPayroll: null, weeklyStaffPayroll: null, weeklyDepartmentMaintenance: null, weeklyTotal: null, teamPower: null, countryFactor: null, baseLevel: null, ledgerIncome: null, ledgerExpense: null, projectedCash39Weeks: null, sponsorshipIncome: null, ticketIncome: null, prizeIncome: null },
       reputation: { sporting: reputation ? asNullableNumber(reputation.sporting) : null, national: reputation ? asNullableNumber(reputation.national) : null, international: reputation ? asNullableNumber(reputation.international) : null, commercial: reputation ? asNullableNumber(reputation.commercial) : null, historical: reputation ? asNullableNumber(reputation.historical) : null },
       stadium: { name: stadiumName, capacity: stadiumRecord ? asNullableNumber(stadiumRecord.capacity) : null, level: stadiumRecord ? asNullableNumber(stadiumRecord.level) : null, status: stadiumRecord && typeof stadiumRecord.status === "string" ? stadiumRecord.status : null, source: stadiumRecord ? "CLUB_STADIUM" : stadiumName ? "TEAM_RECORD" : "UNAVAILABLE" },
       training: { available: false, message: "O estado do motor ainda não possui CT persistido para este clube." },
