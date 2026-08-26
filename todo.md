@@ -265,3 +265,6 @@
 - [x] Auditar P0-23 com matriz de ausência de estado paralelo e conformidade tRPC.
 - [x] Auditar P0-25 com matriz de testes, entrega, hashes e documentação operacional.
 - [x] Abrir P0_GATE somente após os 11 fronts P0 estarem CONSOLIDATED.
+- [x] Iniciar P1-6 Elenco e gestão esportiva após abertura do P0_GATE, mantendo SQL/GameState como fonte única.
+- [x] P1-6: expor resumo SQL de titulares/reservas e validar escalação mínima de 11 atletas disponíveis.
+- [x] P1-6: persistir formações salvas por competição e validar escalação contra elenco disponível.
