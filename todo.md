@@ -166,3 +166,5 @@
 - [x] Executar a auditoria do Front P0-2 e registrar lacunas sem promover o front indevidamente.
 - [x] Cobrir composição transacional do orquestrador com `managed_transaction=False` em GameState temporário.
 - [x] Implementar e testar cancelamento cooperativo seguro na simulação em lote, sem alterar a fonte SQL/GameState.
+- [x] Implementar relatório automatizado de dependências circulares entre módulos do motor.
+- [x] Testar o relatório de dependências circulares em uma cópia/árvore de código controlada.

@@ -24,3 +24,7 @@ Esta auditoria comprova a fundação arquitetural observada, mas **não marca o 
 ## Incremento validado
 
 A simulação em lote passou a aceitar `cancel_check`, encerrando o tick com `CANCELLED` antes de processar a próxima partida e persistindo a contagem processada no GameState. O cenário foi validado em cópia temporária com os testes de fases, orquestração e contratos: **13 testes aprovados**. Essa entrega cobre o mecanismo de cancelamento seguro do item 34, mas não encerra os demais critérios do Front P0-2.
+
+## Dependências internas
+
+O script `scripts/report_engine_dependency_cycles.py` analisou **56 módulos** e **70 arestas internas** do pacote `engine`, gravou `brasfoot_engine/docs/engine_dependency_cycles.json` e retornou `status=VALID`, com **zero ciclos**. O resultado é reprodutível e não altera qualquer banco.
