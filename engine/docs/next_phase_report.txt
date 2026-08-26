@@ -1,0 +1,172 @@
+FUTMANAGER / BRASFOOT — RELATÓRIO TÉCNICO DE ENTREGA
+Data de validação: 2026-08-26 (GMT-3)
+
+1. ESCOPO CONCLUÍDO
+
+O ciclo semanal mundial foi consolidado sobre o SQLite de estado em
+data/state/game.db. O banco de origem data/database/game.db permanece uma
+fonte de consulta imutável. Não há espelho de regras no React, nem escrita
+direta da interface: toda mutação percorre gateway Python, serviços do motor,
+SQLite e, por fim, tRPC.
+
+Foram entregues: estádio com quatro componentes independentes
+(arquibancada, campo, estrutura e equipes), níveis 1 a 10, manutenção,
+capacidade operacional, débito, ledger e histórico; bootstrap idempotente
+para os 8.399 clubes com estádio de origem; torcida e reputação persistidas;
+público determinístico por seed e limitado pela capacidade; preço de ingresso
+configurável pelo motor; bilheteria, premiações configuráveis e missões de
+patrocínio baseadas apenas em resultados/público já gravados no SQL.
+
+O orquestrador semanal executa nesta ordem: relógio e calendário, partidas,
+atualização social, público/bilheteria, missões comerciais, premiações,
+patrocínios, folha/manutenção, auditoria e caixa. A chave natural mundial é
+(season, week, scope='WORLD'). A operação process_week(season, week) permite
+verificar explicitamente a idempotência de uma semana; advance_week() continua
+sendo o atalho sequencial e por isso avança para a próxima semana após um
+sucesso.
+
+2. ALERTAS PERSISTIDOS
+
+O novo ClubEventService usa a tabela club_events como feed único, idempotente
+por reference e com estados OPEN/READ. A interface consulta e marca leitura
+via tRPC. São suportados os tipos TRANSFERENCIA, LESAO, CONTRATO, PATROCINIO,
+FINANCEIRO, COMPETICAO, ESTADIO e TORCIDA, com severidades LOW, NORMAL, HIGH e
+CRITICAL.
+
+Nesta etapa, os emissores efetivamente ligados a fatos persistidos são:
+
+- ESTADIO: upgrade confirmado de componente.
+- TORCIDA: reação social idempotente após partida jogada.
+- FINANCEIRO: bilheteria processada e falta de caixa para a folha semanal.
+- COMPETICAO: premiação configurada e efetivamente paga.
+- PATROCINIO: contrato aceito e missão concluída/recompensada.
+
+3. ARQUIVOS E TABELAS PRINCIPAIS
+
+Motor:
+- engine/stadiums/service.py
+- engine/social/stadium_fans.py e engine/social/attendance.py
+- engine/economy/matchday_revenue.py
+- engine/economy/sponsorships.py
+- engine/economy/staff_market.py
+- engine/economy/institutional_power.py
+- engine/world/weekly_cycle.py
+- engine/events/service.py
+- scripts/career_gateway.py
+- scripts/validate_delivery.py
+
+Interface e contratos:
+- server/careerGateway.ts
+- server/routers/events.ts e server/routers.ts
+- client/src/pages/Home.tsx
+- client/src/index.css
+
+Persistência:
+- club_stadiums, stadium_components, stadium_component_history;
+- club_fan_base, club_reputation, club_social_history;
+- ticket_price_configs, attendance_records;
+- financial_ledger, competition_prize_configs, competition_prize_runs;
+- sponsor_missions, sponsor_mission_event_progress, sponsor_weekly_runs;
+- weekly_world_runs, weekly_world_audit, weekly_economy_runs;
+- club_events, com índices por clube, estado e data.
+
+4. ATOMICIDADE, ROLLBACK E IDEMPOTÊNCIA
+
+O tick abre BEGIN IMMEDIATE e chama os serviços internos com
+managed_transaction=False. As rotinas de perfil institucional e folha foram
+adaptadas para não efetuar commit interno quando participam da transação do
+orquestrador. Assim, uma falha posterior reverte partida, tabela, torcida,
+público, bilheteria, eventos, caixa, folha e relógio em conjunto.
+
+weekly_world_runs é gravado como RUNNING antes do BEGIN para manter a trilha
+de tentativa. Em erro, a transação de mundo sofre rollback e o registro é
+marcado ROLLED_BACK em operação curta e separada. Em sucesso, recebe COMPLETED
+e result_json. Isso evita deixar uma execução parcialmente aplicada como
+concluída.
+
+5. RESULTADOS DE VALIDAÇÃO
+
+Motor Python completo:
+  PYTHONPATH=/home/ubuntu/brasfoot_engine pytest -q
+  70 passed em 9,90 s.
+
+Cobertura nova relevante:
+- estádio: criação, níveis, limite 10, histórico, ledger, rollback, legado e
+  bootstrap mundial idempotente;
+- torcida/público: variação gradual, determinismo e limites de capacidade;
+- receitas: bilheteria e premiação sem duplicidade;
+- comercial: missão somente após partida PLAYED e público persistido;
+- ciclo: semana sequencial, process_week explícito idempotente, rollback na
+  bilheteria e rollback forçado somente após o estágio de partidas, público,
+  torcida e caixa;
+- eventos: deduplicação pela referência e confirmação de leitura;
+- gateway: alerta de patrocínio lido por contrato Python/TypeScript em banco
+  temporário.
+
+Frontend final:
+  pnpm check
+  TypeScript sem erros.
+  pnpm test
+  47 testes aprovados na suíte Vitest.
+  pnpm build
+  Build de produção concluído; permanece apenas o aviso não bloqueante de
+  resolução em tempo de build para a imagem hospedada em /manus-storage e o
+  aviso de chunk principal acima de 500 kB.
+
+6. INTEGRIDADE E HASHES DOS BANCOS CANÔNICOS
+
+Comando reproduzível:
+  python3 scripts/validate_delivery.py
+
+Resultado atual:
+- data/database/game.db
+  SHA-256: 1ae17c67818fa4d5635894cf2c41979efe314099417735e2a3b81e2d72066caa
+  integrity_check: ok
+  foreign_key_check: 0 ocorrências
+  tabelas: 7
+- data/state/game.db
+  SHA-256: e1d4810a50c9f9303d396668ecc5ddc6353693764651a9ffb8f5c9d963a5dee3
+  integrity_check: ok
+  foreign_key_check: 0 ocorrências
+  tabelas: 96
+
+Não havia hash prévio persistido para esta etapa específico do banco-base. O
+hash acima é a impressão digital de entrega e o processo de desenvolvimento
+não executa escrita em data/database/game.db. O script deve ser rodado antes
+e depois de qualquer evolução futura para produzir uma comparação binária.
+
+7. EXECUÇÃO LOCAL
+
+Motor e validações:
+  cd brasfoot_engine
+  PYTHONPATH=/home/ubuntu/brasfoot_engine pytest -q
+  python3 scripts/validate_delivery.py
+
+Frontend:
+  cd futmanager_frontend
+  pnpm install --frozen-lockfile
+  pnpm check
+  pnpm test
+  pnpm build
+  pnpm dev
+
+O frontend exige que /home/ubuntu/brasfoot_engine exista no mesmo ambiente,
+pois o gateway chama scripts/career_gateway.py e recebe o caminho opcional de
+estado pela variável FUTMANAGER_ENGINE_STATE_PATH. Não use o banco-base como
+destino dessa variável.
+
+8. LIMITAÇÕES CONHECIDAS E PRÓXIMOS PASSOS TÉCNICOS
+
+As premiações só pagam valores presentes em competition_prize_configs; não há
+uma tabela de prêmios preenchida automaticamente para competições que ainda
+não tenham uma regra configurada. As notificações de TRANSFERENCIA e LESAO
+estão tipadas, mas dependem de serviços de transferência e de lesão emitirem
+seus fatos de domínio; este ciclo não fabrica transferências, lesões ou dados
+de atletas. O modelo atual trabalha com um patrocinador principal ativo; slots
+de patrocinadores secundários continuam fora desta entrega. Nenhuma proposta
+comercial é aceita automaticamente.
+
+O estado real da carreira Kyra/Flamengo foi preservado durante os testes de
+ciclo: não houve avanço semanal, upgrade de estádio ou aceite de proposta no
+banco de estado de entrega. Cenários mutáveis foram executados somente em
+cópias temporárias de SQLite.

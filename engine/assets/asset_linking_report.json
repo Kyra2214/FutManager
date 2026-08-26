@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-08-26T01:01:12.884894+00:00",
+  "asset_counts": {
+    "team_crests": 8391,
+    "team_mini_crests": 8399,
+    "selection_primary_kits": 86
+  },
+  "team_link_status": {
+    "COMPLETE": 8376,
+    "FULL_ONLY": 10,
+    "MINI_ONLY": 1,
+    "NO_SOURCE_ASSET": 12
+  },
+  "selection_links": 86,
+  "selection_crest_policy": "SOURCE_NOT_PROVIDED",
+  "state_database": "/home/ubuntu/brasfoot_engine/data/state/game.db"
+}

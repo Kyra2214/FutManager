@@ -1,0 +1,47 @@
+FASES 12 E 13 REPORT
+=====================
+
+Escopo: IA dos clubes e economia persistente offline.
+
+MÓDULOS
+-------
+- engine/ai/club_ai.py
+- engine/economy/world_economy.py
+- tests/test_phases12_13.py
+- docs/phases12_13_ai_economy.md
+
+FASE 12 — IA DOS CLUBES
+-----------------------
+ClubAI consulta o estado SQL existente, cria perfis comportamentais, objetivos, diagnósticos e avaliações de jogadores. A camada produz decisões auditáveis e não possui banco paralelo nem executa transferências diretamente.
+
+Foram implementados perfis CONSERVATIVE, BALANCED, AGGRESSIVE, YOUTH_FOCUSED, STAR_FOCUSED e FINANCIAL. O diagnóstico identifica tamanho de elenco, ausência de jogadores FIRST_TEAM, indisponibilidade e estado financeiro. A avaliação considera dados reais disponíveis, incluindo idade, forma, condição, disponibilidade e atributos nativos.
+
+ClubDecisionHistory registra clube, data, tipo, decisão, motivo, prioridade, alvo, custo, resultado, seed e versão da IA. O mesmo estado e seed produzem a mesma decisão de treinamento.
+
+FASE 13 — ECONOMIA
+------------------
+EconomyService usa o FinanceLedger existente e cria estado econômico, orçamento, obrigações, dívida, saúde financeira, histórico, ownership e investimentos. Obrigações vencidas tornam-se OVERDUE sem serem apagadas. A saúde possui HEALTHY, STABLE, WARNING, CRITICAL e INSOLVENT.
+
+Investimentos passam pelo ledger, alteram o caixa econômico e ficam registrados. Mudança de controle encerra o ownership ativo com data final, cria novo proprietário e registra histórico. A mudança para SAF é suportada pelo campo owner_type, sem converter clubes automaticamente.
+
+TABELAS
+-------
+club_ai_profiles, club_objectives, club_decision_history, club_economic_state, financial_obligations, club_debts, club_financial_history, club_ownership e investments.
+
+TESTES
+------
+Resultado final: 32 passed.
+
+Foram testados perfil, diagnóstico, avaliação, decisões auditáveis, orçamento, pagamento de obrigação, atraso, dívida, saúde, investimento, ownership, SAF e persistência. Os testes anteriores das etapas 1 a 11 continuam passando.
+
+INTEGRIDADE E PRESERVAÇÃO
+-------------------------
+O banco-base data/database/game.db permaneceu intacto.
+SHA-256 do banco-base: 1ae17c67818fa4d5635894cf2c41979efe314099417735e2a3b81e2d72066caa
+O estado mutável recebeu as tabelas das Fases 12 e 13 e tem hash registrado em data/state/game.db.sha256.
+SHA-256 atual do estado: f558513ed191c25d0ed7b1e2f9300e872c421b78a73f3b9025b516341ae8ceff
+As verificações integrity_check e foreign_key_check são executadas antes do empacotamento.
+
+LIMITAÇÕES
+----------
+Não foram implementados IA autônoma completa de compra e venda, economia mundial real, banco, impostos, regras jurídicas reais de SAF, falência administrativa destrutiva, mídia, torcida, simulação mundial, frontend ou serviços remotos. A IA produz decisões e utiliza serviços existentes; não cria dinheiro, jogadores ou clubes.

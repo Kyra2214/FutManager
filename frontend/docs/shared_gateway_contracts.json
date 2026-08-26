@@ -1,0 +1,35 @@
+{
+  "version": "p0-2.1",
+  "source_of_truth": "SQL/GameState",
+  "transport": "career_gateway.py -> JSON stdout -> tRPC",
+  "read_contracts": [
+    "catalog",
+    "current",
+    "economy_summary",
+    "sponsor_summary",
+    "stadium_summary",
+    "events_list"
+  ],
+  "command_contracts": [
+    "start",
+    "staff_hire",
+    "department_upgrade",
+    "sponsor_accept",
+    "stadium_upgrade",
+    "ticket_price",
+    "weekly_advance",
+    "events_mark_read"
+  ],
+  "serialization": {
+    "encoding": "UTF-8 JSON",
+    "errors": "DomainErrorCode as error_code plus optional detail",
+    "dates": "ISO-8601 date strings at gateway boundary",
+    "ids": "integer or string natural identifiers as declared by each contract"
+  },
+  "rules": [
+    "The manifest describes transport shape only.",
+    "Domain rules remain in Python services.",
+    "React may not write SQLite or calculate game state.",
+    "New commands require a service method, gateway mapping, test and gate evidence."
+  ]
+}

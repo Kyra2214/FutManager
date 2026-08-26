@@ -1,0 +1,161 @@
+{
+  "databases": {
+    "base": {
+      "path": "/home/ubuntu/brasfoot_engine/data/database/game.db",
+      "plans": {
+        "events_by_status_date": {
+          "reason": "no such table: club_events",
+          "status": "SKIPPED"
+        },
+        "ledger_by_club_week": {
+          "reason": "no such table: financial_ledger",
+          "status": "SKIPPED"
+        },
+        "players_by_club": {
+          "reason": "no such table: jogadores_clubes",
+          "status": "SKIPPED"
+        },
+        "players_by_position": {
+          "reason": "Incorrect number of bindings supplied. The current statement uses 0, and there are 1 supplied.",
+          "status": "SKIPPED"
+        }
+      },
+      "tables": [
+        "jogador_selecao",
+        "jogador_time",
+        "jogadores",
+        "paises",
+        "selecoes",
+        "sqlite_sequence",
+        "times"
+      ]
+    },
+    "state": {
+      "path": "/home/ubuntu/brasfoot_engine/data/state/game.db",
+      "plans": {
+        "events_by_status_date": {
+          "reason": "no such column: created_at",
+          "status": "SKIPPED"
+        },
+        "ledger_by_club_week": {
+          "plan": [
+            [
+              3,
+              0,
+              0,
+              "SEARCH financial_ledger USING INDEX idx_financial_ledger_club_week (club_id=? AND season=? AND week=?)"
+            ]
+          ],
+          "status": "MEASURED"
+        },
+        "players_by_club": {
+          "reason": "no such table: jogadores_clubes",
+          "status": "SKIPPED"
+        },
+        "players_by_position": {
+          "reason": "Incorrect number of bindings supplied. The current statement uses 0, and there are 1 supplied.",
+          "status": "SKIPPED"
+        }
+      },
+      "tables": [
+        "asset_catalog",
+        "attendance_records",
+        "audit_log",
+        "career_events",
+        "club_ai_profiles",
+        "club_debts",
+        "club_decision_history",
+        "club_departments",
+        "club_economic_state",
+        "club_events",
+        "club_fan_base",
+        "club_finances",
+        "club_financial_history",
+        "club_institutional_profiles",
+        "club_objectives",
+        "club_ownership",
+        "club_payroll_profiles",
+        "club_player_payrolls",
+        "club_reputation",
+        "club_social_history",
+        "club_stadiums",
+        "competition_config",
+        "competition_entries",
+        "competition_phases",
+        "competition_rounds",
+        "competitions",
+        "economic_contracts",
+        "facility_obligations",
+        "financial_events",
+        "financial_ledger",
+        "financial_obligations",
+        "fixtures",
+        "global_audit",
+        "global_ticks",
+        "injuries",
+        "investments",
+        "jogador_selecao",
+        "jogador_time",
+        "jogadores",
+        "lineup_players",
+        "lineups",
+        "logical_clock",
+        "manager_careers",
+        "manager_contracts",
+        "manager_history",
+        "manager_inbox",
+        "manager_job_offers",
+        "manager_objectives",
+        "manager_selection_assignments",
+        "managers",
+        "match_events",
+        "matches",
+        "media_events",
+        "media_profiles",
+        "media_rights_contracts",
+        "orchestration_audit",
+        "paises",
+        "player_career_state",
+        "player_market_state",
+        "player_match_stats",
+        "player_sport_state",
+        "schema_versions",
+        "scout_missions",
+        "scout_opportunities",
+        "scout_reports",
+        "seasons",
+        "selecoes",
+        "selection_asset_links",
+        "simulation_audit",
+        "simulation_ticks",
+        "sponsor_contracts",
+        "sponsor_missions",
+        "sponsor_offer_sets",
+        "sponsor_offers",
+        "sponsor_templates",
+        "sponsor_weekly_runs",
+        "sponsors",
+        "sponsorship_contracts",
+        "sponsorship_objectives",
+        "sport_history",
+        "sqlite_sequence",
+        "stadium_component_history",
+        "stadium_components",
+        "stadium_history",
+        "staff_history",
+        "staff_market_catalog",
+        "staff_members",
+        "team_asset_links",
+        "team_competition_stats",
+        "ticket_price_configs",
+        "times",
+        "transfer_events",
+        "transfer_history",
+        "transfer_offers",
+        "transfer_windows",
+        "weekly_economy_runs",
+        "world_state"
+      ]
+    }
+  }
+}

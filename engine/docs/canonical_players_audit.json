@@ -1,0 +1,50 @@
+{
+  "database": "/home/ubuntu/brasfoot_engine/data/database/game.db",
+  "players": 231911,
+  "distinct_canonical_keys": 231911,
+  "null_required_fields": 0,
+  "unknown_positions": 0,
+  "position_distribution": [
+    {
+      "posicao_codigo": 0,
+      "posicao": "Goleiro",
+      "count": 27078
+    },
+    {
+      "posicao_codigo": 1,
+      "posicao": "Lateral",
+      "count": 38881
+    },
+    {
+      "posicao_codigo": 2,
+      "posicao": "Zagueiro",
+      "count": 41236
+    },
+    {
+      "posicao_codigo": 3,
+      "posicao": "Meia",
+      "count": 76224
+    },
+    {
+      "posicao_codigo": 4,
+      "posicao": "Atacante",
+      "count": 48492
+    }
+  ],
+  "status_distribution": [
+    {
+      "status_codigo": 0,
+      "status": "Reserva",
+      "count": 146015
+    },
+    {
+      "status_codigo": 1,
+      "status": "Titular",
+      "count": 89707
+    }
+  ],
+  "country_distribution_rows": 224,
+  "duplicate_player_team_category_links": 0,
+  "source_of_truth": "SQL/GameState",
+  "status": "VALID"
+}

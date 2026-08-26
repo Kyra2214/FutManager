@@ -1,0 +1,47 @@
+FASES 16 E 17 REPORT
+=====================
+
+Escopo: simulação mundial otimizada e Manager/Carreira Humana offline.
+
+MÓDULOS
+-------
+- engine/world/simulation.py
+- engine/manager/career.py
+- tests/test_phases16_17.py
+- docs/phases16_17_world_manager.md
+
+FASE 16 — SIMULAÇÃO MUNDIAL
+---------------------------
+WorldSimulationService processa partidas pendentes em lotes limitados, evitando carregar o mundo completo na memória. Os níveis FULL, STANDARD, FAST e ABSTRACT são persistidos no registro de simulação, e clube prioritário pode receber FULL.
+
+Cada tick possui identificador único, data lógica, nível, quantidade solicitada, processada, erros, seed, versão e status. A auditoria por partida registra tick, match_id, nível, seed, resultado e data. O serviço delega execução ao MatchEngine existente.
+
+O mesmo simulation_tick_id retorna ALREADY_PROCESSED. O mesmo match_id continua protegido pelo estado PLAYED. A seed usada por partida é derivada da seed do tick mais o identificador da partida.
+
+FASE 17 — MANAGER
+-----------------
+ManagerService cria manager, carreira ativa, clube atual único, contrato específico, objetivos, histórico, inbox e renúncia. O contrato de manager não se mistura ao contrato de jogador. A troca de clube encerra o vínculo ativo e registra histórico.
+
+Decisões humanas ficam explícitas. O manager não escreve escalação diretamente, não cria dinheiro e não transfere jogadores junto ao cargo. A estrutura está pronta para sugestões de scout, treinador e financeiro sem execução automática.
+
+TABELAS
+-------
+simulation_ticks, simulation_audit, managers, manager_careers, manager_contracts, manager_objectives, manager_history, manager_inbox e manager_job_offers.
+
+TESTES
+------
+Resultado final: 36 passed.
+
+Foram testados simulação em lote, níveis, seed, auditoria, idempotência, manager, carreira, contrato, objetivo, inbox, clube ativo, renúncia e persistência. Os testes das etapas anteriores continuam passando.
+
+INTEGRIDADE E PRESERVAÇÃO
+-------------------------
+O banco-base data/database/game.db permaneceu intacto.
+SHA-256 do banco-base: 1ae17c67818fa4d5635894cf2c41979efe314099417735e2a3b81e2d72066caa
+O estado mutável recebeu as novas tabelas e tem hash registrado em data/state/game.db.sha256.
+SHA-256 atual do estado: 1df110f0d58fe9d2c1dd8f080664e74f74b7d08861f46c5a863b473a9503606f
+O projeto permanece offline, local e sem dependência de API, servidor ou autenticação.
+
+LIMITAÇÕES
+----------
+Não foram implementados frontend, IA autônoma completa, calendário mundial universal, simulação de treinamento de todos os clubes, avanço automático de temporadas, contratação automática, múltiplos clubes simultâneos por manager, multiplayer ou serviços remotos. A camada entregue é a fundação persistente e auditável para essas extensões.

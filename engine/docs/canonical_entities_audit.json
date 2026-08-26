@@ -1,0 +1,44 @@
+{
+  "base": {
+    "clubs": {
+      "count": 8399,
+      "duplicate_ids": [],
+      "null_names": 0
+    },
+    "foreign_key_check_count": 0,
+    "integrity_check": "ok",
+    "path": "/home/ubuntu/brasfoot_engine/data/database/game.db",
+    "players": {
+      "count": 231911,
+      "duplicate_canonical_keys": [],
+      "null_canonical_keys": 0
+    },
+    "selections": {
+      "count": 86,
+      "duplicate_codes": [],
+      "duplicate_ids": [],
+      "null_codes": 0
+    }
+  },
+  "state": {
+    "clubs": {
+      "count": 8399,
+      "duplicate_ids": [],
+      "null_names": 0
+    },
+    "foreign_key_check_count": 0,
+    "integrity_check": "ok",
+    "path": "/home/ubuntu/brasfoot_engine/data/state/game.db",
+    "players": {
+      "count": 231911,
+      "duplicate_canonical_keys": [],
+      "null_canonical_keys": 0
+    },
+    "selections": {
+      "count": 86,
+      "duplicate_codes": [],
+      "duplicate_ids": [],
+      "null_codes": 0
+    }
+  }
+}

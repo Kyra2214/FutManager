@@ -1,0 +1,47 @@
+FASES 14 E 15 REPORT
+=====================
+
+Escopo: estádios, torcida, reputação, público, eventos, patrocínios avançados, mídia e receitas offline.
+
+ARQUIVOS E MÓDULOS
+------------------
+- engine/social/stadium_fans.py
+- engine/commercial/sponsorship_media.py
+- tests/test_phases14_15.py
+- docs/phases14_15_stadium_media.md
+
+FASE 14
+-------
+SocialService cria estádios com capacidade positiva, capacidade utilizável, estado, conforto, segurança, qualidade, manutenção e estádio principal. Expansão altera somente o atributo escolhido, grava histórico e registra custo no FinanceLedger.
+
+A torcida utiliza estado agregado em club_fan_base. ClubReputation separa reputação esportiva, nacional, internacional e comercial. AttendanceService é representado por SocialService.attendance, que calcula expectativa, presença real, ocupação e receita com seed e persistência idempotente. ClubEvent mantém eventos vinculados ao clube.
+
+FASE 15
+-------
+CommercialService cria sponsors fictícios, contratos de patrocínio, metas e bônus idempotentes. A meta usa pay_reference única e não é paga duas vezes. MediaProfile e MediaEvent mantêm exposição, interesse, alcance e tendência. MediaRevenue usa o FinanceLedger. Contratos expiram por data.
+
+TABELAS
+-------
+club_stadiums, club_fan_base, club_reputation, attendance_records, club_events, stadium_history, sponsors, sponsorship_contracts, sponsorship_objectives, media_profiles, media_events e media_rights_contracts.
+
+TESTES
+------
+Resultado final: 34 passed.
+
+Foram validados estádios, capacidade, expansão, custo, torcida, reputação, público, ocupação, bilheteria, eventos, patrocinador, contrato, metas, bônus, mídia, exposição, receitas, expiração e idempotência. Os testes anteriores permanecem aprovados.
+
+INTEGRIDADE E PRESERVAÇÃO
+-------------------------
+O banco-base data/database/game.db permanece intacto.
+SHA-256 do banco-base: 1ae17c67818fa4d5635894cf2c41979efe314099417735e2a3b81e2d72066caa
+O estado mutável recebe as novas tabelas e terá hash atualizado após a migração.
+SHA-256 atual do estado: 8e13e195aa566278cb3aab917aaf5db302a508b5601a7fe76ac12f7c3a0fa039
+As verificações integrity_check e foreign_key_check serão executadas antes da entrega.
+
+CENÁRIOS
+--------
+O teste cobre estádio, torcida, presença, bilheteria, reputação e evento; também cobre contrato, meta, bônus, mídia, receita e expiração. O bônus e o evento de mídia demonstram idempotência.
+
+LIMITAÇÕES
+----------
+A integração automática completa do dia de jogo com resultado, público, reputação, mídia, patrocínio e IA ainda não é um único fluxo transacional. Não foram implementados mídia real, audiência real, torcedores individuais, regras fiscais, frontend, internet, economia mundial ou simulação mundial.

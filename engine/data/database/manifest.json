@@ -1,0 +1,6 @@
+{
+  "source": "brasfoot_normalizado.sqlite",
+  "database_path": "data/database/game.db",
+  "state_copy_path": "data/state/game.db",
+  "purpose": "fonte inicial imutável e cópia controlada para nova carreira"
+}

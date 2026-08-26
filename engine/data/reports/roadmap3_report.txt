@@ -1,0 +1,42 @@
+ROADMAP 3 REPORT
+================
+
+Etapa: Comissão técnica e estrutura do clube
+Projeto: Brasfoot + F1 Manager
+
+IMPLEMENTADO
+-------------
+Foram adicionados modelos persistentes para treinador, auxiliar técnico, preparador físico, médico e scout. Cada profissional possui identidade, função, idade, clube, experiência, reputação, nível, potencial, especialização, salário, contrato, status, data de criação e histórico.
+
+A geração de potencial de profissionais é seedável e configurável. Experiência e reputação são independentes. A aposentadoria preserva o registro e remove apenas o vínculo atual com o clube.
+
+Foram adicionados departamentos de clube com nível, custo, capacidade, manutenção e eficiência. O serviço ClubStrengthService expõe separadamente os componentes de jogadores, comissão técnica e infraestrutura, sem implementar fórmula de partida.
+
+PERSISTÊNCIA
+------------
+As novas tabelas ficam somente em data/state/game.db:
+- staff_members
+- staff_history
+- club_departments
+
+O banco-base data/database/game.db não foi modificado nesta etapa.
+
+SHA-256 do banco-base:
+1ae17c67818fa4d5635894cf2c41979efe314099417735e2a3b81e2d72066caa
+
+SHA-256 do estado após as migrações:
+7ff31ee595d3eeee04f02534efd31bb4be581edfaaa5f56bb62d89f024c1e8a8
+
+TESTES
+------
+Resultado: 18 passed.
+
+Foram validados criação de profissionais, potencial seedável, experiência, nível, transferência, aposentadoria, departamentos, cálculo dos três componentes de força, rollback, integridade SQLite e chaves estrangeiras.
+
+LIMITAÇÕES
+----------
+Não foram implementados frontend, partidas, simulação global, IA autônoma, mercado completo, salários recorrentes, contratos avançados, estádio, torcida, patrocinadores ou economia real. Promoções e efeitos detalhados por função permanecem como extensões futuras.
+
+CONTAGENS DO UNIVERSO
+----------------------
+O banco incorporado possui 231.911 jogadores canônicos, 8.399 clubes, 224 países e 235.722 vínculos jogador-clube. Os números diferem das aproximações do roadmap original porque o banco consolidado efetivamente produzido na etapa anterior foi preservado sem descarte de registros.

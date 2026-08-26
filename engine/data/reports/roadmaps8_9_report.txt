@@ -1,0 +1,45 @@
+TICKS 8 E 9 REPORT
+==================
+
+Escopo: ciclo esportivo, competições e motor de partidas offline.
+
+MÓDULOS
+-------
+- engine/sports/cycle.py
+- engine/competitions/match_engine.py
+- tests/test_ticks8_9.py
+- docs/ticks8_9_sport_competitions.md
+
+CICLO ESPORTIVO
+---------------
+Foi criado PlayerSportState com condição, fadiga, forma, treinamento, disponibilidade, lesão, recuperação e métricas recentes. SquadService foi representado pelas operações de elenco de SportStateStore, com categorias FIRST_TEAM, RESERVE e YOUTH, promoção explícita e histórico.
+
+Treino e descanso são persistentes e limitados. InjuryService foi representado por criação, recuperação e disponibilidade de lesões com duração e status. LineupService valida clube, disponibilidade, duplicidade e formação. TeamStrengthService está representado pelo cálculo de força da escalação efetiva a partir de forma, fadiga e disponibilidade.
+
+COMPETIÇÕES E PARTIDAS
+----------------------
+CompetitionService suporta temporadas, competições, inscrições, fixtures finitos, partidas agendadas e jogadas, resultados com seed, eventos de resultado, estatísticas de clubes e classificação.
+
+A pontuação de liga é configurada inicialmente como 3 pontos por vitória, 1 por empate e 0 por derrota. A classificação ordena por pontos, vitórias, saldo e gols pró. Partidas jogadas são idempotentes e recusam replay com ALREADY_PLAYED.
+
+TABELAS DO ESTADO
+-----------------
+player_sport_state, injuries, sport_history, lineups, lineup_players, seasons, competitions, competition_entries, matches, match_events, team_competition_stats e player_match_stats.
+
+TESTES
+------
+Resultado final: 27 passed.
+
+Foram validados elenco, promoção, treino, fadiga, lesão, recuperação, disponibilidade, escalação, força efetiva, temporada, competição, inscrição, calendário, fixture, partida, resultado, classificação, replay e seed.
+
+INTEGRIDADE E PRESERVAÇÃO
+-------------------------
+O banco-base data/database/game.db não foi modificado.
+SHA-256 do banco-base: 1ae17c67818fa4d5635894cf2c41979efe314099417735e2a3b81e2d72066caa
+O hash atualizado do estado está em data/state/game.db.sha256.
+SHA-256 atual do estado: db5dce0723d431cd1c438729b0f3e0b89478546ab1a638fa301043da9afbcdda
+Os testes usam cópias temporárias do banco. A implementação funciona offline e não depende de serviços remotos.
+
+LIMITAÇÕES
+----------
+Não foram implementados frontend, IA autônoma, simulação mundial, campeonatos complexos, prorrogação, pênaltis, calendário universal, artilharia detalhada, lesões originadas durante partida, escalações automáticas ou integração automática do Orchestrator com cada tick esportivo. A base estrutural está preparada para essas extensões sem criar uma segunda fonte de verdade.

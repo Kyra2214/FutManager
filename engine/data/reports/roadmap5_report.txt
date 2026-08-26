@@ -1,0 +1,44 @@
+ROADMAP 5 REPORT
+================
+
+Etapa: Orquestração, tempo lógico e contabilidade integrada
+
+IMPLEMENTAÇÃO
+--------------
+Foi criado o relógio lógico persistente em engine/world/time_and_finance.py, com data, semana, mês, temporada e último tick. O relógio não depende do horário real do dispositivo.
+
+Foi criado WorldTickContext, compartilhado por todos os serviços de um avanço semanal. Foi criado FinanceLedger, com lançamentos de receita e despesa, origem, source_id e chave idempotente por clube, temporada, semana, categoria e origem.
+
+Foi criado IntegrationOrchestrator. Ele coordena contratos ativos, patrocínios, salários, manutenção de instalações, atualização de caixa, avanço do calendário, eventos e auditoria. A lógica de negócio permanece nos serviços que fornecem as obrigações.
+
+PERSISTÊNCIA
+------------
+As tabelas do Roadmap 5 ficam em data/state/game.db:
+- logical_clock
+- financial_ledger
+- financial_events
+- economic_contracts
+- facility_obligations
+- club_finances
+- orchestration_audit
+
+A operação semanal usa BEGIN/COMMIT e rollback em caso de erro. O reprocessamento do mesmo WorldTickContext não duplica lançamentos nem reaplica o caixa.
+
+INTEGRIDADE
+-----------
+O banco-base data/database/game.db não foi modificado.
+SHA-256 do banco-base:
+1ae17c67818fa4d5635894cf2c41979efe314099417735e2a3b81e2d72066caa
+
+O hash do estado é registrado em data/state/game.db.sha256 após a migração.
+SHA-256 atual do estado: ae808bd4768c7ac382e857cc527f411f937bf7b38de602c255fa4cebdf36a700
+
+TESTES
+------
+Resultado atual da suíte: 21 passed.
+
+Foram validados relógio lógico, contexto semanal, salário como despesa, patrocínio como receita, manutenção, contrato expirado sem pagamento, idempotência, atualização de caixa, rollback, auditoria e preservação do banco-base.
+
+LIMITAÇÕES
+----------
+Ainda não foram implementados frontend, partidas, campeonatos completos, simulação global, IA autônoma, mercado automático, scouting automático, falência, SAF ou economia completa. Contratos e obrigações são a infraestrutura inicial para essas etapas futuras.

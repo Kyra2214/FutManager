@@ -1,0 +1,47 @@
+ROADMAPS 6 E 7 REPORT
+=====================
+
+Escopo: mercado de jogadores, transferências e scouting.
+
+SERVIÇOS CRIADOS
+-----------------
+- engine/transfers/market.py
+- engine/scouting/service.py
+- engine/world/time_and_finance.py recebeu uso compartilhado do FinanceLedger e LogicalClock.
+- tests/test_market_scouting.py
+- docs/roadmaps6_7_market_scouting.md
+
+TABELAS DO ESTADO
+-----------------
+Mercado: transfer_windows, player_market_state, transfer_offers, transfer_history e transfer_events.
+Financeiro compartilhado: club_finances, financial_ledger, financial_events e logical_clock.
+Scouting: scout_missions, scout_opportunities e scout_reports.
+
+REGRAS IMPLEMENTADAS
+--------------------
+Janelas abertas permitem propostas; fora delas a proposta é bloqueada. O jogador possui estado de mercado próprio, e o serviço verifica vendedor, disponibilidade e negociação concorrente.
+
+Ofertas suportam aceite, rejeição, cancelamento, contraproposta única por padrão, expiração futura e termômetro COLD/COOL/NEUTRAL/WARM/HOT.
+
+Transferências aceitas validam caixa e estado, lançam despesa no comprador e receita no vendedor pelo FinanceLedger, atualizam o clube do jogador, finalizam a oferta e registram histórico na mesma transação. Uma segunda conclusão retorna ALREADY_COMPLETED sem novo pagamento.
+
+O MarketValueService é uma política configurável e não transforma rating_hash, cr1 ou cr2 em valor definitivo.
+
+Missões de scouting aceitam duração de 1, 2, 3 ou 6 meses, seed, posição, faixa etária e outros filtros. Ao chegar à data de retorno, a missão gera oportunidades parciais com conhecimento OBSERVED, confiança e prioridade. O scout não realiza transferência automática.
+
+TESTES
+------
+Resultado final: 24 passed.
+
+Foram testados mercado, janela, proposta, contraproposta, termômetro, aceite, transferência, histórico, saldo, idempotência, financeiro, scouting, filtros, duração inválida, seed e persistência. Os testes anteriores de carreira, comissão, orquestração, rollback e integridade também continuam passando.
+
+INTEGRIDADE E HASHES
+--------------------
+O banco-base data/database/game.db permanece intacto.
+SHA-256 do banco-base: 1ae17c67818fa4d5635894cf2c41979efe314099417735e2a3b81e2d72066caa
+O hash atual do estado é registrado em data/state/game.db.sha256 após a inicialização das tabelas dos Roadmaps 6 e 7.
+SHA-256 atual do estado: eae3aa2ca17974bd4a360e997fdec00d9eaebc088a547f6fd8f15566fe1963d8
+
+LIMITAÇÕES
+----------
+Não foram implementados partidas, campeonatos, classificação, mercado mundial automático, IA autônoma, negociação automática, scouting físico, simulação global, economia mundial, falência ou SAF. O sistema representa o fluxo manual e persistente; decisões automáticas serão responsabilidade de uma camada futura.

@@ -1,0 +1,95 @@
+RULES ENGINE 2 REPORT
+======================
+
+Projeto: Brasfoot + F1 Manager
+Etapa: regras de carreira e ciclo de vida dos jogadores
+
+ESCOPO IMPLEMENTADO
+-------------------
+- Camada explícita engine/rules/player_rules.py.
+- Parâmetros centralizados em CareerRulesConfig.
+- Geração de potencial aleatório com seed reproduzível.
+- Idade inicial de novos jogadores fixada em 16 anos.
+- Curva configurável de crescimento, auge, manutenção e declínio.
+- Força própria do novo jogo separada de potencial e dos campos nativos.
+- Identidade de carreira com career_id e generation.
+- Estados YOUTH, ACTIVE, RETIRING, RETIRED e RETURNED.
+- Aposentadoria sem apagar identidade histórica.
+- Retorno após pelo menos uma temporada fora como nova geração aos 16 anos.
+- Clube de nascimento, clube de carreira e clube atual separados no estado.
+- Persistência transacional exclusivamente em data/state/game.db.
+- Eventos career_events e auditoria audit_log.
+- Backup simples em data/state/backups.
+- Ativação sob demanda por meio do Player Engine; não são carregados todos os jogadores na memória.
+
+ARQUIVOS CRIADOS OU MODIFICADOS
+-------------------------------
+Criados:
+- engine/rules/player_rules.py
+- engine/rules/state_store.py
+- engine/rules/backup.py
+- engine/players/domain.py — atualizado para preservar rating_hash
+- engine/players/player_engine.py
+- scripts/migrate_state_rating_hash.py
+- tests/test_rules_engine.py
+- tests/test_state_recovery.py
+- docs/rules_engine.md
+- docs/player_lifecycle.md
+- docs/state_model.md
+- data/reports/rules_engine_report.txt
+
+Modificados:
+- data/state/game.db — recebeu somente o esquema mutável da carreira e rating_hash nativo
+- data/state/game.db.sha256 — atualizado após a inicialização do estado
+- testes de integração para distinguir banco-base imutável de estado mutável
+
+BANCO-BASE E ESTADO
+-------------------
+O banco-base data/database/game.db não foi modificado nesta etapa.
+SHA-256 do banco-base antes/depois: 1ae17c67818fa4d5635894cf2c41979efe314099417735e2a3b81e2d72066caa
+
+SHA-256 atual da cópia de estado: 9438aa21449ae8f125f21d46eb6d05b9c972ef7e3b06e0e0b3dcc743f6983373
+
+A diferença de hash é esperada porque o estado recebeu rating_hash e as tabelas world_state, player_career_state, career_events e audit_log. A origem permanece intacta.
+
+REGRAS E PARÂMETROS CONFIGURÁVEIS
+----------------------------------
+starting_age=16
+peak_start_age=23
+peak_end_age=30
+peak_target_age=27
+decline_start_age=31
+retirement_min_age=35
+return_seasons_out=1
+potential range=1..99
+strength range=1..99
+
+Não foram criados ratings a partir de rating_hash, cr1 ou cr2. A força calculada é uma camada própria do novo motor e não afirma reproduzir a fórmula original do Brasfoot.
+
+TESTES
+------
+Resultado da suíte: 16 passed.
+
+Coberturas principais:
+- criação de jogador aos 16 anos;
+- potencial dentro dos limites;
+- seed reproduzível;
+- curva e limites de força;
+- aposentadoria explícita;
+- retorno após uma temporada fora;
+- geração em outro clube;
+- rollback transacional;
+- save/fechar/reabrir;
+- criação de backup;
+- integridade SQLite;
+- foreign_key_check;
+- preservação do hash do banco-base;
+- Player Engine sob demanda;
+- posições 0–4;
+- preservação de rating_hash.
+
+LIMITAÇÕES
+----------
+Ainda não foram implementados frontend, partidas, simulação global, mercado automático, IA autônoma, calendário completo, competições, finanças reais, staff completo, scouting automático, notícias ou múltiplas temporadas em escala. A evolução, aposentadoria e retorno estão disponíveis como regras e operações explícitas, mas ainda não são executados por um simulador automático.
+
+Os números de referência do roadmap — 192.858 jogadores, 8.377 clubes, 223 países e 235.324 vínculos — não correspondem ao banco consolidado efetivamente incorporado, que possui 231.911 jogadores, 8.399 clubes, 224 países e 235.722 vínculos. Nenhum registro foi removido para forçar a expectativa do documento.

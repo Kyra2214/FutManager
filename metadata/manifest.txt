@@ -1,0 +1,4 @@
+FutManager complete package
+Generated: 2026-08-26
+Included: Python engine, React frontend, SQLite databases, assets and docs
+Excluded: dependencies, build output, git metadata, logs, caches and local configuration

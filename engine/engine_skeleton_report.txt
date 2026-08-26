@@ -1,0 +1,125 @@
+ENGINE SKELETON REPORT
+======================
+
+Projeto: Brasfoot + F1 Manager — esqueleto técnico
+Data da preparação: 2026-08-25
+
+1. ESTRUTURA CRIADA
+--------------------
+data/database/game.db
+ data/database/game.db.sha256
+ data/database/manifest.json
+ data/state/game.db
+ data/state/game.db.sha256
+engine/core/
+engine/database/
+engine/players/
+engine/teams/
+engine/staff/
+engine/competitions/
+engine/scouting/
+engine/transfers/
+engine/finance/
+engine/stadiums/
+engine/sponsors/
+engine/supporters/
+engine/world/
+engine/simulation/
+config/
+scripts/
+tests/test_engine.py
+README.md
+
+2. ARQUIVOS DE CÓDIGO PRINCIPAIS
+----------------------------------
+engine/core/state.py
+engine/core/engine.py
+engine/database/repositories.py
+engine/future_interfaces.py
+tests/test_engine.py
+
+3. BANCO E RASTREABILIDADE
+---------------------------
+O banco consolidado gerado na etapa anterior foi copiado para data/database/game.db.
+O arquivo original da fonte foi preservado fora da estrutura do motor; a cópia de estado foi criada em data/state/game.db.
+
+Hash SHA-256 do banco-base:
+1ae17c67818fa4d5635894cf2c41979efe314099417735e2a3b81e2d72066caa
+
+Hash SHA-256 da cópia de estado:
+1ae17c67818fa4d5635894cf2c41979efe314099417735e2a3b81e2d72066caa
+
+Os hashes são idênticos no estado inicial.
+
+4. TABELAS E VIEWS DETECTADAS
+------------------------------
+paises
+jogadores
+ times
+selecoes
+jogador_time
+jogador_selecao
+vw_jogadores_completos
+vw_jogadores_por_pais
+vw_times_por_pais
+vw_selecoes_por_pais
+
+5. CONTAGENS REAIS
+-------------------
+Jogadores canônicos: 231.911
+Times: 8.399
+Países: 224
+Seleções catalogadas: 86
+Vínculos jogador/time: 235.722
+Vínculos jogador/seleção: 0
+Chaves canônicas duplicadas: 0
+
+O valor zero em jogador_selecao é intencional: o projeto contém o catálogo visual de camisas das seleções, mas não contém escalações de seleções equivalentes aos arquivos de clubes. Nenhum vínculo foi inventado por nacionalidade.
+
+6. POSIÇÕES PRESERVADAS
+------------------------
+0 = Goleiro
+1 = Lateral
+2 = Zagueiro
+3 = Meia
+4 = Atacante
+
+cr1, cr2, lado, estrela e top_mundial permanecem separados. Nenhuma habilidade ou fórmula de força foi criada.
+
+7. TESTES EXECUTADOS
+---------------------
+[PASS] Banco-base e cópia de estado existem.
+[PASS] Hash do banco-base e da cópia de estado são iguais.
+[PASS] PRAGMA integrity_check retorna ok.
+[PASS] PRAGMA foreign_key_check não apresenta erros.
+[PASS] Contagens reais do banco consolidado conferem.
+[PASS] Chave canônica não apresenta duplicidades.
+[PASS] As posições 0–4 continuam presentes.
+[PASS] O motor abre o banco.
+[PASS] O repositório consulta jogadores.
+[PASS] O repositório consulta clubes.
+[PASS] O GameState inicializa usando o banco.
+
+Resultado do executor: 5 passed.
+
+8. LIMITES DA ETAPA
+--------------------
+Não foram implementados frontend, telas, partidas, simulação, IA, mercado funcional, evolução, scouting real, economia, eventos, animações ou regras de temporada. As interfaces estruturais futuras foram apenas declaradas para permitir extensão posterior.
+
+A especificação recebida mencionava como expectativa 192.858 jogadores, 8.377 clubes, 223 países e 235.324 vínculos. O banco efetivamente incorporado é a versão consolidada produzida na etapa anterior e possui 231.911 jogadores, 8.399 clubes, 224 países e 235.722 vínculos. Os testes foram ajustados aos números reais do banco entregue, sem descartar registros para forçar os números esperados.
+
+9. CONTINUAÇÃO DO ROADMAP — PLAYER ENGINE
+-------------------------------------------
+Foi implementado o primeiro bloco seguinte da ordem obrigatória:
+
+[PASS] Modelo de domínio Player.
+[PASS] Modelo PlayerContract.
+[PASS] Modelo PlayerCondition.
+[PASS] Modelo PlayerHistoryEntry.
+[PASS] NativeAttributes preserva cr1, cr2, rating_hash, is_star, is_top_world e side separadamente.
+[PASS] PlayerEngine consulta jogadores sob demanda, sem carregar os 231.911 jogadores em memória.
+[PASS] PlayerGenerationService possui configuração de idade inicial e faixas de carreira.
+[PASS] PlayerLifecycleService foi declarado como contrato, sem implementar evolução, declínio ou aposentadoria.
+[PASS] Nenhum jogador fictício foi persistido.
+
+Suíte final executada: 10 passed.

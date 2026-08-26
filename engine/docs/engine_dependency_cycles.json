@@ -1,0 +1,7 @@
+{
+  "root": "/home/ubuntu/brasfoot_engine/engine",
+  "modules": 56,
+  "internal_edges": 70,
+  "cycles": [],
+  "status": "VALID"
+}

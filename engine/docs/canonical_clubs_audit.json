@@ -1,0 +1,14 @@
+{
+  "database": "/home/ubuntu/brasfoot_engine/data/database/game.db",
+  "clubs": 8399,
+  "selections": 86,
+  "countries": 224,
+  "duplicate_club_origins": 0,
+  "duplicate_club_names_expected_label_collisions": 140,
+  "duplicate_selection_codes": 0,
+  "duplicate_selection_names": 0,
+  "club_country_orphans": 0,
+  "selection_country_orphans": 0,
+  "source_of_truth": "SQL/GameState",
+  "status": "VALID"
+}

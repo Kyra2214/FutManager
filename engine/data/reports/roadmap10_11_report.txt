@@ -1,0 +1,45 @@
+FASES 10 E 11 REPORT
+=====================
+
+Escopo: competições, calendário, classificação e motor de partidas offline.
+
+ARQUIVOS
+--------
+Criado engine/competitions/structure.py para fases, rodadas, fixtures, calendário, artilharia e encerramento.
+Aprimorado o uso de engine/competitions/match_engine.py para temporadas, competições, inscrições, partidas, estatísticas e classificação.
+Criados tests/test_phases10_11.py e documentação em docs/phases10_11_competitions_matches.md.
+
+ENTIDADES E TABELAS
+-------------------
+competition_phases, competition_rounds, fixtures e competition_config estruturam a Fase 10.
+seasons, competitions e competition_entries preservam temporadas, competições e inscrições.
+matches, match_events, player_match_stats e team_competition_stats suportam a Fase 11.
+
+REGRAS IMPLEMENTADAS
+--------------------
+Temporadas podem ser criadas e competições podem receber inscrições únicas. Fases e rodadas são persistidas. O Fixture representa o compromisso esportivo e o calendário pode ser consultado por competição ou clube.
+
+A classificação mantém jogos, vitórias, empates, derrotas, gols pró, gols contra, saldo e pontos. O serviço de artilharia consulta as estatísticas individuais sem criar ranking paralelo. O encerramento rejeita competição com fixtures pendentes e não encerra novamente uma competição finalizada.
+
+O motor de partidas gera resultado offline com seed, persiste placar e evento de resultado, atualiza estatísticas de clubes e classificação e rejeita replay com ALREADY_PLAYED. A força, forma, potencial e desempenho continuam conceitos separados.
+
+TESTES
+------
+Resultado final: 29 passed.
+
+Foram validados ciclo esportivo, elenco, lesões, recuperação, escalações, força efetiva, temporada, competição, inscrições, fases, rodadas, fixtures, calendário, classificação, pontuação, encerramento, partida, resultado, seed e idempotência.
+
+INTEGRIDADE
+-----------
+O banco-base data/database/game.db permaneceu intacto.
+SHA-256 do banco-base: 1ae17c67818fa4d5635894cf2c41979efe314099417735e2a3b81e2d72066caa
+O estado foi migrado em data/state/game.db e passou por integrity_check e foreign_key_check.
+SHA-256 atual do estado: 97ccb0788db1c38f602dceebcd1c75654c77d5f61ef1af1fcc4cecac2f841f3c
+
+LIMITAÇÕES
+----------
+Ainda não estão implementados eventos detalhados de gol, assistência, cartões, substituições e lesões durante partidas; estatísticas individuais completas; integração automática de forma/fadiga pós-jogo; prorrogação, pênaltis, ida e volta; calendários de competições reais; IA autônoma; simulação mundial; frontend; economia mundial; falência ou SAF.
+
+DECISÃO ARQUITETURAL
+--------------------
+A camada de competição organiza temporadas e fixtures. O MatchEngine executa partidas. O Standings/Statistics são derivados dos resultados persistidos. O IntegrationOrchestrator continua sendo o único coordenador de tempo, e o SQLite local continua sendo a fonte persistente da verdade.

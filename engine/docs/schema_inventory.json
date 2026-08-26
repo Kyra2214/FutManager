@@ -1,0 +1,7898 @@
+{
+  "base": {
+    "foreign_key_check_count": 0,
+    "integrity_check": "ok",
+    "path": "/home/ubuntu/brasfoot_engine/data/database/game.db",
+    "table_count": 6,
+    "tables": [
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "jogador_id",
+            "notnull": 1,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "selecao_id",
+            "notnull": 1,
+            "pk": 2,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "status",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "fonte",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_jogador_selecao_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "jogador_selecao",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "jogador_id",
+            "notnull": 1,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "time_id",
+            "notnull": 1,
+            "pk": 2,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "categoria",
+            "notnull": 1,
+            "pk": 3,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "status_codigo",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "arquivo_origem",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_jogador_time_jogador",
+            "origin": "c",
+            "partial": 0,
+            "seq": 0,
+            "unique": 0
+          },
+          {
+            "name": "idx_jogador_time_time",
+            "origin": "c",
+            "partial": 0,
+            "seq": 1,
+            "unique": 0
+          },
+          {
+            "name": "sqlite_autoindex_jogador_time_2",
+            "origin": "u",
+            "partial": 0,
+            "seq": 2,
+            "unique": 1
+          },
+          {
+            "name": "sqlite_autoindex_jogador_time_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 3,
+            "unique": 1
+          }
+        ],
+        "name": "jogador_time",
+        "row_count": 235722
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "jogador_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "chave_canonica",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "nome",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "nome_normalizado",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "pais_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "idade",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "posicao_codigo",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "posicao",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 8,
+            "dflt_value": "0",
+            "name": "estrela",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": "0",
+            "name": "top_mundial",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "cr1",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 11,
+            "dflt_value": null,
+            "name": "cr2",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 12,
+            "dflt_value": null,
+            "name": "lado",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 13,
+            "dflt_value": null,
+            "name": "tid",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 14,
+            "dflt_value": null,
+            "name": "sid",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 15,
+            "dflt_value": null,
+            "name": "aid",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 16,
+            "dflt_value": "0",
+            "name": "ocorrencias",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_jogadores_posicao",
+            "origin": "c",
+            "partial": 0,
+            "seq": 0,
+            "unique": 0
+          },
+          {
+            "name": "idx_jogadores_pais",
+            "origin": "c",
+            "partial": 0,
+            "seq": 1,
+            "unique": 0
+          },
+          {
+            "name": "sqlite_autoindex_jogadores_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 2,
+            "unique": 1
+          }
+        ],
+        "name": "jogadores",
+        "row_count": 231911
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "pais_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "nome",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "codigo",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_paises_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "paises",
+        "row_count": 224
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "selecao_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "codigo",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "nome",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "pais_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "'camisas'",
+            "name": "origem",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_selecoes_2",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          },
+          {
+            "name": "sqlite_autoindex_selecoes_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 1,
+            "unique": 1
+          }
+        ],
+        "name": "selecoes",
+        "row_count": 86
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "time_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "arquivo_origem",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "id_jogo",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "nome",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "estadio",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "pais_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "'clube'",
+            "name": "tipo",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_times_pais",
+            "origin": "c",
+            "partial": 0,
+            "seq": 0,
+            "unique": 0
+          },
+          {
+            "name": "sqlite_autoindex_times_2",
+            "origin": "u",
+            "partial": 0,
+            "seq": 1,
+            "unique": 1
+          },
+          {
+            "name": "sqlite_autoindex_times_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 2,
+            "unique": 1
+          }
+        ],
+        "name": "times",
+        "row_count": 8399
+      }
+    ]
+  },
+  "state": {
+    "foreign_key_check_count": 0,
+    "integrity_check": "ok",
+    "path": "/home/ubuntu/brasfoot_engine/data/state/game.db",
+    "table_count": 95,
+    "tables": [
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "asset_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "asset_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "source_key",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "original_relative_path",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "relative_path",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "sha256",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "'image/png'",
+            "name": "mime_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "60",
+            "name": "width",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": "60",
+            "name": "height",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "imported_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_asset_catalog_type_key",
+            "origin": "c",
+            "partial": 0,
+            "seq": 0,
+            "unique": 0
+          },
+          {
+            "name": "sqlite_autoindex_asset_catalog_2",
+            "origin": "u",
+            "partial": 0,
+            "seq": 1,
+            "unique": 1
+          },
+          {
+            "name": "sqlite_autoindex_asset_catalog_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 2,
+            "unique": 1
+          }
+        ],
+        "name": "asset_catalog",
+        "row_count": 16876
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "attendance_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "match_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "expected_attendance",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "actual_attendance",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "occupancy_rate",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "ticket_price",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "revenue",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "seed",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_attendance_records_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "attendance_records",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "audit_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "event_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "entity_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "event_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "payload",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "audit_log",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "event_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "career_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "event_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "event_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "payload",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "career_events",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": "'BALANCED'",
+            "name": "strategy",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": "50",
+            "name": "aggressiveness",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": "50",
+            "name": "risk_tolerance",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "50",
+            "name": "youth_focus",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "50",
+            "name": "market_focus",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "50",
+            "name": "result_focus",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "50",
+            "name": "young_preference",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": "50",
+            "name": "experienced_preference",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": "0",
+            "name": "salary_limit",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": "50",
+            "name": "social_priority",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 11,
+            "dflt_value": "50",
+            "name": "scouting_intensity",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 12,
+            "dflt_value": "50",
+            "name": "autonomy",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 13,
+            "dflt_value": null,
+            "name": "seed",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 14,
+            "dflt_value": "'1.0'",
+            "name": "version",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "club_ai_profiles",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "debt_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "principal",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "balance",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "0",
+            "name": "interest",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "due_date",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "'ACTIVE'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "creditor",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "origin",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "club_debts",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "decision_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "decision_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "decision",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "target",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "reason",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "priority",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "alternatives",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "chosen",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "cost",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 11,
+            "dflt_value": null,
+            "name": "result",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 12,
+            "dflt_value": null,
+            "name": "seed",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 13,
+            "dflt_value": null,
+            "name": "ai_version",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "club_decision_history",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "department",
+            "notnull": 1,
+            "pk": 2,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": "1",
+            "name": "level",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": "0",
+            "name": "cost",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "0",
+            "name": "capacity",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "0",
+            "name": "maintenance",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "0",
+            "name": "efficiency",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_club_departments_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "club_departments",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": "0",
+            "name": "cash",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": "0",
+            "name": "budget",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": "0",
+            "name": "revenue_accumulated",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "0",
+            "name": "expense_accumulated",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "0",
+            "name": "debt",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "0",
+            "name": "obligations",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "0",
+            "name": "payroll",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": "'HEALTHY'",
+            "name": "financial_status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "updated_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "club_economic_state",
+        "row_count": 8399
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "event_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "origin",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "severity",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "event_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "title",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "description",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "impact",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 9,
+            "dflt_value": "'OPEN'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "reference",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_club_events_club_status_date",
+            "origin": "c",
+            "partial": 0,
+            "seq": 0,
+            "unique": 0
+          },
+          {
+            "name": "sqlite_autoindex_club_events_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 1,
+            "unique": 1
+          }
+        ],
+        "name": "club_events",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": "0",
+            "name": "size",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": "50",
+            "name": "loyalty",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": "50",
+            "name": "satisfaction",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "0",
+            "name": "growth",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "50",
+            "name": "interest",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "50",
+            "name": "engagement",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "50",
+            "name": "local_reputation",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": "50",
+            "name": "national_reputation",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": "20",
+            "name": "international_reputation",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "updated_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "club_fan_base",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": "0",
+            "name": "cash",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "updated_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "club_finances",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "history_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "event_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "event_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "payload",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "club_financial_history",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "formula_version",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "squad_score",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "ct_score",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "stadium_score",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "overall_score",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "sponsor_stars",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "squad_available",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "ct_available",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "stadium_available",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "updated_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "club_institutional_profiles",
+        "row_count": 8399
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "objective_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "priority",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "deadline",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "'ACTIVE'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "origin",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "0",
+            "name": "progress",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          }
+        ],
+        "indexes": [],
+        "name": "club_objectives",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "ownership_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "owner_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "owner_name",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "participation",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "start_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "end_date",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "'ACTIVE'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "club_ownership",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "formula_version",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "team_power",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "country_factor",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "base_level",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "weekly_player_payroll",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "0",
+            "name": "weekly_staff_payroll",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "0",
+            "name": "weekly_department_maintenance",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "initial_cash",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "updated_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "club_payroll_profiles",
+        "row_count": 8399
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "player_id",
+            "notnull": 1,
+            "pk": 2,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "formula_version",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "player_strength",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "weekly_salary",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "updated_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_club_player_payrolls_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "club_player_payrolls",
+        "row_count": 235721
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": "50",
+            "name": "sporting",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": "50",
+            "name": "national",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": "20",
+            "name": "international",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "30",
+            "name": "commercial",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "20",
+            "name": "historical",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "updated_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "club_reputation",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "history_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "source_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "source_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "fan_size_before",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "fan_size_after",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "satisfaction_before",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "satisfaction_after",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "sporting_before",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "sporting_after",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "commercial_before",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 11,
+            "dflt_value": null,
+            "name": "commercial_after",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 12,
+            "dflt_value": null,
+            "name": "event_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_club_social_history_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "club_social_history",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "stadium_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "name",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "capacity",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "usable_capacity",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "100",
+            "name": "state",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "1",
+            "name": "level",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "50",
+            "name": "comfort",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": "50",
+            "name": "security",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": "50",
+            "name": "quality",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": "0",
+            "name": "maintenance_cost",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 11,
+            "dflt_value": null,
+            "name": "construction_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 12,
+            "dflt_value": null,
+            "name": "last_maintenance",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 13,
+            "dflt_value": "'ACTIVE'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 14,
+            "dflt_value": "1",
+            "name": "is_primary",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": [],
+        "name": "club_stadiums",
+        "row_count": 8399
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "competition_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": "3",
+            "name": "win_points",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": "1",
+            "name": "draw_points",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": "0",
+            "name": "loss_points",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "1",
+            "name": "turns",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "'points,wins,goal_difference,goals_for'",
+            "name": "tiebreakers",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "competition_config",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "competition_id",
+            "notnull": 1,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 2,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "season_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_competition_entries_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "competition_entries",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "phase_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "competition_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "name",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "order_no",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "'PLANNED'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_competition_phases_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "competition_phases",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "round_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "phase_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "number",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "round_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "'PLANNED'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_competition_rounds_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "competition_rounds",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "competition_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "name",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "country_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "season_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "club_count",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "format",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "'ACTIVE'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "competitions",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "contract_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "contract_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "category",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "amount",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "'weekly'",
+            "name": "frequency",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "start_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "end_date",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 8,
+            "dflt_value": "'active'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "description",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "economic_contracts",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "obligation_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "category",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "weekly_amount",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "'active'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "description",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "facility_obligations",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "event_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "tick_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "season",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "week",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "event_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_financial_events_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "financial_events",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "ledger_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "season",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "week",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "category",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "amount",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "description",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "source_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "source_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 11,
+            "dflt_value": null,
+            "name": "tick_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 12,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_financial_ledger_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "financial_ledger",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "obligation_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "amount",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "due_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "'PENDING'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "origin",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "reference",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "paid_at",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "financial_obligations",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "fixture_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "competition_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "season_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "phase_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "round_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "home_club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "away_club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "scheduled_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 8,
+            "dflt_value": "'SCHEDULED'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "match_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 11,
+            "dflt_value": null,
+            "name": "updated_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_fixtures_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "fixtures",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "audit_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "tick_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "action",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "entity_type",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "entity_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "before_json",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "after_json",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "seed",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "result",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "error",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 10,
+            "dflt_value": "0",
+            "name": "rollback",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 11,
+            "dflt_value": null,
+            "name": "logical_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_global_audit_tick",
+            "origin": "c",
+            "partial": 0,
+            "seq": 0,
+            "unique": 0
+          },
+          {
+            "name": "sqlite_autoindex_global_audit_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 1,
+            "unique": 1
+          }
+        ],
+        "name": "global_audit",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "tick_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "TEXT"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "logical_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "advance_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "season",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "week",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "month",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "'RUNNING'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "started_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "finished_at",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 9,
+            "dflt_value": "'[]'",
+            "name": "steps",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "error",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_global_ticks_status",
+            "origin": "c",
+            "partial": 0,
+            "seq": 0,
+            "unique": 0
+          },
+          {
+            "name": "sqlite_autoindex_global_ticks_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 1,
+            "unique": 1
+          }
+        ],
+        "name": "global_ticks",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "injury_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "player_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "injury_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "start_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "estimated_days",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "end_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "severity",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "'ACTIVE'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "injuries",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "investment_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "investor",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "value",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "percentage",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "investment_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "'COMPLETED'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "investments",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "jogador_id",
+            "notnull": 1,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "selecao_id",
+            "notnull": 1,
+            "pk": 2,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "status",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "fonte",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_jogador_selecao_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "jogador_selecao",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "jogador_id",
+            "notnull": 1,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "time_id",
+            "notnull": 1,
+            "pk": 2,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "categoria",
+            "notnull": 1,
+            "pk": 3,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "status_codigo",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "arquivo_origem",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_jogador_time_jogador",
+            "origin": "c",
+            "partial": 0,
+            "seq": 0,
+            "unique": 0
+          },
+          {
+            "name": "idx_jogador_time_time",
+            "origin": "c",
+            "partial": 0,
+            "seq": 1,
+            "unique": 0
+          },
+          {
+            "name": "sqlite_autoindex_jogador_time_2",
+            "origin": "u",
+            "partial": 0,
+            "seq": 2,
+            "unique": 1
+          },
+          {
+            "name": "sqlite_autoindex_jogador_time_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 3,
+            "unique": 1
+          }
+        ],
+        "name": "jogador_time",
+        "row_count": 235722
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "jogador_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "chave_canonica",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "nome",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "nome_normalizado",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "pais_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "idade",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "posicao_codigo",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "posicao",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 8,
+            "dflt_value": "0",
+            "name": "estrela",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": "0",
+            "name": "top_mundial",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "cr1",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 11,
+            "dflt_value": null,
+            "name": "cr2",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 12,
+            "dflt_value": null,
+            "name": "lado",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 13,
+            "dflt_value": null,
+            "name": "tid",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 14,
+            "dflt_value": null,
+            "name": "sid",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 15,
+            "dflt_value": null,
+            "name": "aid",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 16,
+            "dflt_value": "0",
+            "name": "ocorrencias",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 17,
+            "dflt_value": null,
+            "name": "rating_hash",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_jogadores_posicao",
+            "origin": "c",
+            "partial": 0,
+            "seq": 0,
+            "unique": 0
+          },
+          {
+            "name": "idx_jogadores_pais",
+            "origin": "c",
+            "partial": 0,
+            "seq": 1,
+            "unique": 0
+          },
+          {
+            "name": "sqlite_autoindex_jogadores_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 2,
+            "unique": 1
+          }
+        ],
+        "name": "jogadores",
+        "row_count": 231911
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "lineup_id",
+            "notnull": 1,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "player_id",
+            "notnull": 1,
+            "pk": 2,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "position_code",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": "1",
+            "name": "starter",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_lineup_players_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "lineup_players",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "lineup_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "formation",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "lineups",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "clock_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "current_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "current_week",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "current_month",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "current_season",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "last_processed_tick",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "logical_clock",
+        "row_count": 1
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "career_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "manager_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "name",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "updated_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "season_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "current_club_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "'ACTIVE'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 8,
+            "dflt_value": "'1.0'",
+            "name": "engine_version",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_manager_careers_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "manager_careers",
+        "row_count": 1
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "manager_contract_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "manager_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "start_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "end_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "salary",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "0",
+            "name": "bonus",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "objective",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 8,
+            "dflt_value": "'ACTIVE'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "manager_contracts",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "history_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "manager_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "event_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "event_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "payload",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "manager_history",
+        "row_count": 1
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "message_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "manager_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "title",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "body",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "reference",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "0",
+            "name": "read",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_manager_inbox_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "manager_inbox",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "offer_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "manager_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "salary",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "duration",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "objective",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "0",
+            "name": "reputation_min",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "'OFFERED'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "manager_job_offers",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "objective_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "career_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "priority",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "deadline",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "'ACTIVE'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "0",
+            "name": "progress",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          }
+        ],
+        "indexes": [],
+        "name": "manager_objectives",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "selection_assignment_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "manager_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "career_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "selection_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "'ACTIVE'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "appointed_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_manager_selection_assignments_2",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          },
+          {
+            "name": "sqlite_autoindex_manager_selection_assignments_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 1,
+            "unique": 1
+          }
+        ],
+        "name": "manager_selection_assignments",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "manager_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "name",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "nationality",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "age",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "0",
+            "name": "reputation",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "0",
+            "name": "experience",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "'ACTIVE'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "current_club_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": "1",
+            "name": "active_career",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": [],
+        "name": "managers",
+        "row_count": 1
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "event_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "match_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "event_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "minute",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "player_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "payload",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "match_events",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "match_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "competition_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "season_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "match_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "round",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "home_club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "away_club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "home_lineup_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "away_lineup_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "home_goals",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "away_goals",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 11,
+            "dflt_value": "'SCHEDULED'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 12,
+            "dflt_value": null,
+            "name": "seed",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_matches_pending",
+            "origin": "c",
+            "partial": 0,
+            "seq": 0,
+            "unique": 0
+          }
+        ],
+        "name": "matches",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "media_event_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "exposure_delta",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "event_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "reference",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_media_events_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "media_events",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": "0",
+            "name": "exposure",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": "0",
+            "name": "interest",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": "0",
+            "name": "reach",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "0",
+            "name": "trending",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "updated_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "media_profiles",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "rights_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "competition_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "season_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "value",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "periodicity",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "start_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "end_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "'ACTIVE'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "media_rights_contracts",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "audit_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "tick_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "event_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "payload",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "orchestration_audit",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "pais_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "nome",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "codigo",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_paises_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "paises",
+        "row_count": 224
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "career_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "player_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": "1",
+            "name": "generation",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "age",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "current_club_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "birth_club_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "career_club_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "potential",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "current_strength",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "development_factor",
+            "notnull": 0,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 11,
+            "dflt_value": "0",
+            "name": "seasons_out",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": [],
+        "name": "player_career_state",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "player_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": "'ACTIVE'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "market_value",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "asking_price",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "release_clause",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": [],
+        "name": "player_market_state",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "match_id",
+            "notnull": 1,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "player_id",
+            "notnull": 1,
+            "pk": 2,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": "0",
+            "name": "minutes",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": "0",
+            "name": "goals",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "0",
+            "name": "assists",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "0",
+            "name": "cards",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "rating",
+            "notnull": 0,
+            "pk": 0,
+            "type": "REAL"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_player_match_stats_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "player_match_stats",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "player_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": "'RESERVE'",
+            "name": "category",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": "100",
+            "name": "condition",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "0",
+            "name": "fatigue",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "50",
+            "name": "form",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "'GENERAL'",
+            "name": "training",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "1",
+            "name": "available",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "current_injury_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": "0",
+            "name": "recovery_days",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": "0",
+            "name": "recent_minutes",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 11,
+            "dflt_value": "0",
+            "name": "recent_matches",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 12,
+            "dflt_value": null,
+            "name": "last_updated",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "player_sport_state",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "mission_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "scout_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "start_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "end_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "region",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "position_code",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "min_age",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "max_age",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "min_strength",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "min_potential",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 11,
+            "dflt_value": "'PLANNED'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 12,
+            "dflt_value": null,
+            "name": "seed",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 13,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "scout_missions",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "opportunity_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "mission_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "player_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "position_code",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "age",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "strength",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "potential",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "estimated_value",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "contract",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "observations",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 11,
+            "dflt_value": null,
+            "name": "confidence",
+            "notnull": 0,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 12,
+            "dflt_value": null,
+            "name": "priority",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 13,
+            "dflt_value": "'OBSERVED'",
+            "name": "knowledge",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 14,
+            "dflt_value": "1",
+            "name": "available",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_scout_opportunities_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "scout_opportunities",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "report_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "mission_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "seed",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "summary",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_scout_reports_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "scout_reports",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "season_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "year",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "start_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "end_date",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "'PLANNED'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_seasons_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "seasons",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "selecao_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "codigo",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "nome",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "pais_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "'camisas'",
+            "name": "origem",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_selecoes_2",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          },
+          {
+            "name": "sqlite_autoindex_selecoes_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 1,
+            "unique": 1
+          }
+        ],
+        "name": "selecoes",
+        "row_count": 86
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "selecao_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "selection_code",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "crest_asset_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "primary_kit_asset_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "crest_status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "updated_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_selection_asset_links_kit",
+            "origin": "c",
+            "partial": 0,
+            "seq": 0,
+            "unique": 0
+          },
+          {
+            "name": "sqlite_autoindex_selection_asset_links_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 1,
+            "unique": 1
+          }
+        ],
+        "name": "selection_asset_links",
+        "row_count": 86
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "audit_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "simulation_tick_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "match_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "level",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "seed",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "result",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "processed_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_sim_audit_tick",
+            "origin": "c",
+            "partial": 0,
+            "seq": 0,
+            "unique": 0
+          },
+          {
+            "name": "sqlite_autoindex_simulation_audit_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 1,
+            "unique": 1
+          }
+        ],
+        "name": "simulation_audit",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "simulation_tick_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "TEXT"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "logical_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "level",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "requested",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "0",
+            "name": "processed",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "0",
+            "name": "errors",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "seed",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "'1.0'",
+            "name": "engine_version",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 8,
+            "dflt_value": "'RUNNING'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_simulation_ticks_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "simulation_ticks",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "contract_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "offer_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "sponsor_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "star_rating",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "upfront_payment",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "weekly_payment",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "mission_bonus",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "start_season",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "start_week",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "end_season",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 11,
+            "dflt_value": null,
+            "name": "end_week",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 12,
+            "dflt_value": null,
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 13,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_sponsor_contracts_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "sponsor_contracts",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "mission_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "contract_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "mission_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "title",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "target_value",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "0",
+            "name": "current_value",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "reward",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "start_season",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "start_week",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "deadline_season",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 11,
+            "dflt_value": null,
+            "name": "deadline_week",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 12,
+            "dflt_value": null,
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 13,
+            "dflt_value": null,
+            "name": "completed_at",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "sponsor_missions",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "offer_set_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "generation",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "source_overall",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "source_stars",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "created_season",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "created_week",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "expires_season",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "expires_week",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_sponsor_offer_sets_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "sponsor_offer_sets",
+        "row_count": 8399
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "offer_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "offer_set_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "sponsor_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "star_rating",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "minimum_overall",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "upfront_payment",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "weekly_payment",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "mission_bonus",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "contract_weeks",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "accepted_at",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "sponsor_offers",
+        "row_count": 25197
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "sponsor_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "code",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "name",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "industry",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "base_stars",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "generation_version",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_sponsor_templates_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "sponsor_templates",
+        "row_count": 10
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "season",
+            "notnull": 1,
+            "pk": 2,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "week",
+            "notnull": 1,
+            "pk": 3,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "processed_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_sponsor_weekly_runs_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "sponsor_weekly_runs",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "sponsor_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "name",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "sector",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": "50",
+            "name": "reputation",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "0",
+            "name": "budget",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "market",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "preference",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "'ACTIVE'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_sponsors_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "sponsors",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "contract_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "sponsor_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "total_value",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "periodic_value",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "duration",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "start_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "end_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 9,
+            "dflt_value": "0",
+            "name": "bonus",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": "'{}'",
+            "name": "goals",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 11,
+            "dflt_value": "'ACTIVE'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "sponsorship_contracts",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "objective_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "contract_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "target",
+            "notnull": 1,
+            "pk": 0,
+            "type": "REAL"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "bonus",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "0",
+            "name": "achieved",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "pay_reference",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_sponsorship_objectives_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "sponsorship_objectives",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "history_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "player_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "event_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "event_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "payload",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "sport_history",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "history_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "stadium_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "component",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "from_level",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "to_level",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "cost",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "maintenance_after",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "event_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "reference",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_stadium_component_history_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "stadium_component_history",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "stadium_id",
+            "notnull": 1,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "component",
+            "notnull": 1,
+            "pk": 2,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": "1",
+            "name": "level",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "updated_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_stadium_components_stadium",
+            "origin": "c",
+            "partial": 0,
+            "seq": 0,
+            "unique": 0
+          },
+          {
+            "name": "sqlite_autoindex_stadium_components_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 1,
+            "unique": 1
+          }
+        ],
+        "name": "stadium_components",
+        "row_count": 33596
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "history_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "stadium_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "event_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "event_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "payload",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "stadium_history",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "history_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "staff_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "event_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "event_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "payload",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "staff_history",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "catalog_key",
+            "notnull": 0,
+            "pk": 1,
+            "type": "TEXT"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "staff_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "generation_version",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_staff_market_catalog_2",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          },
+          {
+            "name": "sqlite_autoindex_staff_market_catalog_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 1,
+            "unique": 1
+          }
+        ],
+        "name": "staff_market_catalog",
+        "row_count": 10
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "staff_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "name",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "role",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "age",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "career_start_age",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "0",
+            "name": "experience",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "1",
+            "name": "reputation",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": "1",
+            "name": "level",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "potential",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "specialization",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 11,
+            "dflt_value": "0",
+            "name": "salary",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 12,
+            "dflt_value": null,
+            "name": "contract_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 13,
+            "dflt_value": null,
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 14,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 15,
+            "dflt_value": null,
+            "name": "retirement_age",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": [],
+        "name": "staff_members",
+        "row_count": 10
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "time_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "source_key",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "crest_asset_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "crest_mini_asset_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "mapping_status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "updated_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_team_asset_links_crest",
+            "origin": "c",
+            "partial": 0,
+            "seq": 0,
+            "unique": 0
+          },
+          {
+            "name": "sqlite_autoindex_team_asset_links_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 1,
+            "unique": 1
+          }
+        ],
+        "name": "team_asset_links",
+        "row_count": 8399
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "competition_id",
+            "notnull": 1,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 2,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": "0",
+            "name": "played",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": "0",
+            "name": "wins",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": "0",
+            "name": "draws",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "0",
+            "name": "losses",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "0",
+            "name": "goals_for",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "0",
+            "name": "goals_against",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": "0",
+            "name": "points",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_team_competition_stats_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "team_competition_stats",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "base_price",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "updated_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "ticket_price_configs",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "time_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "arquivo_origem",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "id_jogo",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "nome",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "estadio",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "pais_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "'clube'",
+            "name": "tipo",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "idx_times_pais",
+            "origin": "c",
+            "partial": 0,
+            "seq": 0,
+            "unique": 0
+          },
+          {
+            "name": "sqlite_autoindex_times_2",
+            "origin": "u",
+            "partial": 0,
+            "seq": 1,
+            "unique": 1
+          },
+          {
+            "name": "sqlite_autoindex_times_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 2,
+            "unique": 1
+          }
+        ],
+        "name": "times",
+        "row_count": 8399
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "event_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "offer_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "event_type",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "event_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "payload",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "transfer_events",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "transfer_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "offer_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "player_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "old_club_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "new_club_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "value",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "season",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": null,
+            "name": "window_id",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 8,
+            "dflt_value": null,
+            "name": "transfer_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "previous_contract",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "new_contract",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 11,
+            "dflt_value": null,
+            "name": "source",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_transfer_history_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "transfer_history",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "offer_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "player_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "buyer_club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "seller_club_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "value",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 5,
+            "dflt_value": null,
+            "name": "asking_price",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 6,
+            "dflt_value": null,
+            "name": "window_id",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 7,
+            "dflt_value": "'PENDING'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 8,
+            "dflt_value": "0",
+            "name": "counter_count",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 9,
+            "dflt_value": null,
+            "name": "valid_until",
+            "notnull": 0,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 10,
+            "dflt_value": null,
+            "name": "created_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "transfer_offers",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "window_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "season",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "number",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "start_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "end_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 5,
+            "dflt_value": "'UPCOMING'",
+            "name": "status",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 6,
+            "dflt_value": "'{}'",
+            "name": "rules",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_transfer_windows_1",
+            "origin": "u",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "transfer_windows",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "club_id",
+            "notnull": 1,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "season",
+            "notnull": 1,
+            "pk": 2,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "week",
+            "notnull": 1,
+            "pk": 3,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "weekly_cost",
+            "notnull": 1,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "processed_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "sqlite_autoindex_weekly_economy_runs_1",
+            "origin": "pk",
+            "partial": 0,
+            "seq": 0,
+            "unique": 1
+          }
+        ],
+        "name": "weekly_economy_runs",
+        "row_count": 0
+      },
+      {
+        "columns": [
+          {
+            "cid": 0,
+            "dflt_value": null,
+            "name": "world_id",
+            "notnull": 0,
+            "pk": 1,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 1,
+            "dflt_value": null,
+            "name": "current_date",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 2,
+            "dflt_value": null,
+            "name": "current_season",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          },
+          {
+            "cid": 3,
+            "dflt_value": null,
+            "name": "seed",
+            "notnull": 0,
+            "pk": 0,
+            "type": "INTEGER"
+          },
+          {
+            "cid": 4,
+            "dflt_value": null,
+            "name": "updated_at",
+            "notnull": 1,
+            "pk": 0,
+            "type": "TEXT"
+          }
+        ],
+        "indexes": [],
+        "name": "world_state",
+        "row_count": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+FASE 18 REPORT — INTEGRAÇÃO GERAL E BALANCEAMENTO
+=================================================
+
+ESCOPO
+------
+Integração dos módulos das Fases 1–17 sem criar uma fonte de verdade adicional.
+
+ARQUIVOS CRIADOS
+----------------
+- engine/core/global_integration.py
+- engine/core/consistency.py
+- tests/test_phase18_integration.py
+- docs/phase18_integration_balance.md
+
+SERVIÇOS
+--------
+GlobalIntegrationOrchestrator registra a ordem oficial do tick, cria contexto temporal compartilhado, controla status, auditoria, seed, erro e idempotência. ConsistencyService valida integridade, foreign keys, duplicidade de jogadores e partidas, anomalias financeiras e capacidade de estádio. BalanceConfig concentra parâmetros esportivos e sociais sem números espalhados.
+
+ORDEM OFICIAL
+-------------
+clock → contracts → obligations → recovery → injuries → training → development → fatigue → form → competitions → matches → statistics → standings → stadium → fans → media → sponsorships → revenue → finance → club_ai → market → manager_career → audit.
+
+BANCO E MIGRAÇÕES
+-----------------
+As tabelas global_ticks e global_audit são criadas com CREATE TABLE IF NOT EXISTS. Índices criados: idx_global_ticks_status, idx_global_audit_tick e o índice de partidas pendentes já existente. O banco-base permanece data/database/game.db; o estado mutável permanece data/state/game.db.
+
+IDEMPOTÊNCIA E ROLLBACK
+-----------------------
+Cada tick usa tick_id único. Reexecução retorna ALREADY_PROCESSED. Falha forçada marca o tick como ROLLED_BACK e registra o erro. Auditoria usa chave única por tick, ação, entidade e entidade_id.
+
+TESTES
+------
+Resultado final: 39 passed.
+
+Foram testados ordem global, idempotência, falha e rollback, validação de integridade, foreign keys, duplicidade e configuração de balanceamento. Os testes anteriores permanecem passando.
+
+INTEGRIDADE
+-----------
+A última validação executada retornou integrity_check = ok e foreign_key_check = 0 erros para os bancos verificados.
+SHA-256 do banco-base: 1ae17c67818fa4d5635894cf2c41979efe314099417735e2a3b81e2d72066caa
+O hash do estado é atualizado durante o empacotamento e registrado em data/state/game.db.sha256.
+SHA-256 atual do estado: 44df7bbc7efd4b5f7e6af41c1ddd0b14e0a5c1be7a6360cf38d67fa749ebc5b7
+
+PERFORMANCE
+-----------
+O coordenador trabalha por etapas e não carrega jogadores ou partidas inteiras em memória. As consultas do diagnóstico são diretas e os índices são limitados às operações críticas. A medição detalhada de centenas de milhares de jogos e múltiplas temporadas permanece reservada à Fase 20.
+
+LIMITAÇÕES
+----------
+A Fase 18 fornece coordenação, validação e auditoria global, mas não finge executar automaticamente cada serviço de domínio em todas as etapas sem adaptadores específicos. Frontend, IA externa, multiplayer, internet e testes completos de 5–50 temporadas continuam fora do escopo.
