@@ -660,3 +660,20 @@ export function getClubWorkspaceDashboard(
     db?.close();
   }
 }
+
+export type ClubFinanceLedgerEntry = { ledgerId: number; date: string; season: number; week: number; type: string; category: string; amount: number; description: string; sourceType: string; sourceId: string };
+
+export function getClubFinanceLedger(season?: number, category?: string, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): ClubFinanceLedgerEntry[] {
+  let db: SQLiteDatabase | null = null;
+  try {
+    db = new DatabaseSync(databasePath, { readOnly: true });
+    const active = db.prepare("SELECT current_club_id FROM manager_careers WHERE status = 'ACTIVE' ORDER BY updated_at DESC, career_id DESC LIMIT 1").get() as SQLiteRow | undefined;
+    const clubId = active ? asNullableNumber(active.current_club_id) : null;
+    if (clubId === null || !tableExists(db, "financial_ledger")) return [];
+    const clauses = ["club_id = ?"]; const args: (number | string)[] = [clubId];
+    if (season !== undefined) { clauses.push("season = ?"); args.push(season); }
+    if (category) { clauses.push("category = ?"); args.push(category); }
+    const rows = db.prepare(`SELECT ledger_id, date, season, week, type, category, amount, description, source_type, source_id FROM financial_ledger WHERE ${clauses.join(" AND ")} ORDER BY date DESC, ledger_id DESC LIMIT 500`).all(...args) as SQLiteRow[];
+    return rows.map((row) => ({ ledgerId: asNumber(row.ledger_id), date: asText(row.date), season: asNumber(row.season), week: asNumber(row.week), type: asText(row.type), category: asText(row.category), amount: asNumber(row.amount), description: asText(row.description), sourceType: asText(row.source_type), sourceId: asText(row.source_id) }));
+  } catch (error) { console.error("[Finance ledger] Falha na leitura somente leitura:", error); return []; } finally { db?.close(); }
+}

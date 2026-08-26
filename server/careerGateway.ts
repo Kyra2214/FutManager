@@ -15,7 +15,7 @@ export type CareerCatalogItem = {
 };
 
 type GatewayResult = { ok: boolean; error?: string } & Record<string, unknown>;
-type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "training_departments" | "morale_summary" | "morale_match" | "weekly_training" | "opponent_preparation" | "weekly_load" | "form_recommendations" | "health_list" | "health_alerts" | "health_injury" | "health_recover" | "health_suspension" | "ai_diagnosis" | "ai_history" | "ai_training" | "ai_market" | "ai_weekly" | "ai_lineup" | "ai_tactic" | "ai_objective_progress" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance" | "events_list" | "events_mark_read" | "transferable_players" | "transfer_open_window" | "transfer_offer" | "transfer_counter" | "transfer_accept" | "transfer_approve" | "transfer_loan" | "transfer_complete";
+type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "finance_revenue" | "finance_expense" | "finance_budget" | "finance_projection" | "finance_alert" | "finance_world_report" | "finance_audit" | "training_departments" | "morale_summary" | "morale_match" | "weekly_training" | "opponent_preparation" | "weekly_load" | "form_recommendations" | "health_list" | "health_alerts" | "health_injury" | "health_recover" | "health_suspension" | "ai_diagnosis" | "ai_history" | "ai_training" | "ai_market" | "ai_weekly" | "ai_lineup" | "ai_tactic" | "ai_objective_progress" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance" | "events_list" | "events_mark_read" | "transferable_players" | "transfer_open_window" | "transfer_preview" | "transfer_offer" | "transfer_counter" | "transfer_accept" | "transfer_approve" | "transfer_loan" | "transfer_complete";
 
 function callGateway<T extends GatewayResult>(action: GatewayAction, payload: Record<string, unknown>, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): T {
   try {
@@ -78,6 +78,13 @@ export function bootstrapClubEconomy(databasePath?: string) {
   return staffMarketAction<GatewayResult & { cash: number; budget: number; payroll: number; weekly_player_payroll: number; weekly_staff_payroll: number; weekly_department_maintenance: number; initial_cash: number; team_power: number; country_factor: number; base_level: number }>("economy_bootstrap", {}, databasePath);
 }
 
+export function getClubFinanceRevenue(season?: number, databasePath?: string) { return staffMarketAction<GatewayResult & { items: unknown[] }>("finance_revenue", { season }, databasePath).items; }
+export function getClubFinanceExpense(season?: number, databasePath?: string) { return staffMarketAction<GatewayResult & { items: unknown[] }>("finance_expense", { season }, databasePath).items; }
+export function getClubFinanceBudget(projectedRevenue=0, projectedExpenses=0, databasePath?: string) { return staffMarketAction<GatewayResult & { budget: Record<string, unknown> }>("finance_budget", { projected_revenue: projectedRevenue, projected_expenses: projectedExpenses }, databasePath).budget; }
+export function getClubFinanceProjection(weeklyRevenue=0, weeklyExpenses=0, databasePath?: string) { return staffMarketAction<GatewayResult & Record<string, unknown>>("finance_projection", { weekly_revenue: weeklyRevenue, weekly_expenses: weeklyExpenses }, databasePath); }
+export function getClubFinanceAlert(thresholdWeeks=4, databasePath?: string) { return staffMarketAction<GatewayResult & Record<string, unknown>>("finance_alert", { threshold_weeks: thresholdWeeks }, databasePath); }
+export function getClubFinanceAudit(season: number, databasePath?: string) { return staffMarketAction<GatewayResult & Record<string, unknown>>("finance_audit", { season }, databasePath); }
+
 export function getClubEconomySummary(databasePath?: string) {
   return staffMarketAction<GatewayResult & { cash: number; budget: number; payroll: number; expense_accumulated: number; weekly_player_payroll: number; weekly_staff_payroll: number; weekly_department_maintenance: number; weekly_total: number; initial_cash: number; team_power: number; country_factor: number; base_level: number }>("economy_summary", {}, databasePath);
 }
@@ -136,6 +143,10 @@ export function getAiLineup(seed?: number, databasePath?: string) {
 
 export function getAiTactic(seed?: number, databasePath?: string) {
   return staffMarketAction<GatewayResult & { decision: string }>("ai_tactic", { seed }, databasePath);
+}
+
+export function previewTransferImpact(value: number, salary = 0, commission = 0, accessoryCost = 0, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { buyer_club_id: number; transfer_value: number; commission: number; accessory_cost: number; upfront_total: number; cash_before: number; cash_after: number; weekly_salary_before: number; weekly_salary_after: number; cash_sufficient: boolean; formula_version: string }>("transfer_preview", { value, salary, commission, accessory_cost: accessoryCost }, databasePath);
 }
 
 export function listTransferablePlayers(databasePath?: string) {

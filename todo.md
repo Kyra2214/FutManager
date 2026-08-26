@@ -413,7 +413,7 @@
 - [x] P0-17 / passos 336/337/338/339/340: validar idempotência, insolvência, rollback e limites do modelo.
 - [ ] P1-18 / passos 341/342/343/344: exibir caixa atual/projetado e folhas individual/consolidada.
 - [ ] P1-18 / passos 345/346/347: exibir patrocínio, bilheteria e premiações persistidas.
-- [ ] P1-18 / passos 348/349/350: filtrar lançamentos e exportar relatório financeiro em CSV.
+- [x] P1-18 / passos 348/349/350: filtrar lançamentos e exportar relatório financeiro em CSV.
 - [ ] P1-18 / passos 351/352/353: sinalizar saldo insuficiente, confirmar despesas e prever caixa pós-partida.
-- [ ] P1-18 / passos 354/355/356: pré-visualizar impacto de contratação, contratos expirando e orçamento versus realizado.
+- [x] P1-18 / passo 354: pré-visualizar impacto de contratação no motor, com caixa antes/depois, custo imediato, folha semanal e fórmula versionada; passos 355/356 permanecem pendentes.
 - [ ] P1-18 / passos 357/358/359/360: histórico sazonal, arredondamentos, concorrência e documentação da fonte do saldo.

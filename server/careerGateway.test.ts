@@ -3,7 +3,7 @@ import { createRequire } from "node:module";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { acceptSponsorshipOffer, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, getStaffContract, hireAvailableStaff, listAvailableStaff, listCareerTargets, listClubEvents, listDepartmentOffers, markClubEventRead, replaceStaff, startCareer, terminateStaff, upgradeClubDepartment } from "./careerGateway";
+import { acceptSponsorshipOffer, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, getStaffContract, hireAvailableStaff, listAvailableStaff, listCareerTargets, listClubEvents, listDepartmentOffers, markClubEventRead, previewTransferImpact, replaceStaff, startCareer, terminateStaff, upgradeClubDepartment } from "./careerGateway";
 
 type Db = { close: () => void; exec: (sql: string) => void };
 type DbConstructor = new (path: string) => Db;
@@ -86,6 +86,15 @@ describe("careerGateway", () => {
     expect(hiredReplacement.contract_id).toBeGreaterThan(contract.contract_id);
     expect(getClubEconomySummary(path).weekly_staff_payroll).toBe(hiredReplacement.weekly_salary);
     expect(() => replaceStaff(hiredReplacement.staff_id, hiredReplacement.staff_id, path)).toThrow("STAFF_REPLACEMENT_INVALID");
+  });
+
+  it("calcula a prévia financeira de contratação sem alterar o ledger ou o caixa", () => {
+    const path = fixture();
+    startCareer({ managerName: "Ana", nationality: "BR", age: 31, careerName: "Carreira Ana", targetType: "club", targetId: 7 }, path);
+    const before = getClubEconomySummary(path);
+    const preview = previewTransferImpact(100000, 2500, 10000, 5000, path);
+    expect(preview).toMatchObject({ transfer_value: 100000, upfront_total: 115000, cash_before: before.cash, cash_after: before.cash - 115000, weekly_salary_after: before.weekly_total + 2500, formula_version: "transfer-impact-v1" });
+    expect(getClubEconomySummary(path).cash).toBe(before.cash);
   });
 
   it("persiste ofertas estreladas e sinal comercial no gateway em banco temporário", () => {
