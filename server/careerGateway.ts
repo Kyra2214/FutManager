@@ -15,7 +15,7 @@ export type CareerCatalogItem = {
 };
 
 type GatewayResult = { ok: boolean; error?: string } & Record<string, unknown>;
-type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "training_departments" | "morale_summary" | "morale_match" | "weekly_training" | "opponent_preparation" | "weekly_load" | "form_recommendations" | "health_list" | "health_alerts" | "health_injury" | "health_recover" | "health_suspension" | "ai_diagnosis" | "ai_history" | "ai_training" | "ai_market" | "ai_weekly" | "ai_lineup" | "ai_tactic" | "ai_objective_progress" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance" | "events_list" | "events_mark_read";
+type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "training_departments" | "morale_summary" | "morale_match" | "weekly_training" | "opponent_preparation" | "weekly_load" | "form_recommendations" | "health_list" | "health_alerts" | "health_injury" | "health_recover" | "health_suspension" | "ai_diagnosis" | "ai_history" | "ai_training" | "ai_market" | "ai_weekly" | "ai_lineup" | "ai_tactic" | "ai_objective_progress" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance" | "events_list" | "events_mark_read" | "transferable_players" | "transfer_open_window" | "transfer_offer" | "transfer_counter" | "transfer_accept" | "transfer_approve" | "transfer_loan" | "transfer_complete";
 
 function callGateway<T extends GatewayResult>(action: GatewayAction, payload: Record<string, unknown>, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): T {
   try {
@@ -136,6 +136,22 @@ export function getAiLineup(seed?: number, databasePath?: string) {
 
 export function getAiTactic(seed?: number, databasePath?: string) {
   return staffMarketAction<GatewayResult & { decision: string }>("ai_tactic", { seed }, databasePath);
+}
+
+export function listTransferablePlayers(databasePath?: string) {
+  return staffMarketAction<GatewayResult & { items: Array<Record<string, unknown>> }>("transferable_players", {}, databasePath).items;
+}
+
+export function createTransferOffer(payload: Record<string, unknown>, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { offer_id: number }>("transfer_offer", payload, databasePath);
+}
+
+export function approveTransferOffer(offerId: number, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { status?: string }>("transfer_approve", { offer_id: offerId }, databasePath);
+}
+
+export function createTransferLoan(payload: Record<string, unknown>, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { loan_id: number }>("transfer_loan", payload, databasePath);
 }
 
 export function listHealth(severity?: string, maxDays?: number, databasePath?: string) {

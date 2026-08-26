@@ -392,3 +392,10 @@
 - [x] P2-14 / passos 274/275: registrar decisões e explicações legíveis.
 - [x] P2-14 / passo 276: impedir escrita fora das transações autorizadas do motor.
 - [x] P2-14 / passos 277/278/279/280: testar seed, banco isolado, desempenho e limites econômicos.
+- [x] P1-15 / passos 281/282: inventariar vínculos e contratos e manter janela configurável.
+- [x] P1-15 / passos 283/284/285: listar transferíveis e persistir propostas/negociação de valor e salário.
+- [x] P1-15 / passos 286/287: suportar empréstimos com duração e opção de compra quando configurada.
+- [x] P1-15 / passos 288/289/290: registrar taxa, comissão, custos acessórios e validar saldo.
+- [x] P1-15 / passos 291/292: validar vagas de elenco e restrições de suspensão.
+- [x] P1-15 / passos 293/294/295/296: persistir histórico, exigir aprovação do manager e emitir eventos/alertas.
+- [x] P1-15 / passos 297/298/299/300: testar concorrência, rollback e separação de dados de teste, documentando limites.
