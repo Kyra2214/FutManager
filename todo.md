@@ -512,3 +512,4 @@
 - [x] Documentar formalmente os blocos 601–700 com writers, leituras, regras, integrações financeiras, limitações e evidências em `docs/blocos_601_700.md`.
 - [x] Corrigir os gaps encontrados na auditoria: geradores oficiais de notícias, preferências aplicadas ao feed, pós-jogo de scouting, segurança de bilheteria, integração opcional de vendas/estornos ao FinanceLedger e aprovação estratégica.
 - [x] Executar validação final da fase 501–700: 10 testes Python focados aprovados, compilação do motor aprovada, suíte Vitest 15/15 arquivos e 53/53 testes aprovada, TypeScript e build aprovados.
+- [x] Criar, validar e versionar a nova lista de 240 implementações do FutManager, passos 701–940, com prioridades, dependências e critérios verificáveis; documento `docs/novas_240_implementacoes_701_940.md` e validação `docs/validacao_novas_240_implementacoes.json` aprovados.
