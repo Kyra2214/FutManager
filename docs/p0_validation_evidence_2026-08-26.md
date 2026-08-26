@@ -76,3 +76,9 @@ A matriz `scripts/validate_p0_3_matrix.py` confirmou `20/20 PASS` para os passos
 A matriz `scripts/validate_p0_4_matrix.py` confirmou `20/20 PASS` para os passos 61–80. O banco-base foi consultado em modo read-only e retornou **231.911 jogadores**, **231.911 chaves canônicas distintas**, cinco códigos de posição conhecidos, nenhum campo obrigatório nulo, nenhuma posição desconhecida e zero duplicidades em vínculos jogador-time-categoria.
 
 As extensões que ainda não possuem fatos observados foram modeladas sem preencher dados fictícios no GameState: aliases de posição, progressão temporal, histórico de atributos, contratos, cláusulas, perfil, disponibilidade e relatórios de jogadores sem clube/elencos incompletos. O teste `tests/test_player_extensions.py` passou com 4 casos; junto dos contratos de execução, foram 10 testes aprovados. A base imutável permaneceu sem alteração.
+
+## Matriz P0-5 — clubes, seleções e identidades
+
+A matriz `scripts/validate_p0_5_matrix.py` confirmou `20/20 PASS` nos passos 81–100. A cobertura combina os 8.399 clubes e entidades canônicas do banco-base read-only, consultas de identidade extensíveis no GameState, vínculos de escudos/camisas, ausências explícitas, fallbacks, aliases, rivalidades e histórico de nomes documentados. O teste `tests/test_club_identity.py` passou com 4 casos, sem escrever no banco-base.
+
+A política de ativos mantém a distinção entre escudo de clube e camisa de seleção: quando o arquivo-mãe não fornece escudo nacional, o estado permanece `SOURCE_NOT_PROVIDED` e a UI não apresenta a camisa como escudo. Nenhuma rivalidade, histórico, região, confederação ou kit secundário foi preenchido com dado inventado; os serviços aceitam somente observações explicitamente fornecidas.

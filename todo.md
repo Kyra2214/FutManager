@@ -220,3 +220,7 @@
 - [x] Executar a matriz P0-4 e corrigir apenas lacunas reais de jogadores canônicos.
 - [x] Promover o Front P0-4 após matriz 20/20, auditoria de 231.911 jogadores e testes em GameState temporário.
 - [x] Confirmar que P0-4 usa extensões somente no GameState e mantém o banco-base imutável.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-5.
+- [x] Executar a matriz P0-5 e corrigir apenas lacunas reais de clubes, seleções e identidades.
+- [x] Promover o Front P0-5 após matriz 20/20, 8.399 clubes, 86 seleções e testes de identidade/ativos aprovados.
+- [x] Confirmar que a promoção de P0-5 mantém ausências honestas e não altera o banco-base.
