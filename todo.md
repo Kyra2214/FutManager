@@ -184,3 +184,5 @@
 - [x] Executar as auditorias P0-12/P0-13 sem alterar bancos oficiais e registrar lacunas reais.
 - [x] Criar auditoria read-only/testável do Front P0-14 para torcida, reputação, público e bilheteria.
 - [x] Executar a auditoria P0-14 e registrar determinismo, ledger e idempotência sem alterar bancos oficiais.
+- [x] Criar auditoria read-only/testável do Front P0-15 para patrocínios, estrelas, expiração e missões.
+- [x] Executar a auditoria P0-15 e registrar elegibilidade, recompensas e idempotência sem alterar bancos oficiais.

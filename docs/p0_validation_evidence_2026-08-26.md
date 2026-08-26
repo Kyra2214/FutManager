@@ -42,3 +42,7 @@ A auditoria `scripts/validate_p0_competitions_calendar.py` confirmou, em cinco a
 ## Auditoria P0-14 — torcida, reputação, público e bilheteria
 
 A auditoria `scripts/validate_p0_social_revenue.py` confirmou os serviços de presença, torcida/reputação e receita de dia de jogo, além dos testes de seed, limite por capacidade, ledger, idempotência e rollback do ciclo semanal. O resultado foi `VALID`; a nomenclatura real `SocialService` foi preservada e nenhuma regra paralela foi criada.
+
+## Auditoria P0-15 — patrocínios e overall institucional
+
+A auditoria `scripts/validate_p0_sponsorships.py` confirmou os contratos reais de estrelas, overall institucional, conjuntos de ofertas, missões, progresso por eventos e lançamentos `SPONSOR_MISSION`, além dos testes de seed, ofertas, missões e idempotência. A fórmula institucional usa `squad_score`, `ct_score` e `stadium_score`; o resultado foi `VALID`.
