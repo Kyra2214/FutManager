@@ -34,7 +34,7 @@ Situação inicial deste documento: **P1 e P2 bloqueados** até o gate P0 ser ap
 | 8 | P1 | 3, 7 |
 | 9 | P1 | 6, 8 |
 | 10 | P1 | 6, 8, 9 |
-| 11 | P0 | 2, 3, 4, 6, 9 |
+| 11 | P0 | 2, 3, 4 |
 | 12 | P0 | 3, 5, 11 |
 | 13 | P0 | 2, 3, 12 |
 | 14 | P2 | 6, 11, 12, 13 |

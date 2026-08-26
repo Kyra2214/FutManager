@@ -15,6 +15,12 @@ assert len(fronts) == 25, len(fronts)
 assert fronts.count('P0') == len(gate['p0_fronts'])
 assert gate['sql_game_state_source_of_truth'] is True
 assert gate['p1_p2_blocked'] is (gate['p0_gate'] != 'OPEN')
+priorities = {int(front): priority for front, priority in gate['front_priorities'].items()}
+for front, dependencies in gate['front_dependencies'].items():
+    if priorities[int(front)] == 'P0':
+        invalid = [dependency for dependency in dependencies if priorities[int(dependency)] != 'P0']
+        assert not invalid, f'P0_FRONT_DEPENDS_ON_LATER_PRIORITY:{front}:{invalid}'
+assert '| 11 | P0 | 2, 3, 4 |' in roadmap
 statuses = {front['status'] for front in gate['p0_fronts']}
 assert statuses <= {'PENDING', 'CONSOLIDATED'}
 if gate['p0_gate'] != 'OPEN':

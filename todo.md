@@ -197,3 +197,5 @@
 - [x] Executar a auditoria P0-23 junto do typecheck e registrar lacunas sem alterar o frontend visual.
 - [x] Criar auditoria de entrega do Front P0-25 para scripts, documentação, hashes, bancos e ZIP.
 - [x] Executar a auditoria P0-25 e registrar integridade do pacote sem substituir o ZIP final antes do gate.
+- [x] Corrigir dependências de fronts P0 que apontam para P1/P2, removendo ciclos de governança sem alterar a ordem funcional do roadmap.
+- [x] Validar a matriz corrigida e confirmar que nenhum front P0 depende de prioridade posterior.
