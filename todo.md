@@ -432,3 +432,8 @@
 # Entrega do estado atual
 
 - [x] Empacotar e validar ZIP completo do motor, frontend, bancos, ativos e documentação solicitados pelo usuário.
+
+# Versionamento externo
+
+- [x] Configurar o repositório GitHub `Kyra2214/FutManager` como destino oficial de versionamento; integração autorizada e repositório selecionado pelo Manus Connector. O primeiro push do pacote ainda depende da execução do fluxo de exportação/sincronização disponível no ambiente.
+- [x] Executar e verificar o primeiro push do estado atual para `Kyra2214/FutManager` na branch `main`, commit `d1900cb0334c81511be4f4e401a9791296463aec`.
