@@ -350,13 +350,26 @@
 - [x] P0-11 / passos 213/214: validar placar não negativo e limite de eventos por partida.
 - [x] P0-11 / passos 215/216/217/218/219: testar clubes reais, partida sem competição, adiamento/remarcação, duplicidade e rollback.
 - [x] P0-11 / passo 220: disponibilizar distribuição de placares por temporada.
-- [x] P0-12 / passos 221/222: persistir perfil de personalidade e parâmetros de risco da IA.
-- [x] P0-12 / passos 223/224: diagnosticar elenco, caixa, saúde e necessidades sem criar entidades.
-- [x] P0-12 / passos 225/226: avaliar atletas por atributos, forma, disponibilidade e estratégia do clube.
-- [x] P0-12 / passos 227/228: propor treino e prioridades de mercado de forma determinística.
-- [x] P0-12 / passos 229/230: persistir objetivos do conselho e progresso mensurável.
-- [x] P0-12 / passos 231/232/233: registrar alternativas, decisão escolhida, custo e resultado.
-- [x] P0-12 / passos 234/235: respeitar limite salarial, caixa e saúde financeira nas propostas.
-- [x] P0-12 / passos 236/237: integrar decisão de IA ao ciclo semanal e evitar duplicidade por seed.
-- [x] P0-12 / passos 238/239: expor histórico e diagnóstico para leitura do frontend.
-- [x] P0-12 / passo 240: testar determinismo, idempotência e não invenção de jogadores.
+- [x] P0-12-EXT / IA / passos 221/222: persistir perfil de personalidade e parâmetros de risco da IA.
+- [x] P0-12-EXT / IA / passos 223/224: diagnosticar elenco, caixa, saúde e necessidades sem criar entidades.
+- [x] P0-12-EXT / IA / passos 225/226: avaliar atletas por atributos, forma, disponibilidade e estratégia do clube.
+- [x] P0-12-EXT / IA / passos 227/228: propor treino e prioridades de mercado de forma determinística.
+- [x] P0-12-EXT / IA / passos 229/230: persistir objetivos do conselho e progresso mensurável.
+- [x] P0-12-EXT / IA / passos 231/232/233: registrar alternativas, decisão escolhida, custo e resultado.
+- [x] P0-12-EXT / IA / passos 234/235: respeitar limite salarial, caixa e saúde financeira nas propostas.
+- [x] P0-12-EXT / IA / passos 236/237: integrar decisão de IA ao ciclo semanal e evitar duplicidade por seed.
+- [x] P0-12-EXT / IA / passos 238/239: expor histórico e diagnóstico para leitura do frontend.
+- [x] P0-12-EXT / IA / passo 240: testar determinismo, idempotência e não invenção de jogadores.
+- [x] P0-12 / passos 221/222: inventariar formatos e configurar pontos por resultado.
+- [x] P0-12 / passo 223: aplicar critérios de desempate documentados.
+- [x] P0-12 / passos 224/225: validar grupos, rodadas e mata-mata com ida e volta.
+- [x] P0-12 / passo 226: permitir disputa de pênaltis quando habilitada.
+- [x] P0-12 / passos 227/228: derivar classificação de partidas PLAYED e impedir alteração manual pelo frontend.
+- [x] P0-12 / passos 229/230: persistir status por fase e regras para partidas suspensas.
+- [x] P0-12 / passo 231: manter calendário de finais.
+- [x] P0-12 / passos 232/233: configurar promoção/rebaixamento e histórico de campeões.
+- [x] P0-12 / passos 234/235/236: calcular premiação ao concluir e impedir pagamento duplicado.
+- [x] P0-12 / passo 237: emitir alertas de classificação idempotentes.
+- [x] P0-12 / passo 238: expor consulta de competição pelo gateway.
+- [x] P0-12 / passo 239: testar temporadas com múltiplas competições.
+- [x] P0-12 / passo 240: documentar limitações das competições não configuradas.
