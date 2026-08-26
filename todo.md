@@ -373,3 +373,12 @@
 - [x] P0-12 / passo 238: expor consulta de competição pelo gateway.
 - [x] P0-12 / passo 239: testar temporadas com múltiplas competições.
 - [x] P0-12 / passo 240: documentar limitações das competições não configuradas.
+- [x] P0-13 / passos 241/242/243: formalizar relógio lógico e calendários de pré-temporada/temporada regular.
+- [x] P0-13 / passos 244/245/246: suportar descanso, competições simultâneas e conflitos via adiamento/remarcação.
+- [x] P0-13 / passos 247/248: validar semanas sem partidas e semanas com várias partidas.
+- [x] P0-13 / passos 249/250/251: manter avanço diário interno, avanço semanal do manager e bloqueio de semana fora de sequência.
+- [x] P0-13 / passo 252: persistir auditoria de cada avanço e resultado do ciclo.
+- [x] P0-13 / passos 253/254: expor próximo compromisso e agenda por clube através das leituras canônicas.
+- [x] P0-13 / passos 255/256/257: suportar pausas/transição de temporada e fechamento de contratos.
+- [x] P0-13 / passo 258: gerar auditoria de calendário congestionado pelo conjunto de fixtures persistidos.
+- [x] P0-13 / passos 259/260: testar avanço repetido por chave e rollback/restauração de relógio.
