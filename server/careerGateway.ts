@@ -15,7 +15,7 @@ export type CareerCatalogItem = {
 };
 
 type GatewayResult = { ok: boolean; error?: string } & Record<string, unknown>;
-type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "department_offers" | "department_upgrade" | "economy_weekly";
+type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "department_offers" | "department_upgrade" | "economy_weekly" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept";
 
 function callGateway<T extends GatewayResult>(action: GatewayAction, payload: Record<string, unknown>, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): T {
   try {
@@ -96,4 +96,47 @@ export function listDepartmentOffers(databasePath?: string) {
 
 export function upgradeClubDepartment(department: string, databasePath?: string) {
   return staffMarketAction<GatewayResult & { department: string; label: string; target_level: number; cost: number; maintenance: number; capacity: number }>("department_upgrade", { department }, databasePath);
+}
+
+export type SponsorOffer = {
+  offer_id: number;
+  star_rating: number;
+  minimum_overall: number;
+  upfront_payment: number;
+  weekly_payment: number;
+  mission_bonus: number;
+  contract_weeks: number;
+  status: string;
+  name: string;
+  industry: string;
+  expires_season: number;
+  expires_week: number;
+  source_overall: number;
+  source_stars: number;
+};
+
+export type SponsorshipSummary = {
+  club_id: number;
+  institutional_overall: number;
+  sponsor_stars: number;
+  institutional_profile: { squad_score: number; ct_score: number; stadium_score: number; squad_available: boolean; ct_available: boolean; stadium_available: boolean };
+  active_contract: { contract_id: number; sponsor_id: number; name: string; industry: string; star_rating: number; upfront_payment: number; weekly_payment: number; mission_bonus: number; end_season: number; end_week: number; status: string } | null;
+  offers: SponsorOffer[];
+  missions: Array<{ mission_id: number; title: string; mission_type: string; target_value: number; current_value: number; reward: number; status: string; deadline_season: number; deadline_week: number }>;
+};
+
+export function bootstrapClubSponsorships(databasePath?: string) {
+  return staffMarketAction<GatewayResult & SponsorshipSummary>("sponsor_bootstrap", {}, databasePath);
+}
+
+export function getClubSponsorshipSummary(databasePath?: string) {
+  return staffMarketAction<GatewayResult & SponsorshipSummary>("sponsor_summary", {}, databasePath);
+}
+
+export function listSponsorshipOffers(databasePath?: string) {
+  return staffMarketAction<GatewayResult & { items: SponsorOffer[] }>("sponsor_offers", {}, databasePath).items;
+}
+
+export function acceptSponsorshipOffer(offerId: number, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { contract_id: number; sponsor: string; star_rating: number; upfront_payment: number; weekly_payment: number; end_season: number; end_week: number }>("sponsor_accept", { offer_id: offerId }, databasePath);
 }

@@ -58,3 +58,11 @@
 - [x] Processar em lote e de forma idempotente a cobrança semanal de todos os clubes bootstrapados.
 - [x] Validar em banco temporário, pelo adaptador frontend e gateway real, contratação e evolução de CT com atualização financeira persistida.
 - [x] Cobrir em condições desktop e móvel o refetch/rerender pós-mutation do resumo econômico e das listas de catálogo/departamentos.
+- [x] Definir contratos de patrocínio com ofertas que expiram e são substituídas por marcas potencialmente melhores ou piores.
+- [x] Modelar estrelas de patrocínio de 1 a 5, com valores, exigências e recompensas escalados pela qualidade.
+- [x] Preparar o overall institucional do clube a partir de elenco, CT e estádio para qualificar propostas de patrocínio.
+- [x] Implementar missões de patrocinadores com metas, prazo, recompensa, falha e efeitos financeiros persistidos.
+- [x] Integrar o overall institucional à elegibilidade e às estrelas das propostas comerciais.
+- [x] Expor o perfil institucional junto ao resumo comercial para comprovar sua aplicação nas ofertas.
+- [x] Criar a aba Patrocinadores com propostas, contrato ativo, estrelas e missões usando tRPC.
+- [x] Validar a área de Patrocinadores em desktop e viewport móvel, além de contratos persistidos em banco temporário.

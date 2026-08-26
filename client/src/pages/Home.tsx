@@ -9,6 +9,7 @@ import { trpc } from "@/lib/trpc";
 import { getEntityAssetPresentation } from "@/lib/entityAsset";
 import { EntityAsset } from "@/components/EntityAsset";
 import { StaffEconomyPanel } from "@/components/StaffEconomyPanel";
+import { SponsorshipPanel } from "@/components/SponsorshipPanel";
 import CareerStart from "@/pages/CareerStart";
 import {
   Activity,
@@ -31,6 +32,7 @@ import {
   Shield,
   SlidersHorizontal,
   Sparkles,
+  Trophy,
   Landmark,
   Users,
   X,
@@ -51,7 +53,8 @@ const navItems: { id: AppSection; label: string; short: string; icon: typeof Lay
   { id: "time", label: "Time", short: "04", icon: Shield },
   { id: "ct", label: "CT", short: "05", icon: Dumbbell },
   { id: "mercado", label: "Mercado", short: "06", icon: ArrowUpRight },
-  { id: "transferencias", label: "Transferências", short: "07", icon: ClipboardList },
+  { id: "patrocinadores", label: "Patrocinadores", short: "07", icon: Trophy },
+  { id: "transferencias", label: "Transferências", short: "08", icon: ClipboardList },
 ];
 
 function formatSection(section: AppSection) {
@@ -227,10 +230,14 @@ export function StructurePage({ section, onSectionChange }: { section: AppSectio
   </>;
 }
 
+function SponsorshipPage() {
+  return <><section className="page-intro sponsorship-intro"><div><span className="eyebrow">SEU CLUBE / VALOR DE MARCA</span><h1>Patrocinadores</h1><p>O elenco, o CT e o estádio definem o overall institucional. Esse valor abre propostas melhores, mas cada janela exige decisão antes de expirar.</p></div><span className="page-code">SP-01</span></section><SponsorshipPanel /></>;
+}
+
 export default function Home({ section = "clube", onSectionChange = () => undefined }: { section?: AppSection; onSectionChange?: (section: AppSection) => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const careerQuery = trpc.career.current.useQuery(undefined, { retry: 1 });
-  const main = useMemo(() => section === "clube" ? <Dashboard onSectionChange={onSectionChange} /> : section === "partidas" ? <MatchesPage /> : <StructurePage section={section} onSectionChange={onSectionChange} />, [section, onSectionChange]);
+  const main = useMemo(() => section === "clube" ? <Dashboard onSectionChange={onSectionChange} /> : section === "partidas" ? <MatchesPage /> : section === "patrocinadores" ? <SponsorshipPage /> : <StructurePage section={section} onSectionChange={onSectionChange} />, [section, onSectionChange]);
 
   if (!careerQuery.isLoading && careerQuery.data?.started === false) {
     return <CareerStart onStarted={() => onSectionChange("clube")} />;

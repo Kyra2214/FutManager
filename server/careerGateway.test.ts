@@ -3,7 +3,7 @@ import { createRequire } from "node:module";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { getClubEconomySummary, getCurrentCareer, hireAvailableStaff, listAvailableStaff, listCareerTargets, listDepartmentOffers, startCareer, upgradeClubDepartment } from "./careerGateway";
+import { acceptSponsorshipOffer, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, hireAvailableStaff, listAvailableStaff, listCareerTargets, listDepartmentOffers, startCareer, upgradeClubDepartment } from "./careerGateway";
 
 type Db = { close: () => void; exec: (sql: string) => void };
 type DbConstructor = new (path: string) => Db;
@@ -77,5 +77,21 @@ describe("careerGateway", () => {
     expect(upgraded.target_level).toBe(1);
     expect(afterDepartment.cash).toBe(before.cash - upgraded.cost);
     expect(afterDepartment.weekly_department_maintenance).toBe(upgraded.maintenance);
+  });
+
+  it("persiste ofertas estreladas e sinal comercial no gateway em banco temporário", () => {
+    const path = fixture();
+    startCareer({ managerName: "Ana", nationality: "BR", age: 31, careerName: "Carreira Ana", targetType: "club", targetId: 7 }, path);
+    const beforeCash = getClubEconomySummary(path).cash;
+    const sponsorship = getClubSponsorshipSummary(path);
+    expect(sponsorship.institutional_overall).toBeGreaterThan(0);
+    expect(sponsorship.sponsor_stars).toBeGreaterThanOrEqual(1);
+    expect(sponsorship.offers).toHaveLength(3);
+    const accepted = acceptSponsorshipOffer(sponsorship.offers[0].offer_id, path);
+    const after = getClubSponsorshipSummary(path);
+    expect(accepted.upfront_payment).toBeGreaterThan(0);
+    expect(getClubEconomySummary(path).cash).toBe(beforeCash + accepted.upfront_payment);
+    expect(after.active_contract).toMatchObject({ contract_id: accepted.contract_id, star_rating: accepted.star_rating });
+    expect(after.offers).toEqual([]);
   });
 });
