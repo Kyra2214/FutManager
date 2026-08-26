@@ -3,7 +3,7 @@ import { createRequire } from "node:module";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { acceptSponsorshipOffer, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, hireAvailableStaff, listAvailableStaff, listCareerTargets, listClubEvents, listDepartmentOffers, markClubEventRead, startCareer, upgradeClubDepartment } from "./careerGateway";
+import { acceptSponsorshipOffer, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, getStaffContract, hireAvailableStaff, listAvailableStaff, listCareerTargets, listClubEvents, listDepartmentOffers, markClubEventRead, replaceStaff, startCareer, terminateStaff, upgradeClubDepartment } from "./careerGateway";
 
 type Db = { close: () => void; exec: (sql: string) => void };
 type DbConstructor = new (path: string) => Db;
@@ -77,6 +77,15 @@ describe("careerGateway", () => {
     expect(upgraded.target_level).toBe(1);
     expect(afterDepartment.cash).toBe(before.cash - upgraded.cost);
     expect(afterDepartment.weekly_department_maintenance).toBe(upgraded.maintenance);
+    const contract = getStaffContract(doctor.staff_id, path);
+    expect(contract).toMatchObject({ staff_id: doctor.staff_id, status: "ACTIVE", termination_fee: hired.weekly_salary * 4 });
+    const replacementCandidate = listAvailableStaff("medico", path)[0];
+    const terminated = terminateStaff(doctor.staff_id, false, path);
+    expect(terminated).toMatchObject({ staff_id: doctor.staff_id, status: "disponivel", termination_fee: hired.weekly_salary * 4 });
+    const hiredReplacement = hireAvailableStaff(replacementCandidate.staff_id, path);
+    expect(hiredReplacement.contract_id).toBeGreaterThan(contract.contract_id);
+    expect(getClubEconomySummary(path).weekly_staff_payroll).toBe(hiredReplacement.weekly_salary);
+    expect(() => replaceStaff(hiredReplacement.staff_id, hiredReplacement.staff_id, path)).toThrow("STAFF_REPLACEMENT_INVALID");
   });
 
   it("persiste ofertas estreladas e sinal comercial no gateway em banco temporário", () => {

@@ -35,6 +35,7 @@ describe("StaffEconomyPanel", () => {
   const invalidates = { summary: vi.fn(), catalog: vi.fn(), departments: vi.fn(), workspace: vi.fn() };
 
   beforeEach(() => {
+    vi.spyOn(window, "confirm").mockReturnValue(true);
     mocks.summary.mockReturnValue({ data: economy, isLoading: false });
     mocks.catalog.mockReturnValue({ data: [{ staff_id: 7, name: "Dra. Renata Moura", role: "medico", age: 44, experience: 100, reputation: 80, level: 8, potential: 78, specialization: "medicina esportiva", weekly_salary: 8277 }], isLoading: false });
     mocks.departmentOffers.mockReturnValue({ data: [{ department: "medicina", label: "Medicina", target_level: 1, cost: 162235, maintenance: 2438, capacity: 10 }], isLoading: false });
@@ -46,6 +47,7 @@ describe("StaffEconomyPanel", () => {
   afterEach(() => {
     cleanup();
     vi.clearAllMocks();
+    vi.restoreAllMocks();
     hireOptions = undefined;
     departmentOptions = undefined;
   });

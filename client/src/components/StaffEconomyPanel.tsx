@@ -26,12 +26,13 @@ function roleLabel(role: string) {
 export function StaffEconomyPanel({ mode, onNavigateToMarket }: { mode: Mode; onNavigateToMarket: () => void }) {
   const utils = trpc.useUtils();
   const [role, setRole] = useState<(typeof roles)[number][0]>("todos");
+  const [minimumLevel, setMinimumLevel] = useState<number | undefined>(undefined);
   const selectedRole = role === "todos" ? undefined : role;
-  const catalogInput = useMemo(() => (selectedRole ? { role: selectedRole } : {}), [selectedRole]);
+  const catalogInput = useMemo(() => ({ role: selectedRole, minLevel: minimumLevel }), [selectedRole, minimumLevel]);
   const economyQuery = trpc.staffMarket.summary.useQuery(undefined, { retry: 1 });
   const catalogQuery = trpc.staffMarket.catalog.useQuery(catalogInput, { enabled: mode === "market", retry: 1 });
   const departmentQuery = trpc.staffMarket.departmentOffers.useQuery(undefined, { enabled: mode === "ct", retry: 1 });
-  const workspaceQuery = trpc.club.workspace.useQuery(undefined, { enabled: mode === "ct", retry: 1 });
+  const workspaceQuery = trpc.club?.workspace?.useQuery?.(undefined, { enabled: mode === "ct", retry: 1 }) ?? { data: undefined, isLoading: false, error: undefined };
   const hireMutation = trpc.staffMarket.hire.useMutation({
     onSuccess: (result) => {
       toast.success(`${result.name} contratado(a) por ${cash(result.weekly_salary)} por semana.`);
@@ -83,25 +84,25 @@ export function StaffEconomyPanel({ mode, onNavigateToMarket }: { mode: Mode; on
         <div className="market-command-body">
           <div className="market-command-toolbar">
             <div><span className="eyebrow">CATÁLOGO PERSISTIDO</span><h3>Comissão técnica disponível</h3></div>
-            <div className="role-filter" role="group" aria-label="Filtrar profissionais por função">
+            <div className="market-filters"><div className="role-filter" role="group" aria-label="Filtrar profissionais por função">
               {roles.map(([key, label]) => <button type="button" key={key} className={role === key ? "active" : ""} onClick={() => setRole(key)}>{label}</button>)}
-            </div>
+            </div><div className="role-filter" role="group" aria-label="Filtrar profissionais por nível mínimo"><button type="button" className={minimumLevel === undefined ? "active" : ""} onClick={() => setMinimumLevel(undefined)}>Todos os níveis</button><button type="button" className={minimumLevel === 6 ? "active" : ""} onClick={() => setMinimumLevel(6)}>Nível 6+</button><button type="button" className={minimumLevel === 7 ? "active" : ""} onClick={() => setMinimumLevel(7)}>Nível 7+</button></div></div>
           </div>
           {catalogQuery.isLoading ? <div className="economy-empty">Consultando profissionais disponíveis no motor…</div> : catalogQuery.data?.length ? <div className="staff-market-grid">
             {catalogQuery.data.map((staff) => <article className="staff-market-card" key={staff.staff_id}>
               <div className="staff-card-top"><span>{roleLabel(staff.role).toUpperCase()}</span><b>NÍVEL {staff.level}</b></div>
               <h3>{staff.name}</h3>
               <p>{staff.specialization ?? "Especialização não informada"}</p>
-              <dl><div><dt>REPUTAÇÃO</dt><dd>{staff.reputation}</dd></div><div><dt>POTENCIAL</dt><dd>{staff.potential}</dd></div><div><dt>IDADE</dt><dd>{staff.age} anos</dd></div></dl>
-              <div className="staff-card-action"><div><span>SALÁRIO SEMANAL</span><strong>{cash(staff.weekly_salary)}</strong></div><button type="button" onClick={() => hireMutation.mutate({ staffId: staff.staff_id })} disabled={hireMutation.isPending}>{hireMutation.isPending ? "Contratando…" : "Contratar"}<ArrowUpRight size={15} /></button></div>
+              <dl><div><dt>REPUTAÇÃO</dt><dd>{staff.reputation}</dd></div><div><dt>POTENCIAL</dt><dd>{staff.potential}</dd></div><div><dt>CUSTO-BENEFÍCIO</dt><dd>{(staff.cost_benefit ?? 0).toFixed(4)}</dd></div></dl>
+              <div className="staff-card-action"><div><span>SALÁRIO SEMANAL</span><strong>{cash(staff.weekly_salary)}</strong></div><button type="button" onClick={() => { if (window.confirm(`Contratar ${staff.name} por ${cash(staff.weekly_salary)} por semana?`)) hireMutation.mutate({ staffId: staff.staff_id }); }} disabled={hireMutation.isPending}>{hireMutation.isPending ? "Contratando…" : "Contratar"}<ArrowUpRight size={15} /></button></div>
             </article>)}
           </div> : <div className="economy-empty">Não há profissional disponível nessa função.</div>}
         </div>
       ) : (
         <div className="department-command-body">
           <div className="ct-state-summary">
-            <div className="market-command-toolbar"><div><span className="eyebrow">COMISSÃO ATIVA / ESTADO OFICIAL</span><h3>Quem sustenta o clube</h3></div><span className="economy-status"><i /> {workspaceQuery.isLoading ? "LENDO" : workspaceQuery.data?.staff.members.length ? `${workspaceQuery.data.staff.members.length} ATIVO(S)` : "SEM CONTRATOS"}</span></div>
-            {workspaceQuery.isLoading ? <div className="economy-empty">Consultando comissão e departamentos persistidos…</div> : workspaceQuery.error ? <div className="economy-empty">A comissão técnica não pôde ser consultada.</div> : <><div className="ct-state-kpis"><div><span>PROFISSIONAIS</span><strong>{workspaceQuery.data?.staff.members.length ?? 0}</strong></div><div><span>MÉDIA DE NÍVEL</span><strong>{workspaceQuery.data?.staff.averageLevel?.toFixed(1) ?? "0.0"}</strong></div><div><span>DECISÕES REGISTRADAS</span><strong>{workspaceQuery.data?.staff.history.length ?? 0}</strong></div></div><div className="ct-state-grid"><div><span className="eyebrow">EQUIPE ATIVA</span>{workspaceQuery.data?.staff.members.length ? workspaceQuery.data.staff.members.map((member) => <div className="ct-member-row" key={member.staffId}><div><b>{member.name}</b><small>{roleLabel(member.role)} · {member.specialization ?? "especialização não informada"}</small></div><strong>NÍVEL {member.level}</strong></div>) : <p className="ct-state-empty">Nenhum profissional contratado. Consulte o Mercado para contratar.</p>}</div><div><span className="eyebrow">DEPARTAMENTOS ATUAIS</span>{workspaceQuery.data?.staff.departments.length ? workspaceQuery.data.staff.departments.map((department) => <div className="ct-member-row" key={department.department}><div><b>{department.department.replaceAll("_", " ")}</b><small>capacidade {department.capacity} · eficiência {(department.efficiency * 100).toFixed(0)}%</small></div><strong>NÍVEL {department.level}</strong></div>) : <p className="ct-state-empty">Nenhum departamento persistido. A primeira evolução pode ser feita abaixo.</p>}</div></div></>}
+            <div className="market-command-toolbar"><div><span className="eyebrow">COMISSÃO ATIVA / ESTADO OFICIAL</span><h3>Quem sustenta o clube</h3></div><span className="economy-status"><i /> {workspaceQuery.isLoading ? "LENDO" : workspaceQuery.data?.staff?.members?.length ? `${workspaceQuery.data.staff.members.length} ATIVO(S)` : "SEM CONTRATOS"}</span></div>
+            {workspaceQuery.isLoading ? <div className="economy-empty">Consultando comissão e departamentos persistidos…</div> : workspaceQuery.error ? <div className="economy-empty">A comissão técnica não pôde ser consultada.</div> : <><div className="ct-state-kpis"><div><span>PROFISSIONAIS</span><strong>{workspaceQuery.data?.staff?.members?.length ?? 0}</strong></div><div><span>MÉDIA DE NÍVEL</span><strong>{workspaceQuery.data?.staff?.averageLevel?.toFixed(1) ?? "0.0"}</strong></div><div><span>DECISÕES REGISTRADAS</span><strong>{workspaceQuery.data?.staff?.history?.length ?? 0}</strong></div></div><div className="ct-state-grid"><div><span className="eyebrow">EQUIPE ATIVA</span>{workspaceQuery.data?.staff?.members?.length ? workspaceQuery.data?.staff?.members?.map((member) => <div className="ct-member-row" key={member.staffId}><div><b>{member.name}</b><small>{roleLabel(member.role)} · {member.specialization ?? "especialização não informada"}</small></div><strong>NÍVEL {member.level}</strong></div>) : <p className="ct-state-empty">Nenhum profissional contratado. Consulte o Mercado para contratar.</p>}</div><div><span className="eyebrow">DEPARTAMENTOS ATUAIS</span>{workspaceQuery.data?.staff?.departments?.length ? workspaceQuery.data?.staff?.departments?.map((department) => <div className="ct-member-row" key={department.department}><div><b>{department.department.replaceAll("_", " ")}</b><small>capacidade {department.capacity} · eficiência {(department.efficiency * 100).toFixed(0)}%</small></div><strong>NÍVEL {department.level}</strong></div>) : <p className="ct-state-empty">Nenhum departamento persistido. A primeira evolução pode ser feita abaixo.</p>}</div></div></>}
           </div>
           <div className="market-command-toolbar"><div><span className="eyebrow">DEPARTAMENTOS DO CT</span><h3>Comprar ou evoluir estrutura</h3></div><button type="button" className="economy-market-link" onClick={onNavigateToMarket}>Ver profissionais <ArrowUpRight size={15} /></button></div>
           {departmentQuery.isLoading ? <div className="economy-empty">Calculando ofertas de estrutura…</div> : departmentQuery.data?.length ? <div className="department-offer-grid">

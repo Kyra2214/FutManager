@@ -81,6 +81,9 @@ describe("getClubWorkspaceDashboard", () => {
     expect(dashboard.staff.roleCounts).toMatchObject({ auxiliar: 1, medico: 1, scout: 1 });
     expect(dashboard.staff.averageLevel).toBe(5);
     expect(dashboard.staff.history[0]).toMatchObject({ staffId: 1, eventType: "STAFF_CREATED", payload: { role: "auxiliar" } });
+    expect(dashboard.staff.effects.medico).toMatchObject({ effect: "HEALTH", members: 1, averageLevel: 6, bonus: 0.15 });
+    expect(dashboard.staff.commissionBonus).toBeCloseTo(0.375, 3);
+    expect(dashboard.staff.departmentCapacity[0]).toMatchObject({ department: "medicina", capacity: 5, used: 1, vacancies: 4, role: "medico" });
     expect(dashboard.staff.departments[0]).toMatchObject({ department: "medicina", level: 4 });
     expect(dashboard.health.activeInjuries[0]).toMatchObject({ playerName: "Meia Real", injuryType: "Lesão muscular" });
     expect(dashboard.scouting).toMatchObject({ opportunities: 1, reports: 1 });

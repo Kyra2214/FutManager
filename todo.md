@@ -294,3 +294,17 @@
 - [x] P1-6 / passos 117/118: expor condição física, fadiga e risco derivado por atleta, com faixas determinísticas e bloqueio de IDs fora do elenco.
 - [x] P1-6 / passos 119/120: confirmar escalação no GameState e validar clube, elenco mínimo, disponibilidade e vínculo com a competição/partida.
 - [x] P1-7 / comissão técnica: expor leitura canônica de profissionais ativos, contagens por função, departamentos e histórico no GameState.
+- [x] P1-7 / passo 121: completar catálogo de funções profissionais, assegurando todas as funções canônicas disponíveis.
+- [x] P1-7 / passo 122: validar níveis e atributos profissionais dentro das faixas do domínio.
+- [x] P1-7 / passo 123: persistir contratos de staff com duração, salário, início, término e status.
+- [x] P1-7 / passo 124: implementar rescisão de profissional com custo e atualização transacional da folha.
+- [x] P1-7 / passo 125: permitir substituição de profissional ativo por contratação posterior sem duplicar vínculo.
+- [x] P1-7 / passo 126: derivar efeito de cada função profissional no domínio correspondente.
+- [x] P1-7 / passo 127: derivar limites de vagas por departamento a partir da capacidade persistida.
+- [x] P1-7 / passo 128: calcular bônus de comissão a partir do nível dos profissionais ativos.
+- [x] P1-7 / passos 129/130: distinguir especialidades de médicos e áreas táticas de auxiliares no catálogo persistido.
+- [x] P1-7 / passo 131: expor histórico de contratações, transferências e rescisões da comissão.
+- [x] P1-7 / passo 132: expor folha individual de staff diretamente do contrato persistido.
+- [x] P1-7 / passo 133: filtrar mercado por função e nível.
+- [x] P1-7 / passo 134: ordenar catálogo por custo-benefício determinístico.
+- [x] P1-7 / passo 135: confirmar contratação antes de executar mutation de profissional.

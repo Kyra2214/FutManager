@@ -15,7 +15,7 @@ export type CareerCatalogItem = {
 };
 
 type GatewayResult = { ok: boolean; error?: string } & Record<string, unknown>;
-type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "department_offers" | "department_upgrade" | "economy_weekly" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance" | "events_list" | "events_mark_read";
+type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance" | "events_list" | "events_mark_read";
 
 function callGateway<T extends GatewayResult>(action: GatewayAction, payload: Record<string, unknown>, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): T {
   try {
@@ -82,12 +82,24 @@ export function getClubEconomySummary(databasePath?: string) {
   return staffMarketAction<GatewayResult & { cash: number; budget: number; payroll: number; expense_accumulated: number; weekly_player_payroll: number; weekly_staff_payroll: number; weekly_department_maintenance: number; weekly_total: number; initial_cash: number; team_power: number; country_factor: number; base_level: number }>("economy_summary", {}, databasePath);
 }
 
-export function listAvailableStaff(role?: string, databasePath?: string) {
-  return staffMarketAction<GatewayResult & { items: Array<{ staff_id: number; name: string; role: string; age: number; experience: number; reputation: number; level: number; potential: number; specialization: string | null; weekly_salary: number }> }>("staff_catalog", { role }, databasePath).items;
+export function listAvailableStaff(role?: string, minLevel?: number, maxLevel?: number, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { items: Array<{ staff_id: number; name: string; role: string; age: number; experience: number; reputation: number; level: number; potential: number; specialization: string | null; weekly_salary: number; cost_benefit: number }> }>("staff_catalog", { role, min_level: minLevel, max_level: maxLevel }, databasePath).items;
 }
 
 export function hireAvailableStaff(staffId: number, databasePath?: string) {
-  return staffMarketAction<GatewayResult & { staff_id: number; name: string; role: string; weekly_salary: number; payroll: number }>("staff_hire", { staff_id: staffId }, databasePath);
+  return staffMarketAction<GatewayResult & { staff_id: number; name: string; role: string; weekly_salary: number; payroll: number; contract_id: number; end_date: string; termination_fee: number }>("staff_hire", { staff_id: staffId }, databasePath);
+}
+
+export function getStaffContract(staffId: number, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { contract_id: number; staff_id: number; club_id: number; start_date: string; end_date: string; weekly_salary: number; termination_fee: number; status: string }>("staff_contract", { staff_id: staffId }, databasePath);
+}
+
+export function terminateStaff(staffId: number, waiveFee = false, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { staff_id: number; name: string; termination_fee: number; weekly_staff_payroll: number; status: string }>("staff_terminate", { staff_id: staffId, waive_fee: waiveFee }, databasePath);
+}
+
+export function replaceStaff(outgoingStaffId: number, incomingStaffId: number, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { terminated: ReturnType<typeof terminateStaff>; hired: ReturnType<typeof hireAvailableStaff> }>("staff_replace", { outgoing_staff_id: outgoingStaffId, incoming_staff_id: incomingStaffId }, databasePath);
 }
 
 export function listDepartmentOffers(databasePath?: string) {
