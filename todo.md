@@ -382,3 +382,13 @@
 - [x] P0-13 / passos 255/256/257: suportar pausas/transição de temporada e fechamento de contratos.
 - [x] P0-13 / passo 258: gerar auditoria de calendário congestionado pelo conjunto de fixtures persistidos.
 - [x] P0-13 / passos 259/260: testar avanço repetido por chave e rollback/restauração de relógio.
+- [x] P2-14 / passos 261/262: persistir objetivos esportivos e orçamento disponível por clube.
+- [x] P2-14 / passos 263/264/265: avaliar elenco, gerar escalação automática e escolher tática.
+- [x] P2-14 / passo 266: priorizar competições conforme objetivo e calendário.
+- [x] P2-14 / passos 267/268/269: orientar contratação, venda e renovação por necessidade/orçamento.
+- [x] P2-14 / passo 270: permitir evolução de departamentos pela IA.
+- [x] P2-14 / passos 271/272: diferenciar decisões por nível institucional e reputação.
+- [x] P2-14 / passo 273: planejar janela de transferências.
+- [x] P2-14 / passos 274/275: registrar decisões e explicações legíveis.
+- [x] P2-14 / passo 276: impedir escrita fora das transações autorizadas do motor.
+- [x] P2-14 / passos 277/278/279/280: testar seed, banco isolado, desempenho e limites econômicos.
