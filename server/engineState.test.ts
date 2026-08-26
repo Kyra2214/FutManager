@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { createRequire } from "node:module";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { getMatchesDashboard, getPlayerContracts, getPlayerSeasonTotals, previewContractRenewal } from "./engineState";
+import { getMatchesDashboard, getPlayerContracts, getPlayerProfile, getPlayerSeasonTotals, previewContractRenewal } from "./engineState";
 
 type WritableSQLiteDatabase = {
   close: () => void;
@@ -48,6 +48,9 @@ function createEngineFixture() {
     CREATE TABLE player_match_stats (match_id INTEGER NOT NULL, player_id INTEGER NOT NULL, minutes INTEGER, goals INTEGER, assists INTEGER, cards INTEGER, rating REAL, PRIMARY KEY(match_id, player_id));
     CREATE TABLE player_contract_history (contract_id INTEGER PRIMARY KEY, player_id INTEGER, club_id INTEGER, start_season INTEGER, start_week INTEGER, end_season INTEGER, end_week INTEGER, weekly_salary INTEGER, release_clause INTEGER, status TEXT, source TEXT);
     CREATE TABLE club_payroll_profiles (club_id INTEGER PRIMARY KEY, weekly_player_payroll INTEGER);
+    CREATE TABLE player_positions (player_id INTEGER, position_code TEXT, updated_at TEXT);
+    CREATE TABLE player_sport_state (player_id INTEGER, club_id INTEGER, condition REAL, fatigue REAL, form REAL, available INTEGER, last_updated TEXT);
+    CREATE TABLE injuries (injury_id INTEGER PRIMARY KEY, player_id INTEGER, injury_type TEXT, severity TEXT, estimated_days INTEGER, end_date TEXT, status TEXT);
   `);
   db.exec(`
     INSERT INTO times VALUES (1, 'Clube da Capital'), (2, 'Atlético do Vale');
@@ -65,6 +68,9 @@ function createEngineFixture() {
     INSERT INTO player_match_stats VALUES (201, 7, 90, 2, 1, 0, 8.0), (201, 8, 90, 0, 2, 1, 8.5);
     INSERT INTO player_contract_history VALUES (1, 7, 1, 2026, 1, 2026, 5, 1000, 50000, 'ACTIVE', 'test');
     INSERT INTO club_payroll_profiles VALUES (1, 2000);
+    INSERT INTO player_positions VALUES (7, 'MEI', '2026-08-23');
+    INSERT INTO player_sport_state VALUES (7, 1, 88, 12, 76, 1, '2026-08-23');
+    INSERT INTO injuries VALUES (9, 7, 'Muscular', 'LOW', 4, '2026-08-27', 'ACTIVE');
   `);
   db.close();
   return databasePath;
@@ -93,6 +99,11 @@ describe("getMatchesDashboard", () => {
     const db = new check.DatabaseSync(databasePath);
     expect((db.prepare("SELECT weekly_salary FROM player_contract_history WHERE contract_id=1").get() as { weekly_salary: number }).weekly_salary).toBe(1000);
     db.close();
+  });
+
+  it("expõe o perfil canônico do atleta com produção, forma, saúde e contrato", () => {
+    const profile = getPlayerProfile(7, 2026, createEngineFixture());
+    expect(profile).toMatchObject({ playerId: 7, playerName: "Atleta Teste", clubId: 1, position: "MEI", status: "AVAILABLE", form: 76, condition: 88, fatigue: 12, available: true, activeInjury: { injuryId: 9, type: "Muscular" }, seasonTotals: { minutes: 90, goals: 2, assists: 1 }, contract: { weeklySalary: 1000, status: "ACTIVE" } });
   });
 
   it("lê agregados de atletas filtrados pela competição sem escrever no banco", () => {
