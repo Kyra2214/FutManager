@@ -281,3 +281,4 @@
 - [x] P1-6: exibir agregados individuais reais na aba Time via tRPC, com estados de carregamento e vazio honestos.
 - [x] P1-6: adicionar filtros de competição e atleta para a leitura de estatísticas, sem estado esportivo duplicado no cliente.
 - [x] P1-6: apresentar nome e posição canônicos nos agregados individuais, resolvidos pelo elenco persistido do clube.
+- [x] P1-6: exibir estado honesto para estatística de atleta sem vínculo no elenco atual, sem inferência por posição ou nome.
