@@ -186,3 +186,4 @@
 - [x] Executar a auditoria P0-14 e registrar determinismo, ledger e idempotência sem alterar bancos oficiais.
 - [x] Criar auditoria read-only/testável do Front P0-15 para patrocínios, estrelas, expiração e missões.
 - [x] Executar a auditoria P0-15 e registrar elegibilidade, recompensas e idempotência sem alterar bancos oficiais.
+- [x] Executar bateria consolidada das auditorias P0 e das suítes Python/frontend após as mudanças governadas.
