@@ -193,3 +193,7 @@
 - [x] Validar que o manifesto continua com P0_GATE CLOSED e P1/P2 bloqueados após o registro parcial.
 - [x] Criar auditoria testável do Front P0-17 para economia mundial, folha, ledger e rollback.
 - [x] Executar a auditoria P0-17 sem cobrar semanas nos bancos oficiais.
+- [x] Criar auditoria estática do Front P0-23 para uso exclusivo de tRPC, ausência de fetch/axios e ausência de estado paralelo do jogo.
+- [x] Executar a auditoria P0-23 junto do typecheck e registrar lacunas sem alterar o frontend visual.
+- [x] Criar auditoria de entrega do Front P0-25 para scripts, documentação, hashes, bancos e ZIP.
+- [x] Executar a auditoria P0-25 e registrar integridade do pacote sem substituir o ZIP final antes do gate.

@@ -58,3 +58,11 @@ A auditoria `scripts/validate_p0_world_simulation.py` confirmou os níveis de si
 ## Auditoria P0-17 — economia mundial
 
 A auditoria `scripts/validate_p0_world_economy.py` confirmou os serviços de economia e folha individual, o registro de receita de dia de jogo, cobrança semanal, auditoria do ciclo, idempotência e rollback transacional. O resultado foi `VALID`; nenhuma cobrança foi executada nos bancos oficiais durante a auditoria.
+
+## Auditoria P0-23 — frontend e tRPC
+
+A auditoria `scripts/validate_p0_frontend_trpc.py` verificou os fluxos de jogo `Home.tsx` e `CareerStart.tsx`: ambos usam contratos tRPC, não contêm `fetch`, Axios ou XMLHttpRequest e mantêm somente estado efêmero de interface. O showcase foi explicitamente excluído por ser demonstração de componentes. Resultado `VALID`; typecheck TypeScript aprovado.
+
+## Auditoria P0-25 — testes, entrega e operação
+
+A auditoria `scripts/validate_p0_delivery.py` confirmou a presença do ZIP `FutManager_Brasfoot_ENTREGA_2026-08-26.zip`, conferência SHA-256, documentação essencial e manifests válidos de banco e ativos. Resultado `VALID`. O ZIP será regenerado ao final da consolidação integral do roadmap, conforme o item global de entrega.
