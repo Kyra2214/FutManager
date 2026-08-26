@@ -15,7 +15,7 @@ export type CareerCatalogItem = {
 };
 
 type GatewayResult = { ok: boolean; error?: string } & Record<string, unknown>;
-type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "department_offers" | "department_upgrade" | "economy_weekly" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept";
+type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "department_offers" | "department_upgrade" | "economy_weekly" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance";
 
 function callGateway<T extends GatewayResult>(action: GatewayAction, payload: Record<string, unknown>, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): T {
   try {
@@ -139,4 +139,33 @@ export function listSponsorshipOffers(databasePath?: string) {
 
 export function acceptSponsorshipOffer(offerId: number, databasePath?: string) {
   return staffMarketAction<GatewayResult & { contract_id: number; sponsor: string; star_rating: number; upfront_payment: number; weekly_payment: number; end_season: number; end_week: number }>("sponsor_accept", { offer_id: offerId }, databasePath);
+}
+
+export type StadiumSummary = {
+  initialized: boolean;
+  stadium: { stadium_id: number; name: string; base_capacity: number; capacity: number; maintenance: number; matchday_quality: number; components: Array<{ component: "arquibancada" | "campo" | "estrutura" | "equipes"; level: number; next_level: number | null; upgrade_cost: number | null; maintenance: number }> } | null;
+  fan_base: { size: number; satisfaction: number; engagement: number; interest: number } | null;
+  reputation: { sporting: number; commercial: number; national: number } | null;
+  ticket_price: number;
+  attendance: Array<{ match_id: number; expected_attendance: number; actual_attendance: number; ticket_price: number; revenue: number }>;
+};
+
+export function bootstrapClubStadium(databasePath?: string) {
+  return staffMarketAction<GatewayResult & StadiumSummary["stadium"]>("stadium_bootstrap", {}, databasePath);
+}
+
+export function getClubStadiumSummary(databasePath?: string) {
+  return staffMarketAction<GatewayResult & StadiumSummary>("stadium_summary", {}, databasePath);
+}
+
+export function upgradeClubStadium(component: StadiumSummary["stadium"] extends infer _ ? "arquibancada" | "campo" | "estrutura" | "equipes" : never, databasePath?: string) {
+  return staffMarketAction<GatewayResult>("stadium_upgrade", { component }, databasePath);
+}
+
+export function configureClubTicketPrice(basePrice: number, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { club_id: number; base_price: number }>("ticket_price", { base_price: basePrice }, databasePath);
+}
+
+export function advanceWorldWeek(seed?: number, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { status: string; season: number; week: number; matches?: number }>("weekly_advance", { seed }, databasePath);
 }

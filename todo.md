@@ -66,3 +66,18 @@
 - [x] Expor o perfil institucional junto ao resumo comercial para comprovar sua aplicação nas ofertas.
 - [x] Criar a aba Patrocinadores com propostas, contrato ativo, estrelas e missões usando tRPC.
 - [x] Validar a área de Patrocinadores em desktop e viewport móvel, além de contratos persistidos em banco temporário.
+- [x] Mapear IntegrationOrchestrator, WorldSimulationService, calendário, partidas, reputação e estruturas de estádio já existentes.
+- [x] Definir um tick semanal transacional e idempotente que orquestre partidas, receitas, patrocínios, folha e auditoria.
+- [x] Implementar StadiumService com arquibancada, campo, estrutura e equipes em níveis de 1 a 10.
+- [x] Reconciliar e criar os quatro componentes para estádios já persistidos pelo esquema social legado.
+- [x] Cobrir evolução sucessiva até o nível 10 e rollback sem débito parcial em falhas de estádio.
+- [x] Implementar e validar o bootstrap mundial idempotente de estádios com componentes para clubes que tenham estádio de origem.
+- [x] Implementar torcida, reputações separadas, público determinístico e configuração de preço de ingresso.
+- [x] Implementar bilheteria e premiações de competição no FinanceLedger sem lançamentos duplicados.
+- [x] Conectar missões de patrocinadores a eventos esportivos verificáveis do SQL.
+- [x] Fazer missões comerciais lerem resultados e público diretamente de partidas e registros de bilheteria persistidos.
+- [x] Acionar o progresso comercial pelo orquestrador semanal após partidas reais, sem parâmetros manuais de placar ou público.
+- [x] Cobrir partidas inexistentes ou não jogadas e o fluxo completo de partida, bilheteria e missão comercial.
+- [x] Expor estádio, torcida, receitas e avanço semanal por gateway/tRPC e telas editoriais.
+- [x] Executar cenários de integridade, idempotência e temporada antes de gerar o ZIP completo.
+- [ ] Gerar e entregar ZIP completo de frontend, motor, documentação e instruções de execução.

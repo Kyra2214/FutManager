@@ -10,6 +10,7 @@ import { getEntityAssetPresentation } from "@/lib/entityAsset";
 import { EntityAsset } from "@/components/EntityAsset";
 import { StaffEconomyPanel } from "@/components/StaffEconomyPanel";
 import { SponsorshipPanel } from "@/components/SponsorshipPanel";
+import { StadiumOperationsPanel } from "@/components/StadiumOperationsPanel";
 import CareerStart from "@/pages/CareerStart";
 import {
   Activity,
@@ -221,6 +222,7 @@ export function StructurePage({ section, onSectionChange }: { section: AppSectio
   return <>
     <section className="page-intro"><div><span className="eyebrow">FUTMANAGER / {formatSection(section).toUpperCase()}</span><h1>{title}</h1><p>{intro}</p></div><span className="page-code">{section === "estadio" ? "ST-01" : section === "time" ? "TM-01" : section === "ct" ? "CT-01" : "MK-01"}</span></section>
     <section className="feature-banner"><img src={isCt ? ASSETS.training : ASSETS.stadium} alt="" /><div className="banner-overlay" /><div className="banner-copy"><span className="eyebrow light">DADOS DO MOTOR</span><h2>{isStadium ? "Construído para o dia de jogo." : isTeam ? "Uma só identidade por jogador." : isCt ? "Treino não é força. É processo." : "Toda proposta deixa um rastro."}</h2><p>Estrutura visual pronta para receber o estado persistido.</p></div></section>
+    {isStadium && <StadiumOperationsPanel />}
     {(isCt || isMarket) && <StaffEconomyPanel mode={isCt ? "ct" : "market"} onNavigateToMarket={() => onSectionChange("mercado")} />}
     {isTeam && !workspace?.club && <EntityLookupPanel />}
     <div className="detail-grid">
