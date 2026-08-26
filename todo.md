@@ -182,3 +182,5 @@
 - [x] Criar auditoria read-only/testável de competições e classificação do Front P0-12.
 - [x] Criar auditoria read-only/testável de calendário e temporadas do Front P0-13.
 - [x] Executar as auditorias P0-12/P0-13 sem alterar bancos oficiais e registrar lacunas reais.
+- [x] Criar auditoria read-only/testável do Front P0-14 para torcida, reputação, público e bilheteria.
+- [x] Executar a auditoria P0-14 e registrar determinismo, ledger e idempotência sem alterar bancos oficiais.

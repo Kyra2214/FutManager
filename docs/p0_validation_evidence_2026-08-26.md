@@ -38,3 +38,7 @@ A auditoria `scripts/validate_p0_match_engine.py` confirmou a implementação de
 ## Auditoria P0-12/P0-13 — competições, classificação, calendário e temporadas
 
 A auditoria `scripts/validate_p0_competitions_calendar.py` confirmou, em cinco arquivos reais, contratos de criação de competições, geração de fixtures, calendário, classificação em `team_competition_stats`, prevenção de encerramento com fixtures pendentes e idempotência/rollback da integração. O resultado foi `VALID`. A auditoria comprova a presença dos contratos e testes, mas não altera o status dos fronts no gate sem uma matriz integral item a item.
+
+## Auditoria P0-14 — torcida, reputação, público e bilheteria
+
+A auditoria `scripts/validate_p0_social_revenue.py` confirmou os serviços de presença, torcida/reputação e receita de dia de jogo, além dos testes de seed, limite por capacidade, ledger, idempotência e rollback do ciclo semanal. O resultado foi `VALID`; a nomenclatura real `SocialService` foi preservada e nenhuma regra paralela foi criada.
