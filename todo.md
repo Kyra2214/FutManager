@@ -187,3 +187,5 @@
 - [x] Criar auditoria read-only/testável do Front P0-15 para patrocínios, estrelas, expiração e missões.
 - [x] Executar a auditoria P0-15 e registrar elegibilidade, recompensas e idempotência sem alterar bancos oficiais.
 - [x] Executar bateria consolidada das auditorias P0 e das suítes Python/frontend após as mudanças governadas.
+- [x] Criar auditoria testável do Front P0-16 para simulação mundial em lote, níveis e cancelamento.
+- [x] Executar a auditoria P0-16 e registrar determinismo, auditoria e idempotência sem alterar bancos oficiais.

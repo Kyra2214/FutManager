@@ -50,3 +50,7 @@ A auditoria `scripts/validate_p0_sponsorships.py` confirmou os contratos reais d
 ## Bateria consolidada de regressão
 
 As auditorias governadas P0-2, P0-3, P0-4, P0-5, P0-11, P0-12/P0-13, P0-14 e P0-15 retornaram `VALID`. A regressão completa permaneceu aprovada com **143 testes Python** e **47 testes frontend**. O gate continua fechado por desenho: evidência de um front não equivale à consolidação integral dos 11 fronts P0.
+
+## Auditoria P0-16 — simulação mundial
+
+A auditoria `scripts/validate_p0_world_simulation.py` confirmou os níveis de simulação, seleção prioritária de clube, seed determinístico, auditoria persistida, cancelamento cooperativo e retorno idempotente `ALREADY_PROCESSED`. O resultado foi `VALID`; nenhum tick foi executado nos bancos oficiais durante a auditoria.
