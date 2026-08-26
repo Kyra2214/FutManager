@@ -233,3 +233,12 @@
 - [x] Ampliar testes P0-11 para os contratos adicionados em cópias temporárias.
 - [x] Promover o Front P0-11 após matriz 20/20, geração/aplicação separadas e testes de remarcação/rollback.
 - [x] Confirmar que nenhuma partida oficial foi executada durante a consolidação P0-11.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-12.
+- [x] Executar a matriz P0-12 e corrigir apenas lacunas reais de competições e classificação.
+- [x] Adicionar configuração e resolução de pênaltis quando a competição exigir.
+- [x] Modelar promoção/rebaixamento configurável no GameState.
+- [x] Persistir histórico de campeões e premiações por posição.
+- [x] Emitir alertas persistidos de classificação após atualização de tabela.
+- [x] Cobrir os contratos P0-12 com testes em GameState temporário.
+- [x] Promover o Front P0-12 após matriz 20/20, regras configuráveis e testes temporários aprovados.
+- [x] Confirmar que a promoção de P0-12 não abre P0_GATE nem libera P1/P2.

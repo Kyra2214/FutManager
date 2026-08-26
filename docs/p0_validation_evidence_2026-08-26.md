@@ -88,3 +88,9 @@ A política de ativos mantém a distinção entre escudo de clube e camisa de se
 A matriz `scripts/validate_p0_11_matrix.py` confirmou `20/20 PASS` nos passos 201–220. O MatchEngine agora separa `generate_result` de `apply_result`, fixa seed persistida, explicita mando/força/forma/moral/tática, persiste eventos e estatísticas suportadas (finalizações, posse e xG documentado), valida placar não negativo, limita eventos, impede execução duplicada, permite adiamento/remarcação e expõe distribuição de placares por temporada.
 
 A validação em GameState temporário passou com 5 testes no arquivo `tests/test_phases16_17.py`; os testes anteriores de orquestração e contratos também permaneceram aprovados. Nenhuma partida oficial foi executada nesta etapa.
+
+## Matriz P0-12 — competições e classificação
+
+A matriz `scripts/validate_p0_12_matrix.py` confirmou `20/20 PASS` nos passos 221–240. O GameState agora registra formatos, pontos, desempates, fases, rodadas, ida/volta, pênaltis condicionais, status de competição, partidas suspensas/remarcadas, campeões, premiações por posição, transições configuráveis, pagamentos idempotentes e alertas de classificação. A classificação continua derivada dos resultados persistidos, enquanto o frontend permanece proibido de alterar a tabela.
+
+Os testes `tests/test_competition_structure.py` passaram em GameState temporário, incluindo limites de pênaltis/transições, finalização somente sem fixtures pendentes, histórico de campeão, premiação sem duplicidade e alertas sem duplicidade.
