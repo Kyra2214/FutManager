@@ -101,3 +101,35 @@
 - [x] Reexecutar todos os validadores após a cobertura integral do gateway.
 - [x] Documentar que o career_gateway.py não possui exceções legítimas de escrita direta mutável fora dos serviços autorizados.
 - [x] Rerodar o validador após documentar essa política de exceções.
+- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0.
+- [ ] Manter a política SQL/GameState como fonte única em cada nova implementação.
+- [ ] Gerar ZIP completo atualizado e resumo técnico após a validação final do roadmap.
+- [x] Implementar guarda de execução do roadmap no motor, bloqueando P1/P2 enquanto o gate P0 estiver fechado.
+- [x] Cobrir a guarda de execução com testes de bloqueio, abertura controlada e fonte única SQL/GameState.
+- [x] Validar o hash do banco-base contra seu manifesto imutável e tratar o hash do GameState apenas como impressão digital do estado atual.
+- [x] Testar que uma alteração no banco-base é recusada pelo validador.
+- [x] Integrar RoadmapGate a uma ação real do career_gateway.py para governar execução por prioridade.
+- [x] Testar a ação real com P1/P2 bloqueados e liberar somente após gate aberto controladamente.
+- [x] Testar P2 no fluxo real do career_gateway.py, bloqueado com P0/P1 fechados e liberado apenas com P0/P1 abertos.
+- [x] Criar tabela de versão de esquema idempotente no GameState e cobrir sua inicialização em cópia temporária.
+- [x] Adicionar teste com cópia temporária do GameState para validar a criação automática de schema_versions pelo ManagerService.
+- [x] Executar essa prova de arquivo junto dos testes de governança.
+- [x] Adicionar índices idempotentes para consultas do ciclo por clube/semana, ledger e eventos quando as tabelas existirem.
+- [x] Cobrir a migração de índices em GameState temporário e manter integridade SQLite.
+- [x] Testar índices e integridade SQLite após migração em cópia física temporária do GameState.
+- [x] Reexecutar a suíte de governança/migração com essa validação física.
+- [x] Criar inventário read-only reproduzível do esquema-base e do esquema GameState.
+- [x] Gerar documentação do inventário sem alterar nenhum banco.
+- [x] Criar comparador read-only entre esquema-base e GameState para detectar divergências estruturais.
+- [x] Documentar divergências esperadas e falhas inesperadas do comparador.
+- [x] Criar auditoria read-only de unicidade de jogadores e IDs oficiais de clubes/seleções.
+- [x] Validar a auditoria no banco-base e no GameState sem corrigir dados automaticamente.
+- [x] Impedir que serviços mutáveis abram data/database/game.db como destino de escrita.
+- [x] Cobrir a proteção de banco-base imutável e aceitação de GameState temporário.
+- [x] Integrar a guarda de caminho mutável aos serviços que ainda abrem SQLite diretamente por arquivo.
+- [x] Criar varredura dos entrypoints mutáveis e testar rejeição da base em todos eles.
+- [x] Reexecutar a suíte após integrar a guarda nos serviços mutáveis.
+- [x] Criar teste parametrizado que exercite os 25 entrypoints mutáveis contra o banco-base e GameState temporário.
+- [x] Reexecutar a suíte Python completa após a integração ampla das guardas.
+- [x] Migrar testes legados de serviços mutáveis para cópias temporárias do GameState, sem relaxar a guarda da base.
+- [x] Reexecutar a suíte Python completa após a migração dos testes legados.
