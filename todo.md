@@ -216,3 +216,7 @@
 - [x] Criar medição read-only de planos de consulta para P0-3.
 - [x] Promover o Front P0-3 após matriz 20/20, inventário, comparação e medição de planos read-only.
 - [x] Validar a promoção de P0-3 sem abrir o gate global nem liberar P1/P2.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-4.
+- [x] Executar a matriz P0-4 e corrigir apenas lacunas reais de jogadores canônicos.
+- [x] Promover o Front P0-4 após matriz 20/20, auditoria de 231.911 jogadores e testes em GameState temporário.
+- [x] Confirmar que P0-4 usa extensões somente no GameState e mantém o banco-base imutável.

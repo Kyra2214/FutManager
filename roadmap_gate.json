@@ -15,7 +15,7 @@
     {"front": 1, "title": "Governança e priorização", "status": "CONSOLIDATED", "evidence": ["docs/p0_front_01_governance_charter.md", "scripts/validate_p0_governance.py", "checkpoint"]},
     {"front": 2, "title": "Arquitetura do motor", "status": "CONSOLIDATED", "evidence": ["docs/p0_front_02_architecture_audit_2026-08-26.md", "docs/p0_front_02_matrix.json", "scripts/validate_p0_2_matrix.py", "scripts/validate_p0_architecture.py", "tests/test_execution_contracts.py", "tests/test_orchestrator.py", "checkpoint"]},
     {"front": 3, "title": "Banco de dados e migrações", "status": "CONSOLIDATED", "evidence": ["docs/p0_validation_evidence_2026-08-26.md", "docs/p0_front_03_matrix.json", "scripts/validate_p0_3_matrix.py", "/home/ubuntu/brasfoot_engine/scripts/generate_schema_inventory.py", "/home/ubuntu/brasfoot_engine/scripts/compare_schema.py", "/home/ubuntu/brasfoot_engine/scripts/measure_query_plans.py", "checkpoint"]},
-    {"front": 4, "title": "Jogadores e dados canônicos", "status": "PENDING"},
+    {"front": 4, "title": "Jogadores e dados canônicos", "status": "CONSOLIDATED", "evidence": ["docs/p0_validation_evidence_2026-08-26.md", "docs/p0_front_04_matrix.json", "scripts/validate_p0_4_matrix.py", "scripts/audit_canonical_players.py", "/home/ubuntu/brasfoot_engine/engine/players/extensions.py", "/home/ubuntu/brasfoot_engine/tests/test_player_extensions.py", "checkpoint"]},
     {"front": 5, "title": "Clubes, seleções e identidades", "status": "PENDING"},
     {"front": 11, "title": "Motor de partidas", "status": "PENDING"},
     {"front": 12, "title": "Competições e classificação", "status": "PENDING"},
@@ -35,5 +35,5 @@
     "12": ["docs/p0_validation_evidence_2026-08-26.md", "scripts/validate_p0_competitions_calendar.py"],
     "13": ["docs/p0_validation_evidence_2026-08-26.md", "scripts/validate_p0_competitions_calendar.py"]
   },
-  "front_statuses": {"1":"CONSOLIDATED","2":"CONSOLIDATED","3":"CONSOLIDATED","4":"PENDING","5":"PENDING","11":"PENDING","12":"PENDING","13":"PENDING","17":"PENDING","23":"PENDING","25":"PENDING"}
+  "front_statuses": {"1":"CONSOLIDATED","2":"CONSOLIDATED","3":"CONSOLIDATED","4":"CONSOLIDATED","5":"PENDING","11":"PENDING","12":"PENDING","13":"PENDING","17":"PENDING","23":"PENDING","25":"PENDING"}
 }

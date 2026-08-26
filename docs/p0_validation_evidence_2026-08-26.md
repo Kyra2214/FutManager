@@ -70,3 +70,9 @@ A auditoria `scripts/validate_p0_delivery.py` confirmou a presença do ZIP `FutM
 ## Matriz P0-3 — banco de dados e migrações
 
 A matriz `scripts/validate_p0_3_matrix.py` confirmou `20/20 PASS` para os passos 41–60. A evidência usa `brasfoot_engine/scripts/generate_schema_inventory.py`, `compare_schema.py` e `measure_query_plans.py`, todos em modo read-only nos bancos oficiais. O inventário mantém integrity/foreign-key checks; o comparador registra divergências esperadas do GameState; e os planos medidos são persistidos em `brasfoot_engine/docs/query_plans.json`.
+
+## Matriz P0-4 — jogadores e dados canônicos
+
+A matriz `scripts/validate_p0_4_matrix.py` confirmou `20/20 PASS` para os passos 61–80. O banco-base foi consultado em modo read-only e retornou **231.911 jogadores**, **231.911 chaves canônicas distintas**, cinco códigos de posição conhecidos, nenhum campo obrigatório nulo, nenhuma posição desconhecida e zero duplicidades em vínculos jogador-time-categoria.
+
+As extensões que ainda não possuem fatos observados foram modeladas sem preencher dados fictícios no GameState: aliases de posição, progressão temporal, histórico de atributos, contratos, cláusulas, perfil, disponibilidade e relatórios de jogadores sem clube/elencos incompletos. O teste `tests/test_player_extensions.py` passou com 4 casos; junto dos contratos de execução, foram 10 testes aprovados. A base imutável permaneceu sem alteração.
