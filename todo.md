@@ -214,3 +214,5 @@
 - [x] Completar inventário documentado de tabelas do banco-base e GameState para P0-3.
 - [x] Criar comparador read-only de esquemas para P0-3.
 - [x] Criar medição read-only de planos de consulta para P0-3.
+- [x] Promover o Front P0-3 após matriz 20/20, inventário, comparação e medição de planos read-only.
+- [x] Validar a promoção de P0-3 sem abrir o gate global nem liberar P1/P2.
