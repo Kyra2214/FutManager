@@ -344,3 +344,9 @@
 - [x] P1-10 / passo 198: garantir que saúde não inventa jogadores.
 - [x] P1-10 / passo 199: filtrar lesões por gravidade e prazo.
 - [x] P1-10 / passo 200: documentar limites do modelo de saúde.
+- [x] P0-11 / passos 201/202: documentar entradas do MatchEngine e separar geração de aplicação de resultado.
+- [x] P0-11 / passos 203/204/205/206/207: persistir seed e influências de mando, força, forma, moral e tática.
+- [x] P0-11 / passos 208/209/210/211/212: persistir eventos, cartões, substituições, finalizações, posse e xG documentado.
+- [x] P0-11 / passos 213/214: validar placar não negativo e limite de eventos por partida.
+- [x] P0-11 / passos 215/216/217/218/219: testar clubes reais, partida sem competição, adiamento/remarcação, duplicidade e rollback.
+- [x] P0-11 / passo 220: disponibilizar distribuição de placares por temporada.
