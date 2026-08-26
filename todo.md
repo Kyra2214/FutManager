@@ -453,3 +453,5 @@
 - [ ] Executar passos 411–430: bloco econômico e comercial conforme o roadmap versionado.
 - [ ] Executar passos 431–450: bloco de IA, scouting e base conforme o roadmap versionado.
 - [ ] Executar passos 451–470: bloco de carreira, UX e governança conforme o roadmap versionado.
+- [x] Passos 391–400 concluídos: read model de competição, fase, desempates, filtros tRPC, statuses persistidos, prévia de classificação, histórico, comparação, testes e documentação em `docs/competition_read_model.md`.
+- [x] Passos 401–403 concluídos: histórico canônico de contratos, consulta de vencimentos próximos e prévia read-only de renovação com impacto semanal, cobertos por Vitest/typecheck e testes Python existentes.

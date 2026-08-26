@@ -1,12 +1,15 @@
 import { z } from "zod";
-import { getMatchesDashboard, getPlayerSeasonTotals } from "../engineState";
+import { compareCompetitions, getCompetitionHistory, getMatchesDashboard, getPlayerSeasonTotals, previewClassification } from "../engineState";
 import { getTravelSummary, previewTravelCost } from "../careerGateway";
 import { publicProcedure, router } from "../_core/trpc";
 
 export const matchesRouter = router({
   dashboard: publicProcedure
-    .input(z.object({ competitionId: z.number().int().positive().optional() }).optional())
-    .query(({ input }) => getMatchesDashboard(input?.competitionId)),
+    .input(z.object({ competitionId: z.number().int().positive().optional(), season: z.number().int().positive().optional(), phaseId: z.number().int().positive().optional() }).optional())
+    .query(({ input }) => getMatchesDashboard(input?.competitionId, input?.season, input?.phaseId)),
+  competitionHistory: publicProcedure.input(z.object({ competitionId: z.number().int().positive() })).query(({ input }) => getCompetitionHistory(input.competitionId)),
+  classificationPreview: publicProcedure.input(z.object({ competitionId: z.number().int().positive(), homeClubId: z.number().int().positive(), awayClubId: z.number().int().positive(), homeGoals: z.number().int().min(0).max(30), awayGoals: z.number().int().min(0).max(30) })).query(({ input }) => previewClassification(input.competitionId, input.homeClubId, input.awayClubId, input.homeGoals, input.awayGoals)),
+  competitionComparison: publicProcedure.input(z.object({ competitionIds: z.array(z.number().int().positive()).max(20).optional() }).optional()).query(({ input }) => compareCompetitions(input?.competitionIds)),
   playerStats: publicProcedure
     .input(z.object({ competitionId: z.number().int().positive().optional(), matchIds: z.array(z.number().int().positive()).max(1000).optional() }).optional())
     .query(({ input }) => getPlayerSeasonTotals(input?.competitionId, input?.matchIds)),

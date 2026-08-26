@@ -36,6 +36,8 @@ export type CompetitionSummary = {
   registeredClubs: number;
   scheduledFixtures: number;
   playedMatches: number;
+  currentPhase: { phaseId: number; name: string; status: string } | null;
+  tiebreakers: string[];
 };
 
 export type StandingRow = {
@@ -85,6 +87,7 @@ export type PlayerStatsRead = {
 };
 
 export type MatchesDashboard = {
+  filters: { competitionId: number | null; season: number | null; phaseId: number | null };
   source: {
     mode: "LOCAL_READ_ONLY_SQLITE";
     available: boolean;
@@ -98,6 +101,21 @@ export type MatchesDashboard = {
   standings: StandingRow[];
   upcomingFixtures: MatchCard[];
   recentResults: MatchCard[];
+};
+
+export type ClassificationPreview = { competitionId: number; homeClubId: number; awayClubId: number; homeGoals: number; awayGoals: number; standings: StandingRow[]; persisted: false; formulaVersion: string };
+export type CompetitionComparison = { competitions: Array<{ competitionId: number; name: string; seasonYear: number | null; leader: StandingRow | null; clubs: number; played: number; pointsTotal: number }>; source: { mode: "LOCAL_READ_ONLY_SQLITE"; available: boolean; message: string; generatedAt: string } };
+
+export type ContractRenewalPreview = { playerId: number; clubId: number; currentWeeklySalary: number; proposedWeeklySalary: number; weeklyDelta: number; currentClubPayroll: number | null; projectedClubPayroll: number | null; persisted: false; formulaVersion: string };
+
+export type PlayerContractRead = { playerId: number; playerName: string; clubId: number | null; startSeason: number; startWeek: number; endSeason: number | null; endWeek: number | null; weeklySalary: number; releaseClause: number | null; status: string; source: string; weeksRemaining: number | null };
+
+export type CompetitionHistoryRead = {
+  competitionId: number;
+  champions: Array<{ seasonId: number; clubId: number; clubName: string; finalizedAt: string }>;
+  prizes: Array<{ position: number; amount: number }>;
+  alerts: Array<{ alertId: number; seasonId: number; clubId: number; type: string; message: string; createdAt: string }>;
+  source: { mode: "LOCAL_READ_ONLY_SQLITE"; available: boolean; message: string; generatedAt: string };
 };
 
 export type EntityAssetLink = {
@@ -193,6 +211,7 @@ function unavailableEntityAsset(entityType: EntityAssetLink["entityType"], entit
 
 function emptyDashboard(message: string): MatchesDashboard {
   return {
+    filters: { competitionId: null, season: null, phaseId: null },
     source: {
       mode: "LOCAL_READ_ONLY_SQLITE",
       available: false,
@@ -221,6 +240,8 @@ function toCompetition(row: SQLiteRow): CompetitionSummary {
     registeredClubs: asNumber(row.registered_clubs),
     scheduledFixtures: asNumber(row.scheduled_fixtures),
     playedMatches: asNumber(row.played_matches),
+    currentPhase: row.current_phase_id === null || row.current_phase_id === undefined ? null : { phaseId: asNumber(row.current_phase_id), name: asText(row.current_phase_name), status: asText(row.current_phase_status) },
+    tiebreakers: asText(row.tiebreakers, "points,wins,goal_difference,goals_for").split(",").map((item) => item.trim()).filter(Boolean),
   };
 }
 
@@ -266,7 +287,7 @@ function getControlledClub(db: SQLiteDatabase): MatchesDashboard["controlledClub
   };
 }
 
-function getCompetitionRows(db: SQLiteDatabase): CompetitionSummary[] {
+function getCompetitionRows(db: SQLiteDatabase, season?: number): CompetitionSummary[] {
   const rows = db
     .prepare(
       `SELECT
@@ -279,15 +300,21 @@ function getCompetitionRows(db: SQLiteDatabase): CompetitionSummary[] {
          season.year AS season_year,
          (SELECT COUNT(*) FROM competition_entries entry WHERE entry.competition_id = competition.competition_id) AS registered_clubs,
          (SELECT COUNT(*) FROM fixtures fixture WHERE fixture.competition_id = competition.competition_id AND fixture.status = 'SCHEDULED') AS scheduled_fixtures,
-         (SELECT COUNT(*) FROM matches game WHERE game.competition_id = competition.competition_id AND game.status = 'PLAYED') AS played_matches
+         (SELECT COUNT(*) FROM matches game WHERE game.competition_id = competition.competition_id AND game.status = 'PLAYED') AS played_matches,
+         config.tiebreakers,
+         (SELECT phase_id FROM competition_phases phase WHERE phase.competition_id = competition.competition_id ORDER BY phase.order_no ASC, phase.phase_id ASC LIMIT 1) AS current_phase_id,
+         (SELECT name FROM competition_phases phase WHERE phase.competition_id = competition.competition_id ORDER BY phase.order_no ASC, phase.phase_id ASC LIMIT 1) AS current_phase_name,
+         (SELECT status FROM competition_phases phase WHERE phase.competition_id = competition.competition_id ORDER BY phase.order_no ASC, phase.phase_id ASC LIMIT 1) AS current_phase_status
        FROM competitions competition
+       LEFT JOIN competition_config config ON config.competition_id = competition.competition_id
        LEFT JOIN seasons season ON season.season_id = competition.season_id
+       WHERE (? IS NULL OR season.year = ?)
        ORDER BY
          CASE competition.status WHEN 'ACTIVE' THEN 0 WHEN 'PLANNED' THEN 1 ELSE 2 END,
          season.year DESC,
          competition.competition_id DESC`,
     )
-    .all() as SQLiteRow[];
+    .all(season ?? null, season ?? null) as SQLiteRow[];
 
   return rows.map(toCompetition);
 }
@@ -329,7 +356,7 @@ function getStandings(db: SQLiteDatabase, competitionId: number, controlledClubI
   }));
 }
 
-function getMatches(db: SQLiteDatabase, competitionId: number): MatchCard[] {
+function getMatches(db: SQLiteDatabase, competitionId: number, phaseId?: number): MatchCard[] {
   const rows = db
     .prepare(
       `SELECT
@@ -350,6 +377,7 @@ function getMatches(db: SQLiteDatabase, competitionId: number): MatchCard[] {
        INNER JOIN times home ON home.time_id = fixture.home_club_id
        INNER JOIN times away ON away.time_id = fixture.away_club_id
        WHERE fixture.competition_id = ?
+         AND (? IS NULL OR fixture.round_id IN (SELECT round_id FROM competition_rounds WHERE phase_id = ?))
        UNION ALL
        SELECT
          NULL AS fixture_id,
@@ -367,10 +395,11 @@ function getMatches(db: SQLiteDatabase, competitionId: number): MatchCard[] {
        INNER JOIN times home ON home.time_id = game.home_club_id
        INNER JOIN times away ON away.time_id = game.away_club_id
        WHERE game.competition_id = ?
+         AND (? IS NULL OR game.round IN (SELECT number FROM competition_rounds WHERE phase_id = ?))
          AND NOT EXISTS (SELECT 1 FROM fixtures fixture WHERE fixture.match_id = game.match_id)
        ORDER BY scheduled_at ASC, round_number ASC`,
     )
-    .all(competitionId, competitionId) as SQLiteRow[];
+    .all(competitionId, phaseId ?? null, phaseId ?? null, competitionId, phaseId ?? null, phaseId ?? null) as SQLiteRow[];
 
   return rows.map(toMatchCard);
 }
@@ -399,22 +428,31 @@ export function getPlayerSeasonTotals(
   } finally { db?.close(); }
 }
 
+export function getMatchesDashboard(competitionId?: number, databasePath?: string): MatchesDashboard;
+export function getMatchesDashboard(competitionId?: number, season?: number, phaseId?: number, databasePath?: string): MatchesDashboard;
 export function getMatchesDashboard(
   competitionId?: number,
-  databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH,
+  seasonOrDatabasePath?: number | string,
+  phaseOrDatabasePath?: number | string,
+  configuredDatabasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH,
 ): MatchesDashboard {
+  const legacyDatabasePath = typeof seasonOrDatabasePath === "string" ? seasonOrDatabasePath : undefined;
+  const season = typeof seasonOrDatabasePath === "number" ? seasonOrDatabasePath : undefined;
+  const phaseId = typeof phaseOrDatabasePath === "number" ? phaseOrDatabasePath : undefined;
+  const databasePath = typeof phaseOrDatabasePath === "string" ? phaseOrDatabasePath : legacyDatabasePath ?? configuredDatabasePath;
   let db: SQLiteDatabase | null = null;
 
   try {
     db = new DatabaseSync(databasePath, { readOnly: true });
     const controlledClub = getControlledClub(db);
-    const competitions = getCompetitionRows(db);
+    const competitions = getCompetitionRows(db, season);
     const selectedCompetition =
       competitions.find((competition) => competition.competitionId === competitionId) ?? competitions[0] ?? null;
 
     if (!selectedCompetition) {
       return {
         ...emptyDashboard("O motor está conectado, mas ainda não há competições persistidas na carreira."),
+        filters: { competitionId: competitionId ?? null, season: season ?? null, phaseId: phaseId ?? null },
         source: {
           mode: "LOCAL_READ_ONLY_SQLITE",
           available: true,
@@ -425,8 +463,9 @@ export function getMatchesDashboard(
       };
     }
 
-    const allMatches = getMatches(db, selectedCompetition.competitionId);
+    const allMatches = getMatches(db, selectedCompetition.competitionId, phaseId);
     return {
+      filters: { competitionId: selectedCompetition.competitionId, season: season ?? selectedCompetition.seasonYear ?? null, phaseId: phaseId ?? null },
       source: {
         mode: "LOCAL_READ_ONLY_SQLITE",
         available: true,
@@ -443,10 +482,70 @@ export function getMatchesDashboard(
     };
   } catch (error) {
     console.error("[Engine state] Falha ao consultar o estado SQLite em modo somente leitura:", error);
-    return emptyDashboard("O estado local do motor não está disponível para leitura neste ambiente.");
+    return { ...emptyDashboard("O estado local do motor não está disponível para leitura neste ambiente."), filters: { competitionId: competitionId ?? null, season: season ?? null, phaseId: phaseId ?? null } };
   } finally {
     db?.close();
   }
+}
+
+export function previewContractRenewal(playerId: number, clubId: number, proposedWeeklySalary: number, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): ContractRenewalPreview {
+  if (proposedWeeklySalary < 0) throw new Error("INVALID_WEEKLY_SALARY");
+  let db: SQLiteDatabase | null = null;
+  try {
+    db = new DatabaseSync(databasePath, { readOnly: true });
+    if (!tableExists(db, "player_contract_history")) throw new Error("CONTRACT_HISTORY_UNAVAILABLE");
+    const contract = db.prepare("SELECT weekly_salary FROM player_contract_history WHERE player_id=? AND club_id=? AND status IN ('ACTIVE','ATIVO','active') ORDER BY contract_id DESC LIMIT 1").get(playerId, clubId) as SQLiteRow | undefined;
+    if (!contract) throw new Error("ACTIVE_CONTRACT_NOT_FOUND");
+    const payroll = tableExists(db, "club_payroll_profiles") ? (db.prepare("SELECT weekly_player_payroll FROM club_payroll_profiles WHERE club_id=?").get(clubId) as SQLiteRow | undefined) : undefined;
+    const currentWeeklySalary = asNumber(contract.weekly_salary); const weeklyDelta = proposedWeeklySalary - currentWeeklySalary; const currentClubPayroll = payroll ? asNullableNumber(payroll.weekly_player_payroll) : null;
+    return { playerId, clubId, currentWeeklySalary, proposedWeeklySalary, weeklyDelta, currentClubPayroll, projectedClubPayroll: currentClubPayroll === null ? null : currentClubPayroll + weeklyDelta, persisted: false, formulaVersion: "contract-renewal-impact-v1" };
+  } finally { db?.close(); }
+}
+
+export function getPlayerContracts(clubId: number, season?: number, week = 1, withinWeeks = 8, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): { clubId: number; contracts: PlayerContractRead[]; source: { mode: "LOCAL_READ_ONLY_SQLITE"; available: boolean; message: string; generatedAt: string } } {
+  const generatedAt = new Date().toISOString(); let db: SQLiteDatabase | null = null;
+  try {
+    db = new DatabaseSync(databasePath, { readOnly: true });
+    if (!tableExists(db, "player_contract_history")) return { clubId, contracts: [], source: { mode: "LOCAL_READ_ONLY_SQLITE", available: true, message: "O histórico de contratos ainda não está persistido para este estado.", generatedAt } };
+    const rows = db.prepare(`SELECT history.player_id, players.nome AS player_name, history.club_id, history.start_season, history.start_week, history.end_season, history.end_week, history.weekly_salary, history.release_clause, history.status, history.source FROM player_contract_history history LEFT JOIN jogadores players ON players.jogador_id = history.player_id WHERE history.club_id = ? AND history.status IN ('ACTIVE','ATIVO','active') ORDER BY history.end_season IS NULL, history.end_season, history.end_week, players.nome`).all(clubId) as SQLiteRow[];
+    const currentSeason = season ?? 0; const currentWeek = Math.max(1, week); const horizon = Math.max(0, withinWeeks);
+    return { clubId, contracts: rows.map((row) => { const endSeason = asNullableNumber(row.end_season); const endWeek = asNullableNumber(row.end_week); const weeksRemaining = endSeason === null || endWeek === null || season === undefined ? null : (endSeason - currentSeason) * 52 + endWeek - currentWeek; return { playerId: asNumber(row.player_id), playerName: asText(row.player_name, `Jogador ${asNumber(row.player_id)}`), clubId: asNullableNumber(row.club_id), startSeason: asNumber(row.start_season), startWeek: asNumber(row.start_week), endSeason, endWeek, weeklySalary: asNumber(row.weekly_salary), releaseClause: asNullableNumber(row.release_clause), status: asText(row.status), source: asText(row.source), weeksRemaining }; }).filter((contract) => contract.weeksRemaining === null || contract.weeksRemaining <= horizon) , source: { mode: "LOCAL_READ_ONLY_SQLITE", available: true, message: "Contratos ativos lidos diretamente do histórico canônico do GameState.", generatedAt } };
+  } catch (error) { console.error("[Player contracts] Falha ao consultar:", error); return { clubId, contracts: [], source: { mode: "LOCAL_READ_ONLY_SQLITE", available: false, message: "Os contratos do elenco não estão disponíveis para leitura.", generatedAt } }; } finally { db?.close(); }
+}
+
+export function previewClassification(competitionId: number, homeClubId: number, awayClubId: number, homeGoals: number, awayGoals: number, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): ClassificationPreview {
+  if (homeGoals < 0 || awayGoals < 0) throw new Error("INVALID_SCORE");
+  let db: SQLiteDatabase | null = null;
+  try {
+    db = new DatabaseSync(databasePath, { readOnly: true });
+    const base = getStandings(db, competitionId, null).map((row) => ({ ...row }));
+    const home = base.find((row) => row.clubId === homeClubId); const away = base.find((row) => row.clubId === awayClubId);
+    if (!home || !away) throw new Error("CLASSIFICATION_CLUB_NOT_FOUND");
+    const delta = homeGoals > awayGoals ? [3, 0] : homeGoals < awayGoals ? [0, 3] : [1, 1];
+    for (const [row, goalsFor, goalsAgainst, points] of [[home, homeGoals, awayGoals, delta[0]], [away, awayGoals, homeGoals, delta[1]] ] as const) { row.played += 1; row.goalsFor += goalsFor; row.goalsAgainst += goalsAgainst; row.goalDifference = row.goalsFor - row.goalsAgainst; row.points += points; if (points === 3) row.wins += 1; else if (points === 1) row.draws += 1; else row.losses += 1; }
+    base.sort((a, b) => b.points - a.points || b.wins - a.wins || b.goalDifference - a.goalDifference || b.goalsFor - a.goalsFor || a.clubName.localeCompare(b.clubName));
+    return { competitionId, homeClubId, awayClubId, homeGoals, awayGoals, standings: base.map((row, index) => ({ ...row, position: index + 1 })), persisted: false, formulaVersion: "classification-preview-v1" };
+  } finally { db?.close(); }
+}
+
+export function compareCompetitions(competitionIds: number[] | undefined, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): CompetitionComparison {
+  let db: SQLiteDatabase | null = null; const generatedAt = new Date().toISOString();
+  try { db = new DatabaseSync(databasePath, { readOnly: true }); const competitions = getCompetitionRows(db).filter((item) => !competitionIds?.length || competitionIds.includes(item.competitionId)); return { competitions: competitions.map((competition) => { const standings = getStandings(db!, competition.competitionId, null); return { competitionId: competition.competitionId, name: competition.name, seasonYear: competition.seasonYear, leader: standings[0] ?? null, clubs: standings.length, played: standings.reduce((total, row) => total + row.played, 0), pointsTotal: standings.reduce((total, row) => total + row.points, 0) }; }), source: { mode: "LOCAL_READ_ONLY_SQLITE", available: true, message: "Comparação de competições derivada do GameState em modo somente leitura.", generatedAt } }; } catch (error) { console.error("[Competition comparison] Falha ao consultar:", error); return { competitions: [], source: { mode: "LOCAL_READ_ONLY_SQLITE", available: false, message: "A comparação de competições não está disponível.", generatedAt } }; } finally { db?.close(); }
+}
+
+export function getCompetitionHistory(competitionId: number, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): CompetitionHistoryRead {
+  let db: SQLiteDatabase | null = null;
+  const generatedAt = new Date().toISOString();
+  try {
+    db = new DatabaseSync(databasePath, { readOnly: true });
+    const champions = tableExists(db, "competition_champions") ? db.prepare(`SELECT champion.season_id, champion.champion_club_id, teams.nome AS club_name, champion.finalized_at FROM competition_champions champion LEFT JOIN times teams ON teams.time_id = champion.champion_club_id WHERE champion.competition_id = ? ORDER BY champion.season_id DESC`).all(competitionId) as SQLiteRow[] : [];
+    const prizes = tableExists(db, "competition_prizes") ? db.prepare("SELECT position, amount FROM competition_prizes WHERE competition_id=? ORDER BY position").all(competitionId) as SQLiteRow[] : [];
+    const alerts = tableExists(db, "classification_alerts") ? db.prepare("SELECT alert_id, season_id, club_id, alert_type, message, created_at FROM classification_alerts WHERE competition_id=? ORDER BY alert_id DESC LIMIT 50").all(competitionId) as SQLiteRow[] : [];
+    return { competitionId, champions: champions.map((row) => ({ seasonId: asNumber(row.season_id), clubId: asNumber(row.champion_club_id), clubName: asText(row.club_name), finalizedAt: asText(row.finalized_at) })), prizes: prizes.map((row) => ({ position: asNumber(row.position), amount: asNumber(row.amount) })), alerts: alerts.map((row) => ({ alertId: asNumber(row.alert_id), seasonId: asNumber(row.season_id), clubId: asNumber(row.club_id), type: asText(row.alert_type), message: asText(row.message), createdAt: asText(row.created_at) })), source: { mode: "LOCAL_READ_ONLY_SQLITE", available: true, message: "Histórico canônico de competição lido em modo somente leitura.", generatedAt } };
+  } catch (error) {
+    console.error("[Competition history] Falha ao consultar histórico:", error);
+    return { competitionId, champions: [], prizes: [], alerts: [], source: { mode: "LOCAL_READ_ONLY_SQLITE", available: false, message: "O histórico da competição não está disponível para leitura.", generatedAt } };
+  } finally { db?.close(); }
 }
 
 export function getEntityAssetLink(
