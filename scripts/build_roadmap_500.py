@@ -584,8 +584,17 @@ priorities = {
     "25. Testes, entrega e operação": "P0",
 }
 assert set(priorities) == set(sections)
+dependencies = {
+    1: [], 2: [1], 3: [1, 2], 4: [3], 5: [3, 4],
+    6: [4, 5], 7: [3, 5], 8: [3, 7], 9: [6, 8], 10: [6, 8, 9],
+    11: [2, 3, 4, 6, 9], 12: [3, 5, 11], 13: [2, 3, 12], 14: [6, 11, 12, 13],
+    15: [3, 4, 5, 6, 13], 16: [4, 6, 7, 8], 17: [2, 3, 5, 13], 18: [3, 17],
+    19: [3, 17], 20: [5, 11, 12, 19], 21: [17, 18, 19, 20], 22: [11, 17, 19, 20, 21],
+    23: [2, 3, 5, 11, 12, 13, 17], 24: [23], 25: [2, 3, 11, 12, 13, 17, 23],
+}
+assert set(dependencies) == set(range(1, 26))
 
-out = ["# FutManager/Brasfoot — 500 próximos passos", "", "> Roadmap expandido em 25 frentes. A numeração é contínua para facilitar priorização, delegação e acompanhamento.", "", "## Critérios de priorização", "", "| Nível | Critério | Ordem recomendada |", "|---|---|---|", "| P0 | Fundação, integridade, fonte de verdade, ciclo jogável e bloqueios de entrega. | Executar primeiro. |", "| P1 | Funcionalidades que aprofundam a carreira, a gestão e a experiência principal depois da fundação. | Executar após os pré-requisitos P0. |", "| P2 | Sistemas avançados, expansão de simulação e melhorias de longo prazo. | Executar quando P0/P1 estiverem estáveis. |", "", "A prioridade da frente orienta os 20 itens nela contidos; dentro de cada frente, a ordem numérica é a ordem sugerida de execução e dependência.", ""]
+out = ["# FutManager/Brasfoot — 500 próximos passos", "", "> Roadmap expandido em 25 frentes. A numeração é contínua para facilitar priorização, delegação e acompanhamento.", "", "## Critérios de priorização", "", "| Nível | Critério | Ordem recomendada |", "|---|---|---|", "| P0 | Fundação, integridade, fonte de verdade, ciclo jogável e bloqueios de entrega. | Executar primeiro. |", "| P1 | Funcionalidades que aprofundam a carreira, a gestão e a experiência principal depois da fundação. | Executar após os pré-requisitos P0. |", "| P2 | Sistemas avançados, expansão de simulação e melhorias de longo prazo. | Executar quando P0/P1 estiverem estáveis. |", "", "A prioridade da frente orienta os 20 itens nela contidos; dentro de cada frente, a ordem numérica é a ordem sugerida de execução e dependência.", "", "## Regra obrigatória de execução", "", "> Nenhum item P1 ou P2 pode ser iniciado, mesclado ou marcado como concluído enquanto todos os itens P0 não estiverem consolidados com implementação, testes, integridade SQLite, documentação e evidência no gate versionado.", "", "O roadmap registra planejamento; ele não é fonte de verdade do jogo. O estado esportivo, financeiro, social e de carreira continua vindo exclusivamente de SQL/GameState. O frontend apenas consulta e solicita comandos por tRPC/Gateway; não calcula, inventa ou grava estado de jogo.", "", "Situação inicial deste documento: **P1 e P2 bloqueados** até o gate P0 ser aprovado.", "", "## Matriz verificável de dependências", "", "| Frente | Prioridade | Depende de |", "|---:|:---:|:---|", *[f"| {front} | {priorities[list(sections)[front - 1]]} | {', '.join(str(dep) for dep in dependencies[front]) if dependencies[front] else 'fundação'} |" for front in range(1, 26)], "", "A matriz é de fronts; cada ação numerada herda a dependência de sua frente. Um front só pode ser aberto depois de seus dependentes e do gate P0, quando sua prioridade for P1 ou P2.", ""]
 number = 1
 for title, items in sections.items():
     out.extend([f"## [{priorities[title]}] {title}", ""])

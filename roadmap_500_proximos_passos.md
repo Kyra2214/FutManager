@@ -12,6 +12,46 @@
 
 A prioridade da frente orienta os 20 itens nela contidos; dentro de cada frente, a ordem numérica é a ordem sugerida de execução e dependência.
 
+## Regra obrigatória de execução
+
+> Nenhum item P1 ou P2 pode ser iniciado, mesclado ou marcado como concluído enquanto todos os itens P0 não estiverem consolidados com implementação, testes, integridade SQLite, documentação e evidência no gate versionado.
+
+O roadmap registra planejamento; ele não é fonte de verdade do jogo. O estado esportivo, financeiro, social e de carreira continua vindo exclusivamente de SQL/GameState. O frontend apenas consulta e solicita comandos por tRPC/Gateway; não calcula, inventa ou grava estado de jogo.
+
+Situação inicial deste documento: **P1 e P2 bloqueados** até o gate P0 ser aprovado.
+
+## Matriz verificável de dependências
+
+| Frente | Prioridade | Depende de |
+|---:|:---:|:---|
+| 1 | P0 | fundação |
+| 2 | P0 | 1 |
+| 3 | P0 | 1, 2 |
+| 4 | P0 | 3 |
+| 5 | P0 | 3, 4 |
+| 6 | P1 | 4, 5 |
+| 7 | P1 | 3, 5 |
+| 8 | P1 | 3, 7 |
+| 9 | P1 | 6, 8 |
+| 10 | P1 | 6, 8, 9 |
+| 11 | P0 | 2, 3, 4, 6, 9 |
+| 12 | P0 | 3, 5, 11 |
+| 13 | P0 | 2, 3, 12 |
+| 14 | P2 | 6, 11, 12, 13 |
+| 15 | P1 | 3, 4, 5, 6, 13 |
+| 16 | P2 | 4, 6, 7, 8 |
+| 17 | P0 | 2, 3, 5, 13 |
+| 18 | P1 | 3, 17 |
+| 19 | P1 | 3, 17 |
+| 20 | P1 | 5, 11, 12, 19 |
+| 21 | P1 | 17, 18, 19, 20 |
+| 22 | P1 | 11, 17, 19, 20, 21 |
+| 23 | P0 | 2, 3, 5, 11, 12, 13, 17 |
+| 24 | P1 | 23 |
+| 25 | P0 | 2, 3, 11, 12, 13, 17, 23 |
+
+A matriz é de fronts; cada ação numerada herda a dependência de sua frente. Um front só pode ser aberto depois de seus dependentes e do gate P0, quando sua prioridade for P1 ou P2.
+
 ## [P0] 1. Governança e priorização
 
 1. Definir a visão de produto para as próximas três temporadas simuladas.

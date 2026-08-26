@@ -1,0 +1,27 @@
+{
+  "p0_gate": "CLOSED",
+  "sql_game_state_source_of_truth": true,
+  "p1_p2_blocked": true,
+  "required_evidence": [
+    "implementation",
+    "idempotent_migration_when_applicable",
+    "automated_tests",
+    "sqlite_integrity_check_ok",
+    "sqlite_foreign_key_check_zero",
+    "documentation",
+    "checkpoint"
+  ],
+  "p0_fronts": [
+    {"front": 1, "title": "Governança e priorização", "status": "PENDING"},
+    {"front": 2, "title": "Arquitetura do motor", "status": "PENDING"},
+    {"front": 3, "title": "Banco de dados e migrações", "status": "PENDING"},
+    {"front": 4, "title": "Jogadores e dados canônicos", "status": "PENDING"},
+    {"front": 5, "title": "Clubes, seleções e identidades", "status": "PENDING"},
+    {"front": 11, "title": "Motor de partidas", "status": "PENDING"},
+    {"front": 12, "title": "Competições e classificação", "status": "PENDING"},
+    {"front": 13, "title": "Calendário e temporadas", "status": "PENDING"},
+    {"front": 17, "title": "Economia mundial", "status": "PENDING"},
+    {"front": 23, "title": "Frontend e tRPC", "status": "PENDING"},
+    {"front": 25, "title": "Testes, entrega e operação", "status": "PENDING"}
+  ]
+}

@@ -87,3 +87,17 @@
 - [x] Produzir documento com 500 próximos passos priorizados para a evolução do FutManager/Brasfoot.
 - [x] Explicitar critérios de priorização no roadmap de 500 passos.
 - [x] Classificar cada frente do roadmap por prioridade P0, P1 ou P2.
+- [x] Formalizar gate que bloqueia qualquer P1/P2 até todos os P0 estarem consolidados e validados.
+- [x] Documentar SQL/GameState como fonte única da verdade para estado e regras do jogo.
+- [x] Atualizar o roadmap de 500 passos com dependências, critérios de consolidação e bloqueio de execução.
+- [x] Criar validação automática do gate P0 e dos caminhos autorizados de mutação.
+- [x] Explicitar uma matriz verificável de dependências entre as frentes e itens do roadmap.
+- [x] Ampliar o validador para verificar que o frontend não grava estado de jogo e que mutations passam por tRPC/Gateway/serviços SQL.
+- [x] Executar os validadores ampliados antes do próximo checkpoint.
+- [x] Validar no gateway e no motor Python que mutations chegam aos serviços SQLite autorizados, sem escrita paralela.
+- [x] Executar novamente todos os validadores após essa comprovação.
+- [x] Cobrir todas as ações mutáveis do career_gateway.py no mapa ação → serviço autorizado.
+- [x] Validar e documentar exceções legítimas de escrita direta do dispatcher, sem criar caminhos paralelos.
+- [x] Reexecutar todos os validadores após a cobertura integral do gateway.
+- [x] Documentar que o career_gateway.py não possui exceções legítimas de escrita direta mutável fora dos serviços autorizados.
+- [x] Rerodar o validador após documentar essa política de exceções.
