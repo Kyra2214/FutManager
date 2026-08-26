@@ -32,3 +32,9 @@ O script `scripts/report_engine_dependency_cycles.py` analisou **56 módulos** e
 ## Extensibilidade e contratos compartilhados
 
 Foram versionados `docs/plugin_extension_policy.md` e `docs/shared_gateway_contracts.json`. A política limita plugins a leituras e comandos delegados a serviços autorizados, enquanto o manifesto descreve apenas transporte serializável, erros e nomes de ações. `scripts/validate_shared_gateway_contracts.py` retornou `VALID`, conferindo **6 contratos de leitura** e **8 contratos de comando** e exigindo SQL/GameState como fonte única.
+
+## Matriz item a item — fechamento técnico
+
+A matriz executável `scripts/validate_p0_2_matrix.py` verificou os 20 critérios dos passos 21–40. O resultado atual foi `20/20 PASS`, incluindo a unidade `transaction` sem commit implícito, pré-condições do tick, logging estruturado sanitizado, separação `ReadRepository`/`CommandService`, política de plugins e contratos compartilhados.
+
+A fronteira `engine/core/contracts.py` formaliza leitura canônica e comandos mutáveis delegados ao serviço, sem alterar a fonte SQL/GameState. O teste `test_read_and_command_boundaries_are_explicit` cobre a declaração de fonte única e de fronteira tRPC/Gateway.

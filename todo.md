@@ -199,3 +199,13 @@
 - [x] Executar a auditoria P0-25 e registrar integridade do pacote sem substituir o ZIP final antes do gate.
 - [x] Corrigir dependências de fronts P0 que apontam para P1/P2, removendo ciclos de governança sem alterar a ordem funcional do roadmap.
 - [x] Validar a matriz corrigida e confirmar que nenhum front P0 depende de prioridade posterior.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-2.
+- [x] Executar a matriz P0-2 e resolver apenas lacunas reais antes de considerar consolidação.
+- [x] Corrigir a evidência/implementação de composição transacional sem commit implícito no Front P0-2.
+- [x] Explicitar coordenador de unidade de trabalho no orquestrador.
+- [x] Adicionar pré-condições nomeadas antes das etapas do tick.
+- [x] Adicionar logging estruturado sanitizado ao fluxo de execução.
+- [x] Explicitar separação entre leitura e comandos mutáveis.
+- [x] Ajustar a política de plugins para ser reconhecida pelo critério executável sem liberar escrita paralela.
+- [x] Registrar o Front P0-2 como CONSOLIDATED com implementação, testes, documentação e checkpoint no gate.
+- [x] Validar que a consolidação de P0-2 não abre o gate global nem libera P1/P2.
