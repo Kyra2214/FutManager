@@ -133,3 +133,9 @@
 - [x] Reexecutar a suíte Python completa após a integração ampla das guardas.
 - [x] Migrar testes legados de serviços mutáveis para cópias temporárias do GameState, sem relaxar a guarda da base.
 - [x] Reexecutar a suíte Python completa após a migração dos testes legados.
+- [x] Implementar no RoadmapGate a validação de dependências entre fronts antes de qualquer execução.
+- [x] Cobrir dependências fechadas, dependências consolidadas e front inexistente com testes.
+- [x] Integrar `assert_front_allowed(front)` ao entrypoint real do gateway/runner de roadmap.
+- [x] Testar em runtime um front bloqueado por dependência e liberado após consolidação controlada.
+- [x] Distinguir repositories read-only de serviços mutáveis na guarda, permitindo leitura da base sem liberar escrita.
+- [x] Atualizar testes para comprovar leitura canônica da base e proteção apenas dos writers.
