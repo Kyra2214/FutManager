@@ -308,3 +308,15 @@
 - [x] P1-7 / passo 133: filtrar mercado por função e nível.
 - [x] P1-7 / passo 134: ordenar catálogo por custo-benefício determinístico.
 - [x] P1-7 / passo 135: confirmar contratação antes de executar mutation de profissional.
+- [x] P1-8 / passos 141/142: inventariar departamentos do CT e validar níveis máximos/custos.
+- [x] P1-8 / passos 143/144: persistir histórico de evolução e manutenção semanal por departamento.
+- [x] P1-8 / passo 145: derivar impacto do CT no overall institucional.
+- [x] P1-8 / passos 146/147: suportar instalações de base e programa de desenvolvimento individual quando existirem no SQL.
+- [x] P1-8 / passos 148/149: registrar carga de treino e recuperação/descanso planejados.
+- [x] P1-8 / passo 150: persistir plano semanal de treinamento.
+- [x] P1-8 / passos 151/152: bloquear treino incompatível com lesão e derivar risco de lesão por carga.
+- [x] P1-8 / passo 153: aplicar bônus de staff ao treinamento.
+- [x] P1-8 / passos 154/155: expor evolução por atleta e comparação entre potencial e desempenho.
+- [x] P1-8 / passos 156/157: criar orçamento e previsão de retorno por departamento.
+- [x] P1-8 / passos 158/159: alertar manutenção ausente e testar rollback de compra.
+- [x] P1-8 / passo 160: validar sincronização do CT com a folha semanal.

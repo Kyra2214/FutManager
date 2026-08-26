@@ -15,7 +15,7 @@ export type CareerCatalogItem = {
 };
 
 type GatewayResult = { ok: boolean; error?: string } & Record<string, unknown>;
-type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance" | "events_list" | "events_mark_read";
+type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "training_departments" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance" | "events_list" | "events_mark_read";
 
 function callGateway<T extends GatewayResult>(action: GatewayAction, payload: Record<string, unknown>, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): T {
   try {
@@ -100,6 +100,26 @@ export function terminateStaff(staffId: number, waiveFee = false, databasePath?:
 
 export function replaceStaff(outgoingStaffId: number, incomingStaffId: number, databasePath?: string) {
   return staffMarketAction<GatewayResult & { terminated: ReturnType<typeof terminateStaff>; hired: ReturnType<typeof hireAvailableStaff> }>("staff_replace", { outgoing_staff_id: outgoingStaffId, incoming_staff_id: incomingStaffId }, databasePath);
+}
+
+export function listTrainingDepartments(databasePath?: string) {
+  return staffMarketAction<GatewayResult & { items: Array<{ department: string; label: string; level: number; max_level: number; purchase_base: number; maintenance: number; capacity: number; efficiency: number }> }>("training_departments", {}, databasePath).items;
+}
+
+export function listTrainingBudget(databasePath?: string) {
+  return staffMarketAction<GatewayResult & { items: Array<{ department: string; next_level: number; cost: number; projected_capacity: number; maintenance: number }> }>("training_budget", {}, databasePath).items;
+}
+
+export function createTrainingPlan(season: number, week: number, planType: string, load: number, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { plan_id: number; club_id: number; season: number; week: number; plan_type: string; load: number; sessions: Array<{ status: string; total: number; risk: number }> }>("training_plan", { season, week, plan_type: planType, load }, databasePath);
+}
+
+export function listTrainingDevelopment(databasePath?: string) {
+  return staffMarketAction<GatewayResult & { items: Array<Record<string, unknown>> }>("training_development", {}, databasePath).items;
+}
+
+export function listTrainingAlerts(databasePath?: string) {
+  return staffMarketAction<GatewayResult & { items: Array<{ department: string; message: string }> }>("training_alerts", {}, databasePath).items;
 }
 
 export function listDepartmentOffers(databasePath?: string) {
