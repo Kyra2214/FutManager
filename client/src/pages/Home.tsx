@@ -3,7 +3,7 @@
  * Dashboard visual offline-first: apresenta o contrato visual do motor sem inventar
  * jogadores, caixa, resultados ou regras; dados ausentes são mostrados como estados honestos.
  */
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import { getEntityAssetPresentation } from "@/lib/entityAsset";
@@ -228,8 +228,10 @@ export function StructurePage({ section, onSectionChange }: { section: AppSectio
   const financeLedgerQuery = isFinance ? trpc.club.financeLedger.useQuery(financeLedgerInput, { retry: 1 }) : undefined;
   const financeAlertQuery = isFinance ? trpc.club.financeAlert.useQuery({ thresholdWeeks: 4 }, { retry: 1 }) : undefined;
   const financeHistoryQuery = isFinance ? trpc.club.financeHistory.useQuery({ season: financeSeason ? Number(financeSeason) : 2026 }, { retry: 1 }) : undefined;
-  const [playerFilter, setPlayerFilter] = useState("");
-  const [competitionFilter, setCompetitionFilter] = useState("");
+  const [playerFilter, setPlayerFilter] = useState(() => sessionStorage.getItem("futmanager:filter:player") ?? "");
+  const [competitionFilter, setCompetitionFilter] = useState(() => sessionStorage.getItem("futmanager:filter:competition") ?? "");
+  useEffect(() => { sessionStorage.setItem("futmanager:filter:player", playerFilter); }, [playerFilter]);
+  useEffect(() => { sessionStorage.setItem("futmanager:filter:competition", competitionFilter); }, [competitionFilter]);
   const competitionsQuery = isTeam ? trpc.matches.dashboard.useQuery(undefined, { retry: 1 }) : undefined;
   const statsFilterInput = useMemo(() => competitionFilter ? { competitionId: Number(competitionFilter) } : undefined, [competitionFilter]);
   const playerStatsQuery = isTeam ? trpc.matches.playerStats.useQuery(statsFilterInput, { retry: 1 }) : undefined;

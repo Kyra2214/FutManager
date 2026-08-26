@@ -1,6 +1,6 @@
 # Passos registrados no roadmap do FutManager
 
-Este documento resume o conteúdo efetivamente registrado em `todo.md`. O projeto contém itens detalhados até o passo 370. Os passos 371–500 ainda não possuem uma lista oficial detalhada no arquivo do projeto; há somente o marcador global de execução integral dos 500 passos.
+Este documento resume o conteúdo efetivamente registrado em `todo.md`. Os passos 371–470 possuem agora listas oficiais detalhadas e evidências de implementação. Os passos 471–500 ainda exigem detalhamento versionado antes de serem implementados; o marcador global de execução integral dos 500 passos permanece separado.
 
 ## Visão geral por frente
 
@@ -22,6 +22,12 @@ Este documento resume o conteúdo efetivamente registrado em `todo.md`. O projet
 | 321–340 | P0-17 Economia mundial | FinanceLedger, categorias, moeda única, fechamento semanal, receitas/despesas, orçamento, projeção de 39 semanas, reservas, alertas, obrigações, dívidas, juros, saúde financeira, insolvência, investimentos, SAF, controle, auditoria, idempotência e rollback. |
 | 341–360 | P1-18 Finanças do clube | Caixa atual e projetado, folha de atletas/comissão/manutenção, patrocínio, bilheteria, premiações, filtros de ledger, exportação CSV, alerta de saldo, prévias de despesa e caixa pós-partida, prévia de contratação, auditoria sazonal, arredondamentos, concorrência e documentação da fonte canônica. Os passos 355/356 continuam indicados como pendentes no texto do item 354. |
 | 361–370 | P1-19 Estádio e Infraestrutura | Componentes arquibancada/campo/estrutura/equipes, níveis 1–10, capacidade, custos de upgrade, manutenção, impacto operacional, prévia de upgrade, confirmação via gateway, rollback transacional, idempotência, testes e SQL/GameState como fonte única. |
+| 371–390 | P1 | Calendário operacional, viagens, recuperação, reputação, torcida, bilheteria, segmentação e timeline social. Implementação documentada e validada. |
+| 391–410 | P1 | Competições, desempates, filtros, histórico, contratos, renovação explícita, ledger de luvas/bônus, teto salarial e perfil/evolução de atletas. |
+| 411–430 | P1 | Treino, objetivos, scouting focado, mercado, contrapropostas, janelas, empréstimos, histórico, alertas, filtros e confirmação transacional. |
+| 431–440 | P1 | Simulação mundial com níveis, fila, cancelamento, checkpoints, progresso, divergência e benchmark. |
+| 441–450 | P2 | IA explicável com alternativas, prévias, aprovação humana, limites, alertas e determinismo. |
+| 451–470 | P0/P1 | Contratos, ações mutáveis, idempotência, rollback, scanners, release, exportação segura, hashes e recuperação. |
 
 ## Detalhamento do bloco P1-18
 
@@ -33,6 +39,6 @@ O bloco de estádio usa `StadiumService` como fonte das regras. Cada estádio po
 
 ## O que falta para completar 1–500
 
-O roadmap persistido não contém, neste momento, o detalhamento oficial dos passos 371–500. Também existe um marcador global não concluído para a execução integral dos 500 passos. Para manter a regra de ordem rigorosa, esses passos precisam ser definidos e registrados antes de serem implementados ou marcados como concluídos.
+O roadmap persistido contém o detalhamento oficial e as evidências dos passos 371–470. Os passos 471–500 ainda precisam ser definidos e registrados antes de implementação. Também existe um marcador global não concluído para a execução integral dos 500 passos; ele só deve ser marcado quando todos os 500 itens tiverem implementação, teste, documentação e evidência.
 
 A lista completa, linha a linha, permanece em `todo.md` na raiz do projeto.

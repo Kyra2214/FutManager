@@ -1,0 +1,27 @@
+{
+  "format": "futmanager-release-manifest-v1",
+  "scope": "steps-371-470",
+  "checkpoint_webdev": "5e214169",
+  "github_commit": "69ebdeec",
+  "artifacts": {
+    "delivery_zip": {
+      "path": "/home/ubuntu/FutManager_completo_2026-08-26.zip",
+      "sha256": "2ef50f7a329fa8e6a4a3e65847b1e55fc400ee1d9967f7f217c09a99dd2089cb",
+      "integrity": "unzip-test-passed"
+    },
+    "immutable_base": {
+      "path": "brasfoot_engine/data/database/game.db",
+      "sha256": "1ae17c67818fa4d5635894cf2c41979efe314099417735e2a3b81e2d72066caa"
+    },
+    "current_gamestate": {
+      "path": "brasfoot_engine/data/state/game.db",
+      "sha256": "33e29a1af34bba6ec96e414883ac4b1a8e11ef32d6d72600e395e927d1246022"
+    }
+  },
+  "validation": {
+    "p0_gate": "OPEN",
+    "sqlite_integrity": "ok",
+    "foreign_key_errors": 0,
+    "contains_secrets": false
+  }
+}
