@@ -9,17 +9,27 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 
-export type AppSection = "inicio" | "estadio" | "time" | "ct" | "mercado" | "transferencias";
+export type AppSection = "clube" | "partidas" | "estadio" | "time" | "ct" | "mercado" | "transferencias";
 
 function App() {
-  const [section, setSection] = useState<AppSection>("inicio");
+  const [section, setSection] = useState<AppSection>(() => {
+    const requested = new URLSearchParams(window.location.search).get("section");
+    const allowed: AppSection[] = ["clube", "partidas", "estadio", "time", "ct", "mercado", "transferencias"];
+    return allowed.includes(requested as AppSection) ? (requested as AppSection) : "clube";
+  });
+  const navigate = (next: AppSection) => {
+    setSection(next);
+    const url = new URL(window.location.href);
+    url.searchParams.set("section", next);
+    window.history.replaceState({}, "", url);
+  };
 
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster position="bottom-right" />
-          <Home section={section} onSectionChange={setSection} />
+          <Home section={section} onSectionChange={navigate} />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

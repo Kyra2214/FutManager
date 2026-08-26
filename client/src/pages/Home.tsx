@@ -40,12 +40,13 @@ const ASSETS = {
 };
 
 const navItems: { id: AppSection; label: string; short: string; icon: typeof LayoutDashboard }[] = [
-  { id: "inicio", label: "Início", short: "01", icon: LayoutDashboard },
-  { id: "estadio", label: "Estádio", short: "02", icon: Landmark },
-  { id: "time", label: "Time", short: "03", icon: Shield },
-  { id: "ct", label: "CT", short: "04", icon: Dumbbell },
-  { id: "mercado", label: "Mercado", short: "05", icon: ArrowUpRight },
-  { id: "transferencias", label: "Transferências", short: "06", icon: ClipboardList },
+  { id: "clube", label: "Seu Clube", short: "01", icon: LayoutDashboard },
+  { id: "partidas", label: "Nossas Partidas", short: "02", icon: Goal },
+  { id: "estadio", label: "Estádio", short: "03", icon: Landmark },
+  { id: "time", label: "Time", short: "04", icon: Shield },
+  { id: "ct", label: "CT", short: "05", icon: Dumbbell },
+  { id: "mercado", label: "Mercado", short: "06", icon: ArrowUpRight },
+  { id: "transferencias", label: "Transferências", short: "07", icon: ClipboardList },
 ];
 
 const events = [
@@ -116,13 +117,13 @@ function Dashboard({ onSectionChange }: { onSectionChange: (section: AppSection)
     <>
       <section className="hero-panel">
         <div className="hero-image"><img src={ASSETS.stadium} alt="Estádio vazio em perspectiva editorial" /><div className="hero-scrim" /><div className="hero-pitch-lines" aria-hidden="true"><span /><span /><span /></div></div>
-        <div className="hero-copy"><span className="eyebrow light">CENTRO DE COMANDO / 01</span><h1>O próximo jogo<br /><em>começa no caixa.</em></h1><p>Tenha o pulso do clube em uma só leitura. O estado do clube entra aqui, sem atalhos.</p><button className="primary-action" onClick={() => onSectionChange("time")}>Abrir o time <ArrowUpRight size={16} /></button></div>
+        <div className="hero-copy"><span className="eyebrow light">SEU CLUBE / CENTRO DE COMANDO</span><h1>Seu clube.<br /><em>Sob seu comando.</em></h1><p>Elenco, caixa, estádio e calendário em uma só leitura. O estado do clube entra aqui, sem atalhos.</p><button className="primary-action" onClick={() => onSectionChange("partidas")}>Ver nossas partidas <ArrowUpRight size={16} /></button></div>
         <div className="hero-stamp"><img src={ASSETS.mark} alt="" /><div><span>FUT</span><strong>MANAGER</strong><small>GESTÃO · CAMPO · FUTURO</small></div></div>
         <div className="hero-meta"><span>ESTÁDIO / VISÃO GERAL</span><span>LAT 00° · LONG 00°</span></div>
       </section>
       <div className="metrics-grid">
         <Metric label="CAIXA" value="—" note="Caixa do clube aguardando estado" accent="green" icon={CircleDollarSign} />
-        <Metric label="REPUTAÇÃO" value="—" note="Club reputation não disponível" accent="blue" icon={Sparkles} />
+        <Metric label="REPUTAÇÃO" value="—" note="Reputação do clube aguardando estado" accent="blue" icon={Sparkles} />
         <Metric label="COMPETIÇÃO" value="—" note="Classificação aguardando estado" accent="coral" icon={Flag} />
         <Metric label="ELENCO" value="—" note="Elenco aguardando estado oficial" accent="ink" icon={Users} />
       </div>
@@ -152,6 +153,24 @@ function EventCard({ type, tone, label, title, detail, time, icon: Icon }: { typ
   return <button className={`event-card event-${tone}`} onClick={() => toast(`${type}: o detalhe será aberto a partir do evento persistido.`)}><div className="event-icon"><Icon size={17} /></div><div className="event-content"><div className="event-label"><span>{label}</span><time>{time}</time></div><h3>{title}</h3><p>{detail}</p></div><ArrowUpRight className="event-open" size={16} /></button>;
 }
 
+function MatchesPage() {
+  const [view, setView] = useState<"competicoes" | "tabela" | "calendario" | "resultados">("competicoes");
+  const tabs = [
+    ["competicoes", "Competições"],
+    ["tabela", "Tabela"],
+    ["calendario", "Calendário"],
+    ["resultados", "Resultados"],
+  ] as const;
+  return <>
+    <section className="page-intro match-intro"><div><span className="eyebrow">SEU CLUBE / CICLO ESPORTIVO</span><h1>Nossas partidas</h1><p>Competições, calendário, classificação e resultados em uma única leitura. O estado exibido virá sempre do motor.</p></div><div className="match-score-mark"><span>JOGOS</span><strong>—</strong><small>temporada atual</small></div></section>
+    <section className="matches-command"><div className="matches-heading"><div><span className="eyebrow">PAINEL DE COMPETIÇÃO</span><h2>Leia o jogo antes da rodada.</h2></div><span className="match-state"><span className="status-pip" /> aguardando calendário oficial</span></div><div className="match-tabs" role="tablist" aria-label="Visões de partidas">{tabs.map(([id, label]) => <button key={id} className={view === id ? "selected" : ""} onClick={() => setView(id)} role="tab" aria-selected={view === id}>{label}</button>)}</div></section>
+    {view === "competicoes" && <section className="competition-layout"><article className="competition-main"><div className="section-heading compact"><div><span className="eyebrow">COMPETIÇÕES INSCRITAS</span><h2>Sem competição carregada</h2></div><Flag size={18} /></div><div className="competition-empty"><span className="competition-badge">—</span><div><b>O calendário da temporada ainda não chegou.</b><p>Quando uma competição for criada pelo motor, ela aparecerá aqui com fase, rodada, posição e próximos compromissos.</p></div></div></article><aside className="competition-side"><span className="eyebrow">PRÓXIMO JOGO</span><h3>Sem compromisso<br />confirmado.</h3><p>Data, hora, mando e adversário serão exibidos a partir do fixture oficial.</p><div className="side-rule" /><span className="mini-label">CONTEXTO</span><b>—</b></aside></section>}
+    {view === "tabela" && <section className="standings-panel"><div className="section-heading compact"><div><span className="eyebrow">CLASSIFICAÇÃO</span><h2>Tabela da competição</h2></div><span className="table-legend">P · J · V · E · D · SG</span></div><div className="table-scroll"><table><thead><tr><th>#</th><th>CLUBE</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead><tbody><tr className="waiting-row"><td>—</td><td colSpan={7}>A tabela aparecerá quando a competição e as partidas forem carregadas.</td></tr></tbody></table></div></section>}
+    {view === "calendario" && <section className="calendar-layout"><article className="calendar-main"><span className="eyebrow">CALENDÁRIO DO CLUBE</span><h2>Próximos compromissos</h2><div className="calendar-list"><div><span>—</span><b>Nenhuma partida agendada</b><small>O fixture oficial ainda não retornou partidas para o clube.</small></div><div><span>—</span><b>Espaço reservado para rodada</b><small>Competição · local · horário</small></div><div><span>—</span><b>Espaço reservado para rodada</b><small>Competição · local · horário</small></div></div></article><aside className="calendar-aside"><CalendarDays size={26} /><h3>O calendário<br />decide o ritmo.</h3><p>Treino, descanso e viagem serão apresentados aqui apenas quando existirem no estado persistido.</p></aside></section>}
+    {view === "resultados" && <section className="results-layout"><article className="results-main"><div className="section-heading compact"><div><span className="eyebrow">ÚLTIMOS RESULTADOS</span><h2>Histórico de partidas</h2></div><Goal size={18} /></div><div className="result-empty"><span>—</span><h3>Ainda não há resultado registrado.</h3><p>Quando uma partida for processada, placar, competição, eventos e posição posterior ficarão disponíveis neste painel.</p></div></article><aside className="form-aside"><span className="eyebrow">FORMA RECENTE</span><div className="form-slots"><i>—</i><i>—</i><i>—</i><i>—</i><i>—</i></div><p>Os resultados reais definem a sequência.</p></aside></section>}
+  </>;
+}
+
 function StructurePage({ section, onSectionChange }: { section: AppSection; onSectionChange: (section: AppSection) => void }) {
   const isStadium = section === "estadio";
   const isTeam = section === "time";
@@ -164,13 +183,13 @@ function StructurePage({ section, onSectionChange }: { section: AppSection; onSe
     <section className="feature-banner"><img src={isCt ? ASSETS.training : ASSETS.stadium} alt="" /><div className="banner-overlay" /><div className="banner-copy"><span className="eyebrow light">DADOS DO MOTOR</span><h2>{isStadium ? "Construído para o dia de jogo." : isTeam ? "Uma só identidade por jogador." : isCt ? "Treino não é força. É processo." : "Toda proposta deixa um rastro."}</h2><p>Estrutura visual pronta para receber o estado persistido.</p></div></section>
     <div className="detail-grid">
       <article className="detail-panel"><div className="section-heading compact"><div><span className="eyebrow">{isTeam ? "CATEGORIAS" : isStadium ? "QUATRO CAMADAS" : isCt ? "EIXOS" : "PAINEL"}</span><h2>{isTeam ? "Estado do elenco" : isStadium ? "Estrutura do estádio" : isCt ? "Ciclo de desenvolvimento" : "Estado do mercado"}</h2></div><Gauge size={18} /></div>{isTeam ? rosterRows.map((row) => <div className="roster-row" key={row.position}><span className="roster-number">{row.number}</span><div><b>{row.name}</b><small>{row.position}</small></div><span className="muted-status">{row.status}</span><ChevronRight size={15} /></div>) : <div className="layer-list">{(isStadium ? ["Arquibancada", "Campo", "Estrutura", "Equipes"] : isCt ? ["Comissão", "Treinamento", "Recuperação", "Desenvolvimento"] : ["Janela", "Propostas", "Scouting", "Histórico"]).map((item, i) => <div className="layer-row" key={item}><span>0{i + 1}</span><b>{item}</b><em>indisponível</em><ChevronRight size={15} /></div>)}</div>}<button className="outline-action" onClick={() => toast("Esta ação será habilitada quando o serviço correspondente estiver conectado.")}>Consultar estado <ArrowUpRight size={15} /></button></article>
-      <aside className="detail-side"><div className="empty-panel"><span className="empty-mark">—</span><span className="eyebrow">ESTADO NÃO CONECTADO</span><h3>Sem dados inventados.</h3><p>Esta tela já está preparada para os serviços do motor, mas ainda não substitui o GameState por uma cópia local.</p><button className="primary-action dark" onClick={() => onSectionChange("inicio")}>Voltar ao comando <ArrowUpRight size={16} /></button></div></aside>
+      <aside className="detail-side"><div className="empty-panel"><span className="empty-mark">—</span><span className="eyebrow">ESTADO NÃO CONECTADO</span><h3>Sem dados inventados.</h3><p>Esta tela já está preparada para os serviços do motor, mas ainda não substitui o estado oficial por uma cópia local.</p><button className="primary-action dark" onClick={() => onSectionChange("clube")}>Voltar ao clube <ArrowUpRight size={16} /></button></div></aside>
     </div>
   </>;
 }
 
-export default function Home({ section = "inicio", onSectionChange = () => undefined }: { section?: AppSection; onSectionChange?: (section: AppSection) => void }) {
+export default function Home({ section = "clube", onSectionChange = () => undefined }: { section?: AppSection; onSectionChange?: (section: AppSection) => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const main = useMemo(() => section === "inicio" ? <Dashboard onSectionChange={onSectionChange} /> : <StructurePage section={section} onSectionChange={onSectionChange} />, [section, onSectionChange]);
+  const main = useMemo(() => section === "clube" ? <Dashboard onSectionChange={onSectionChange} /> : section === "partidas" ? <MatchesPage /> : <StructurePage section={section} onSectionChange={onSectionChange} />, [section, onSectionChange]);
   return <div className="app-shell"><Sidebar section={section} onSectionChange={onSectionChange} open={menuOpen} onClose={() => setMenuOpen(false)} /><main className="app-main"><Header section={section} onMenu={() => setMenuOpen(true)} /><div className="page-wrap">{main}</div><footer className="page-footer"><span>FUTMANAGER / EDITORIAL DE ARQUIBANCADA</span><span>SQL · STATE · SERVICES</span></footer></main></div>;
 }

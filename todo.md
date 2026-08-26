@@ -1,0 +1,3 @@
+- [x] Promover "Seu Clube" para a primeira posição da navegação e do dashboard.
+- [x] Criar a aba "Nossas Partidas" com competições, tabela, calendário, próximos jogos e resultados.
+- [x] Validar a nova navegação em desktop e mobile.
