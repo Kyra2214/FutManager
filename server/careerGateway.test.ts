@@ -3,7 +3,7 @@ import { createRequire } from "node:module";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { acceptSponsorshipOffer, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, hireAvailableStaff, listAvailableStaff, listCareerTargets, listDepartmentOffers, startCareer, upgradeClubDepartment } from "./careerGateway";
+import { acceptSponsorshipOffer, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, hireAvailableStaff, listAvailableStaff, listCareerTargets, listClubEvents, listDepartmentOffers, markClubEventRead, startCareer, upgradeClubDepartment } from "./careerGateway";
 
 type Db = { close: () => void; exec: (sql: string) => void };
 type DbConstructor = new (path: string) => Db;
@@ -93,5 +93,17 @@ describe("careerGateway", () => {
     expect(getClubEconomySummary(path).cash).toBe(beforeCash + accepted.upfront_payment);
     expect(after.active_contract).toMatchObject({ contract_id: accepted.contract_id, star_rating: accepted.star_rating });
     expect(after.offers).toEqual([]);
+  });
+
+  it("expõe alertas persistidos do motor e confirma sua leitura", () => {
+    const path = fixture();
+    startCareer({ managerName: "Ana", nationality: "BR", age: 31, careerName: "Carreira Ana", targetType: "club", targetId: 7 }, path);
+    const sponsorship = getClubSponsorshipSummary(path);
+    acceptSponsorshipOffer(sponsorship.offers[0].offer_id, path);
+    const events = listClubEvents(8, false, path);
+    expect(events.unread_count).toBeGreaterThan(0);
+    expect(events.items[0]).toMatchObject({ type: "PATROCINIO", is_read: false });
+    expect(markClubEventRead(events.items[0].event_id, path)).toMatchObject({ read: true });
+    expect(listClubEvents(8, false, path).unread_count).toBe(0);
   });
 });

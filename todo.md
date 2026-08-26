@@ -80,4 +80,7 @@
 - [x] Cobrir partidas inexistentes ou não jogadas e o fluxo completo de partida, bilheteria e missão comercial.
 - [x] Expor estádio, torcida, receitas e avanço semanal por gateway/tRPC e telas editoriais.
 - [x] Executar cenários de integridade, idempotência e temporada antes de gerar o ZIP completo.
-- [ ] Gerar e entregar ZIP completo de frontend, motor, documentação e instruções de execução.
+- [x] Gerar e entregar ZIP completo de frontend, motor, documentação e instruções de execução.
+- [x] Expor alertas persistidos de estádio, torcida, finanças, competições e patrocínios no gateway e na interface.
+- [x] Documentar a validação final, os hashes e as limitações do ciclo semanal no relatório de entrega.
+- [x] Anexar ao usuário o ZIP completo validado, com frontend, motor, bancos, ativos, documentação e instruções.

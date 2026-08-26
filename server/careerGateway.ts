@@ -15,7 +15,7 @@ export type CareerCatalogItem = {
 };
 
 type GatewayResult = { ok: boolean; error?: string } & Record<string, unknown>;
-type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "department_offers" | "department_upgrade" | "economy_weekly" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance";
+type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "department_offers" | "department_upgrade" | "economy_weekly" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance" | "events_list" | "events_mark_read";
 
 function callGateway<T extends GatewayResult>(action: GatewayAction, payload: Record<string, unknown>, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): T {
   try {
@@ -168,4 +168,27 @@ export function configureClubTicketPrice(basePrice: number, databasePath?: strin
 
 export function advanceWorldWeek(seed?: number, databasePath?: string) {
   return staffMarketAction<GatewayResult & { status: string; season: number; week: number; matches?: number }>("weekly_advance", { seed }, databasePath);
+}
+
+export type ClubEvent = {
+  event_id: number;
+  club_id: number;
+  type: "TRANSFERENCIA" | "LESAO" | "CONTRATO" | "PATROCINIO" | "FINANCEIRO" | "COMPETICAO" | "ESTADIO" | "TORCIDA";
+  origin: string | null;
+  severity: "LOW" | "NORMAL" | "HIGH" | "CRITICAL";
+  event_date: string;
+  title: string;
+  description: string | null;
+  impact: string | null;
+  status: "OPEN" | "READ";
+  is_read: boolean;
+  reference: string | null;
+};
+
+export function listClubEvents(limit = 20, unreadOnly = false, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { unread_count: number; items: ClubEvent[] }>("events_list", { limit, unread_only: unreadOnly }, databasePath);
+}
+
+export function markClubEventRead(eventId: number, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { event_id: number; read: boolean }>("events_mark_read", { event_id: eventId }, databasePath);
 }

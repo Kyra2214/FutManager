@@ -5,6 +5,7 @@ import { publicProcedure, router } from "./_core/trpc";
 import { assetsRouter } from "./routers/assets";
 import { careerRouter } from "./routers/career";
 import { clubRouter } from "./routers/club";
+import { eventsRouter } from "./routers/events";
 import { matchesRouter } from "./routers/matches";
 import { staffMarketRouter } from "./routers/staffMarket";
 import { sponsorshipRouter } from "./routers/sponsorship";
@@ -26,6 +27,7 @@ export const appRouter = router({
   assets: assetsRouter,
   career: careerRouter,
   club: clubRouter,
+  events: eventsRouter,
   matches: matchesRouter,
   staffMarket: staffMarketRouter,
   sponsorship: sponsorshipRouter,
