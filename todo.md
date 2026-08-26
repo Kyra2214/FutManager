@@ -283,3 +283,4 @@
 - [x] P1-6: apresentar nome e posição canônicos nos agregados individuais, resolvidos pelo elenco persistido do clube.
 - [x] P1-6: exibir estado honesto para estatística de atleta sem vínculo no elenco atual, sem inferência por posição ou nome.
 - [x] P1-6: validar visualmente a aba Time com filtros de competição/atleta em desktop e viewport móvel.
+- [x] P1-6 / passo 109: calcular entrosamento do elenco a partir de vínculos, posições e escalação persistida, sem persistir ranking paralelo.
