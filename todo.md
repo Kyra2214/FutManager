@@ -29,3 +29,10 @@
 - [x] Expor um contrato de leitura consolidado do clube controlado no backend.
 - [x] Conectar dashboard, Time, Estádio e CT aos dados reais ou aos estados vazios do motor.
 - [x] Validar os fluxos conectados em desktop e mobile sem criar dados fictícios.
+- [x] Preparar um pacote ZIP completo com frontend, backend, dados de estado e ativos vinculados.
+- [x] Verificar a integridade e o conteúdo do pacote de entrega.
+- [x] Remover a consulta manual de identidade quando uma carreira com clube controlado estiver ativa.
+- [x] Mapear as tabelas e os serviços SQL de elenco detalhado, comissão, saúde e scouting.
+- [x] Expor o contrato de dados detalhados do elenco e da equipe técnica no backend.
+- [x] Conectar Time, CT e Mercado aos dados persistidos e estados de ausência reais.
+- [x] Validar a interface detalhada em desktop e mobile sem criar profissionais ou jogadores fictícios.
