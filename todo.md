@@ -331,3 +331,16 @@
 - [x] P1-9 / passo 177: expor recomendações baseadas em fatos persistidos.
 - [x] P1-9 / passos 178/179: testar determinismo por seed e rollback de forma após falha.
 - [x] P1-9 / passo 180: documentar fórmulas de forma e moral.
+- [x] P1-10 / passos 181/182/183: inventariar lesões e persistir diagnóstico, gravidade, início e previsão de retorno.
+- [x] P1-10 / passos 184/185: implementar recuperação diária/semanal com influência médica.
+- [x] P1-10 / passo 186: manter bloqueio de lesionados na escalação.
+- [x] P1-10 / passo 187: registrar recaída com regra determinística.
+- [x] P1-10 / passos 188/189: persistir suspensões por cartões e expulsão.
+- [x] P1-10 / passo 190: criar histórico médico do atleta.
+- [x] P1-10 / passos 191/192: emitir alertas de lesão nova e retorno ao elenco.
+- [x] P1-10 / passo 193: expor tela/consulta do departamento médico.
+- [x] P1-10 / passo 194: documentar prognóstico como modelo de jogo, sem promessa clínica.
+- [x] P1-10 / passo 195/196/197: testar pré-temporada, meio do ciclo e rollback transacional.
+- [x] P1-10 / passo 198: garantir que saúde não inventa jogadores.
+- [x] P1-10 / passo 199: filtrar lesões por gravidade e prazo.
+- [x] P1-10 / passo 200: documentar limites do modelo de saúde.

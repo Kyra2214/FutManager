@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { bootstrapClubEconomy, createTrainingPlan, getClubEconomySummary, getFormRecommendations, getMoraleSummary, getStaffContract, getWeeklyLoad, hireAvailableStaff, listAvailableStaff, listDepartmentOffers, listTrainingAlerts, listTrainingBudget, listTrainingDepartments, listTrainingDevelopment, replaceStaff, terminateStaff, upgradeClubDepartment } from "../careerGateway";
+import { bootstrapClubEconomy, createTrainingPlan, getClubEconomySummary, getFormRecommendations, getMoraleSummary, getStaffContract, getWeeklyLoad, hireAvailableStaff, listAvailableStaff, listDepartmentOffers, listHealth, listHealthAlerts, listTrainingAlerts, listTrainingBudget, listTrainingDepartments, listTrainingDevelopment, recoverPlayers, registerInjury, registerSuspension, replaceStaff, terminateStaff, upgradeClubDepartment } from "../careerGateway";
 import { publicProcedure, router } from "../_core/trpc";
 
 function toTrpcError(error: unknown) {
@@ -39,6 +39,11 @@ export const staffMarketRouter = router({
   trainingDevelopment: publicProcedure.query(() => { try { return listTrainingDevelopment(); } catch (error) { throw toTrpcError(error); } }),
   trainingAlerts: publicProcedure.query(() => { try { return listTrainingAlerts(); } catch (error) { throw toTrpcError(error); } }),
   trainingPlan: publicProcedure.input(z.object({ season: z.number().int().positive(), week: z.number().int().min(1).max(53), planType: z.enum(["GENERAL", "TECHNICAL", "TACTICAL", "PHYSICAL", "SET_PIECES", "REST"]), load: z.number().int().min(0).max(100) })).mutation(({ input }) => { try { return createTrainingPlan(input.season, input.week, input.planType, input.load); } catch (error) { throw toTrpcError(error); } }),
+  health: publicProcedure.input(z.object({ severity: z.string().optional(), maxDays: z.number().int().positive().optional() }).optional()).query(({ input }) => { try { return listHealth(input?.severity, input?.maxDays); } catch (error) { throw toTrpcError(error); } }),
+  healthAlerts: publicProcedure.query(() => { try { return listHealthAlerts(); } catch (error) { throw toTrpcError(error); } }),
+  registerInjury: publicProcedure.input(z.object({ playerId: z.number().int().positive(), injuryType: z.string().min(1), severity: z.enum(["MINOR", "MODERATE", "SEVERE"]), season: z.number().int().positive(), week: z.number().int().min(1).max(53), seed: z.number().int().optional() })).mutation(({ input }) => { try { return registerInjury(input.playerId, input.injuryType, input.severity, input.season, input.week, input.seed); } catch (error) { throw toTrpcError(error); } }),
+  recoverPlayers: publicProcedure.input(z.object({ days: z.number().int().positive().default(1) })).mutation(({ input }) => { try { return recoverPlayers(input.days); } catch (error) { throw toTrpcError(error); } }),
+  registerSuspension: publicProcedure.input(z.object({ playerId: z.number().int().positive(), cards: z.number().int().min(0), redCard: z.boolean(), season: z.number().int().positive(), week: z.number().int().min(1).max(53) })).mutation(({ input }) => { try { return registerSuspension(input.playerId, input.cards, input.redCard, input.season, input.week); } catch (error) { throw toTrpcError(error); } }),
   moraleSummary: publicProcedure.query(() => { try { return getMoraleSummary(); } catch (error) { throw toTrpcError(error); } }),
   formRecommendations: publicProcedure.query(() => { try { return getFormRecommendations(); } catch (error) { throw toTrpcError(error); } }),
   weeklyLoad: publicProcedure.input(z.object({ season: z.number().int().positive(), week: z.number().int().min(1).max(53) })).query(({ input }) => { try { return getWeeklyLoad(input.season, input.week); } catch (error) { throw toTrpcError(error); } }),
