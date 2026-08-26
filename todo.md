@@ -5,3 +5,13 @@
 - [x] Mapear competições, partidas, calendário e classificação do estado real do motor.
 - [x] Conectar as quatro visões da aba aos dados reais e validar os estados de carregamento.
 - [x] Validar explicitamente o estado de carregamento da aba Nossas Partidas com resposta atrasada do backend.
+- [x] Extrair os escudos originais do arquivo-mãe e organizá-los em uma pasta de ativos auditável.
+- [x] Vincular escudos de clubes e seleções às entidades canônicas do SQL por identificador de origem.
+- [x] Validar cobertura e preparar o FutManager para exibir o escudo da entidade escolhida.
+- [x] Expor os vínculos de ativos por identificador de clube ou seleção na camada de leitura do FutManager.
+- [x] Consumir os vínculos na seleção da entidade com fallback honesto para ativos ausentes.
+- [x] Exibir ativos de seleções na área de entidade quando a seleção for escolhida.
+- [x] Cobrir visualmente todos os estados de vínculo de ativos, sem ocultar ausências do arquivo-mãe.
+- [x] Criar uma área de consulta de entidade para clube ou seleção por ID do SQL oficial.
+- [x] Mostrar escudo ou camisa e o status explícito do vínculo na prévia da entidade.
+- [x] Validar visualmente a prévia para um clube e uma seleção reais do banco.

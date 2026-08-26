@@ -21,6 +21,7 @@ const { DatabaseSync } = runtimeRequire(["node", "sqlite"].join(":")) as {
 };
 
 const DEFAULT_ENGINE_STATE_PATH = "/home/ubuntu/brasfoot_engine/data/state/game.db";
+const ENGINE_ASSET_URL_PREFIX = "/engine-assets/";
 
 type SQLiteRow = Record<string, unknown>;
 
@@ -82,6 +83,20 @@ export type MatchesDashboard = {
   recentResults: MatchCard[];
 };
 
+export type EntityAssetLink = {
+  source: { available: boolean; message: string };
+  entityType: "team" | "selection";
+  entityId: number;
+  entityName: string | null;
+  mappingStatus: "COMPLETE" | "FULL_ONLY" | "MINI_ONLY" | "NO_SOURCE_ASSET" | "SOURCE_NOT_PROVIDED" | "ENTITY_NOT_FOUND" | "STATE_UNAVAILABLE";
+  crestPath: string | null;
+  crestUrl: string | null;
+  miniCrestPath: string | null;
+  miniCrestUrl: string | null;
+  primaryKitPath: string | null;
+  primaryKitUrl: string | null;
+};
+
 function asNumber(value: unknown, fallback = 0): number {
   if (typeof value === "number") return value;
   if (typeof value === "bigint") return Number(value);
@@ -98,6 +113,28 @@ function asNullableNumber(value: unknown): number | null {
 
 function asText(value: unknown, fallback = "—"): string {
   return typeof value === "string" && value.trim() ? value : fallback;
+}
+
+function publicAssetUrl(relativePath: string | null): string | null {
+  if (!relativePath || relativePath.includes("..") || !relativePath.startsWith("assets/")) return null;
+  const encodedPath = relativePath.slice("assets/".length).split("/").map(encodeURIComponent).join("/");
+  return `${ENGINE_ASSET_URL_PREFIX}${encodedPath}`;
+}
+
+function unavailableEntityAsset(entityType: EntityAssetLink["entityType"], entityId: number, message: string): EntityAssetLink {
+  return {
+    source: { available: false, message },
+    entityType,
+    entityId,
+    entityName: null,
+    mappingStatus: "STATE_UNAVAILABLE",
+    crestPath: null,
+    crestUrl: null,
+    miniCrestPath: null,
+    miniCrestUrl: null,
+    primaryKitPath: null,
+    primaryKitUrl: null,
+  };
 }
 
 function emptyDashboard(message: string): MatchesDashboard {
@@ -329,6 +366,72 @@ export function getMatchesDashboard(
   } catch (error) {
     console.error("[Engine state] Falha ao consultar o estado SQLite em modo somente leitura:", error);
     return emptyDashboard("O estado local do motor não está disponível para leitura neste ambiente.");
+  } finally {
+    db?.close();
+  }
+}
+
+export function getEntityAssetLink(
+  entityType: EntityAssetLink["entityType"],
+  entityId: number,
+  databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH,
+): EntityAssetLink {
+  let db: SQLiteDatabase | null = null;
+
+  try {
+    db = new DatabaseSync(databasePath, { readOnly: true });
+    const row = (entityType === "team"
+      ? db.prepare(
+          `SELECT team.time_id AS entity_id, team.nome AS entity_name, link.mapping_status,
+                  crest.relative_path AS crest_path, mini.relative_path AS mini_crest_path,
+                  NULL AS primary_kit_path
+           FROM times team
+           LEFT JOIN team_asset_links link ON link.time_id = team.time_id
+           LEFT JOIN asset_catalog crest ON crest.asset_id = link.crest_asset_id
+           LEFT JOIN asset_catalog mini ON mini.asset_id = link.crest_mini_asset_id
+           WHERE team.time_id = ?`,
+        )
+      : db.prepare(
+          `SELECT selection.selecao_id AS entity_id, selection.nome AS entity_name, link.crest_status AS mapping_status,
+                  crest.relative_path AS crest_path, NULL AS mini_crest_path,
+                  kit.relative_path AS primary_kit_path
+           FROM selecoes selection
+           LEFT JOIN selection_asset_links link ON link.selecao_id = selection.selecao_id
+           LEFT JOIN asset_catalog crest ON crest.asset_id = link.crest_asset_id
+           LEFT JOIN asset_catalog kit ON kit.asset_id = link.primary_kit_asset_id
+           WHERE selection.selecao_id = ?`,
+        )
+    ).get(entityId) as SQLiteRow | undefined;
+
+    if (!row) {
+      return {
+        ...unavailableEntityAsset(entityType, entityId, "A entidade solicitada não existe no estado do motor."),
+        source: { available: true, message: "A entidade solicitada não existe no estado do motor." },
+        mappingStatus: "ENTITY_NOT_FOUND",
+      };
+    }
+
+    const crestPath = typeof row.crest_path === "string" ? row.crest_path : null;
+    const miniCrestPath = typeof row.mini_crest_path === "string" ? row.mini_crest_path : null;
+    const primaryKitPath = typeof row.primary_kit_path === "string" ? row.primary_kit_path : null;
+    const mappingStatus = asText(row.mapping_status, entityType === "selection" ? "SOURCE_NOT_PROVIDED" : "NO_SOURCE_ASSET") as EntityAssetLink["mappingStatus"];
+
+    return {
+      source: { available: true, message: "Vínculo de ativo consultado diretamente no SQLite do motor." },
+      entityType,
+      entityId: asNumber(row.entity_id),
+      entityName: typeof row.entity_name === "string" ? row.entity_name : null,
+      mappingStatus,
+      crestPath,
+      crestUrl: publicAssetUrl(crestPath),
+      miniCrestPath,
+      miniCrestUrl: publicAssetUrl(miniCrestPath),
+      primaryKitPath,
+      primaryKitUrl: publicAssetUrl(primaryKitPath),
+    };
+  } catch (error) {
+    console.error("[Engine assets] Falha ao consultar vínculo de ativo:", error);
+    return unavailableEntityAsset(entityType, entityId, "O estado de ativos do motor não está disponível neste ambiente.");
   } finally {
     db?.close();
   }

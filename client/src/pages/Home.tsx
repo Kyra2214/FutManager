@@ -6,6 +6,8 @@
 import React, { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
+import { getEntityAssetPresentation } from "@/lib/entityAsset";
+import { EntityAsset } from "@/components/EntityAsset";
 import {
   Activity,
   ArrowUpRight,
@@ -114,6 +116,9 @@ function Header({ section, onMenu }: { section: AppSection; onMenu: () => void }
 }
 
 function Dashboard({ onSectionChange }: { onSectionChange: (section: AppSection) => void }) {
+  const clubStateQuery = trpc.matches.dashboard.useQuery(undefined, { retry: 1 });
+  const controlledClub = clubStateQuery.data?.controlledClub ?? null;
+
   return (
     <>
       <section className="hero-panel">
@@ -133,7 +138,7 @@ function Dashboard({ onSectionChange }: { onSectionChange: (section: AppSection)
           <div className="section-heading"><div><span className="eyebrow">AGENDA DO CLUBE</span><h2>Próxima partida</h2></div><button className="text-action" onClick={() => onSectionChange("time")}>Ver time <ArrowUpRight size={15} /></button></div>
           <article className="fixture-card">
             <div className="fixture-date"><span>PRÓXIMO COMPROMISSO</span><strong>—</strong><small>Data a confirmar</small></div>
-            <div className="fixture-match"><div><span className="crest-placeholder">?</span><b>Seu clube</b><small>MANDANTE / —</small></div><div className="versus">VS</div><div><span className="crest-placeholder away">?</span><b>Adversário</b><small>VISITANTE / —</small></div></div>
+            <div className="fixture-match"><div>{controlledClub ? <EntityAsset className="crest-placeholder" entityType="team" entityId={controlledClub.clubId} entityName={controlledClub.name} /> : <span className="crest-placeholder">?</span>}<b>{controlledClub?.name ?? "Seu clube"}</b><small>MANDANTE / —</small></div><div className="versus">VS</div><div><span className="crest-placeholder away">?</span><b>Adversário</b><small>VISITANTE / —</small></div></div>
             <div className="fixture-note"><CalendarDays size={15} /><span>O próximo compromisso virá do calendário oficial.</span></div>
           </article>
           <div className="section-heading news-heading"><div><span className="eyebrow">SINAL DO MUNDO</span><h2>Feed de notícias</h2></div><button className="filter-btn" onClick={() => toast("Filtros serão alimentados pelos acontecimentos do clube.")}><SlidersHorizontal size={15} /> Filtrar</button></div>
@@ -141,7 +146,7 @@ function Dashboard({ onSectionChange }: { onSectionChange: (section: AppSection)
         </div>
         <aside className="side-column">
           <div className="section-heading compact"><div><span className="eyebrow">SITUAÇÃO ATUAL</span><h2>Seu clube</h2></div><button className="more-btn" aria-label="Mais opções" onClick={() => toast("O retrato do clube virá do estado oficial.")}>···</button></div>
-          <article className="club-card"><div className="club-card-top"><span className="crest-large">?</span><div><span className="eyebrow">CLUBE CONTROLADO</span><h3>Não conectado</h3><p>Selecione um estado de carreira</p></div></div><div className="club-lines"><div><span>ESTÁDIO</span><b>—</b></div><div><span>CT</span><b>—</b></div><div><span>TORCIDA</span><b>—</b></div></div><button className="secondary-action" onClick={() => onSectionChange("estadio")}>Ver estruturas <ChevronRight size={15} /></button></article>
+          <article className="club-card"><div className="club-card-top">{controlledClub ? <EntityAsset entityType="team" entityId={controlledClub.clubId} entityName={controlledClub.name} /> : <span className="crest-large">?</span>}<div><span className="eyebrow">CLUBE CONTROLADO</span><h3>{controlledClub?.name ?? "Não conectado"}</h3><p>{controlledClub ? "Ativo resolvido pelo vínculo oficial" : "Selecione um estado de carreira"}</p></div></div><div className="club-lines"><div><span>ESTÁDIO</span><b>—</b></div><div><span>CT</span><b>—</b></div><div><span>TORCIDA</span><b>—</b></div></div><button className="secondary-action" onClick={() => onSectionChange("estadio")}>Ver estruturas <ChevronRight size={15} /></button></article>
           <article className="read-card" style={{ backgroundImage: `url(${ASSETS.texture})` }}><span className="eyebrow">LEITURA DO DIA</span><h3>Leia o cenário<br />antes de mexer<br /><em>no elenco.</em></h3><div className="read-footer"><span>EDITORIAL / 001</span><ArrowUpRight size={16} /></div></article>
           <div className="integrity-note"><span className="live-dot" /><div><b>ESTADO COMO FONTE OFICIAL</b><p>A interface apresenta decisões; o motor guarda as consequências.</p></div></div>
         </aside>
@@ -204,6 +209,20 @@ export function MatchesPage({ initialView = "competicoes" }: { initialView?: "co
   </>;
 }
 
+function EntityLookupPanel() {
+  const [entityType, setEntityType] = useState<"team" | "selection">("team");
+  const [rawEntityId, setRawEntityId] = useState("");
+  const entityId = Number(rawEntityId);
+  const hasValidId = Number.isSafeInteger(entityId) && entityId > 0;
+  const queryInput = useMemo(() => ({ entityType, entityId: hasValidId ? entityId : 1 }), [entityId, entityType, hasValidId]);
+  const assetQuery = trpc.assets.resolve.useQuery(queryInput, { enabled: hasValidId });
+  const asset = assetQuery.data;
+  const presentation = getEntityAssetPresentation(asset?.mappingStatus, entityType);
+  const selectedName = asset?.entityName ?? (entityType === "team" ? "Clube" : "Seleção");
+
+  return <section className="entity-lookup" aria-labelledby="entity-lookup-title"><div className="section-heading compact"><div><span className="eyebrow">IDENTIDADE OFICIAL</span><h2 id="entity-lookup-title">Consultar escudo ou seleção</h2></div><Search size={18} /></div><p>Informe o ID da entidade no SQL do motor. A tela consulta somente o vínculo oficial e não cria clube, seleção ou ativo.</p><div className="entity-lookup-controls"><label><span>TIPO</span><select value={entityType} onChange={(event) => setEntityType(event.target.value as "team" | "selection")}><option value="team">Clube</option><option value="selection">Seleção</option></select></label><label><span>ID OFICIAL</span><input value={rawEntityId} onChange={(event) => setRawEntityId(event.target.value.replace(/\D/g, ""))} inputMode="numeric" placeholder={entityType === "team" ? "Ex.: 1" : "Ex.: 6"} /></label></div>{!rawEntityId && <div className="entity-lookup-empty">Informe um ID para resolver o ativo diretamente no estado do motor.</div>}{hasValidId && <div className={`entity-asset-preview asset-${presentation.tone}`}>{assetQuery.isLoading ? <span className="crest-large">…</span> : <EntityAsset entityType={entityType} entityId={entityId} entityName={selectedName} />}<div><span className="eyebrow">{entityType === "team" ? "CLUBE" : "SELEÇÃO"} · ID {entityId}</span><h3>{assetQuery.isLoading ? "Lendo vínculo oficial" : selectedName}</h3><p>{assetQuery.isLoading ? "Consultando o SQLite do motor…" : presentation.label}</p>{asset?.primaryKitUrl && <small>Camisa primária original disponível.</small>}</div></div>}</section>;
+}
+
 function StructurePage({ section, onSectionChange }: { section: AppSection; onSectionChange: (section: AppSection) => void }) {
   const isStadium = section === "estadio";
   const isTeam = section === "time";
@@ -214,6 +233,7 @@ function StructurePage({ section, onSectionChange }: { section: AppSection; onSe
   return <>
     <section className="page-intro"><div><span className="eyebrow">FUTMANAGER / {formatSection(section).toUpperCase()}</span><h1>{title}</h1><p>{intro}</p></div><span className="page-code">{section === "estadio" ? "ST-01" : section === "time" ? "TM-01" : section === "ct" ? "CT-01" : "MK-01"}</span></section>
     <section className="feature-banner"><img src={isCt ? ASSETS.training : ASSETS.stadium} alt="" /><div className="banner-overlay" /><div className="banner-copy"><span className="eyebrow light">DADOS DO MOTOR</span><h2>{isStadium ? "Construído para o dia de jogo." : isTeam ? "Uma só identidade por jogador." : isCt ? "Treino não é força. É processo." : "Toda proposta deixa um rastro."}</h2><p>Estrutura visual pronta para receber o estado persistido.</p></div></section>
+    {isTeam && <EntityLookupPanel />}
     <div className="detail-grid">
       <article className="detail-panel"><div className="section-heading compact"><div><span className="eyebrow">{isTeam ? "CATEGORIAS" : isStadium ? "QUATRO CAMADAS" : isCt ? "EIXOS" : "PAINEL"}</span><h2>{isTeam ? "Estado do elenco" : isStadium ? "Estrutura do estádio" : isCt ? "Ciclo de desenvolvimento" : "Estado do mercado"}</h2></div><Gauge size={18} /></div>{isTeam ? rosterRows.map((row) => <div className="roster-row" key={row.position}><span className="roster-number">{row.number}</span><div><b>{row.name}</b><small>{row.position}</small></div><span className="muted-status">{row.status}</span><ChevronRight size={15} /></div>) : <div className="layer-list">{(isStadium ? ["Arquibancada", "Campo", "Estrutura", "Equipes"] : isCt ? ["Comissão", "Treinamento", "Recuperação", "Desenvolvimento"] : ["Janela", "Propostas", "Scouting", "Histórico"]).map((item, i) => <div className="layer-row" key={item}><span>0{i + 1}</span><b>{item}</b><em>indisponível</em><ChevronRight size={15} /></div>)}</div>}<button className="outline-action" onClick={() => toast("Esta ação será habilitada quando o serviço correspondente estiver conectado.")}>Consultar estado <ArrowUpRight size={15} /></button></article>
       <aside className="detail-side"><div className="empty-panel"><span className="empty-mark">—</span><span className="eyebrow">ESTADO NÃO CONECTADO</span><h3>Sem dados inventados.</h3><p>Esta tela já está preparada para os serviços do motor, mas ainda não substitui o estado oficial por uma cópia local.</p><button className="primary-action dark" onClick={() => onSectionChange("clube")}>Voltar ao clube <ArrowUpRight size={16} /></button></div></aside>
