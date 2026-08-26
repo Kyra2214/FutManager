@@ -12,7 +12,7 @@
     "checkpoint"
   ],
   "p0_fronts": [
-    {"front": 1, "title": "Governança e priorização", "status": "PENDING"},
+    {"front": 1, "title": "Governança e priorização", "status": "CONSOLIDATED", "evidence": ["docs/p0_front_01_governance_charter.md", "scripts/validate_p0_governance.py", "checkpoint"]},
     {"front": 2, "title": "Arquitetura do motor", "status": "PENDING"},
     {"front": 3, "title": "Banco de dados e migrações", "status": "PENDING"},
     {"front": 4, "title": "Jogadores e dados canônicos", "status": "PENDING"},

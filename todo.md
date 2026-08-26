@@ -152,3 +152,11 @@
 - [x] Adicionar teste de integração do career_gateway.py para erro real de serviço mutável, como ticket inválido ou oferta inexistente.
 - [x] Reexecutar a bateria focada após incluir o teste de erro real via gateway.
 - [x] Reexecutar testes, typecheck e build do frontend após as mudanças de contrato de erros do motor.
+- [x] Consolidar o Front P0-1 com charter versionado e evidências para os 20 primeiros passos do roadmap.
+- [x] Validar automaticamente que o charter P0-1 contém critérios de fonte única, seed, riscos e dependências.
+- [x] Adicionar ao charter uma matriz item→evidência para os 20 passos do Front P0-1.
+- [x] Ampliar o validador para checar explicitamente riscos, dependências, quadro, escopo e dívida técnica.
+- [x] Registrar a consolidação do Front P0-1 no manifesto versionado do gate, mantendo P1/P2 bloqueados.
+- [x] Fazer o validador exigir descoberta, construção, validação e concluída.
+- [x] Fazer o validador exigir escopo essencial, avançado e experimental.
+- [x] Rerodar o validador do Front P0-1 após essas exigências.
