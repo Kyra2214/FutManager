@@ -437,3 +437,7 @@
 
 - [x] Configurar o repositório GitHub `Kyra2214/FutManager` como destino oficial de versionamento; integração autorizada e repositório selecionado pelo Manus Connector. O primeiro push do pacote ainda depende da execução do fluxo de exportação/sincronização disponível no ambiente.
 - [x] Executar e verificar o primeiro push do estado atual para `Kyra2214/FutManager` na branch `main`, commit `d1900cb0334c81511be4f4e401a9791296463aec`.
+
+# Próximas 100 implementações
+
+- [x] Definir, documentar e versionar as próximas 100 implementações dos passos 371–470, mantendo prioridades, dependências e fonte SQL/GameState; execução individual permanece pendente.
