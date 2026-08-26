@@ -546,3 +546,4 @@
 - [x] Corrigir a entrada principal: exibir nova carreira quando não houver save ativo, permitir selecionar clube ou seleção e criar save novo.
 - [x] Garantir que dashboard, Operações e restauração de snapshots só sejam liberados após save ativo persistido.
 - [x] Adicionar testes focados para seleção, criação de save e bloqueio do dashboard sem carreira.
+- [x] Corrigir overflow horizontal da tela de entrada para manter o layout fixo no viewport de celulares e validar em 375px/320px.

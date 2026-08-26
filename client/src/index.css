@@ -383,3 +383,23 @@ button:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 3px; }
 .restore-confirm strong { color: #8e3b30; font: 700 12px "Space Grotesk", sans-serif; }
 .restore-confirm p { margin: 6px 0 11px; color: #745f5a; font-size: 10px; line-height: 1.45; }
 @media (max-width: 520px) { .snapshot-columns { grid-template-columns: 1fr; } .snapshot-compare-heading { align-items: flex-start; flex-wrap: wrap; } .snapshot-compare-heading span { margin-left: 0; width: 100%; } .snapshot-picker-row { grid-template-columns: 1fr 42px 42px; } }
+
+/* Mobile viewport lock: keep the career entry screen fixed to the device width. */
+html, body, #root { max-width: 100%; overflow-x: hidden; }
+.career-start-shell { width: 100%; max-width: 100vw; overflow-x: hidden; }
+@media (max-width: 840px) {
+  .career-start-shell { display: block; width: 100%; max-width: 100vw; min-width: 0; }
+  .career-start-hero, .career-start-panel { width: 100%; min-width: 0; max-width: 100%; }
+  .career-start-hero { min-height: 350px; }
+  .career-start-panel { padding: 30px 20px 38px; }
+  .career-form-grid { grid-template-columns: minmax(0, 1fr); }
+  .career-target-head { align-items: flex-start; flex-direction: column; }
+  .career-type-toggle { max-width: 100%; }
+  .career-search, .career-search input { max-width: 100%; }
+  .career-targets { width: 100%; max-width: 100%; grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 360px) {
+  .career-start-hero { padding: 38px 20px; }
+  .career-start-hero h1 { font-size: 42px; }
+  .career-start-panel { padding-inline: 16px; }
+}
