@@ -101,7 +101,7 @@
 - [x] Reexecutar todos os validadores após a cobertura integral do gateway.
 - [x] Documentar que o career_gateway.py não possui exceções legítimas de escrita direta mutável fora dos serviços autorizados.
 - [x] Rerodar o validador após documentar essa política de exceções.
-- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0; aguardando auditoria item a item e cadeia completa checkpoint→publicação.
+- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0; auditoria funcional 10/10 aprovada, aguardando checkpoint desta execução.
 - [x] Formalizar e validar a execução ordenada/gates do roadmap com `roadmap_gate.json`, `validate_roadmap_gate.py` e testes do RoadmapGate/career_gateway; P0 consolidado e P1/P2 executados somente após `P0_GATE=OPEN`.
 - [x] Auditar P0-23 com matriz de ausência de estado paralelo e conformidade tRPC.
 - [x] Auditar P0-25 com matriz de testes, entrega, hashes e documentação operacional.
@@ -427,7 +427,7 @@
 
 # Execução global
 
-- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0; auditoria global reaberta até comprovar item a item e cadeia checkpoint→publicação.
+- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0; comportamento funcional 471–500 validado, aguardando checkpoint desta auditoria.
 
 # Entrega do estado atual
 
@@ -473,4 +473,7 @@
 - [x] Registrar evidência de checkpoint antes de cada publicação do passo 500; histórico de checkpoints WebDev/GitHub preservado, com novo checkpoint final previsto após esta revisão.
 - [x] Auditar separadamente cada passo 471–500 com mapeamento item→arquivo/teste/saída, sem depender apenas de resumo agregado; `scripts/audit_roadmap_471_500.py` retornou `status=VALID` para 30 itens.
 - [x] Registrar no histórico de release a cadeia completa checkpoint→publicação para cada publicação relevante, comprovando o requisito do passo 500; cadeia documentada no JSON de auditoria com versões 3fc90838, 0bc6f206, 5e214169, 54cecc23 e 17b8cabd.
-- [ ] Remarcar o marco global somente após a auditoria final verificável dos 500 itens.
+- [ ] Remarcar o marco global somente após uma auditoria funcional verificável dos 500 itens e o checkpoint desta execução; `auditoria_funcional_471_500.json` = VALID (10/10).
+- [x] Substituir a auditoria por testes funcionais dedicados para cada requisito dos passos 471–500, verificando comportamento e saída além da existência dos arquivos; auditoria funcional executou 10 checks, todos aprovados.
+- [ ] Comprovar sistematicamente a cadeia checkpoint→publicação do passo 500 ou ajustar seu escopo para refletir somente os marcos realmente auditáveis.
+- [ ] Manter o marco global pendente até a auditoria funcional abrangente dos 500 passos ser executada e revisada.

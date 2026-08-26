@@ -2,19 +2,19 @@
   "database": "/home/ubuntu/brasfoot_engine/data/state/game.db",
   "bootstrap_8399_clubs": {
     "count": 8399,
-    "elapsed_ms": 3.176
+    "elapsed_ms": 1.163
   },
   "world_advance_scheduled_matches": {
     "count": 0,
-    "elapsed_ms": 0.093
+    "elapsed_ms": 0.028
   },
   "single_season_rows": {
     "count": 0,
-    "elapsed_ms": 0.074
+    "elapsed_ms": 0.011
   },
   "multi_season_distinct_years": {
     "count": 0,
-    "elapsed_ms": 0.02
+    "elapsed_ms": 0.012
   },
   "integrity": "ok",
   "foreign_key_errors": 0,

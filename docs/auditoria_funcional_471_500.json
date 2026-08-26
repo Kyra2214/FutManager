@@ -1,0 +1,131 @@
+{
+  "scope": "471-500",
+  "checks": [
+    {
+      "name": "python_full_suite",
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 23540.73,
+      "output": "........................................................................ [ 35%]\n........................................................................ [ 70%]\n.............................................................            [100%]\n205 passed in 22.79s\n",
+      "passed": true
+    },
+    {
+      "name": "vitest_full_suite",
+      "command": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run"
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 5736.92,
+      "output": "\n RUN  v2.1.9 /home/ubuntu/futmanager_frontend\n\n ✓ server/engineAssets.test.ts (2 tests) 28ms\n ✓ server/clubWorkspace.test.ts (1 test) 43ms\n ✓ server/engineState.test.ts (4 tests) 171ms\n ✓ server/entityAssetPresentation.test.ts (7 tests) 5ms\n ✓ server/auth.logout.test.ts (1 test) 4ms\n ✓ server/careerErrors.test.ts (4 tests) 2ms\n ✓ server/matchesPage.loading.test.tsx (4 tests) 17ms\n ✓ server/careerRouter.integration.test.ts (1 test) 460ms\n   ✓ careerRouter integration > cria uma carreira usando o contrato tRPC e o gateway real em banco temporário 459ms\n ✓ server/CtHiringShortcuts.ui.test.tsx (5 tests) 218ms\n ✓ server/SponsorshipPanel.ui.test.tsx (4 tests) 288ms\n ✓ server/StaffEconomyPanel.ui.test.tsx (5 tests) 340ms\n ✓ server/StadiumOperationsPanel.ui.test.tsx (4 tests) 394ms\n ✓ server/CareerStart.ui.test.tsx (3 tests) 299ms\n ✓ server/careerGateway.test.ts (7 tests) 4110ms\n   ✓ careerGateway > lista os destinos oficiais e inicia uma carreira sem criar estado paralelo 588ms\n   ✓ careerGateway > persiste contratação e evolução do CT no gateway econômico em banco temporário 1338ms\n   ✓ careerGateway > calcula a prévia financeira de contratação sem alterar o ledger ou o caixa 420ms\n   ✓ careerGateway > persiste ofertas estreladas e sinal comercial no gateway em banco temporário 565ms\n   ✓ careerGateway > consulta a prévia de viagem sem alterar caixa ou ledger 467ms\n   ✓ careerGateway > expõe alertas persistidos do motor e confirma sua leitura 534ms\n\n Test Files  14 passed (14)\n      Tests  52 passed (52)\n   Start at  21:59:36\n   Duration  4.44s (transform 857ms, setup 0ms, collect 2.66s, tests 6.38s, environment 3.94s, prepare 866ms)\n\n[WARN] The \"pnpm\" field in package.json is no longer read by pnpm. The following keys were ignored: \"pnpm.patchedDependencies\", \"pnpm.overrides\". See https://pnpm.io/settings for the new home of each setting.\n(node:196350) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:196353) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:196358) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:196351) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:196359) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:196476) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "passed": true
+    },
+    {
+      "name": "typescript",
+      "command": [
+        "pnpm",
+        "exec",
+        "tsc",
+        "--noEmit"
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 3408.32,
+      "output": "[WARN] The \"pnpm\" field in package.json is no longer read by pnpm. The following keys were ignored: \"pnpm.patchedDependencies\", \"pnpm.overrides\". See https://pnpm.io/settings for the new home of each setting.\n",
+      "passed": true
+    },
+    {
+      "name": "production_build",
+      "command": [
+        "pnpm",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 4374.64,
+      "output": "\n> futmanager_frontend@1.0.0 build /home/ubuntu/futmanager_frontend\n> vite build && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist\n\nvite v7.1.9 building for production...\ntransforming...\n✓ 1707 modules transformed.\nrendering chunks...\ncomputing gzip size...\n../dist/public/index.html                 368.30 kB │ gzip: 105.78 kB\n../dist/public/assets/index-BXW4Doqe.css  162.84 kB │ gzip:  27.50 kB\n../dist/public/assets/index-BYjjJktw.js   867.30 kB │ gzip: 215.73 kB\n✓ built in 3.04s\n[WARN] The \"pnpm\" field in package.json is no longer read by pnpm. The following keys were ignored: \"pnpm.patchedDependencies\", \"pnpm.overrides\". See https://pnpm.io/settings for the new home of each setting.\n\n/manus-storage/futmanager-stadium-editorial_daa6aae8.jpg referenced in /manus-storage/futmanager-stadium-editorial_daa6aae8.jpg didn't resolve at build time, it will remain unchanged to be resolved at runtime\n\n(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n\n  dist/index.js  107.9kb\n\n⚡ Done in 8ms\n",
+      "passed": true
+    },
+    {
+      "name": "safe_undo_and_seasons",
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py"
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 743.36,
+      "output": "...                                                                      [100%]\n3 passed in 0.02s\n",
+      "passed": true
+    },
+    {
+      "name": "governance_validators",
+      "command": [
+        "python3",
+        "scripts/validate_shared_gateway_contracts.py"
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 33.99,
+      "output": "{'manifest': '/home/ubuntu/futmanager_frontend/docs/shared_gateway_contracts.json', 'read_contracts': 6, 'command_contracts': 8, 'status': 'VALID'}\n",
+      "passed": true
+    },
+    {
+      "name": "mutation_path_validator",
+      "command": [
+        "python3",
+        "scripts/validate_mutation_paths.py"
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 52.47,
+      "output": "frontend-sem-write-check=ok\nmutation-gateway-contract=ok\ngateway-python-service-sql-chain=ok\n{'mutation_routers_checked': 6, 'authorized_dispatches_checked': 27}\n",
+      "passed": true
+    },
+    {
+      "name": "database_validator",
+      "command": [
+        "python3",
+        "scripts/validate_p0_database.py"
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 1949.37,
+      "output": "{'base': {'path': '/home/ubuntu/brasfoot_engine/data/database/game.db', 'integrity_check': 'ok', 'foreign_key_errors': 0, 'tables': 7, 'schema_version': None, 'relevant_indexes': []}, 'state': {'path': '/home/ubuntu/brasfoot_engine/data/state/game.db', 'integrity_check': 'ok', 'foreign_key_errors': 0, 'tables': 109, 'schema_version': 2, 'relevant_indexes': ['idx_financial_ledger_category_source', 'idx_financial_ledger_club_week']}, 'base_hash': '1ae17c67818fa4d5635894cf2c41979efe314099417735e2a3b81e2d72066caa', 'status': 'VALID'}\n",
+      "passed": true
+    },
+    {
+      "name": "bootstrap_benchmark",
+      "command": [
+        "python3",
+        "scripts/benchmark_final_roadmap.py",
+        "/home/ubuntu/brasfoot_engine/data/state/game.db",
+        "docs/benchmark_final_471_499.json"
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 1148.97,
+      "output": "{\"database\": \"/home/ubuntu/brasfoot_engine/data/state/game.db\", \"bootstrap_8399_clubs\": {\"count\": 8399, \"elapsed_ms\": 1.163}, \"world_advance_scheduled_matches\": {\"count\": 0, \"elapsed_ms\": 0.028}, \"single_season_rows\": {\"count\": 0, \"elapsed_ms\": 0.011}, \"multi_season_distinct_years\": {\"count\": 0, \"elapsed_ms\": 0.012}, \"integrity\": \"ok\", \"foreign_key_errors\": 0, \"read_only\": true}\n",
+      "passed": true
+    },
+    {
+      "name": "item_audit",
+      "command": [
+        "python3",
+        "scripts/audit_roadmap_471_500.py"
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 29.86,
+      "output": "safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 483, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 484, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 485, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 486, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 487, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 488, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 489, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 490, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 491, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 492, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 493, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 494, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 495, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 496, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 497, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 498, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}, {\"step\": 499, \"references\": [\"tests/test_safe_undo.py\", \"tests/test_final_roadmap_evidence.py\", \"scripts/benchmark_final_roadmap.py\", \"docs/evidencia_passos_471_499.md\"], \"missing\": [], \"status\": \"VALID\"}], \"checkpoint_chain\": [{\"version\": \"3fc90838\", \"scope\": \"391-403\"}, {\"version\": \"0bc6f206\", \"scope\": \"411-420\"}, {\"version\": \"5e214169\", \"scope\": \"421-430\"}, {\"version\": \"54cecc23\", \"scope\": \"371-500-evidencias\"}, {\"version\": \"17b8cabd\", \"scope\": \"471-499-gaps-resolvidos\"}], \"checkpoint_before_publication\": true, \"status\": \"VALID\"}\n",
+      "passed": true
+    }
+  ],
+  "passed": 10,
+  "total": 10,
+  "status": "VALID"
+}
