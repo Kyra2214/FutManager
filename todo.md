@@ -84,3 +84,6 @@
 - [x] Expor alertas persistidos de estádio, torcida, finanças, competições e patrocínios no gateway e na interface.
 - [x] Documentar a validação final, os hashes e as limitações do ciclo semanal no relatório de entrega.
 - [x] Anexar ao usuário o ZIP completo validado, com frontend, motor, bancos, ativos, documentação e instruções.
+- [x] Produzir documento com 500 próximos passos priorizados para a evolução do FutManager/Brasfoot.
+- [x] Explicitar critérios de priorização no roadmap de 500 passos.
+- [x] Classificar cada frente do roadmap por prioridade P0, P1 ou P2.
