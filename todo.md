@@ -269,3 +269,4 @@
 - [x] P1-6: expor resumo SQL de titulares/reservas e validar escalação mínima de 11 atletas disponíveis.
 - [x] P1-6: persistir formações salvas por competição e validar escalação contra elenco disponível.
 - [x] P1-6: gerar escalação automática determinística por posição a partir do elenco disponível, sem alterar a fonte canônica de jogadores.
+- [x] P1-6: persistir substituições planejadas por escalação, com jogador de saída, entrada e minuto-alvo validados.
