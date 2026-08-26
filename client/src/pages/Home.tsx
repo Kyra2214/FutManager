@@ -13,6 +13,7 @@ import { StaffEconomyPanel } from "@/components/StaffEconomyPanel";
 import { SponsorshipPanel } from "@/components/SponsorshipPanel";
 import { StadiumOperationsPanel } from "@/components/StadiumOperationsPanel";
 import { TravelCostsPanel } from "@/components/TravelCostsPanel";
+import { OperationsPanel } from "@/components/OperationsPanel";
 import CareerStart from "@/pages/CareerStart";
 import {
   Activity,
@@ -59,6 +60,7 @@ const navItems: { id: AppSection; label: string; short: string; icon: typeof Lay
   { id: "patrocinadores", label: "Patrocinadores", short: "07", icon: Trophy },
   { id: "transferencias", label: "Transferências", short: "08", icon: ClipboardList },
   { id: "financas", label: "Finanças", short: "09", icon: CircleDollarSign },
+  { id: "operacoes", label: "Operações", short: "10", icon: SlidersHorizontal },
 ];
 
 function formatSection(section: AppSection) {
@@ -276,7 +278,7 @@ function SponsorshipPage() {
 export default function Home({ section = "clube", onSectionChange = () => undefined }: { section?: AppSection; onSectionChange?: (section: AppSection) => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const careerQuery = trpc.career.current.useQuery(undefined, { retry: 1 });
-  const main = useMemo(() => section === "clube" ? <Dashboard onSectionChange={onSectionChange} /> : section === "partidas" ? <MatchesPage /> : section === "patrocinadores" ? <SponsorshipPage /> : <StructurePage section={section} onSectionChange={onSectionChange} />, [section, onSectionChange]);
+  const main = useMemo(() => section === "clube" ? <Dashboard onSectionChange={onSectionChange} /> : section === "partidas" ? <MatchesPage /> : section === "patrocinadores" ? <SponsorshipPage /> : section === "operacoes" ? <OperationsPanel /> : <StructurePage section={section} onSectionChange={onSectionChange} />, [section, onSectionChange]);
 
   if (!careerQuery.isLoading && careerQuery.data?.started === false) {
     return <CareerStart onStarted={() => onSectionChange("clube")} />;

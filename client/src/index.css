@@ -300,3 +300,17 @@ button:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 3px; }
 .ct-training-grid strong { margin-top: 10px; color: var(--cobalt); font-size: 9px; letter-spacing: .07em; }
 .ct-training-readout > p { margin: 14px 0 0; color: #777970; font-size: 10px; }
 @media (max-width: 680px) { .ct-training-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.operations-page { display: grid; gap: 1.5rem; }
+.operations-grid { align-items: start; }
+.operations-card { min-height: 100%; }
+.operations-note { color: var(--muted-foreground); font-size: .9rem; line-height: 1.55; margin: 0 0 1rem; }
+.operations-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .65rem; margin: 1rem 0; }
+.operations-actions button { display: inline-flex; align-items: center; gap: .45rem; }
+.compact-action { min-height: 2.5rem; }
+.operations-status { display: inline-flex; align-items: center; gap: .35rem; color: #4e8d31; font-size: .8rem; font-weight: 700; }
+.operations-field { display: grid; gap: .35rem; color: var(--muted-foreground); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; }
+.operations-field input { width: 100%; border: 1px solid var(--border); background: var(--background); color: var(--foreground); padding: .7rem .75rem; font: inherit; letter-spacing: normal; text-transform: none; }
+.operations-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin-bottom: 1rem; }
+.operations-list { display: grid; gap: .15rem; margin-top: 1rem; }
+@media (max-width: 720px) { .operations-fields { grid-template-columns: 1fr; } .operations-actions { align-items: stretch; } .operations-actions button { justify-content: center; } }
