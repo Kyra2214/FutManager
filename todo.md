@@ -286,3 +286,4 @@
 - [x] P1-6 / passo 109: calcular entrosamento do elenco a partir de vínculos, posições e escalação persistida, sem persistir ranking paralelo.
 - [x] P1-6 / passo 110: calcular impacto de moral na escalação a partir de forma, fadiga e disponibilidade persistidas, sem estado paralelo.
 - [x] P1-6 / passo 111: bloquear atleta lesionado em formações e escalações, com erro de domínio determinístico e teste em GameState temporário.
+- [x] P1-6 / passo 112: bloquear atleta suspenso em formações e escalações a partir de suspensão disciplinar persistida no GameState.
