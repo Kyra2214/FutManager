@@ -191,3 +191,5 @@
 - [x] Executar a auditoria P0-16 e registrar determinismo, auditoria e idempotência sem alterar bancos oficiais.
 - [x] Registrar no roadmap_gate.json as evidências parciais dos fronts auditados sem promovê-los a CONSOLIDATED.
 - [x] Validar que o manifesto continua com P0_GATE CLOSED e P1/P2 bloqueados após o registro parcial.
+- [x] Criar auditoria testável do Front P0-17 para economia mundial, folha, ledger e rollback.
+- [x] Executar a auditoria P0-17 sem cobrar semanas nos bancos oficiais.

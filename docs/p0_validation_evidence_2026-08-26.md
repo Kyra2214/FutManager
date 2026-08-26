@@ -54,3 +54,7 @@ As auditorias governadas P0-2, P0-3, P0-4, P0-5, P0-11, P0-12/P0-13, P0-14 e P0-
 ## Auditoria P0-16 — simulação mundial
 
 A auditoria `scripts/validate_p0_world_simulation.py` confirmou os níveis de simulação, seleção prioritária de clube, seed determinístico, auditoria persistida, cancelamento cooperativo e retorno idempotente `ALREADY_PROCESSED`. O resultado foi `VALID`; nenhum tick foi executado nos bancos oficiais durante a auditoria.
+
+## Auditoria P0-17 — economia mundial
+
+A auditoria `scripts/validate_p0_world_economy.py` confirmou os serviços de economia e folha individual, o registro de receita de dia de jogo, cobrança semanal, auditoria do ciclo, idempotência e rollback transacional. O resultado foi `VALID`; nenhuma cobrança foi executada nos bancos oficiais durante a auditoria.
