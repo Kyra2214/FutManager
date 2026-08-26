@@ -289,3 +289,8 @@
 - [x] P1-6 / passo 112: bloquear atleta suspenso em formações e escalações a partir de suspensão disciplinar persistida no GameState.
 - [x] P1-6 / passo 113: criar relatório derivado de profundidade por posição, distinguindo titulares, reservas, indisponíveis e suspensos.
 - [x] P1-6 / passo 114: sinalizar posições sem cobertura adequada com base em atletas disponíveis e limiar configurável, sem persistir alerta derivado.
+- [x] P1-6 / passo 115: adicionar capitão e cobradores persistidos por clube, validando vínculo, disponibilidade e unicidade de cada função.
+- [x] P1-6 / passo 116: persistir histórico de decisões táticas por clube e partida, com payload estruturado e leitura cronológica.
+- [x] P1-6 / passos 117/118: expor condição física, fadiga e risco derivado por atleta, com faixas determinísticas e bloqueio de IDs fora do elenco.
+- [x] P1-6 / passos 119/120: confirmar escalação no GameState e validar clube, elenco mínimo, disponibilidade e vínculo com a competição/partida.
+- [x] P1-7 / comissão técnica: expor leitura canônica de profissionais ativos, contagens por função, departamentos e histórico no GameState.

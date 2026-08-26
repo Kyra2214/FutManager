@@ -31,6 +31,7 @@ export function StaffEconomyPanel({ mode, onNavigateToMarket }: { mode: Mode; on
   const economyQuery = trpc.staffMarket.summary.useQuery(undefined, { retry: 1 });
   const catalogQuery = trpc.staffMarket.catalog.useQuery(catalogInput, { enabled: mode === "market", retry: 1 });
   const departmentQuery = trpc.staffMarket.departmentOffers.useQuery(undefined, { enabled: mode === "ct", retry: 1 });
+  const workspaceQuery = trpc.club.workspace.useQuery(undefined, { enabled: mode === "ct", retry: 1 });
   const hireMutation = trpc.staffMarket.hire.useMutation({
     onSuccess: (result) => {
       toast.success(`${result.name} contratado(a) por ${cash(result.weekly_salary)} por semana.`);
@@ -98,6 +99,10 @@ export function StaffEconomyPanel({ mode, onNavigateToMarket }: { mode: Mode; on
         </div>
       ) : (
         <div className="department-command-body">
+          <div className="ct-state-summary">
+            <div className="market-command-toolbar"><div><span className="eyebrow">COMISSÃO ATIVA / ESTADO OFICIAL</span><h3>Quem sustenta o clube</h3></div><span className="economy-status"><i /> {workspaceQuery.isLoading ? "LENDO" : workspaceQuery.data?.staff.members.length ? `${workspaceQuery.data.staff.members.length} ATIVO(S)` : "SEM CONTRATOS"}</span></div>
+            {workspaceQuery.isLoading ? <div className="economy-empty">Consultando comissão e departamentos persistidos…</div> : workspaceQuery.error ? <div className="economy-empty">A comissão técnica não pôde ser consultada.</div> : <><div className="ct-state-kpis"><div><span>PROFISSIONAIS</span><strong>{workspaceQuery.data?.staff.members.length ?? 0}</strong></div><div><span>MÉDIA DE NÍVEL</span><strong>{workspaceQuery.data?.staff.averageLevel?.toFixed(1) ?? "0.0"}</strong></div><div><span>DECISÕES REGISTRADAS</span><strong>{workspaceQuery.data?.staff.history.length ?? 0}</strong></div></div><div className="ct-state-grid"><div><span className="eyebrow">EQUIPE ATIVA</span>{workspaceQuery.data?.staff.members.length ? workspaceQuery.data.staff.members.map((member) => <div className="ct-member-row" key={member.staffId}><div><b>{member.name}</b><small>{roleLabel(member.role)} · {member.specialization ?? "especialização não informada"}</small></div><strong>NÍVEL {member.level}</strong></div>) : <p className="ct-state-empty">Nenhum profissional contratado. Consulte o Mercado para contratar.</p>}</div><div><span className="eyebrow">DEPARTAMENTOS ATUAIS</span>{workspaceQuery.data?.staff.departments.length ? workspaceQuery.data.staff.departments.map((department) => <div className="ct-member-row" key={department.department}><div><b>{department.department.replaceAll("_", " ")}</b><small>capacidade {department.capacity} · eficiência {(department.efficiency * 100).toFixed(0)}%</small></div><strong>NÍVEL {department.level}</strong></div>) : <p className="ct-state-empty">Nenhum departamento persistido. A primeira evolução pode ser feita abaixo.</p>}</div></div></>}
+          </div>
           <div className="market-command-toolbar"><div><span className="eyebrow">DEPARTAMENTOS DO CT</span><h3>Comprar ou evoluir estrutura</h3></div><button type="button" className="economy-market-link" onClick={onNavigateToMarket}>Ver profissionais <ArrowUpRight size={15} /></button></div>
           {departmentQuery.isLoading ? <div className="economy-empty">Calculando ofertas de estrutura…</div> : departmentQuery.data?.length ? <div className="department-offer-grid">
             {departmentQuery.data.map((department) => <article className="department-offer-card" key={department.department}>

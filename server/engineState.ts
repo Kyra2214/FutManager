@@ -136,7 +136,7 @@ export type ClubWorkspaceDashboard = {
   reputation: { sporting: number | null; national: number | null; international: number | null; commercial: number | null; historical: number | null };
   stadium: { name: string | null; capacity: number | null; level: number | null; status: string | null; source: "CLUB_STADIUM" | "TEAM_RECORD" | "UNAVAILABLE" };
   training: { available: boolean; message: string };
-  staff: { members: Array<{ staffId: number; name: string; role: string; age: number; experience: number; reputation: number; level: number; specialization: string | null; status: string }>; departments: Array<{ department: string; level: number; capacity: number; efficiency: number }>; roleCounts: Record<string, number> };
+  staff: { members: Array<{ staffId: number; name: string; role: string; age: number; experience: number; reputation: number; level: number; specialization: string | null; status: string }>; departments: Array<{ department: string; level: number; capacity: number; efficiency: number }>; roleCounts: Record<string, number>; averageLevel: number; history: Array<{ historyId: number; staffId: number; eventType: string; eventDate: string; payload: Record<string, unknown> }> };
   health: { activeInjuries: Array<{ injuryId: number; playerId: number; playerName: string; injuryType: string; severity: string; estimatedDays: number | null; endDate: string | null }>; count: number };
   scouting: { missions: Array<{ missionId: number; scoutName: string | null; status: string; region: string | null; endDate: string; opportunities: number }>; opportunities: number; reports: number };
 };
@@ -519,7 +519,7 @@ function emptyClubWorkspace(message: string): ClubWorkspaceDashboard {
     reputation: { sporting: null, national: null, international: null, commercial: null, historical: null },
     stadium: { name: null, capacity: null, level: null, status: null, source: "UNAVAILABLE" },
     training: { available: false, message: "O estado do motor ainda não possui CT persistido para este clube." },
-    staff: { members: [], departments: [], roleCounts: {} },
+    staff: { members: [], departments: [], roleCounts: {}, averageLevel: 0, history: [] },
     health: { activeInjuries: [], count: 0 },
     scouting: { missions: [], opportunities: 0, reports: 0 },
   };
@@ -607,6 +607,16 @@ export function getClubWorkspaceDashboard(
     const scoutingOpportunities = tableExists(db, "scout_opportunities") ? asNumber((db.prepare("SELECT COUNT(*) AS total FROM scout_opportunities WHERE club_id = ?").get(clubId) as SQLiteRow).total) : 0;
     const scoutingReports = tableExists(db, "scout_reports") && tableExists(db, "scout_missions") ? asNumber((db.prepare("SELECT COUNT(*) AS total FROM scout_reports report INNER JOIN scout_missions mission ON mission.mission_id = report.mission_id WHERE mission.club_id = ?").get(clubId) as SQLiteRow).total) : 0;
     const roleCounts = staffMembers.reduce<Record<string, number>>((counts, row) => { const role = asText(row.role, "sem_funcao"); counts[role] = (counts[role] || 0) + 1; return counts; }, {});
+    const staffHistory = tableExists(db, "staff_history") ? db.prepare(
+      `SELECT history.history_id, history.staff_id, history.event_type, history.event_date, history.payload
+       FROM staff_history history INNER JOIN staff_members member ON member.staff_id = history.staff_id
+       WHERE member.club_id = ? ORDER BY history.history_id DESC LIMIT 30`,
+    ).all(clubId) as SQLiteRow[] : [];
+    const parsedStaffHistory = staffHistory.map((row) => {
+      let payload: Record<string, unknown> = {};
+      if (typeof row.payload === "string") { try { const decoded = JSON.parse(row.payload); if (decoded && typeof decoded === "object" && !Array.isArray(decoded)) payload = decoded as Record<string, unknown>; } catch { payload = {}; } }
+      return { historyId: asNumber(row.history_id), staffId: asNumber(row.staff_id), eventType: asText(row.event_type), eventDate: asText(row.event_date), payload };
+    });
 
     return {
       source: { mode: "LOCAL_READ_ONLY_SQLITE", available: true, message: "Resumo consultado diretamente no estado SQLite do motor em modo somente leitura.", generatedAt: new Date().toISOString() },
@@ -634,7 +644,7 @@ export function getClubWorkspaceDashboard(
       reputation: { sporting: reputation ? asNullableNumber(reputation.sporting) : null, national: reputation ? asNullableNumber(reputation.national) : null, international: reputation ? asNullableNumber(reputation.international) : null, commercial: reputation ? asNullableNumber(reputation.commercial) : null, historical: reputation ? asNullableNumber(reputation.historical) : null },
       stadium: { name: stadiumName, capacity: stadiumRecord ? asNullableNumber(stadiumRecord.capacity) : null, level: stadiumRecord ? asNullableNumber(stadiumRecord.level) : null, status: stadiumRecord && typeof stadiumRecord.status === "string" ? stadiumRecord.status : null, source: stadiumRecord ? "CLUB_STADIUM" : stadiumName ? "TEAM_RECORD" : "UNAVAILABLE" },
       training: { available: false, message: "O estado do motor ainda não possui CT persistido para este clube." },
-      staff: { members: staffMembers.map((row) => ({ staffId: asNumber(row.staff_id), name: asText(row.name), role: asText(row.role), age: asNumber(row.age), experience: asNumber(row.experience), reputation: asNumber(row.reputation), level: asNumber(row.level), specialization: typeof row.specialization === "string" && row.specialization.trim() ? row.specialization : null, status: asText(row.status) })), departments: departments.map((row) => ({ department: asText(row.department), level: asNumber(row.level), capacity: asNumber(row.capacity), efficiency: asNumber(row.efficiency) })), roleCounts },
+      staff: { members: staffMembers.map((row) => ({ staffId: asNumber(row.staff_id), name: asText(row.name), role: asText(row.role), age: asNumber(row.age), experience: asNumber(row.experience), reputation: asNumber(row.reputation), level: asNumber(row.level), specialization: typeof row.specialization === "string" && row.specialization.trim() ? row.specialization : null, status: asText(row.status) })), departments: departments.map((row) => ({ department: asText(row.department), level: asNumber(row.level), capacity: asNumber(row.capacity), efficiency: asNumber(row.efficiency) })), roleCounts, averageLevel: staffMembers.length ? Number((staffMembers.reduce((sum, row) => sum + asNumber(row.level), 0) / staffMembers.length).toFixed(2)) : 0, history: parsedStaffHistory },
       health: { activeInjuries: injuryRows.map((row) => ({ injuryId: asNumber(row.injury_id), playerId: asNumber(row.player_id), playerName: asText(row.player_name), injuryType: asText(row.injury_type), severity: asText(row.severity), estimatedDays: asNullableNumber(row.estimated_days), endDate: typeof row.end_date === "string" ? row.end_date : null })), count: injuryRows.length },
       scouting: { missions: missions.map((row) => ({ missionId: asNumber(row.mission_id), scoutName: typeof row.scout_name === "string" ? row.scout_name : null, status: asText(row.status), region: typeof row.region === "string" ? row.region : null, endDate: asText(row.end_date), opportunities: asNumber(row.opportunities) })), opportunities: scoutingOpportunities, reports: scoutingReports },
     };

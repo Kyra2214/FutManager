@@ -33,6 +33,7 @@ function fixture() {
     CREATE TABLE jogador_time(jogador_id INTEGER, time_id INTEGER, status TEXT, categoria TEXT);
     CREATE TABLE injuries(injury_id INTEGER PRIMARY KEY, player_id INTEGER, injury_type TEXT, start_date TEXT, estimated_days INTEGER, end_date TEXT, severity TEXT, status TEXT);
     CREATE TABLE staff_members(staff_id INTEGER PRIMARY KEY, name TEXT, role TEXT, age INTEGER, club_id INTEGER, experience INTEGER, reputation INTEGER, level INTEGER, specialization TEXT, status TEXT);
+    CREATE TABLE staff_history(history_id INTEGER PRIMARY KEY, staff_id INTEGER, event_type TEXT, event_date TEXT, payload TEXT);
     CREATE TABLE club_departments(club_id INTEGER, department TEXT, level INTEGER, cost INTEGER, capacity INTEGER, maintenance INTEGER, efficiency REAL);
     CREATE TABLE scout_missions(mission_id INTEGER PRIMARY KEY, club_id INTEGER, scout_id INTEGER, start_date TEXT, end_date TEXT, region TEXT, status TEXT, created_at TEXT);
     CREATE TABLE scout_opportunities(opportunity_id INTEGER PRIMARY KEY, mission_id INTEGER, club_id INTEGER);
@@ -49,6 +50,7 @@ function fixture() {
     INSERT INTO jogador_time VALUES(101,9,'Titular','Principal'),(102,9,'Titular','Principal'),(103,9,'Reserva','Principal');
     INSERT INTO injuries VALUES(1,102,'Lesão muscular','2026-08-20',14,'2026-09-03','MODERATE','ACTIVE');
     INSERT INTO staff_members VALUES(1,'Auxiliar Real','auxiliar',42,9,70,65,5,'transição','ativo'),(2,'Médica Real','medico',37,9,80,72,6,'fisiologia','ativo'),(3,'Scout Real','scout',45,9,62,58,4,'América do Sul','ativo');
+    INSERT INTO staff_history VALUES(1,1,'STAFF_CREATED','2026-08-01','{"role":"auxiliar"}');
     INSERT INTO club_departments VALUES(9,'medicina',4,100,5,10,0.6);
     INSERT INTO scout_missions VALUES(1,9,3,'2026-08-01','2026-09-01','América do Sul','ACTIVE','2026-08-01');
     INSERT INTO scout_opportunities VALUES(1,1,9);
@@ -77,6 +79,8 @@ describe("getClubWorkspaceDashboard", () => {
     expect(dashboard.training.available).toBe(false);
     expect(dashboard.staff.members).toHaveLength(3);
     expect(dashboard.staff.roleCounts).toMatchObject({ auxiliar: 1, medico: 1, scout: 1 });
+    expect(dashboard.staff.averageLevel).toBe(5);
+    expect(dashboard.staff.history[0]).toMatchObject({ staffId: 1, eventType: "STAFF_CREATED", payload: { role: "auxiliar" } });
     expect(dashboard.staff.departments[0]).toMatchObject({ department: "medicina", level: 4 });
     expect(dashboard.health.activeInjuries[0]).toMatchObject({ playerName: "Meia Real", injuryType: "Lesão muscular" });
     expect(dashboard.scouting).toMatchObject({ opportunities: 1, reports: 1 });
