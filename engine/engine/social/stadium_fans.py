@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS attendance_records(attendance_id INTEGER PRIMARY KEY 
 CREATE TABLE IF NOT EXISTS club_events(event_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,type TEXT NOT NULL,origin TEXT,severity INTEGER NOT NULL,event_date TEXT NOT NULL,title TEXT NOT NULL,description TEXT,impact TEXT,status TEXT NOT NULL DEFAULT 'OPEN',reference TEXT UNIQUE);
 CREATE TABLE IF NOT EXISTS stadium_history(history_id INTEGER PRIMARY KEY AUTOINCREMENT,stadium_id INTEGER NOT NULL,event_type TEXT NOT NULL,event_date TEXT NOT NULL,payload TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS club_social_history(history_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,source_type TEXT NOT NULL,source_id TEXT NOT NULL,fan_size_before INTEGER NOT NULL,fan_size_after INTEGER NOT NULL,satisfaction_before INTEGER NOT NULL,satisfaction_after INTEGER NOT NULL,sporting_before INTEGER NOT NULL,sporting_after INTEGER NOT NULL,commercial_before INTEGER NOT NULL,commercial_after INTEGER NOT NULL,event_date TEXT NOT NULL,UNIQUE(club_id,source_type,source_id));
+CREATE TABLE IF NOT EXISTS club_reputation_history(history_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,source_type TEXT NOT NULL,source_id TEXT NOT NULL,sporting_before INTEGER NOT NULL,sporting_after INTEGER NOT NULL,commercial_before INTEGER NOT NULL,commercial_after INTEGER NOT NULL,event_date TEXT NOT NULL,UNIQUE(club_id,source_type,source_id));
 '''
 @dataclass(frozen=True)
 class Attendance: expected:int; actual:int; occupancy:float; revenue:int
@@ -45,11 +46,16 @@ class SocialService:
   self.ledger.post(context,r['club_id'],'INCOME','MATCHDAY',r['revenue'],'attendance',str(match_id),'Bilheteria');return r['revenue']
  def event(self,club_id,type_,title,description='',severity=1,reference=None,origin='service'):
   self.connection.execute('insert or ignore into club_events(club_id,type,origin,severity,event_date,title,description,reference) values(?,?,?,?,?,?,?,?)',(club_id,type_,origin,severity,date.today().isoformat(),title,description,reference));self.connection.commit()
- def update_reputation(self,club_id,sporting_delta=0,commercial_delta=0):
+ def update_reputation(self,club_id,sporting_delta=0,commercial_delta=0,source_type='manual',source_id=None,managed_transaction=True):
   r=self.connection.execute('select * from club_reputation where club_id=?',(club_id,)).fetchone();
-  if not r:self.ensure_fan_reputation(club_id);r=self.connection.execute('select * from club_reputation where club_id=?',(club_id,)).fetchone()
+  if not r:self.ensure_fan_reputation(club_id,managed_transaction=managed_transaction);r=self.connection.execute('select * from club_reputation where club_id=?',(club_id,)).fetchone()
   def clamp(v):return max(0,min(100,v))
-  self.connection.execute('update club_reputation set sporting=?,commercial=?,national=?,updated_at=? where club_id=?',(clamp(r['sporting']+sporting_delta),clamp(r['commercial']+commercial_delta),clamp(r['national']+sporting_delta//2),date.today().isoformat(),club_id));self.connection.commit()
+  source_id=str(source_id or f'{source_type}:{date.today().isoformat()}')
+  sporting_after=clamp(r['sporting']+sporting_delta);commercial_after=clamp(r['commercial']+commercial_delta)
+  with (self.connection if managed_transaction else nullcontext()):
+   self.connection.execute('update club_reputation set sporting=?,commercial=?,national=?,updated_at=? where club_id=?',(sporting_after,commercial_after,clamp(r['national']+sporting_delta//2),date.today().isoformat(),club_id))
+   self.connection.execute('insert or ignore into club_reputation_history(club_id,source_type,source_id,sporting_before,sporting_after,commercial_before,commercial_after,event_date) values(?,?,?,?,?,?,?,?)',(club_id,source_type,source_id,r['sporting'],sporting_after,r['commercial'],commercial_after,date.today().isoformat()))
+  return {'status':'UPDATED','sporting_before':r['sporting'],'sporting_after':sporting_after,'commercial_before':r['commercial'],'commercial_after':commercial_after,'source_type':source_type,'source_id':source_id}
  def apply_match_result(self,match_id,club_id,goals_for,goals_against,importance=50,managed_transaction=True):
   """Atualização gradual, idempotente e derivada de uma partida já persistida."""
   self.ensure_fan_reputation(club_id,managed_transaction=managed_transaction)
@@ -69,4 +75,19 @@ class SocialService:
    self.connection.execute('update club_reputation set sporting=?,commercial=?,national=?,updated_at=? where club_id=?',(sporting_after,commercial_after,clamp(rep['national']+sporting_delta//2),date.today().isoformat(),club_id))
    self.connection.execute('insert into club_social_history(club_id,source_type,source_id,fan_size_before,fan_size_after,satisfaction_before,satisfaction_after,sporting_before,sporting_after,commercial_before,commercial_after,event_date) values(?,?,?,?,?,?,?,?,?,?,?,?)',(club_id,'match',str(match_id),fan['size'],size_after,fan['satisfaction'],satisfaction_after,rep['sporting'],sporting_after,rep['commercial'],commercial_after,date.today().isoformat()))
   return {'status':'UPDATED','satisfaction_delta':satisfaction_delta,'sporting_delta':sporting_delta,'fan_size_delta':size_delta}
+ def ticket_price_preview(self,club_id,new_price,importance=50,visitor_reputation=30):
+  if new_price<=0:raise ValueError('INVALID_TICKET_PRICE')
+  stadium=self.connection.execute("select usable_capacity from club_stadiums where club_id=? and status='ACTIVE' order by is_primary desc limit 1",(club_id,)).fetchone();fans=self.connection.execute('select * from club_fan_base where club_id=?',(club_id,)).fetchone();rep=self.connection.execute('select * from club_reputation where club_id=?',(club_id,)).fetchone()
+  cap=stadium['usable_capacity'] if stadium else 1000;base=fans['size'] if fans else 1000;satisfaction=fans['satisfaction'] if fans else 50;commercial=rep['commercial'] if rep else 30
+  rejection=max(0,min(90,int(new_price/2-(satisfaction+commercial/2))))
+  expected=max(0,min(cap,int(base*(.25+satisfaction/200+commercial/300+importance/400+visitor_reputation/500)*(1-rejection/100))))
+  return {'club_id':club_id,'ticket_price':int(new_price),'expected_attendance':expected,'expected_revenue':expected*int(new_price),'rejection_risk':rejection,'persisted':False,'formula_version':'ticket-price-v1'}
+ def fan_segments(self,club_id):
+  row=self.connection.execute('select * from club_fan_base where club_id=?',(club_id,)).fetchone()
+  if not row:return {'club_id':club_id,'segments':{'local':0,'national':0,'international':0},'source':'SQL'}
+  size=int(row['size']);local=int(size*.65);national=int(size*.25);return {'club_id':club_id,'segments':{'local':local,'national':national,'international':size-local-national},'source':'club_fan_base'}
+ def social_timeline(self,club_id,limit=25,offset=0):
+  limit=max(1,min(100,int(limit)));offset=max(0,int(offset))
+  rows=self.connection.execute('select history_id,source_type,source_id,fan_size_before,fan_size_after,satisfaction_before,satisfaction_after,sporting_before,sporting_after,commercial_before,commercial_after,event_date from club_social_history where club_id=? order by history_id desc limit ? offset ?',(club_id,limit,offset)).fetchall()
+  return {'club_id':club_id,'items':[dict(row) for row in rows],'limit':limit,'offset':offset,'source':'club_social_history'}
  def close(self):self.connection.close()

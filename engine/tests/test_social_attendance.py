@@ -27,6 +27,23 @@ def test_match_result_moves_social_metrics_gradually_and_once():
     assert service.apply_match_result(10, 1, 2, 0, importance=80)["status"] == "ALREADY_PROCESSED"
 
 
+def test_social_preview_segments_and_timeline_are_read_only_and_paginated():
+    connection = state()
+    service = SocialService(connection)
+    service.apply_match_result(31, 1, 2, 0, importance=80)
+    preview = service.ticket_price_preview(1, 60)
+    assert preview["persisted"] is False
+    assert preview["expected_attendance"] >= 0
+    assert preview["expected_revenue"] == preview["expected_attendance"] * 60
+    segments = service.fan_segments(1)
+    current_size = connection.execute("SELECT size FROM club_fan_base WHERE club_id=1").fetchone()[0]
+    assert sum(segments["segments"].values()) == current_size
+    page = service.social_timeline(1, limit=1, offset=0)
+    assert page["items"][0]["source_id"] == "31"
+    assert page["limit"] == 1
+    assert connection.execute("SELECT COUNT(*) FROM club_social_history WHERE club_id=1").fetchone()[0] == 1
+
+
 def test_attendance_is_seeded_limited_by_capacity_and_idempotent():
     connection = state()
     service = AttendanceService(connection)

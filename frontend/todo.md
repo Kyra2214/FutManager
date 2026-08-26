@@ -431,4 +431,28 @@
 
 # Entrega do estado atual
 
-- [ ] Empacotar e validar ZIP completo do motor, frontend, bancos, ativos e documentação solicitados pelo usuário.
+- [x] Empacotar e validar ZIP completo do motor, frontend, bancos, ativos e documentação solicitados pelo usuário.
+
+# Versionamento externo
+
+- [x] Configurar o repositório GitHub `Kyra2214/FutManager` como destino oficial de versionamento; integração autorizada e repositório selecionado pelo Manus Connector. O primeiro push do pacote ainda depende da execução do fluxo de exportação/sincronização disponível no ambiente.
+- [x] Executar e verificar o primeiro push do estado atual para `Kyra2214/FutManager` na branch `main`, commit `d1900cb0334c81511be4f4e401a9791296463aec`.
+
+# Próximas 100 implementações
+
+- [x] Definir, documentar e versionar as próximas 100 implementações dos passos 371–470, mantendo prioridades, dependências e fonte SQL/GameState; execução individual permanece pendente.
+
+# Viagens e logística
+
+- [x] Implementar e publicar custos de viagens por deslocamento, integrados ao calendário, FinanceLedger, read model, tRPC, testes e documentação; push remoto verificado em `e0d3a5a06449c85dd4c93d2d4916e636dbb71901`.
+
+# Execução contínua dos passos 371–470
+
+- [x] Executar passos 371–390: bloco esportivo, calendário, reputação, torcida, bilheteria, prévias sociais e linha do tempo conforme `docs/proximas_100_implementacoes_371_470.md`; testes focados aprovados.
+- [x] Executar passos 391–410: bloco de elenco, staff e formação conforme o roadmap versionado; 404–406 cobertos por aprovação/teto/ledger transacional, 407–408 por perfil/evolução read-only, 409 por matriz de rollback e 410 documentado em `docs/ciclo_vida_contratual_atleta.md`.
+- [ ] Executar passos 411–430: bloco econômico e comercial conforme o roadmap versionado.
+- [ ] Executar passos 431–450: bloco de IA, scouting e base conforme o roadmap versionado.
+- [ ] Executar passos 451–470: bloco de carreira, UX e governança conforme o roadmap versionado.
+- [x] Passos 391–400 concluídos: read model de competição, fase, desempates, filtros tRPC, statuses persistidos, prévia de classificação, histórico, comparação, testes e documentação em `docs/competition_read_model.md`.
+- [x] Passos 401–403 concluídos: histórico canônico de contratos, consulta de vencimentos próximos e prévia read-only de renovação com impacto semanal, cobertos por Vitest/typecheck e testes Python existentes.
+- [x] Passos 404–410 concluídos: aprovação explícita do manager, luvas/bônus no FinanceLedger, teto salarial, perfil de atleta com minutos/forma/saúde, comparação potencial/desempenho, matriz transacional de rollback e documentação do ciclo contratual; 9 testes Python e 12 Vitest focados aprovados.

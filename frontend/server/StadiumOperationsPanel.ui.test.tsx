@@ -3,10 +3,10 @@ import React from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const mocks = vi.hoisted(() => ({ useUtils: vi.fn(), summary: vi.fn(), preview: vi.fn(), bootstrap: vi.fn(), upgrade: vi.fn(), ticket: vi.fn(), advance: vi.fn(), toastSuccess: vi.fn(), toastError: vi.fn() }));
+const mocks = vi.hoisted(() => ({ useUtils: vi.fn(), summary: vi.fn(), preview: vi.fn(), ticketPreview: vi.fn(), fanSegments: vi.fn(), socialTimeline: vi.fn(), bootstrap: vi.fn(), upgrade: vi.fn(), ticket: vi.fn(), advance: vi.fn(), toastSuccess: vi.fn(), toastError: vi.fn() }));
 vi.mock("@/lib/trpc", () => ({ trpc: {
   useUtils: mocks.useUtils,
-  stadium: { summary: { useQuery: mocks.summary }, preview: { useQuery: mocks.preview }, bootstrap: { useMutation: mocks.bootstrap }, upgrade: { useMutation: mocks.upgrade }, ticketPrice: { useMutation: mocks.ticket }, advanceWeek: { useMutation: mocks.advance } },
+  stadium: { summary: { useQuery: mocks.summary }, preview: { useQuery: mocks.preview }, ticketPricePreview: { useQuery: mocks.ticketPreview }, fanSegments: { useQuery: mocks.fanSegments }, socialTimeline: { useQuery: mocks.socialTimeline }, bootstrap: { useMutation: mocks.bootstrap }, upgrade: { useMutation: mocks.upgrade }, ticketPrice: { useMutation: mocks.ticket }, advanceWeek: { useMutation: mocks.advance } },
 } }));
 vi.mock("sonner", () => ({ toast: { success: mocks.toastSuccess, error: mocks.toastError } }));
 import { StadiumOperationsPanel } from "../client/src/components/StadiumOperationsPanel";
@@ -30,6 +30,9 @@ describe("StadiumOperationsPanel", () => {
   beforeEach(() => {
     mocks.summary.mockReturnValue({ data: summary, isLoading: false });
     mocks.preview.mockReturnValue({ data: { from_level: 2, target_level: 3, cash_after: 500000, maintenance_before: 5400, maintenance_after: 6150, cash_sufficient: true }, isLoading: false });
+    mocks.ticketPreview.mockReturnValue({ data: { rejection_risk: 8, expected_attendance: 12000, expected_revenue: 504000 }, isLoading: false });
+    mocks.fanSegments.mockReturnValue({ data: { segments: { local: 14300, national: 5500, international: 2200 } }, isLoading: false });
+    mocks.socialTimeline.mockReturnValue({ data: { items: [] }, isLoading: false });
     mocks.bootstrap.mockReturnValue({ mutate: mutations.bootstrap, isPending: false });
     mocks.upgrade.mockReturnValue({ mutate: mutations.upgrade, isPending: false });
     mocks.ticket.mockReturnValue({ mutate: mutations.ticket, isPending: false });

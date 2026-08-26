@@ -3,7 +3,7 @@ import { createRequire } from "node:module";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { acceptSponsorshipOffer, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, getStaffContract, hireAvailableStaff, listAvailableStaff, listCareerTargets, listClubEvents, listDepartmentOffers, markClubEventRead, previewTransferImpact, replaceStaff, startCareer, terminateStaff, upgradeClubDepartment } from "./careerGateway";
+import { acceptSponsorshipOffer, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, getStaffContract, getTravelSummary, hireAvailableStaff, listAvailableStaff, listCareerTargets, listClubEvents, listDepartmentOffers, markClubEventRead, previewTravelCost, previewTransferImpact, replaceStaff, startCareer, terminateStaff, upgradeClubDepartment } from "./careerGateway";
 
 type Db = { close: () => void; exec: (sql: string) => void };
 type DbConstructor = new (path: string) => Db;
@@ -111,6 +111,18 @@ describe("careerGateway", () => {
     expect(getClubEconomySummary(path).cash).toBe(beforeCash + accepted.upfront_payment);
     expect(after.active_contract).toMatchObject({ contract_id: accepted.contract_id, star_rating: accepted.star_rating });
     expect(after.offers).toEqual([]);
+  });
+
+  it("consulta a prévia de viagem sem alterar caixa ou ledger", () => {
+    const path = fixture();
+    startCareer({ managerName: "Ana", nationality: "BR", age: 31, careerName: "Carreira Ana", targetType: "club", targetId: 7 }, path);
+    const db = new DatabaseSync(path);
+    db.exec("CREATE TABLE matches(match_id INTEGER PRIMARY KEY, home_club_id INTEGER, away_club_id INTEGER); INSERT INTO matches VALUES(10, 7, 7);");
+    const before = getClubEconomySummary(path).cash;
+    expect(previewTravelCost(10, 7, path)).toMatchObject({ status: "AVAILABLE", route_type: "HOME_NO_TRAVEL", cost: 0, persisted: false });
+    expect(getTravelSummary(undefined, path)).toMatchObject({ trips: 0, total_cost: 0 });
+    expect(getClubEconomySummary(path).cash).toBe(before);
+    db.close();
   });
 
   it("expõe alertas persistidos do motor e confirma sua leitura", () => {

@@ -7,6 +7,7 @@ import sqlite3
 from engine.competitions.match_engine import CompetitionService
 from engine.economy.matchday_revenue import MatchdayRevenueService
 from engine.economy.sponsorships import SponsorshipService
+from engine.economy.travel_costs import TravelCostService
 from engine.economy.staff_market import StaffMarketService
 from engine.events.service import ClubEventService
 from engine.social.stadium_fans import SocialService
@@ -56,6 +57,7 @@ class WeeklyWorldCycleService:
         self.social = SocialService(self.connection)
         self.revenue = MatchdayRevenueService(self.connection)
         self.sponsors = SponsorshipService(self.connection)
+        self.travel = TravelCostService(self.connection)
         self.staff = StaffMarketService(self.connection)
         self.events = ClubEventService(self.connection)
         self.connection.commit()
@@ -133,7 +135,8 @@ class WeeklyWorldCycleService:
                         managed_transaction=False,
                     )
                 commercial = self.sponsors.record_match_progress_from_state(int(match["match_id"]), context, managed_transaction=False)
-                processed_matches.append({"match_id": int(match["match_id"]), "home_goals": result.home_goals, "away_goals": result.away_goals, "matchday": income.get("revenue", 0), "missions": commercial})
+                travel = self.travel.post_for_match(int(match["match_id"]), context, managed_transaction=False)
+                processed_matches.append({"match_id": int(match["match_id"]), "home_goals": result.home_goals, "away_goals": result.away_goals, "matchday": income.get("revenue", 0), "missions": commercial, "travel": travel})
             competition_ids = [int(row[0]) for row in self.connection.execute("SELECT DISTINCT competition_id FROM matches WHERE status='PLAYED'").fetchall()]
             prizes = [self.revenue.award_completed_competition(competition_id, context, managed_transaction=False) for competition_id in competition_ids]
             for competition_id, prize_result in zip(competition_ids, prizes, strict=True):
@@ -171,6 +174,7 @@ class WeeklyWorldCycleService:
             self._audit(context, "PRIZES", {"competitions": len(prizes)})
             self._audit(context, "SPONSORSHIPS", sponsor_result)
             self._audit(context, "PAYROLL", payroll_result)
+            self._audit(context, "TRAVEL", {"matches": len(processed_matches), "costs": [detail.get("travel", {}) for detail in processed_matches]})
             self._audit(context, "LEDGER_CLOSE", ledger_close)
             self.connection.execute("UPDATE weekly_world_runs SET status='COMPLETED',finished_at=?,result_json=? WHERE season=? AND week=? AND scope='WORLD'", (context.current_date.isoformat(), json.dumps(result, sort_keys=True), context.season, context.week))
             self.connection.commit()

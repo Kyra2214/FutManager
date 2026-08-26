@@ -19,7 +19,9 @@ from engine.ai.club_ai import ClubAI, Personality
 from engine.transfers.market import TransferMarketService
 from engine.scouting.service import ScoutService
 from engine.world.time_and_finance import WorldTickContext
+from engine.players.contracts import PlayerContractService
 from engine.economy.sponsorships import SponsorshipService
+from engine.economy.travel_costs import TravelCostService
 from engine.economy.world_economy import WorldEconomyService, EconomyService
 from engine.events.service import ClubEventService
 from engine.core.roadmap_gate import RoadmapGate, RoadmapGateError
@@ -167,8 +169,30 @@ def staff_market(connection: sqlite3.Connection, action: str, payload: dict) -> 
     raise ValueError("STAFF_MARKET_ACTION_INVALID")
 
 
+def contract_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    club_id = current_club_id(connection)
+    if action != "contract_renew_approve":
+        raise ValueError("CONTRACT_ACTION_INVALID")
+    service = PlayerContractService(connection)
+    try:
+        return service.approve_renewal(
+            player_id=int(payload.get("player_id")),
+            club_id=club_id,
+            season=int(payload.get("season")),
+            week=int(payload.get("week")),
+            weekly_salary=int(payload.get("weekly_salary")),
+            duration_weeks=int(payload.get("duration_weeks", 52)),
+            signing_fee=int(payload.get("signing_fee", 0)),
+            bonus=int(payload.get("bonus", 0)),
+            manager_approved=bool(payload.get("manager_approved", False)),
+            tick_id=payload.get("tick_id"),
+        )
+    finally:
+        service.close()
+
+
 def finance_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
-    club_id=current_club_id(connection); economy=EconomyService(connection)
+    club_id=current_club_id(connection); economy=EconomyService(connection); travel=TravelCostService(connection)
     if action=='finance_revenue': return {'items': economy.report_revenue(club_id,payload.get('season'))}
     if action=='finance_expense': return {'items': economy.report_expense(club_id,payload.get('season'))}
     if action=='finance_budget': return {'budget': economy.budget(club_id,int(payload.get('projected_revenue',0)),int(payload.get('projected_expenses',0))).__dict__}
@@ -178,6 +202,8 @@ def finance_market(connection: sqlite3.Connection, action: str, payload: dict) -
     if action=='finance_alert': return economy.low_balance_alert(club_id,int(payload.get('threshold_weeks',4)))
     if action=='finance_world_report': return economy.report_world(payload.get('season'))
     if action=='finance_audit': return economy.audit_season(int(payload.get('season')))
+    if action=='travel_preview': return travel.preview(int(payload.get('match_id')), payload.get('club_id'))
+    if action=='travel_summary': return travel.club_summary(club_id, payload.get('season'))
     raise ValueError('FINANCE_ACTION_INVALID')
 
 
@@ -307,6 +333,12 @@ def stadium_market(connection: sqlite3.Connection, action: str, payload: dict) -
     if action == "ticket_price":
         attendance.configure_ticket_price(club_id, int(payload.get("base_price")))
         return {"club_id": club_id, "base_price": int(payload.get("base_price"))}
+    if action == "ticket_price_preview":
+        return SocialService(connection).ticket_price_preview(club_id, int(payload.get("base_price")), int(payload.get("importance", 50)), int(payload.get("visitor_reputation", 30)))
+    if action == "fan_segments":
+        return SocialService(connection).fan_segments(club_id)
+    if action == "social_timeline":
+        return SocialService(connection).social_timeline(club_id, int(payload.get("limit", 25)), int(payload.get("offset", 0)))
     raise ValueError("STADIUM_ACTION_INVALID")
 
 
@@ -372,7 +404,9 @@ def run(action: str, payload: dict, database_path: Path) -> dict:
             return {"ok": True, **staff_market(service.connection, action, payload)}
         if action in {"ai_diagnosis", "ai_history", "ai_training", "ai_market", "ai_weekly", "ai_lineup", "ai_tactic", "ai_objective_progress"}:
             return {"ok": True, **club_ai_market(service.connection, action, payload)}
-        if action in {"finance_revenue", "finance_expense", "finance_budget", "finance_expense_preview", "finance_post_match_preview", "finance_projection", "finance_alert", "finance_world_report", "finance_audit"}:
+        if action in {"contract_renew_approve"}:
+            return {"ok": True, **contract_market(service.connection, action, payload)}
+        if action in {"finance_revenue", "finance_expense", "finance_budget", "finance_expense_preview", "finance_post_match_preview", "finance_projection", "finance_alert", "finance_world_report", "finance_audit", "travel_preview", "travel_summary"}:
             return {"ok": True, **finance_market(service.connection, action, payload)}
         if action in {"scout_regions", "scout_create_region", "scout_mission", "scout_start", "scout_complete", "scout_opportunities", "scout_compare", "scout_confirm", "academy_enroll", "academy_progress", "academy_promote", "academy_maintenance"}:
             return {"ok": True, **scouting_market(service.connection, action, payload)}
@@ -386,7 +420,7 @@ def run(action: str, payload: dict, database_path: Path) -> dict:
             return {"ok": True, **training_market(service.connection, action, payload)}
         if action in {"sponsor_bootstrap", "sponsor_summary", "sponsor_offers", "sponsor_accept", "sponsor_weekly"}:
             return {"ok": True, **sponsorship_market(service.connection, action, payload)}
-        if action in {"stadium_bootstrap", "stadium_summary", "stadium_preview", "stadium_upgrade", "ticket_price"}:
+        if action in {"stadium_bootstrap", "stadium_summary", "stadium_preview", "stadium_upgrade", "ticket_price", "ticket_price_preview", "fan_segments", "social_timeline"}:
             return {"ok": True, **stadium_market(service.connection, action, payload)}
         if action in {"events_list", "events_mark_read"}:
             return {"ok": True, **club_events(service.connection, action, payload)}
@@ -397,7 +431,7 @@ def run(action: str, payload: dict, database_path: Path) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("action", choices=["catalog", "current", "roadmap_guard", "start", "economy_bootstrap_all", "economy_weekly_all", "economy_bootstrap", "economy_summary", "staff_catalog", "staff_hire", "staff_contract", "staff_terminate", "staff_replace", "department_offers", "department_upgrade", "economy_weekly", "training_departments", "training_budget", "training_plan", "training_development", "training_alerts", "morale_summary", "morale_match", "weekly_training", "opponent_preparation", "weekly_load", "form_recommendations", "health_list", "health_alerts", "health_injury", "health_recover", "health_suspension", "ai_diagnosis", "ai_history", "ai_training", "ai_market", "ai_weekly", "ai_lineup", "ai_tactic", "ai_objective_progress", "transferable_players", "transfer_open_window", "transfer_preview", "transfer_offer", "transfer_counter", "transfer_accept", "transfer_approve", "transfer_loan", "transfer_complete", "scout_regions", "scout_create_region", "scout_mission", "scout_start", "scout_complete", "scout_opportunities", "scout_compare", "scout_confirm", "academy_enroll", "academy_progress", "academy_promote", "academy_maintenance", "finance_revenue", "finance_expense", "finance_budget", "finance_expense_preview", "finance_post_match_preview", "finance_projection", "finance_alert", "finance_world_report", "finance_audit", "sponsor_bootstrap_all", "sponsor_weekly_all", "sponsor_bootstrap", "sponsor_summary", "sponsor_offers", "sponsor_accept", "sponsor_weekly", "stadium_bootstrap", "stadium_bootstrap_all", "stadium_summary", "stadium_upgrade", "ticket_price", "weekly_advance", "events_list", "events_mark_read"])
+    parser.add_argument("action", choices=["catalog", "current", "roadmap_guard", "start", "contract_renew_approve", "economy_bootstrap_all", "economy_weekly_all", "economy_bootstrap", "economy_summary", "staff_catalog", "staff_hire", "staff_contract", "staff_terminate", "staff_replace", "department_offers", "department_upgrade", "economy_weekly", "training_departments", "training_budget", "training_plan", "training_development", "training_alerts", "morale_summary", "morale_match", "weekly_training", "opponent_preparation", "weekly_load", "form_recommendations", "health_list", "health_alerts", "health_injury", "health_recover", "health_suspension", "ai_diagnosis", "ai_history", "ai_training", "ai_market", "ai_weekly", "ai_lineup", "ai_tactic", "ai_objective_progress", "transferable_players", "transfer_open_window", "transfer_preview", "transfer_offer", "transfer_counter", "transfer_accept", "transfer_approve", "transfer_loan", "transfer_complete", "scout_regions", "scout_create_region", "scout_mission", "scout_start", "scout_complete", "scout_opportunities", "scout_compare", "scout_confirm", "academy_enroll", "academy_progress", "academy_promote", "academy_maintenance", "finance_revenue", "finance_expense", "finance_budget", "finance_expense_preview", "finance_post_match_preview", "finance_projection", "finance_alert", "finance_world_report", "finance_audit", "travel_preview", "travel_summary", "sponsor_bootstrap_all", "sponsor_weekly_all", "sponsor_bootstrap", "sponsor_summary", "sponsor_offers", "sponsor_accept", "sponsor_weekly", "stadium_bootstrap", "stadium_bootstrap_all", "stadium_summary", "stadium_upgrade", "ticket_price", "ticket_price_preview", "fan_segments", "social_timeline", "weekly_advance", "events_list", "events_mark_read"])
     parser.add_argument("--database", default=str(ROOT / "data/state/game.db"))
     arguments = parser.parse_args()
     payload = json.loads(sys.stdin.read() or "{}")
