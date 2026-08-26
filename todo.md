@@ -444,4 +444,4 @@
 
 # Viagens e logística
 
-- [x] Implementar custos de viagens por deslocamento, integrados ao calendário, FinanceLedger, read model, tRPC, testes e documentação; push para GitHub é a etapa de entrega desta alteração.
+- [x] Implementar e publicar custos de viagens por deslocamento, integrados ao calendário, FinanceLedger, read model, tRPC, testes e documentação; push remoto verificado em `e0d3a5a06449c85dd4c93d2d4916e636dbb71901`.
