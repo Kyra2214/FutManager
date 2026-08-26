@@ -484,3 +484,8 @@
 - [x] Criar lista de 200 novas implementações para a próxima fase do FutManager, sem refazer os testes existentes, organizada por domínio, prioridade, dependência e critério verificável; documento `docs/novas_200_implementacoes_501_700.md`.
 - [x] Validar a consistência da nova lista com SQL/GameState como fonte única e com o roadmap já concluído até o marco 500; `validacao_novas_200_implementacoes.json` retornou `VALID`, 200 itens, numeração 501–700 e sem campos incompletos.
 - [x] Salvar a lista de 200 implementações em documentação versionada do projeto e criar o validador reproduzível `scripts/validate_new_200_implementations.py`.
+- [x] Iniciar execução contínua das 200 implementações 501–700 pelo gate P0 501–520, sem refazer os testes históricos.
+- [x] Implementar os itens P0 501–510 de schema, chaves naturais, migrações, erros, índices, auditoria, versionamento e proteção da base-mãe; schema v3 e índices/auditoria canônicos implementados.
+- [x] Implementar os itens P0 511–520 de sessão, escopo de carreira, troca/encerramento/retomada, isolamento e permissões; ManagerService ampliado com preferências, snapshots e auditoria.
+- [ ] Validar e salvar checkpoint do bloco P0 501–520 antes de avançar aos itens P1; validação focada passou com 11 testes, compilação Python e typecheck.
+- [x] Corrigir expectativas legadas de schema v2 para v3 após a implementação P0 501–510, sem reexecutar a suíte histórica completa; testes focados passaram 11/11.
