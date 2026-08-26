@@ -102,8 +102,10 @@
 - [x] Documentar que o career_gateway.py não possui exceções legítimas de escrita direta mutável fora dos serviços autorizados.
 - [x] Rerodar o validador após documentar essa política de exceções.
 - [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0.
-- [ ] Manter a política SQL/GameState como fonte única em cada nova implementação.
-- [ ] Gerar ZIP completo atualizado e resumo técnico após a validação final do roadmap.
+- [x] Auditar P0-23 com matriz de ausência de estado paralelo e conformidade tRPC.
+- [x] Auditar P0-25 com matriz de testes, entrega, hashes e documentação operacional.
+- [x] Auditar a política SQL/GameState como fonte única nas implementações P0-17, P0-23 e P0-25.
+- [x] Gerar ZIP completo atualizado e resumo técnico após a validação final do roadmap.
 - [x] Implementar guarda de execução do roadmap no motor, bloqueando P1/P2 enquanto o gate P0 estiver fechado.
 - [x] Cobrir a guarda de execução com testes de bloqueio, abertura controlada e fonte única SQL/GameState.
 - [x] Validar o hash do banco-base contra seu manifesto imutável e tratar o hash do GameState apenas como impressão digital do estado atual.
@@ -251,3 +253,14 @@
 - [x] Cobrir restauração do relógio após rollback.
 - [x] Promover o Front P0-13 após matriz 20/20 e testes de calendário/relógio aprovados.
 - [x] Confirmar que P0-13 mantém SQL/GameState como fonte única e não altera bancos oficiais.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-17.
+- [x] Executar a matriz P0-17 e corrigir apenas lacunas reais de economia mundial.
+- [x] Explicitar a unidade monetária única e o fechamento semanal no ledger.
+- [x] Adicionar relatórios de receitas, despesas e economia mundial por clube/temporada.
+- [x] Expor projeção de caixa de 39 semanas no serviço econômico.
+- [x] Integrar evidências explícitas de bilheteria e manutenção semanal de estádio.
+- [x] Adicionar alerta persistido de saldo baixo e auditoria econômica por temporada.
+- [x] Cobrir os novos contratos P0-17 com testes em GameState temporário.
+- [x] Auditar P0-23 com matriz de ausência de estado paralelo e conformidade tRPC.
+- [x] Auditar P0-25 com matriz de testes, entrega, hashes e documentação operacional.
+- [x] Abrir P0_GATE somente após os 11 fronts P0 estarem CONSOLIDATED.

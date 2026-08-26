@@ -1,0 +1,9 @@
+{
+  "clubs_in_canonical_base": 8399,
+  "expected_clubs": 8399,
+  "club_count_query_seconds": 0.00255,
+  "world_advance_seconds_on_temporary_gamestate": 0.019513,
+  "python": "3.12.3",
+  "platform": "Linux-6.18.38+-x86_64-with-glibc2.39",
+  "database": "read-only base count + temporary GameState advance"
+}
