@@ -139,3 +139,16 @@
 - [x] Testar em runtime um front bloqueado por dependência e liberado após consolidação controlada.
 - [x] Distinguir repositories read-only de serviços mutáveis na guarda, permitindo leitura da base sem liberar escrita.
 - [x] Atualizar testes para comprovar leitura canônica da base e proteção apenas dos writers.
+- [x] Criar contexto serializável de execução com temporada, semana, seed e escopo.
+- [x] Criar catálogo único de erros de domínio para gateway e serviços.
+- [x] Cobrir contexto e erros com testes e manter compatibilidade com o ciclo semanal atual.
+- [x] Integrar DomainErrorCode/error_code ao gateway e aos principais serviços mutáveis.
+- [x] Testar serialização estável de erros de domínio no gateway real.
+- [x] Integrar DomainError/DomainErrorCode aos serviços mutáveis centrais, substituindo ValueError onde houver códigos catalogados.
+- [x] Cobrir um erro de serviço mutável real serializado pelo career_gateway.py.
+- [x] Integrar DomainError/DomainErrorCode ao SponsorshipService e revisar códigos já catalogados.
+- [x] Provocar e serializar um erro real de serviço mutável pelo career_gateway.py.
+- [x] Reexecutar a bateria focada dos serviços alterados e do gateway.
+- [x] Adicionar teste de integração do career_gateway.py para erro real de serviço mutável, como ticket inválido ou oferta inexistente.
+- [x] Reexecutar a bateria focada após incluir o teste de erro real via gateway.
+- [x] Reexecutar testes, typecheck e build do frontend após as mudanças de contrato de erros do motor.
