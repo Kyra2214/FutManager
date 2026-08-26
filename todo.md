@@ -279,3 +279,4 @@
 - [x] P1-6: expor agregados de atletas via tRPC usando somente leitura do GameState.
 - [x] P1-6: exibir agregados individuais reais na aba Time via tRPC, com estados de carregamento e vazio honestos.
 - [x] P1-6: exibir agregados individuais reais na aba Time via tRPC, com estados de carregamento e vazio honestos.
+- [x] P1-6: adicionar filtros de competição e atleta para a leitura de estatísticas, sem estado esportivo duplicado no cliente.
