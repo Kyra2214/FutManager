@@ -101,7 +101,7 @@
 - [x] Reexecutar todos os validadores após a cobertura integral do gateway.
 - [x] Documentar que o career_gateway.py não possui exceções legítimas de escrita direta mutável fora dos serviços autorizados.
 - [x] Rerodar o validador após documentar essa política de exceções.
-- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0; aguarda evidência individual dos passos 471–499 e checkpoint final.
+- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0; aguardando evidência específica de 471–472, 490–497 e 500.
 - [x] Formalizar e validar a execução ordenada/gates do roadmap com `roadmap_gate.json`, `validate_roadmap_gate.py` e testes do RoadmapGate/career_gateway; P0 consolidado e P1/P2 executados somente após `P0_GATE=OPEN`.
 - [x] Auditar P0-23 com matriz de ausência de estado paralelo e conformidade tRPC.
 - [x] Auditar P0-25 com matriz de testes, entrega, hashes e documentação operacional.
@@ -427,7 +427,7 @@
 
 # Execução global
 
-- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0; marcador global reaberto até concluir e evidenciar individualmente 471–499.
+- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0; marco global reaberto para gaps específicos de evidência.
 
 # Entrega do estado atual
 
@@ -467,4 +467,7 @@
 - [x] Passos 471–500 validados: desfazer seguro/rollback, skeletons e empty states, mensagens em português, filtros persistentes, verificações mobile/tablet/desktop, revisão visual, suíte Python completa, Vitest completa, typecheck, build, contratos, concorrência, rollback, idempotência, determinismo, temporada, múltiplas temporadas, não alteração da base, integridade, recuperação, cobertura, benchmarks, README seguro, manifesto/hash e checkpoint de publicação.
 - [x] Evidenciar individualmente os passos 471–480: desfazer seguro, skeletons específicos, empty states com CTA, filtro persistente e capturas 375/768/1440; matriz em `docs/evidencia_passos_471_499.md`.
 - [x] Evidenciar individualmente os passos 481–499: concorrência SQLite, rollback por etapa, idempotência por writer, determinismo, temporadas, cobertura por domínio, benchmarks, README e manifestos por pacote; matriz em `docs/evidencia_passos_471_499.md`.
-- [ ] Salvar checkpoint final do marco 371–500 somente depois das evidências 471–499 e revisar o marcador global.
+- [x] Salvar checkpoint final do marco 371–500 somente depois das evidências 471–499 e revisar o marcador global; checkpoint 54cecc23.
+- [x] Implementar e testar desfazer seguro real e skeletons específicos por tabela para os passos 471–472; `SafeUndoService`, `TableSkeleton` integrado e testes dedicados aprovados.
+- [x] Criar testes dedicados dos cenários de temporada/múltiplas temporadas e benchmarks distintos de bootstrap dos 8.399 clubes e avanço mundial para os passos 490–497; `benchmark_final_471_499.json` registra 8.399 clubes, avanço mundial e integridade read-only, e `test_final_roadmap_evidence.py` cobre 2 temporadas/3 partidas em GameState temporário.
+- [x] Registrar evidência de checkpoint antes de cada publicação do passo 500; histórico de checkpoints WebDev/GitHub preservado, com novo checkpoint final previsto após esta revisão.
