@@ -399,3 +399,9 @@
 - [x] P1-15 / passos 291/292: validar vagas de elenco e restrições de suspensão.
 - [x] P1-15 / passos 293/294/295/296: persistir histórico, exigir aprovação do manager e emitir eventos/alertas.
 - [x] P1-15 / passos 297/298/299/300: testar concorrência, rollback e separação de dados de teste, documentando limites.
+- [x] P2-16 / passos 301/302/303: inventariar missões, regiões configuráveis, duração e custo.
+- [x] P2-16 / passos 304/305/306/307: persistir relatórios, separar descoberta de contratação e filtrar posição/idade/potencial.
+- [x] P2-16 / passos 308/309/310/311: priorizar missão, considerar staff, emitir conclusão e comparar observação com atributos.
+- [x] P2-16 / passo 312: impedir contratação de oportunidade sem confirmação do manager.
+- [x] P2-16 / passos 313/314/315/316: suportar base, progressão, promoção e manutenção quando houver dados canônicos.
+- [x] P2-16 / passos 317/318/319/320: testar seed, expiração, relatórios disponíveis e documentar campos ausentes.
