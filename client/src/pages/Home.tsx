@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import { getEntityAssetPresentation } from "@/lib/entityAsset";
 import { EntityAsset } from "@/components/EntityAsset";
+import CareerStart from "@/pages/CareerStart";
 import {
   Activity,
   ArrowUpRight,
@@ -243,6 +244,11 @@ function StructurePage({ section, onSectionChange }: { section: AppSection; onSe
 
 export default function Home({ section = "clube", onSectionChange = () => undefined }: { section?: AppSection; onSectionChange?: (section: AppSection) => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const careerQuery = trpc.career.current.useQuery(undefined, { retry: 1 });
   const main = useMemo(() => section === "clube" ? <Dashboard onSectionChange={onSectionChange} /> : section === "partidas" ? <MatchesPage /> : <StructurePage section={section} onSectionChange={onSectionChange} />, [section, onSectionChange]);
+
+  if (!careerQuery.isLoading && careerQuery.data?.started === false) {
+    return <CareerStart onStarted={() => onSectionChange("clube")} />;
+  }
   return <div className="app-shell"><Sidebar section={section} onSectionChange={onSectionChange} open={menuOpen} onClose={() => setMenuOpen(false)} /><main className="app-main"><Header section={section} onMenu={() => setMenuOpen(true)} /><div className="page-wrap">{main}</div><footer className="page-footer"><span>FUTMANAGER / EDITORIAL DE ARQUIBANCADA</span><span>SQL · STATE · SERVICES</span></footer></main></div>;
 }

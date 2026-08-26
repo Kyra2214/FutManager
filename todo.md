@@ -15,3 +15,13 @@
 - [x] Criar uma área de consulta de entidade para clube ou seleção por ID do SQL oficial.
 - [x] Mostrar escudo ou camisa e o status explícito do vínculo na prévia da entidade.
 - [x] Validar visualmente a prévia para um clube e uma seleção reais do banco.
+- [x] Mapear clubes e seleções oficiais disponíveis para o início de carreira.
+- [x] Criar o contrato de início de carreira que persiste a escolha do manager.
+- [x] Implementar a tela inicial de escolha com escudo ou camisa e confirmação explícita.
+- [x] Validar a persistência da carreira e os estados de erro em desktop e mobile.
+- [x] Testar a mutation de início de carreira para sucesso e erros visíveis ao usuário.
+- [x] Validar o fluxo web completo em banco de teste isolado, incluindo a transição após iniciar a carreira.
+- [x] Cobrir a mutation de carreira com teste de interface, incluindo erro e sucesso visíveis.
+- [x] Validar a transição da tela inicial para o dashboard com estado de teste isolado.
+- [x] Adicionar teste integrado de ponta a ponta com gateway real e banco de carreira temporário.
+- [x] Automatizar o fluxo integral de carreira com contrato real e banco temporário, sem mocks do gateway.

@@ -3,6 +3,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { assetsRouter } from "./routers/assets";
+import { careerRouter } from "./routers/career";
 import { matchesRouter } from "./routers/matches";
 
 export const appRouter = router({
@@ -19,6 +20,7 @@ export const appRouter = router({
     }),
   }),
   assets: assetsRouter,
+  career: careerRouter,
   matches: matchesRouter,
 
   // TODO: add feature routers here, e.g.
