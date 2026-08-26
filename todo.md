@@ -168,3 +168,6 @@
 - [x] Implementar e testar cancelamento cooperativo seguro na simulação em lote, sem alterar a fonte SQL/GameState.
 - [x] Implementar relatório automatizado de dependências circulares entre módulos do motor.
 - [x] Testar o relatório de dependências circulares em uma cópia/árvore de código controlada.
+- [x] Documentar pontos seguros de extensão por plugins internos sem permitir escrita fora dos serviços de domínio.
+- [x] Definir manifesto compartilhado de contratos do gateway entre Python e TypeScript.
+- [x] Validar que o manifesto compartilhado contém somente contratos serializáveis e sem regras paralelas.

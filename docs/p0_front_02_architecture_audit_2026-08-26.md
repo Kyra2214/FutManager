@@ -28,3 +28,7 @@ A simulação em lote passou a aceitar `cancel_check`, encerrando o tick com `CA
 ## Dependências internas
 
 O script `scripts/report_engine_dependency_cycles.py` analisou **56 módulos** e **70 arestas internas** do pacote `engine`, gravou `brasfoot_engine/docs/engine_dependency_cycles.json` e retornou `status=VALID`, com **zero ciclos**. O resultado é reprodutível e não altera qualquer banco.
+
+## Extensibilidade e contratos compartilhados
+
+Foram versionados `docs/plugin_extension_policy.md` e `docs/shared_gateway_contracts.json`. A política limita plugins a leituras e comandos delegados a serviços autorizados, enquanto o manifesto descreve apenas transporte serializável, erros e nomes de ações. `scripts/validate_shared_gateway_contracts.py` retornou `VALID`, conferindo **6 contratos de leitura** e **8 contratos de comando** e exigindo SQL/GameState como fonte única.
