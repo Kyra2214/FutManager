@@ -320,3 +320,14 @@
 - [x] P1-8 / passos 156/157: criar orçamento e previsão de retorno por departamento.
 - [x] P1-8 / passos 158/159: alertar manutenção ausente e testar rollback de compra.
 - [x] P1-8 / passo 160: validar sincronização do CT com a folha semanal.
+- [x] P1-9 / passos 161/162: persistir estados de forma física/técnica e atualizar forma após partida.
+- [x] P1-9 / passos 163/164: persistir moral individual e derivar moral coletiva do elenco.
+- [x] P1-9 / passos 165/166: aplicar resultado, sequência de jogos e sequência de vitórias/derrotas à moral.
+- [x] P1-9 / passos 167/168/169/170: suportar treinos técnico, tático, físico e bola parada com carga e risco derivados.
+- [x] P1-9 / passo 171: registrar preparação específica para adversário.
+- [x] P1-9 / passo 172: registrar aderência do elenco ao plano.
+- [x] P1-9 / passo 173: criar relatório de carga semanal.
+- [x] P1-9 / passos 174/175/176: limitar carga por idade, planejar descanso e considerar calendário internacional.
+- [x] P1-9 / passo 177: expor recomendações baseadas em fatos persistidos.
+- [x] P1-9 / passos 178/179: testar determinismo por seed e rollback de forma após falha.
+- [x] P1-9 / passo 180: documentar fórmulas de forma e moral.

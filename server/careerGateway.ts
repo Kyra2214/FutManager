@@ -15,7 +15,7 @@ export type CareerCatalogItem = {
 };
 
 type GatewayResult = { ok: boolean; error?: string } & Record<string, unknown>;
-type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "training_departments" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance" | "events_list" | "events_mark_read";
+type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "training_departments" | "morale_summary" | "morale_match" | "weekly_training" | "opponent_preparation" | "weekly_load" | "form_recommendations" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance" | "events_list" | "events_mark_read";
 
 function callGateway<T extends GatewayResult>(action: GatewayAction, payload: Record<string, unknown>, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): T {
   try {
@@ -116,6 +116,30 @@ export function createTrainingPlan(season: number, week: number, planType: strin
 
 export function listTrainingDevelopment(databasePath?: string) {
   return staffMarketAction<GatewayResult & { items: Array<Record<string, unknown>> }>("training_development", {}, databasePath).items;
+}
+
+export function getMoraleSummary(databasePath?: string) {
+  return staffMarketAction<GatewayResult & { club_id: number; average: number; members: number; lowest: number; highest: number }>("morale_summary", {}, databasePath);
+}
+
+export function updateMoraleAfterMatch(result: "WIN" | "DRAW" | "LOSS", season: number, week: number, seed?: number, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { average: number; members: number }>("morale_match", { result, season, week, seed }, databasePath);
+}
+
+export function applyWeeklyTraining(season: number, week: number, planType: string, load: number, seed?: number, internationalMatches = 0, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { club_id: number; changes: Array<Record<string, unknown>> }>("weekly_training", { season, week, plan_type: planType, load, seed, international_matches: internationalMatches }, databasePath);
+}
+
+export function createOpponentPreparation(opponentId: number, season: number, week: number, focus: string, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { preparation_id: number; adherence: number }>("opponent_preparation", { opponent_id: opponentId, season, week, focus }, databasePath);
+}
+
+export function getWeeklyLoad(season: number, week: number, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { players: Array<Record<string, unknown>>; total_load: number }>("weekly_load", { season, week }, databasePath);
+}
+
+export function getFormRecommendations(databasePath?: string) {
+  return staffMarketAction<GatewayResult & { items: Array<{ player_id: number; type: string; reason: string }> }>("form_recommendations", {}, databasePath).items;
 }
 
 export function listTrainingAlerts(databasePath?: string) {

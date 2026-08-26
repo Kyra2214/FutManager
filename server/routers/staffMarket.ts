@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { bootstrapClubEconomy, createTrainingPlan, getClubEconomySummary, getStaffContract, hireAvailableStaff, listAvailableStaff, listDepartmentOffers, listTrainingAlerts, listTrainingBudget, listTrainingDepartments, listTrainingDevelopment, replaceStaff, terminateStaff, upgradeClubDepartment } from "../careerGateway";
+import { bootstrapClubEconomy, createTrainingPlan, getClubEconomySummary, getFormRecommendations, getMoraleSummary, getStaffContract, getWeeklyLoad, hireAvailableStaff, listAvailableStaff, listDepartmentOffers, listTrainingAlerts, listTrainingBudget, listTrainingDepartments, listTrainingDevelopment, replaceStaff, terminateStaff, upgradeClubDepartment } from "../careerGateway";
 import { publicProcedure, router } from "../_core/trpc";
 
 function toTrpcError(error: unknown) {
@@ -39,6 +39,9 @@ export const staffMarketRouter = router({
   trainingDevelopment: publicProcedure.query(() => { try { return listTrainingDevelopment(); } catch (error) { throw toTrpcError(error); } }),
   trainingAlerts: publicProcedure.query(() => { try { return listTrainingAlerts(); } catch (error) { throw toTrpcError(error); } }),
   trainingPlan: publicProcedure.input(z.object({ season: z.number().int().positive(), week: z.number().int().min(1).max(53), planType: z.enum(["GENERAL", "TECHNICAL", "TACTICAL", "PHYSICAL", "SET_PIECES", "REST"]), load: z.number().int().min(0).max(100) })).mutation(({ input }) => { try { return createTrainingPlan(input.season, input.week, input.planType, input.load); } catch (error) { throw toTrpcError(error); } }),
+  moraleSummary: publicProcedure.query(() => { try { return getMoraleSummary(); } catch (error) { throw toTrpcError(error); } }),
+  formRecommendations: publicProcedure.query(() => { try { return getFormRecommendations(); } catch (error) { throw toTrpcError(error); } }),
+  weeklyLoad: publicProcedure.input(z.object({ season: z.number().int().positive(), week: z.number().int().min(1).max(53) })).query(({ input }) => { try { return getWeeklyLoad(input.season, input.week); } catch (error) { throw toTrpcError(error); } }),
   upgradeDepartment: publicProcedure.input(z.object({ department: z.enum(["base", "medicina", "preparacao_fisica", "analise"]) })).mutation(({ input }) => {
     try { return upgradeClubDepartment(input.department); } catch (error) { throw toTrpcError(error); }
   }),
