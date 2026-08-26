@@ -3,7 +3,7 @@ import { createRequire } from "node:module";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { acceptSponsorshipOffer, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, getStaffContract, getTravelSummary, hireAvailableStaff, listAvailableStaff, listCareerTargets, listClubEvents, listDepartmentOffers, markClubEventRead, previewTravelCost, previewTransferImpact, replaceStaff, startCareer, terminateStaff, upgradeClubDepartment } from "./careerGateway";
+import { acceptSponsorshipOffer, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, getStaffContract, getTravelSummary, hireAvailableStaff, listAvailableStaff, listCareerTargets, listClubEvents, listDepartmentOffers, markClubEventRead, previewTravelCost, previewTransferImpact, replaceStaff, runCareerGatewayAction, startCareer, terminateStaff, upgradeClubDepartment } from "./careerGateway";
 
 type Db = { close: () => void; exec: (sql: string) => void };
 type DbConstructor = new (path: string) => Db;
@@ -52,6 +52,12 @@ describe("careerGateway", () => {
     expect(startCareer({ managerName: "Ana", nationality: "BR", age: 31, careerName: "Carreira Ana", targetType: "club", targetId: 7 }, path)).toMatchObject({ started: true, target_id: 7 });
     expect(getCurrentCareer(path)).toMatchObject({ started: true, targetType: "club", targetId: 7, managerName: "Ana" });
     expect(() => startCareer({ managerName: "Bia", age: 29, careerName: "Outra", targetType: "club", targetId: 7 }, path)).toThrow("ACTIVE_CAREER_EXISTS");
+  });
+
+  it("executa ação tipada de leitura e preserva erro honesto do motor", () => {
+    const path = fixture();
+    expect(runCareerGatewayAction('current', {}, path)).toMatchObject({ ok: true, started: false });
+    expect(() => runCareerGatewayAction('simulation_progress', { tick_id: 'missing' }, path)).toThrow();
   });
 
   it("recusa uma entidade inexistente sem criar manager", () => {
