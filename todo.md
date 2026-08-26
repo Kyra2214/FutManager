@@ -162,3 +162,5 @@
 - [x] Rerodar o validador do Front P0-1 após essas exigências.
 - [x] Corrigir o validador do gate para aceitar fronts P0 parcialmente consolidados enquanto P0_GATE permanecer CLOSED.
 - [x] Validar que o gate só abre quando todos os fronts P0 estiverem CONSOLIDATED.
+- [x] Criar auditoria executável do Front P0-2 para contratos, transações, contexto, gateway, esquema e extensibilidade.
+- [x] Executar a auditoria do Front P0-2 e registrar lacunas sem promover o front indevidamente.
