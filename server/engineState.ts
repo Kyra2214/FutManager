@@ -97,6 +97,17 @@ export type EntityAssetLink = {
   primaryKitUrl: string | null;
 };
 
+export type ClubWorkspaceDashboard = {
+  source: { mode: "LOCAL_READ_ONLY_SQLITE"; available: boolean; message: string; generatedAt: string };
+  career: { managerName: string; careerName: string; targetType: "club" | "selection"; targetId: number; targetName: string } | null;
+  club: { clubId: number; name: string; stadiumName: string | null } | null;
+  squad: { total: number; starters: number; reserves: number; injured: number; players: Array<{ playerId: number; name: string; position: string; status: string; category: string }> };
+  finance: { cash: number | null; updatedAt: string | null };
+  reputation: { sporting: number | null; national: number | null; international: number | null; commercial: number | null; historical: number | null };
+  stadium: { name: string | null; capacity: number | null; level: number | null; status: string | null; source: "CLUB_STADIUM" | "TEAM_RECORD" | "UNAVAILABLE" };
+  training: { available: boolean; message: string };
+};
+
 function asNumber(value: unknown, fallback = 0): number {
   if (typeof value === "number") return value;
   if (typeof value === "bigint") return Number(value);
@@ -432,6 +443,91 @@ export function getEntityAssetLink(
   } catch (error) {
     console.error("[Engine assets] Falha ao consultar vínculo de ativo:", error);
     return unavailableEntityAsset(entityType, entityId, "O estado de ativos do motor não está disponível neste ambiente.");
+  } finally {
+    db?.close();
+  }
+}
+
+function emptyClubWorkspace(message: string): ClubWorkspaceDashboard {
+  return {
+    source: { mode: "LOCAL_READ_ONLY_SQLITE", available: false, message, generatedAt: new Date().toISOString() },
+    career: null,
+    club: null,
+    squad: { total: 0, starters: 0, reserves: 0, injured: 0, players: [] },
+    finance: { cash: null, updatedAt: null },
+    reputation: { sporting: null, national: null, international: null, commercial: null, historical: null },
+    stadium: { name: null, capacity: null, level: null, status: null, source: "UNAVAILABLE" },
+    training: { available: false, message: "O estado do motor ainda não possui CT persistido para este clube." },
+  };
+}
+
+export function getClubWorkspaceDashboard(
+  databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH,
+): ClubWorkspaceDashboard {
+  let db: SQLiteDatabase | null = null;
+  try {
+    db = new DatabaseSync(databasePath, { readOnly: true });
+    const active = db.prepare(
+      `SELECT career.career_id, career.name AS career_name, manager.name AS manager_name,
+              career.current_club_id, team.nome AS club_name, team.estadio AS team_stadium,
+              assignment.selection_id, selection.nome AS selection_name
+       FROM manager_careers career
+       INNER JOIN managers manager ON manager.manager_id = career.manager_id
+       LEFT JOIN times team ON team.time_id = career.current_club_id
+       LEFT JOIN manager_selection_assignments assignment ON assignment.career_id = career.career_id AND assignment.status = 'ACTIVE'
+       LEFT JOIN selecoes selection ON selection.selecao_id = assignment.selection_id
+       WHERE career.status = 'ACTIVE'
+       ORDER BY career.updated_at DESC, career.career_id DESC
+       LIMIT 1`,
+    ).get() as SQLiteRow | undefined;
+    if (!active) return { ...emptyClubWorkspace("O motor está conectado, mas a carreira ainda não foi iniciada."), source: { mode: "LOCAL_READ_ONLY_SQLITE", available: true, message: "O motor está conectado, mas a carreira ainda não foi iniciada.", generatedAt: new Date().toISOString() } };
+
+    const selectionId = asNullableNumber(active.selection_id);
+    const clubId = asNullableNumber(active.current_club_id);
+    const career = selectionId !== null
+      ? { managerName: asText(active.manager_name, "Manager"), careerName: asText(active.career_name, "Carreira"), targetType: "selection" as const, targetId: selectionId, targetName: asText(active.selection_name, "Seleção") }
+      : clubId !== null
+        ? { managerName: asText(active.manager_name, "Manager"), careerName: asText(active.career_name, "Carreira"), targetType: "club" as const, targetId: clubId, targetName: asText(active.club_name, "Clube") }
+        : null;
+    if (clubId === null) return { ...emptyClubWorkspace("A carreira ativa controla uma seleção; não há dados de clube para exibir."), source: { mode: "LOCAL_READ_ONLY_SQLITE", available: true, message: "A carreira ativa controla uma seleção; não há dados de clube para exibir.", generatedAt: new Date().toISOString() }, career };
+
+    const squadSummary = db.prepare(
+      `SELECT COUNT(*) AS total,
+              SUM(CASE WHEN membership.status = 'Titular' THEN 1 ELSE 0 END) AS starters,
+              SUM(CASE WHEN membership.status = 'Reserva' THEN 1 ELSE 0 END) AS reserves
+       FROM jogador_time membership WHERE membership.time_id = ?`,
+    ).get(clubId) as SQLiteRow;
+    const players = db.prepare(
+      `SELECT player.jogador_id, player.nome, player.posicao, membership.status, membership.categoria
+       FROM jogador_time membership
+       INNER JOIN jogadores player ON player.jogador_id = membership.jogador_id
+       WHERE membership.time_id = ?
+       ORDER BY CASE membership.status WHEN 'Titular' THEN 0 ELSE 1 END, player.posicao_codigo, player.nome
+       LIMIT 32`,
+    ).all(clubId) as SQLiteRow[];
+    const injuries = db.prepare(
+      `SELECT COUNT(*) AS total FROM injuries injury
+       INNER JOIN jogador_time membership ON membership.jogador_id = injury.player_id
+       WHERE membership.time_id = ? AND injury.status = 'ACTIVE'`,
+    ).get(clubId) as SQLiteRow;
+    const finance = db.prepare("SELECT cash, updated_at FROM club_finances WHERE club_id = ?").get(clubId) as SQLiteRow | undefined;
+    const reputation = db.prepare("SELECT sporting, national, international, commercial, historical FROM club_reputation WHERE club_id = ?").get(clubId) as SQLiteRow | undefined;
+    const stadiumRecord = db.prepare("SELECT name, capacity, level, status FROM club_stadiums WHERE club_id = ? AND is_primary = 1 LIMIT 1").get(clubId) as SQLiteRow | undefined;
+    const stadiumName = stadiumRecord ? asText(stadiumRecord.name) : typeof active.team_stadium === "string" && active.team_stadium.trim() ? active.team_stadium : null;
+
+    return {
+      source: { mode: "LOCAL_READ_ONLY_SQLITE", available: true, message: "Resumo consultado diretamente no estado SQLite do motor em modo somente leitura.", generatedAt: new Date().toISOString() },
+      career,
+      club: { clubId, name: asText(active.club_name, "Clube"), stadiumName },
+      squad: { total: asNumber(squadSummary.total), starters: asNumber(squadSummary.starters), reserves: asNumber(squadSummary.reserves), injured: asNumber(injuries.total), players: players.map((row) => ({ playerId: asNumber(row.jogador_id), name: asText(row.nome), position: asText(row.posicao), status: asText(row.status), category: asText(row.categoria) })) },
+      finance: { cash: finance ? asNullableNumber(finance.cash) : null, updatedAt: finance && typeof finance.updated_at === "string" ? finance.updated_at : null },
+      reputation: { sporting: reputation ? asNullableNumber(reputation.sporting) : null, national: reputation ? asNullableNumber(reputation.national) : null, international: reputation ? asNullableNumber(reputation.international) : null, commercial: reputation ? asNullableNumber(reputation.commercial) : null, historical: reputation ? asNullableNumber(reputation.historical) : null },
+      stadium: { name: stadiumName, capacity: stadiumRecord ? asNullableNumber(stadiumRecord.capacity) : null, level: stadiumRecord ? asNullableNumber(stadiumRecord.level) : null, status: stadiumRecord && typeof stadiumRecord.status === "string" ? stadiumRecord.status : null, source: stadiumRecord ? "CLUB_STADIUM" : stadiumName ? "TEAM_RECORD" : "UNAVAILABLE" },
+      training: { available: false, message: "O estado do motor ainda não possui CT persistido para este clube." },
+    };
+  } catch (error) {
+    console.error("[Club workspace] Falha ao consultar o estado SQLite em modo somente leitura:", error);
+    return emptyClubWorkspace("O estado local do motor não está disponível para leitura neste ambiente.");
   } finally {
     db?.close();
   }

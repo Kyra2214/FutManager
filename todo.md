@@ -25,3 +25,7 @@
 - [x] Validar a transição da tela inicial para o dashboard com estado de teste isolado.
 - [x] Adicionar teste integrado de ponta a ponta com gateway real e banco de carreira temporário.
 - [x] Automatizar o fluxo integral de carreira com contrato real e banco temporário, sem mocks do gateway.
+- [x] Mapear as informações persistidas do clube, elenco e estruturas ainda ausentes no dashboard.
+- [x] Expor um contrato de leitura consolidado do clube controlado no backend.
+- [x] Conectar dashboard, Time, Estádio e CT aos dados reais ou aos estados vazios do motor.
+- [x] Validar os fluxos conectados em desktop e mobile sem criar dados fictícios.

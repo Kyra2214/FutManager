@@ -53,21 +53,13 @@ const navItems: { id: AppSection; label: string; short: string; icon: typeof Lay
   { id: "transferencias", label: "Transferências", short: "07", icon: ClipboardList },
 ];
 
-const events = [
-  { type: "WORLD", tone: "blue", label: "MOTOR", title: "Estado do mundo carregado", detail: "Aguardando o estado oficial do clube", time: "agora", icon: Activity },
-  { type: "MATCH", tone: "green", label: "PRÓXIMA PARTIDA", title: "Calendário em preparação", detail: "O próximo compromisso aparece quando o calendário for carregado", time: "—", icon: Goal },
-  { type: "FINANCE", tone: "coral", label: "FINANÇAS", title: "Caixa em preparação", detail: "O saldo oficial vem do caixa do clube", time: "—", icon: CircleDollarSign },
-  { type: "TRAINING", tone: "ink", label: "TREINAMENTO", title: "Nenhum relatório novo", detail: "A evolução será lida a partir da comissão técnica", time: "—", icon: Dumbbell },
-];
-
-const rosterRows = [
-  { number: "—", name: "Elenco principal", position: "FIRST_TEAM", status: "AGUARDANDO DADOS", tone: "muted" },
-  { number: "—", name: "Reservas", position: "RESERVE", status: "AGUARDANDO DADOS", tone: "muted" },
-  { number: "—", name: "Base", position: "YOUTH", status: "AGUARDANDO DADOS", tone: "muted" },
-];
-
 function formatSection(section: AppSection) {
   return navItems.find((item) => item.id === section)?.label ?? "Início";
+}
+
+function formatCash(value: number | null | undefined) {
+  if (value === null || value === undefined) return "—";
+  return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(value);
 }
 
 function Metric({ label, value, note, accent = "ink", icon: Icon }: { label: string; value: string; note: string; accent?: string; icon: typeof Activity }) {
@@ -117,43 +109,20 @@ function Header({ section, onMenu }: { section: AppSection; onMenu: () => void }
 }
 
 function Dashboard({ onSectionChange }: { onSectionChange: (section: AppSection) => void }) {
-  const clubStateQuery = trpc.matches.dashboard.useQuery(undefined, { retry: 1 });
-  const controlledClub = clubStateQuery.data?.controlledClub ?? null;
-
-  return (
-    <>
-      <section className="hero-panel">
-        <div className="hero-image"><img src={ASSETS.stadium} alt="Estádio vazio em perspectiva editorial" /><div className="hero-scrim" /><div className="hero-pitch-lines" aria-hidden="true"><span /><span /><span /></div></div>
-        <div className="hero-copy"><span className="eyebrow light">SEU CLUBE / CENTRO DE COMANDO</span><h1>Seu clube.<br /><em>Sob seu comando.</em></h1><p>Elenco, caixa, estádio e calendário em uma só leitura. O estado do clube entra aqui, sem atalhos.</p><button className="primary-action" onClick={() => onSectionChange("partidas")}>Ver nossas partidas <ArrowUpRight size={16} /></button></div>
-        <div className="hero-stamp"><img src={ASSETS.mark} alt="" /><div><span>FUT</span><strong>MANAGER</strong><small>GESTÃO · CAMPO · FUTURO</small></div></div>
-        <div className="hero-meta"><span>ESTÁDIO / VISÃO GERAL</span><span>LAT 00° · LONG 00°</span></div>
-      </section>
-      <div className="metrics-grid">
-        <Metric label="CAIXA" value="—" note="Caixa do clube aguardando estado" accent="green" icon={CircleDollarSign} />
-        <Metric label="REPUTAÇÃO" value="—" note="Reputação do clube aguardando estado" accent="blue" icon={Sparkles} />
-        <Metric label="COMPETIÇÃO" value="—" note="Classificação aguardando estado" accent="coral" icon={Flag} />
-        <Metric label="ELENCO" value="—" note="Elenco aguardando estado oficial" accent="ink" icon={Users} />
-      </div>
-      <section className="content-grid">
-        <div className="main-column">
-          <div className="section-heading"><div><span className="eyebrow">AGENDA DO CLUBE</span><h2>Próxima partida</h2></div><button className="text-action" onClick={() => onSectionChange("time")}>Ver time <ArrowUpRight size={15} /></button></div>
-          <article className="fixture-card">
-            <div className="fixture-date"><span>PRÓXIMO COMPROMISSO</span><strong>—</strong><small>Data a confirmar</small></div>
-            <div className="fixture-match"><div>{controlledClub ? <EntityAsset className="crest-placeholder" entityType="team" entityId={controlledClub.clubId} entityName={controlledClub.name} /> : <span className="crest-placeholder">?</span>}<b>{controlledClub?.name ?? "Seu clube"}</b><small>MANDANTE / —</small></div><div className="versus">VS</div><div><span className="crest-placeholder away">?</span><b>Adversário</b><small>VISITANTE / —</small></div></div>
-            <div className="fixture-note"><CalendarDays size={15} /><span>O próximo compromisso virá do calendário oficial.</span></div>
-          </article>
-          <div className="section-heading news-heading"><div><span className="eyebrow">SINAL DO MUNDO</span><h2>Feed de notícias</h2></div><button className="filter-btn" onClick={() => toast("Filtros serão alimentados pelos acontecimentos do clube.")}><SlidersHorizontal size={15} /> Filtrar</button></div>
-          <div className="news-list">{events.map((event) => <EventCard key={event.type} {...event} />)}</div>
-        </div>
-        <aside className="side-column">
-          <div className="section-heading compact"><div><span className="eyebrow">SITUAÇÃO ATUAL</span><h2>Seu clube</h2></div><button className="more-btn" aria-label="Mais opções" onClick={() => toast("O retrato do clube virá do estado oficial.")}>···</button></div>
-          <article className="club-card"><div className="club-card-top">{controlledClub ? <EntityAsset entityType="team" entityId={controlledClub.clubId} entityName={controlledClub.name} /> : <span className="crest-large">?</span>}<div><span className="eyebrow">CLUBE CONTROLADO</span><h3>{controlledClub?.name ?? "Não conectado"}</h3><p>{controlledClub ? "Ativo resolvido pelo vínculo oficial" : "Selecione um estado de carreira"}</p></div></div><div className="club-lines"><div><span>ESTÁDIO</span><b>—</b></div><div><span>CT</span><b>—</b></div><div><span>TORCIDA</span><b>—</b></div></div><button className="secondary-action" onClick={() => onSectionChange("estadio")}>Ver estruturas <ChevronRight size={15} /></button></article>
-          <article className="read-card" style={{ backgroundImage: `url(${ASSETS.texture})` }}><span className="eyebrow">LEITURA DO DIA</span><h3>Leia o cenário<br />antes de mexer<br /><em>no elenco.</em></h3><div className="read-footer"><span>EDITORIAL / 001</span><ArrowUpRight size={16} /></div></article>
-          <div className="integrity-note"><span className="live-dot" /><div><b>ESTADO COMO FONTE OFICIAL</b><p>A interface apresenta decisões; o motor guarda as consequências.</p></div></div>
-        </aside>
-      </section>
-    </>
-  );
+  const matchesQuery = trpc.matches.dashboard.useQuery(undefined, { retry: 1 });
+  const workspaceQuery = trpc.club.workspace.useQuery(undefined, { retry: 1 });
+  const workspace = workspaceQuery.data;
+  const controlledClub = workspace?.club ?? matchesQuery.data?.controlledClub ?? null;
+  const nextMatch = controlledClub ? matchesQuery.data?.upcomingFixtures.find((match) => match.homeClub.clubId === controlledClub.clubId || match.awayClub.clubId === controlledClub.clubId) ?? null : null;
+  const clubName = controlledClub?.name ?? "Seu clube";
+  const hasCash = workspace?.finance.cash !== null && workspace?.finance.cash !== undefined;
+  const feed = [
+    { type: "CAREER", tone: "blue", label: "CARREIRA", title: workspace?.career ? `${workspace.career.managerName} no comando` : "Carreira não iniciada", detail: workspace?.career ? `${workspace.career.careerName} · ${workspace.career.targetName}` : "Inicie uma carreira para conectar o clube ao painel.", time: "agora", icon: Activity },
+    { type: "MATCH", tone: "green", label: "PRÓXIMA PARTIDA", title: nextMatch ? `${nextMatch.homeClub.name} × ${nextMatch.awayClub.name}` : "Sem compromisso persistido", detail: nextMatch ? formatMatchDate(nextMatch.scheduledAt) : matchesQuery.data?.source.message ?? "Calendário ainda não registrado no motor.", time: nextMatch ? formatMatchTime(nextMatch.scheduledAt) : "—", icon: Goal },
+    { type: "FINANCE", tone: "coral", label: "FINANÇAS", title: hasCash ? "Caixa registrado" : "Caixa sem lançamento", detail: hasCash ? formatCash(workspace?.finance.cash) : "O motor ainda não possui saldo persistido para este clube.", time: workspace?.finance.updatedAt ?? "—", icon: CircleDollarSign },
+    { type: "TRAINING", tone: "ink", label: "TREINAMENTO", title: workspace?.training.available ? "CT registrado" : "CT sem registro", detail: workspace?.training.message ?? "Consultando estado do motor.", time: "—", icon: Dumbbell },
+  ];
+  return <><section className="hero-panel"><div className="hero-image"><img src={ASSETS.stadium} alt="Estádio vazio em perspectiva editorial" /><div className="hero-scrim" /><div className="hero-pitch-lines" aria-hidden="true"><span /><span /><span /></div></div><div className="hero-copy"><span className="eyebrow light">{workspace?.career ? `${workspace.career.careerName.toUpperCase()} / CENTRO DE COMANDO` : "SEU CLUBE / CENTRO DE COMANDO"}</span><h1>{clubName}.<br /><em>Sob seu comando.</em></h1><p>Elenco, caixa, estádio e calendário em uma só leitura, consultados diretamente no estado persistido.</p><button className="primary-action" onClick={() => onSectionChange("partidas")}>Ver nossas partidas <ArrowUpRight size={16} /></button></div><div className="hero-stamp"><img src={ASSETS.mark} alt="" /><div><span>FUT</span><strong>MANAGER</strong><small>GESTÃO · CAMPO · FUTURO</small></div></div><div className="hero-meta"><span>ESTÁDIO / VISÃO GERAL</span><span>{workspace?.stadium.name ?? "SEM REGISTRO"}</span></div></section><div className="metrics-grid"><Metric label="CAIXA" value={workspaceQuery.isLoading ? "…" : formatCash(workspace?.finance.cash)} note={workspace?.finance.cash !== null && workspace?.finance.cash !== undefined ? "Saldo persistido no motor" : "Sem saldo persistido"} accent="green" icon={CircleDollarSign} /><Metric label="REPUTAÇÃO" value={workspaceQuery.isLoading ? "…" : workspace?.reputation.sporting?.toString() ?? "—"} note={workspace?.reputation.sporting !== null && workspace?.reputation.sporting !== undefined ? "Indicador esportivo" : "Sem indicador persistido"} accent="blue" icon={Sparkles} /><Metric label="COMPETIÇÃO" value={matchesQuery.isLoading ? "…" : matchesQuery.data?.selectedCompetition?.name ?? "—"} note={matchesQuery.data?.selectedCompetition ? `${matchesQuery.data.selectedCompetition.playedMatches} partidas registradas` : "Sem competição persistida"} accent="coral" icon={Flag} /><Metric label="ELENCO" value={workspaceQuery.isLoading ? "…" : workspace?.squad.total?.toString() ?? "—"} note={workspace?.squad.total ? `${workspace.squad.starters} titulares · ${workspace.squad.reserves} reservas` : "Sem elenco persistido"} accent="ink" icon={Users} /></div><section className="content-grid"><div className="main-column"><div className="section-heading"><div><span className="eyebrow">AGENDA DO CLUBE</span><h2>Próxima partida</h2></div><button className="text-action" onClick={() => onSectionChange("time")}>Ver time <ArrowUpRight size={15} /></button></div><article className="fixture-card"><div className="fixture-date"><span>PRÓXIMO COMPROMISSO</span><strong>{nextMatch ? formatMatchDate(nextMatch.scheduledAt) : "—"}</strong><small>{nextMatch ? formatMatchTime(nextMatch.scheduledAt) : "Data a confirmar"}</small></div><div className="fixture-match">{nextMatch ? <><div><EntityAsset className="crest-placeholder" entityType="team" entityId={nextMatch.homeClub.clubId} entityName={nextMatch.homeClub.name} /><b>{nextMatch.homeClub.name}</b><small>MANDANTE</small></div><div className="versus">VS</div><div><EntityAsset className="crest-placeholder away" entityType="team" entityId={nextMatch.awayClub.clubId} entityName={nextMatch.awayClub.name} /><b>{nextMatch.awayClub.name}</b><small>VISITANTE</small></div></> : <div className="fixture-empty">Nenhuma partida futura foi persistida para este clube.</div>}</div><div className="fixture-note"><CalendarDays size={15} /><span>{nextMatch ? "Compromisso lido do calendário oficial." : "O próximo compromisso aparece quando o motor registrar o calendário."}</span></div></article><div className="section-heading news-heading"><div><span className="eyebrow">SINAL DO MUNDO</span><h2>Feed de notícias</h2></div><button className="filter-btn" onClick={() => toast("Filtros serão alimentados pelos acontecimentos persistidos do clube.")}><SlidersHorizontal size={15} /> Filtrar</button></div><div className="news-list">{feed.map((event) => <EventCard key={event.type} {...event} />)}</div></div><aside className="side-column"><div className="section-heading compact"><div><span className="eyebrow">SITUAÇÃO ATUAL</span><h2>Seu clube</h2></div><button className="more-btn" aria-label="Mais opções" onClick={() => toast("O retrato do clube vem do estado oficial.")}>···</button></div><article className="club-card"><div className="club-card-top">{controlledClub ? <EntityAsset entityType="team" entityId={controlledClub.clubId} entityName={controlledClub.name} /> : <span className="crest-large">?</span>}<div><span className="eyebrow">CLUBE CONTROLADO</span><h3>{controlledClub?.name ?? "Não conectado"}</h3><p>{controlledClub ? "Ativo resolvido pelo vínculo oficial" : "Selecione um estado de carreira"}</p></div></div><div className="club-lines"><div><span>ESTÁDIO</span><b>{workspace?.stadium.name ?? "—"}</b></div><div><span>CT</span><b>{workspace?.training.available ? "ATIVO" : "—"}</b></div><div><span>ELENCO</span><b>{workspace?.squad.total ?? "—"}</b></div></div><button className="secondary-action" onClick={() => onSectionChange("estadio")}>Ver estruturas <ChevronRight size={15} /></button></article><article className="read-card" style={{ backgroundImage: `url(${ASSETS.texture})` }}><span className="eyebrow">LEITURA DO DIA</span><h3>Leia o cenário<br />antes de mexer<br /><em>no elenco.</em></h3><div className="read-footer"><span>EDITORIAL / 001</span><ArrowUpRight size={16} /></div></article><div className="integrity-note"><span className="live-dot" /><div><b>ESTADO COMO FONTE OFICIAL</b><p>A interface apresenta decisões; o motor guarda as consequências.</p></div></div></aside></section></>;
 }
 
 function EventCard({ type, tone, label, title, detail, time, icon: Icon }: { type: string; tone: string; label: string; title: string; detail: string; time: string; icon: typeof Activity }) {
@@ -229,15 +198,22 @@ function StructurePage({ section, onSectionChange }: { section: AppSection; onSe
   const isTeam = section === "time";
   const isCt = section === "ct";
   const isMarket = section === "mercado" || section === "transferencias";
+  const workspaceQuery = trpc.club.workspace.useQuery(undefined, { retry: 1 });
+  const workspace = workspaceQuery.data;
   const title = isStadium ? "Estádio" : isTeam ? "Time" : isCt ? "Centro de treinamento" : section === "transferencias" ? "Transferências" : "Mercado";
   const intro = isStadium ? "O palco é uma operação. Capacidade, experiência e receita em camadas separadas." : isTeam ? "O elenco é uma fotografia viva — identidade, condição e contrato sem atalhos." : isCt ? "Desenvolvimento com contexto: comissão, carga e recuperação em uma mesma leitura." : "Leia a oportunidade antes de mover o mercado. Toda decisão passa pelo motor.";
+  const structureRows = isStadium
+    ? [{ label: "Nome", value: workspace?.stadium.name ?? "sem registro" }, { label: "Capacidade", value: workspace?.stadium.capacity?.toLocaleString("pt-BR") ?? "sem registro" }, { label: "Nível", value: workspace?.stadium.level?.toString() ?? "sem registro" }, { label: "Status", value: workspace?.stadium.status ?? workspace?.stadium.source ?? "sem registro" }]
+    : isCt
+      ? [{ label: "Centro de treinamento", value: workspace?.training.available ? "registrado" : "sem registro" }, { label: "Contexto", value: workspace?.training.message ?? "consultando motor" }]
+      : [{ label: "Janela", value: "sem serviço persistido" }, { label: "Propostas", value: "sem serviço persistido" }, { label: "Scouting", value: "sem serviço persistido" }, { label: "Histórico", value: "sem serviço persistido" }];
   return <>
     <section className="page-intro"><div><span className="eyebrow">FUTMANAGER / {formatSection(section).toUpperCase()}</span><h1>{title}</h1><p>{intro}</p></div><span className="page-code">{section === "estadio" ? "ST-01" : section === "time" ? "TM-01" : section === "ct" ? "CT-01" : "MK-01"}</span></section>
     <section className="feature-banner"><img src={isCt ? ASSETS.training : ASSETS.stadium} alt="" /><div className="banner-overlay" /><div className="banner-copy"><span className="eyebrow light">DADOS DO MOTOR</span><h2>{isStadium ? "Construído para o dia de jogo." : isTeam ? "Uma só identidade por jogador." : isCt ? "Treino não é força. É processo." : "Toda proposta deixa um rastro."}</h2><p>Estrutura visual pronta para receber o estado persistido.</p></div></section>
     {isTeam && <EntityLookupPanel />}
     <div className="detail-grid">
-      <article className="detail-panel"><div className="section-heading compact"><div><span className="eyebrow">{isTeam ? "CATEGORIAS" : isStadium ? "QUATRO CAMADAS" : isCt ? "EIXOS" : "PAINEL"}</span><h2>{isTeam ? "Estado do elenco" : isStadium ? "Estrutura do estádio" : isCt ? "Ciclo de desenvolvimento" : "Estado do mercado"}</h2></div><Gauge size={18} /></div>{isTeam ? rosterRows.map((row) => <div className="roster-row" key={row.position}><span className="roster-number">{row.number}</span><div><b>{row.name}</b><small>{row.position}</small></div><span className="muted-status">{row.status}</span><ChevronRight size={15} /></div>) : <div className="layer-list">{(isStadium ? ["Arquibancada", "Campo", "Estrutura", "Equipes"] : isCt ? ["Comissão", "Treinamento", "Recuperação", "Desenvolvimento"] : ["Janela", "Propostas", "Scouting", "Histórico"]).map((item, i) => <div className="layer-row" key={item}><span>0{i + 1}</span><b>{item}</b><em>indisponível</em><ChevronRight size={15} /></div>)}</div>}<button className="outline-action" onClick={() => toast("Esta ação será habilitada quando o serviço correspondente estiver conectado.")}>Consultar estado <ArrowUpRight size={15} /></button></article>
-      <aside className="detail-side"><div className="empty-panel"><span className="empty-mark">—</span><span className="eyebrow">ESTADO NÃO CONECTADO</span><h3>Sem dados inventados.</h3><p>Esta tela já está preparada para os serviços do motor, mas ainda não substitui o estado oficial por uma cópia local.</p><button className="primary-action dark" onClick={() => onSectionChange("clube")}>Voltar ao clube <ArrowUpRight size={16} /></button></div></aside>
+      <article className="detail-panel"><div className="section-heading compact"><div><span className="eyebrow">{isTeam ? "ELENCO PERSISTIDO" : isStadium ? "ESTÁDIO PERSISTIDO" : isCt ? "CT PERSISTIDO" : "PAINEL"}</span><h2>{isTeam ? `${workspace?.club?.name ?? "Clube"} · elenco` : isStadium ? "Estrutura do estádio" : isCt ? "Ciclo de desenvolvimento" : "Estado do mercado"}</h2></div><Gauge size={18} /></div>{isTeam ? workspaceQuery.isLoading ? <div className="entity-lookup-empty">Lendo elenco persistido…</div> : workspace?.squad.players.length ? workspace.squad.players.map((player, index) => <div className="roster-row" key={player.playerId}><span className="roster-number">{String(index + 1).padStart(2, "0")}</span><div><b>{player.name}</b><small>{player.position} · {player.category}</small></div><span className={player.status === "Titular" ? "muted-status active" : "muted-status"}>{player.status}</span><ChevronRight size={15} /></div>) : <div className="entity-lookup-empty">Nenhum jogador foi persistido para o clube controlado.</div> : <div className="layer-list">{structureRows.map((item, index) => <div className="layer-row" key={item.label}><span>0{index + 1}</span><b>{item.label}</b><em>{item.value}</em><ChevronRight size={15} /></div>)}</div>}<button className="outline-action" onClick={() => toast(workspace?.source.message ?? "Consultando o estado do motor.")}>Consultar estado <ArrowUpRight size={15} /></button></article>
+      <aside className="detail-side"><div className="empty-panel"><span className="empty-mark">{isTeam ? workspace?.squad.total ?? "—" : isStadium ? workspace?.stadium.capacity?.toLocaleString("pt-BR") ?? "—" : "—"}</span><span className="eyebrow">{workspace?.source.available ? "ESTADO CONECTADO" : "ESTADO INDISPONÍVEL"}</span><h3>{isTeam ? `${workspace?.squad.starters ?? 0} titulares · ${workspace?.squad.reserves ?? 0} reservas` : isStadium ? workspace?.stadium.name ?? "Estádio sem registro" : workspace?.training.message ?? "Sem dados inventados."}</h3><p>{isTeam ? `${workspace?.squad.injured ?? 0} lesão(ões) ativa(s) no estado do motor.` : workspace?.source.message ?? "Aguardando leitura do motor."}</p><button className="primary-action dark" onClick={() => onSectionChange("clube")}>Voltar ao clube <ArrowUpRight size={16} /></button></div></aside>
     </div>
   </>;
 }

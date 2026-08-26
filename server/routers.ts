@@ -4,6 +4,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { assetsRouter } from "./routers/assets";
 import { careerRouter } from "./routers/career";
+import { clubRouter } from "./routers/club";
 import { matchesRouter } from "./routers/matches";
 
 export const appRouter = router({
@@ -21,6 +22,7 @@ export const appRouter = router({
   }),
   assets: assetsRouter,
   career: careerRouter,
+  club: clubRouter,
   matches: matchesRouter,
 
   // TODO: add feature routers here, e.g.
