@@ -274,3 +274,4 @@
 - [x] P1-6: integrar estatísticas individuais ao apply_result quando houver escalações persistidas, sem duplicar eventos ou placares.
 - [x] P1-6: aplicar substituição planejada no GameState, atualizando a escalação efetiva sem duplicidade e respeitando o minuto da partida.
 - [x] P1-6: atualizar minutos individuais conforme substituições aplicadas, preservando a chave idempotente de partida e atleta.
+- [x] P1-6: derivar cartões amarelos/vermelhos individuais de match_events e sincronizar player_match_stats de modo idempotente.
