@@ -417,3 +417,14 @@
 - [x] P1-18 / passos 351/352/353: sinalizar saldo insuficiente e expor prévias somente leitura de despesa e caixa pós-partida, sem persistir antes da confirmação.
 - [x] P1-18 / passo 354: pré-visualizar impacto de contratação no motor, com caixa antes/depois, custo imediato, folha semanal e fórmula versionada; passos 355/356 permanecem pendentes.
 - [x] P1-18 / passos 357/358/359/360: histórico sazonal, arredondamentos, concorrência, idempotência e documentação da fonte canônica do saldo em `docs/finance_governance.md`.
+
+# P1-19 — Estádio e Infraestrutura
+
+- [x] P1-19 / passos 361/362/363: validar componentes canônicos do estádio, níveis 1–10 e capacidade persistida no SQL.
+- [x] P1-19 / passos 364/365/366: exibir custos de upgrade, manutenção semanal e impacto operacional no read model/painel de estádio.
+- [x] P1-19 / passos 367/368/369: integrar upgrade somente pelo gateway, com prévia, confirmação, rollback transacional e idempotência do ledger.
+- [x] P1-19 / passo 370: validar frontend, testes e fonte única SQL/GameState da infraestrutura.
+
+# Execução global
+
+- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0.

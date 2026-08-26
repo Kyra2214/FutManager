@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { advanceWorldWeek, bootstrapClubStadium, configureClubTicketPrice, getClubStadiumSummary, upgradeClubStadium } from "../careerGateway";
+import { advanceWorldWeek, bootstrapClubStadium, configureClubTicketPrice, getClubStadiumSummary, previewStadiumUpgrade, upgradeClubStadium } from "../careerGateway";
 import { publicProcedure, router } from "../_core/trpc";
 
 function toTrpcError(error: unknown) {
@@ -12,6 +12,7 @@ function toTrpcError(error: unknown) {
 export const stadiumRouter = router({
   summary: publicProcedure.query(() => { try { return getClubStadiumSummary(); } catch (error) { throw toTrpcError(error); } }),
   bootstrap: publicProcedure.mutation(() => { try { return bootstrapClubStadium(); } catch (error) { throw toTrpcError(error); } }),
+  preview: publicProcedure.input(z.object({ component: z.enum(["arquibancada", "campo", "estrutura", "equipes"]) })).query(({ input }) => { try { return previewStadiumUpgrade(input.component); } catch (error) { throw toTrpcError(error); } }),
   upgrade: publicProcedure.input(z.object({ component: z.enum(["arquibancada", "campo", "estrutura", "equipes"]) })).mutation(({ input }) => { try { return upgradeClubStadium(input.component); } catch (error) { throw toTrpcError(error); } }),
   ticketPrice: publicProcedure.input(z.object({ basePrice: z.number().int().min(1).max(2000) })).mutation(({ input }) => { try { return configureClubTicketPrice(input.basePrice); } catch (error) { throw toTrpcError(error); } }),
   advanceWeek: publicProcedure.input(z.object({ seed: z.number().int().optional() }).optional()).mutation(({ input }) => { try { return advanceWorldWeek(input?.seed); } catch (error) { throw toTrpcError(error); } }),

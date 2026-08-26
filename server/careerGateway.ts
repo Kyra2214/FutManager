@@ -15,7 +15,7 @@ export type CareerCatalogItem = {
 };
 
 type GatewayResult = { ok: boolean; error?: string } & Record<string, unknown>;
-type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "finance_revenue" | "finance_expense" | "finance_budget" | "finance_expense_preview" | "finance_post_match_preview" | "finance_projection" | "finance_alert" | "finance_world_report" | "finance_audit" | "training_departments" | "morale_summary" | "morale_match" | "weekly_training" | "opponent_preparation" | "weekly_load" | "form_recommendations" | "health_list" | "health_alerts" | "health_injury" | "health_recover" | "health_suspension" | "ai_diagnosis" | "ai_history" | "ai_training" | "ai_market" | "ai_weekly" | "ai_lineup" | "ai_tactic" | "ai_objective_progress" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance" | "events_list" | "events_mark_read" | "transferable_players" | "transfer_open_window" | "transfer_preview" | "transfer_offer" | "transfer_counter" | "transfer_accept" | "transfer_approve" | "transfer_loan" | "transfer_complete";
+type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "finance_revenue" | "finance_expense" | "finance_budget" | "finance_expense_preview" | "finance_post_match_preview" | "finance_projection" | "finance_alert" | "finance_world_report" | "finance_audit" | "training_departments" | "morale_summary" | "morale_match" | "weekly_training" | "opponent_preparation" | "weekly_load" | "form_recommendations" | "health_list" | "health_alerts" | "health_injury" | "health_recover" | "health_suspension" | "ai_diagnosis" | "ai_history" | "ai_training" | "ai_market" | "ai_weekly" | "ai_lineup" | "ai_tactic" | "ai_objective_progress" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_preview" | "stadium_upgrade" | "ticket_price" | "weekly_advance" | "events_list" | "events_mark_read" | "transferable_players" | "transfer_open_window" | "transfer_preview" | "transfer_offer" | "transfer_counter" | "transfer_accept" | "transfer_approve" | "transfer_loan" | "transfer_complete";
 
 function callGateway<T extends GatewayResult>(action: GatewayAction, payload: Record<string, unknown>, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): T {
   try {
@@ -219,8 +219,14 @@ export function listDepartmentOffers(databasePath?: string) {
   return staffMarketAction<GatewayResult & { items: Array<{ department: string; label: string; target_level: number; cost: number; maintenance: number; capacity: number }> }>("department_offers", {}, databasePath).items;
 }
 
+export type StadiumUpgradePreview = { club_id: number; component: string; from_level: number; target_level: number; cost: number; maintenance_before: number; maintenance_after: number; cash_before: number; cash_after: number; cash_sufficient: boolean; persisted: boolean; formula_version: string };
+export function previewStadiumUpgrade(component: string, databasePath?: string) { return staffMarketAction<GatewayResult & StadiumUpgradePreview>("stadium_preview", { component }, databasePath); }
 export function upgradeClubDepartment(department: string, databasePath?: string) {
   return staffMarketAction<GatewayResult & { department: string; label: string; target_level: number; cost: number; maintenance: number; capacity: number }>("department_upgrade", { department }, databasePath);
+}
+
+export function upgradeStadiumComponent(component: string, databasePath?: string) {
+  return staffMarketAction<GatewayResult & Record<string, unknown>>("stadium_upgrade", { component }, databasePath);
 }
 
 export type SponsorOffer = {
