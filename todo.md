@@ -1,0 +1,447 @@
+- [x] Promover "Seu Clube" para a primeira posição da navegação e do dashboard.
+- [x] Criar a aba "Nossas Partidas" com competições, tabela, calendário, próximos jogos e resultados.
+- [x] Validar a nova navegação em desktop e mobile.
+- [x] Habilitar uma camada de dados segura para a aba Nossas Partidas.
+- [x] Mapear competições, partidas, calendário e classificação do estado real do motor.
+- [x] Conectar as quatro visões da aba aos dados reais e validar os estados de carregamento.
+- [x] Validar explicitamente o estado de carregamento da aba Nossas Partidas com resposta atrasada do backend.
+- [x] Extrair os escudos originais do arquivo-mãe e organizá-los em uma pasta de ativos auditável.
+- [x] Vincular escudos de clubes e seleções às entidades canônicas do SQL por identificador de origem.
+- [x] Validar cobertura e preparar o FutManager para exibir o escudo da entidade escolhida.
+- [x] Expor os vínculos de ativos por identificador de clube ou seleção na camada de leitura do FutManager.
+- [x] Consumir os vínculos na seleção da entidade com fallback honesto para ativos ausentes.
+- [x] Exibir ativos de seleções na área de entidade quando a seleção for escolhida.
+- [x] Cobrir visualmente todos os estados de vínculo de ativos, sem ocultar ausências do arquivo-mãe.
+- [x] Criar uma área de consulta de entidade para clube ou seleção por ID do SQL oficial.
+- [x] Mostrar escudo ou camisa e o status explícito do vínculo na prévia da entidade.
+- [x] Validar visualmente a prévia para um clube e uma seleção reais do banco.
+- [x] Mapear clubes e seleções oficiais disponíveis para o início de carreira.
+- [x] Criar o contrato de início de carreira que persiste a escolha do manager.
+- [x] Implementar a tela inicial de escolha com escudo ou camisa e confirmação explícita.
+- [x] Validar a persistência da carreira e os estados de erro em desktop e mobile.
+- [x] Testar a mutation de início de carreira para sucesso e erros visíveis ao usuário.
+- [x] Validar o fluxo web completo em banco de teste isolado, incluindo a transição após iniciar a carreira.
+- [x] Cobrir a mutation de carreira com teste de interface, incluindo erro e sucesso visíveis.
+- [x] Validar a transição da tela inicial para o dashboard com estado de teste isolado.
+- [x] Adicionar teste integrado de ponta a ponta com gateway real e banco de carreira temporário.
+- [x] Automatizar o fluxo integral de carreira com contrato real e banco temporário, sem mocks do gateway.
+- [x] Mapear as informações persistidas do clube, elenco e estruturas ainda ausentes no dashboard.
+- [x] Expor um contrato de leitura consolidado do clube controlado no backend.
+- [x] Conectar dashboard, Time, Estádio e CT aos dados reais ou aos estados vazios do motor.
+- [x] Validar os fluxos conectados em desktop e mobile sem criar dados fictícios.
+- [x] Preparar um pacote ZIP completo com frontend, backend, dados de estado e ativos vinculados.
+- [x] Verificar a integridade e o conteúdo do pacote de entrega.
+- [x] Remover a consulta manual de identidade quando uma carreira com clube controlado estiver ativa.
+- [x] Mapear as tabelas e os serviços SQL de elenco detalhado, comissão, saúde e scouting.
+- [x] Expor o contrato de dados detalhados do elenco e da equipe técnica no backend.
+- [x] Conectar Time, CT e Mercado aos dados persistidos e estados de ausência reais.
+- [x] Validar a interface detalhada em desktop e mobile sem criar profissionais ou jogadores fictícios.
+- [x] Mapear os vazios de comissão, médicos, auxiliares e departamentos para os destinos corretos de Mercado.
+- [x] Exibir mensagem contextual e atalho para o Mercado ao abrir uma área de CT sem dados contratados.
+- [x] Validar os atalhos interativos do CT em desktop e mobile.
+- [x] Validar em viewport móvel os atalhos de Comissão, Médicos, Auxiliares e Departamentos do CT.
+- [x] Adicionar teste de interface para mensagens e navegação dos quatro atalhos vazios do CT.
+- [x] Executar os quatro atalhos do CT em condição de viewport móvel e confirmar mensagens e destino Mercado.
+- [x] Mapear regras e tabelas de catálogo, contratação de staff, salários, caixa e departamentos do CT.
+- [x] Implementar catálogo persistido de profissionais disponíveis por função e nível.
+- [x] Implementar contratação transacional de profissionais com salário e impacto financeiro.
+- [x] Implementar compra e evolução persistida de departamentos do CT.
+- [x] Expor Mercado e CT interativos no frontend e validar persistência em desktop e mobile.
+- [x] Formalizar a fórmula de caixa inicial e salários semanais por poder do clube, país, comissão, bases e temporada.
+- [x] Implementar a projeção econômica semanal para todos os clubes sem inventar saldos arbitrários.
+- [x] Integrar catálogo, contratação de staff e evolução de departamentos à nova economia semanal.
+- [x] Localizar e descompilar a lógica original de salários, caixa e valores no arquivo-mãe Brasfoot.
+- [x] Comparar a fórmula original recuperada com a economia semanal em implementação antes de ativá-la no frontend.
+- [x] Substituir a folha agregada pela fórmula individual adaptada do arquivo-mãe, mantendo a reserva inicial de 39 semanas.
+- [x] Manter comissão técnica e departamentos como complementos explícitos da folha e manutenção semanal do motor econômico.
+- [x] Unificar contratação de staff e atualização da folha econômica em uma única transação, com cobertura de rollback.
+- [x] Processar em lote e de forma idempotente a cobrança semanal de todos os clubes bootstrapados.
+- [x] Validar em banco temporário, pelo adaptador frontend e gateway real, contratação e evolução de CT com atualização financeira persistida.
+- [x] Cobrir em condições desktop e móvel o refetch/rerender pós-mutation do resumo econômico e das listas de catálogo/departamentos.
+- [x] Definir contratos de patrocínio com ofertas que expiram e são substituídas por marcas potencialmente melhores ou piores.
+- [x] Modelar estrelas de patrocínio de 1 a 5, com valores, exigências e recompensas escalados pela qualidade.
+- [x] Preparar o overall institucional do clube a partir de elenco, CT e estádio para qualificar propostas de patrocínio.
+- [x] Implementar missões de patrocinadores com metas, prazo, recompensa, falha e efeitos financeiros persistidos.
+- [x] Integrar o overall institucional à elegibilidade e às estrelas das propostas comerciais.
+- [x] Expor o perfil institucional junto ao resumo comercial para comprovar sua aplicação nas ofertas.
+- [x] Criar a aba Patrocinadores com propostas, contrato ativo, estrelas e missões usando tRPC.
+- [x] Validar a área de Patrocinadores em desktop e viewport móvel, além de contratos persistidos em banco temporário.
+- [x] Mapear IntegrationOrchestrator, WorldSimulationService, calendário, partidas, reputação e estruturas de estádio já existentes.
+- [x] Definir um tick semanal transacional e idempotente que orquestre partidas, receitas, patrocínios, folha e auditoria.
+- [x] Implementar StadiumService com arquibancada, campo, estrutura e equipes em níveis de 1 a 10.
+- [x] Reconciliar e criar os quatro componentes para estádios já persistidos pelo esquema social legado.
+- [x] Cobrir evolução sucessiva até o nível 10 e rollback sem débito parcial em falhas de estádio.
+- [x] Implementar e validar o bootstrap mundial idempotente de estádios com componentes para clubes que tenham estádio de origem.
+- [x] Implementar torcida, reputações separadas, público determinístico e configuração de preço de ingresso.
+- [x] Implementar bilheteria e premiações de competição no FinanceLedger sem lançamentos duplicados.
+- [x] Conectar missões de patrocinadores a eventos esportivos verificáveis do SQL.
+- [x] Fazer missões comerciais lerem resultados e público diretamente de partidas e registros de bilheteria persistidos.
+- [x] Acionar o progresso comercial pelo orquestrador semanal após partidas reais, sem parâmetros manuais de placar ou público.
+- [x] Cobrir partidas inexistentes ou não jogadas e o fluxo completo de partida, bilheteria e missão comercial.
+- [x] Expor estádio, torcida, receitas e avanço semanal por gateway/tRPC e telas editoriais.
+- [x] Executar cenários de integridade, idempotência e temporada antes de gerar o ZIP completo.
+- [x] Gerar e entregar ZIP completo de frontend, motor, documentação e instruções de execução.
+- [x] Expor alertas persistidos de estádio, torcida, finanças, competições e patrocínios no gateway e na interface.
+- [x] Documentar a validação final, os hashes e as limitações do ciclo semanal no relatório de entrega.
+- [x] Anexar ao usuário o ZIP completo validado, com frontend, motor, bancos, ativos, documentação e instruções.
+- [x] Produzir documento com 500 próximos passos priorizados para a evolução do FutManager/Brasfoot.
+- [x] Explicitar critérios de priorização no roadmap de 500 passos.
+- [x] Classificar cada frente do roadmap por prioridade P0, P1 ou P2.
+- [x] Formalizar gate que bloqueia qualquer P1/P2 até todos os P0 estarem consolidados e validados.
+- [x] Documentar SQL/GameState como fonte única da verdade para estado e regras do jogo.
+- [x] Atualizar o roadmap de 500 passos com dependências, critérios de consolidação e bloqueio de execução.
+- [x] Criar validação automática do gate P0 e dos caminhos autorizados de mutação.
+- [x] Explicitar uma matriz verificável de dependências entre as frentes e itens do roadmap.
+- [x] Ampliar o validador para verificar que o frontend não grava estado de jogo e que mutations passam por tRPC/Gateway/serviços SQL.
+- [x] Executar os validadores ampliados antes do próximo checkpoint.
+- [x] Validar no gateway e no motor Python que mutations chegam aos serviços SQLite autorizados, sem escrita paralela.
+- [x] Executar novamente todos os validadores após essa comprovação.
+- [x] Cobrir todas as ações mutáveis do career_gateway.py no mapa ação → serviço autorizado.
+- [x] Validar e documentar exceções legítimas de escrita direta do dispatcher, sem criar caminhos paralelos.
+- [x] Reexecutar todos os validadores após a cobertura integral do gateway.
+- [x] Documentar que o career_gateway.py não possui exceções legítimas de escrita direta mutável fora dos serviços autorizados.
+- [x] Rerodar o validador após documentar essa política de exceções.
+- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0.
+- [x] Formalizar e validar a execução ordenada/gates do roadmap com `roadmap_gate.json`, `validate_roadmap_gate.py` e testes do RoadmapGate/career_gateway; P1/P2 seguem pendentes.
+- [x] Auditar P0-23 com matriz de ausência de estado paralelo e conformidade tRPC.
+- [x] Auditar P0-25 com matriz de testes, entrega, hashes e documentação operacional.
+- [x] Auditar a política SQL/GameState como fonte única nas implementações P0-17, P0-23 e P0-25.
+- [x] Gerar ZIP completo atualizado e resumo técnico após a validação final do roadmap.
+- [x] Implementar guarda de execução do roadmap no motor, bloqueando P1/P2 enquanto o gate P0 estiver fechado.
+- [x] Cobrir a guarda de execução com testes de bloqueio, abertura controlada e fonte única SQL/GameState.
+- [x] Validar o hash do banco-base contra seu manifesto imutável e tratar o hash do GameState apenas como impressão digital do estado atual.
+- [x] Testar que uma alteração no banco-base é recusada pelo validador.
+- [x] Integrar RoadmapGate a uma ação real do career_gateway.py para governar execução por prioridade.
+- [x] Testar a ação real com P1/P2 bloqueados e liberar somente após gate aberto controladamente.
+- [x] Testar P2 no fluxo real do career_gateway.py, bloqueado com P0/P1 fechados e liberado apenas com P0/P1 abertos.
+- [x] Criar tabela de versão de esquema idempotente no GameState e cobrir sua inicialização em cópia temporária.
+- [x] Adicionar teste com cópia temporária do GameState para validar a criação automática de schema_versions pelo ManagerService.
+- [x] Executar essa prova de arquivo junto dos testes de governança.
+- [x] Adicionar índices idempotentes para consultas do ciclo por clube/semana, ledger e eventos quando as tabelas existirem.
+- [x] Cobrir a migração de índices em GameState temporário e manter integridade SQLite.
+- [x] Testar índices e integridade SQLite após migração em cópia física temporária do GameState.
+- [x] Reexecutar a suíte de governança/migração com essa validação física.
+- [x] Criar inventário read-only reproduzível do esquema-base e do esquema GameState.
+- [x] Gerar documentação do inventário sem alterar nenhum banco.
+- [x] Criar comparador read-only entre esquema-base e GameState para detectar divergências estruturais.
+- [x] Documentar divergências esperadas e falhas inesperadas do comparador.
+- [x] Criar auditoria read-only de unicidade de jogadores e IDs oficiais de clubes/seleções.
+- [x] Validar a auditoria no banco-base e no GameState sem corrigir dados automaticamente.
+- [x] Impedir que serviços mutáveis abram data/database/game.db como destino de escrita.
+- [x] Cobrir a proteção de banco-base imutável e aceitação de GameState temporário.
+- [x] Integrar a guarda de caminho mutável aos serviços que ainda abrem SQLite diretamente por arquivo.
+- [x] Criar varredura dos entrypoints mutáveis e testar rejeição da base em todos eles.
+- [x] Reexecutar a suíte após integrar a guarda nos serviços mutáveis.
+- [x] Criar teste parametrizado que exercite os 25 entrypoints mutáveis contra o banco-base e GameState temporário.
+- [x] Reexecutar a suíte Python completa após a integração ampla das guardas.
+- [x] Migrar testes legados de serviços mutáveis para cópias temporárias do GameState, sem relaxar a guarda da base.
+- [x] Reexecutar a suíte Python completa após a migração dos testes legados.
+- [x] Implementar no RoadmapGate a validação de dependências entre fronts antes de qualquer execução.
+- [x] Cobrir dependências fechadas, dependências consolidadas e front inexistente com testes.
+- [x] Integrar `assert_front_allowed(front)` ao entrypoint real do gateway/runner de roadmap.
+- [x] Testar em runtime um front bloqueado por dependência e liberado após consolidação controlada.
+- [x] Distinguir repositories read-only de serviços mutáveis na guarda, permitindo leitura da base sem liberar escrita.
+- [x] Atualizar testes para comprovar leitura canônica da base e proteção apenas dos writers.
+- [x] Criar contexto serializável de execução com temporada, semana, seed e escopo.
+- [x] Criar catálogo único de erros de domínio para gateway e serviços.
+- [x] Cobrir contexto e erros com testes e manter compatibilidade com o ciclo semanal atual.
+- [x] Integrar DomainErrorCode/error_code ao gateway e aos principais serviços mutáveis.
+- [x] Testar serialização estável de erros de domínio no gateway real.
+- [x] Integrar DomainError/DomainErrorCode aos serviços mutáveis centrais, substituindo ValueError onde houver códigos catalogados.
+- [x] Cobrir um erro de serviço mutável real serializado pelo career_gateway.py.
+- [x] Integrar DomainError/DomainErrorCode ao SponsorshipService e revisar códigos já catalogados.
+- [x] Provocar e serializar um erro real de serviço mutável pelo career_gateway.py.
+- [x] Reexecutar a bateria focada dos serviços alterados e do gateway.
+- [x] Adicionar teste de integração do career_gateway.py para erro real de serviço mutável, como ticket inválido ou oferta inexistente.
+- [x] Reexecutar a bateria focada após incluir o teste de erro real via gateway.
+- [x] Reexecutar testes, typecheck e build do frontend após as mudanças de contrato de erros do motor.
+- [x] Consolidar o Front P0-1 com charter versionado e evidências para os 20 primeiros passos do roadmap.
+- [x] Validar automaticamente que o charter P0-1 contém critérios de fonte única, seed, riscos e dependências.
+- [x] Adicionar ao charter uma matriz item→evidência para os 20 passos do Front P0-1.
+- [x] Ampliar o validador para checar explicitamente riscos, dependências, quadro, escopo e dívida técnica.
+- [x] Registrar a consolidação do Front P0-1 no manifesto versionado do gate, mantendo P1/P2 bloqueados.
+- [x] Fazer o validador exigir descoberta, construção, validação e concluída.
+- [x] Fazer o validador exigir escopo essencial, avançado e experimental.
+- [x] Rerodar o validador do Front P0-1 após essas exigências.
+- [x] Corrigir o validador do gate para aceitar fronts P0 parcialmente consolidados enquanto P0_GATE permanecer CLOSED.
+- [x] Validar que o gate só abre quando todos os fronts P0 estiverem CONSOLIDATED.
+- [x] Criar auditoria executável do Front P0-2 para contratos, transações, contexto, gateway, esquema e extensibilidade.
+- [x] Executar a auditoria do Front P0-2 e registrar lacunas sem promover o front indevidamente.
+- [x] Cobrir composição transacional do orquestrador com `managed_transaction=False` em GameState temporário.
+- [x] Implementar e testar cancelamento cooperativo seguro na simulação em lote, sem alterar a fonte SQL/GameState.
+- [x] Implementar relatório automatizado de dependências circulares entre módulos do motor.
+- [x] Testar o relatório de dependências circulares em uma cópia/árvore de código controlada.
+- [x] Documentar pontos seguros de extensão por plugins internos sem permitir escrita fora dos serviços de domínio.
+- [x] Definir manifesto compartilhado de contratos do gateway entre Python e TypeScript.
+- [x] Validar que o manifesto compartilhado contém somente contratos serializáveis e sem regras paralelas.
+- [x] Criar auditoria read-only do Front P0-3 para integridade SQLite, foreign keys, schema_versions, índices e hash do banco-base.
+- [x] Executar a auditoria P0-3 nos bancos oficiais em modo read-only, sem modificá-los.
+- [x] Criar auditoria read-only do Front P0-4 para jogadores canônicos, posições, status e vínculos de clubes.
+- [x] Executar a auditoria P0-4 sem alterar o banco-base ou o GameState.
+- [x] Criar auditoria read-only do Front P0-5 para clubes, seleções, países e IDs oficiais.
+- [x] Executar a auditoria P0-5 e registrar cobertura e duplicidades sem alterar o SQL.
+- [x] Criar auditoria read-only/testável do Front P0-11 para partidas, determinismo, idempotência e rollback.
+- [x] Executar a auditoria P0-11 sem iniciar itens dependentes de P1/P2.
+- [x] Criar auditoria read-only/testável de competições e classificação do Front P0-12.
+- [x] Criar auditoria read-only/testável de calendário e temporadas do Front P0-13.
+- [x] Executar as auditorias P0-12/P0-13 sem alterar bancos oficiais e registrar lacunas reais.
+- [x] Criar auditoria read-only/testável do Front P0-14 para torcida, reputação, público e bilheteria.
+- [x] Executar a auditoria P0-14 e registrar determinismo, ledger e idempotência sem alterar bancos oficiais.
+- [x] Criar auditoria read-only/testável do Front P0-15 para patrocínios, estrelas, expiração e missões.
+- [x] Executar a auditoria P0-15 e registrar elegibilidade, recompensas e idempotência sem alterar bancos oficiais.
+- [x] Executar bateria consolidada das auditorias P0 e das suítes Python/frontend após as mudanças governadas.
+- [x] Criar auditoria testável do Front P0-16 para simulação mundial em lote, níveis e cancelamento.
+- [x] Executar a auditoria P0-16 e registrar determinismo, auditoria e idempotência sem alterar bancos oficiais.
+- [x] Registrar no roadmap_gate.json as evidências parciais dos fronts auditados sem promovê-los a CONSOLIDATED.
+- [x] Validar que o manifesto continua com P0_GATE CLOSED e P1/P2 bloqueados após o registro parcial.
+- [x] Criar auditoria testável do Front P0-17 para economia mundial, folha, ledger e rollback.
+- [x] Executar a auditoria P0-17 sem cobrar semanas nos bancos oficiais.
+- [x] Criar auditoria estática do Front P0-23 para uso exclusivo de tRPC, ausência de fetch/axios e ausência de estado paralelo do jogo.
+- [x] Executar a auditoria P0-23 junto do typecheck e registrar lacunas sem alterar o frontend visual.
+- [x] Criar auditoria de entrega do Front P0-25 para scripts, documentação, hashes, bancos e ZIP.
+- [x] Executar a auditoria P0-25 e registrar integridade do pacote sem substituir o ZIP final antes do gate.
+- [x] Corrigir dependências de fronts P0 que apontam para P1/P2, removendo ciclos de governança sem alterar a ordem funcional do roadmap.
+- [x] Validar a matriz corrigida e confirmar que nenhum front P0 depende de prioridade posterior.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-2.
+- [x] Executar a matriz P0-2 e resolver apenas lacunas reais antes de considerar consolidação.
+- [x] Corrigir a evidência/implementação de composição transacional sem commit implícito no Front P0-2.
+- [x] Explicitar coordenador de unidade de trabalho no orquestrador.
+- [x] Adicionar pré-condições nomeadas antes das etapas do tick.
+- [x] Adicionar logging estruturado sanitizado ao fluxo de execução.
+- [x] Explicitar separação entre leitura e comandos mutáveis.
+- [x] Ajustar a política de plugins para ser reconhecida pelo critério executável sem liberar escrita paralela.
+- [x] Registrar o Front P0-2 como CONSOLIDATED com implementação, testes, documentação e checkpoint no gate.
+- [x] Validar que a consolidação de P0-2 não abre o gate global nem libera P1/P2.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-3.
+- [x] Executar a matriz P0-3 e corrigir apenas lacunas compatíveis com migrações idempotentes e GameState mutável.
+- [x] Completar inventário documentado de tabelas do banco-base e GameState para P0-3.
+- [x] Criar comparador read-only de esquemas para P0-3.
+- [x] Criar medição read-only de planos de consulta para P0-3.
+- [x] Promover o Front P0-3 após matriz 20/20, inventário, comparação e medição de planos read-only.
+- [x] Validar a promoção de P0-3 sem abrir o gate global nem liberar P1/P2.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-4.
+- [x] Executar a matriz P0-4 e corrigir apenas lacunas reais de jogadores canônicos.
+- [x] Promover o Front P0-4 após matriz 20/20, auditoria de 231.911 jogadores e testes em GameState temporário.
+- [x] Confirmar que P0-4 usa extensões somente no GameState e mantém o banco-base imutável.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-5.
+- [x] Executar a matriz P0-5 e corrigir apenas lacunas reais de clubes, seleções e identidades.
+- [x] Promover o Front P0-5 após matriz 20/20, 8.399 clubes, 86 seleções e testes de identidade/ativos aprovados.
+- [x] Confirmar que a promoção de P0-5 mantém ausências honestas e não altera o banco-base.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-11.
+- [x] Executar a matriz P0-11 e corrigir apenas lacunas reais do motor de partidas.
+- [x] Separar geração e aplicação de resultado no MatchEngine.
+- [x] Adicionar entradas documentadas de mando, forma, moral e tática sem alterar partidas existentes.
+- [x] Persistir eventos/estatísticas suportados com limite por partida.
+- [x] Implementar adiamento/remarcação e relatório de distribuição de placares.
+- [x] Ampliar testes P0-11 para os contratos adicionados em cópias temporárias.
+- [x] Promover o Front P0-11 após matriz 20/20, geração/aplicação separadas e testes de remarcação/rollback.
+- [x] Confirmar que nenhuma partida oficial foi executada durante a consolidação P0-11.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-12.
+- [x] Executar a matriz P0-12 e corrigir apenas lacunas reais de competições e classificação.
+- [x] Adicionar configuração e resolução de pênaltis quando a competição exigir.
+- [x] Modelar promoção/rebaixamento configurável no GameState.
+- [x] Persistir histórico de campeões e premiações por posição.
+- [x] Emitir alertas persistidos de classificação após atualização de tabela.
+- [x] Cobrir os contratos P0-12 com testes em GameState temporário.
+- [x] Promover o Front P0-12 após matriz 20/20, regras configuráveis e testes temporários aprovados.
+- [x] Confirmar que a promoção de P0-12 não abre P0_GATE nem libera P1/P2.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-13.
+- [x] Executar a matriz P0-13 e corrigir apenas lacunas reais de calendário e temporadas.
+- [x] Criar calendário explícito de pré-temporada e janelas de descanso.
+- [x] Adicionar detecção de conflito com adiamento automático/auditável.
+- [x] Cobrir semanas sem partidas e várias partidas no calendário.
+- [x] Criar relatório de calendário congestionado.
+- [x] Cobrir restauração do relógio após rollback.
+- [x] Promover o Front P0-13 após matriz 20/20 e testes de calendário/relógio aprovados.
+- [x] Confirmar que P0-13 mantém SQL/GameState como fonte única e não altera bancos oficiais.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-17.
+- [x] Executar a matriz P0-17 e corrigir apenas lacunas reais de economia mundial.
+- [x] Explicitar a unidade monetária única e o fechamento semanal no ledger.
+- [x] Adicionar relatórios de receitas, despesas e economia mundial por clube/temporada.
+- [x] Expor projeção de caixa de 39 semanas no serviço econômico.
+- [x] Integrar evidências explícitas de bilheteria e manutenção semanal de estádio.
+- [x] Adicionar alerta persistido de saldo baixo e auditoria econômica por temporada.
+- [x] Cobrir os novos contratos P0-17 com testes em GameState temporário.
+- [x] Auditar P0-23 com matriz de ausência de estado paralelo e conformidade tRPC.
+- [x] Auditar P0-25 com matriz de testes, entrega, hashes e documentação operacional.
+- [x] Abrir P0_GATE somente após os 11 fronts P0 estarem CONSOLIDATED.
+- [x] Iniciar P1-6 Elenco e gestão esportiva após abertura do P0_GATE, mantendo SQL/GameState como fonte única.
+- [x] P1-6: expor resumo SQL de titulares/reservas e validar escalação mínima de 11 atletas disponíveis.
+- [x] P1-6: persistir formações salvas por competição e validar escalação contra elenco disponível.
+- [x] P1-6: gerar escalação automática determinística por posição a partir do elenco disponível, sem alterar a fonte canônica de jogadores.
+- [x] P1-6: persistir substituições planejadas por escalação, com jogador de saída, entrada e minuto-alvo validados.
+- [x] P1-6: registrar minutos, gols, assistências e cartões por atleta e partida em tabelas SQL idempotentes.
+- [x] P1-6: integrar estatísticas individuais ao apply_result quando houver escalações persistidas, sem duplicar eventos ou placares.
+- [x] P1-6: aplicar substituição planejada no GameState, atualizando a escalação efetiva sem duplicidade e respeitando o minuto da partida.
+- [x] P1-6: atualizar minutos individuais conforme substituições aplicadas, preservando a chave idempotente de partida e atleta.
+- [x] P1-6: derivar cartões amarelos/vermelhos individuais de match_events e sincronizar player_match_stats de modo idempotente.
+- [x] P1-6: expor agregados de temporada por atleta a partir de player_match_stats, sem tabela ou estado paralelo de ranking.
+- [x] P1-6: expor agregados de atletas via tRPC usando somente leitura do GameState.
+- [x] P1-6: exibir agregados individuais reais na aba Time via tRPC, com estados de carregamento e vazio honestos.
+- [x] P1-6: exibir agregados individuais reais na aba Time via tRPC, com estados de carregamento e vazio honestos.
+- [x] P1-6: adicionar filtros de competição e atleta para a leitura de estatísticas, sem estado esportivo duplicado no cliente.
+- [x] P1-6: apresentar nome e posição canônicos nos agregados individuais, resolvidos pelo elenco persistido do clube.
+- [x] P1-6: exibir estado honesto para estatística de atleta sem vínculo no elenco atual, sem inferência por posição ou nome.
+- [x] P1-6: validar visualmente a aba Time com filtros de competição/atleta em desktop e viewport móvel.
+- [x] P1-6 / passo 109: calcular entrosamento do elenco a partir de vínculos, posições e escalação persistida, sem persistir ranking paralelo.
+- [x] P1-6 / passo 110: calcular impacto de moral na escalação a partir de forma, fadiga e disponibilidade persistidas, sem estado paralelo.
+- [x] P1-6 / passo 111: bloquear atleta lesionado em formações e escalações, com erro de domínio determinístico e teste em GameState temporário.
+- [x] P1-6 / passo 112: bloquear atleta suspenso em formações e escalações a partir de suspensão disciplinar persistida no GameState.
+- [x] P1-6 / passo 113: criar relatório derivado de profundidade por posição, distinguindo titulares, reservas, indisponíveis e suspensos.
+- [x] P1-6 / passo 114: sinalizar posições sem cobertura adequada com base em atletas disponíveis e limiar configurável, sem persistir alerta derivado.
+- [x] P1-6 / passo 115: adicionar capitão e cobradores persistidos por clube, validando vínculo, disponibilidade e unicidade de cada função.
+- [x] P1-6 / passo 116: persistir histórico de decisões táticas por clube e partida, com payload estruturado e leitura cronológica.
+- [x] P1-6 / passos 117/118: expor condição física, fadiga e risco derivado por atleta, com faixas determinísticas e bloqueio de IDs fora do elenco.
+- [x] P1-6 / passos 119/120: confirmar escalação no GameState e validar clube, elenco mínimo, disponibilidade e vínculo com a competição/partida.
+- [x] P1-7 / comissão técnica: expor leitura canônica de profissionais ativos, contagens por função, departamentos e histórico no GameState.
+- [x] P1-7 / passo 121: completar catálogo de funções profissionais, assegurando todas as funções canônicas disponíveis.
+- [x] P1-7 / passo 122: validar níveis e atributos profissionais dentro das faixas do domínio.
+- [x] P1-7 / passo 123: persistir contratos de staff com duração, salário, início, término e status.
+- [x] P1-7 / passo 124: implementar rescisão de profissional com custo e atualização transacional da folha.
+- [x] P1-7 / passo 125: permitir substituição de profissional ativo por contratação posterior sem duplicar vínculo.
+- [x] P1-7 / passo 126: derivar efeito de cada função profissional no domínio correspondente.
+- [x] P1-7 / passo 127: derivar limites de vagas por departamento a partir da capacidade persistida.
+- [x] P1-7 / passo 128: calcular bônus de comissão a partir do nível dos profissionais ativos.
+- [x] P1-7 / passos 129/130: distinguir especialidades de médicos e áreas táticas de auxiliares no catálogo persistido.
+- [x] P1-7 / passo 131: expor histórico de contratações, transferências e rescisões da comissão.
+- [x] P1-7 / passo 132: expor folha individual de staff diretamente do contrato persistido.
+- [x] P1-7 / passo 133: filtrar mercado por função e nível.
+- [x] P1-7 / passo 134: ordenar catálogo por custo-benefício determinístico.
+- [x] P1-7 / passo 135: confirmar contratação antes de executar mutation de profissional.
+- [x] P1-8 / passos 141/142: inventariar departamentos do CT e validar níveis máximos/custos.
+- [x] P1-8 / passos 143/144: persistir histórico de evolução e manutenção semanal por departamento.
+- [x] P1-8 / passo 145: derivar impacto do CT no overall institucional.
+- [x] P1-8 / passos 146/147: suportar instalações de base e programa de desenvolvimento individual quando existirem no SQL.
+- [x] P1-8 / passos 148/149: registrar carga de treino e recuperação/descanso planejados.
+- [x] P1-8 / passo 150: persistir plano semanal de treinamento.
+- [x] P1-8 / passos 151/152: bloquear treino incompatível com lesão e derivar risco de lesão por carga.
+- [x] P1-8 / passo 153: aplicar bônus de staff ao treinamento.
+- [x] P1-8 / passos 154/155: expor evolução por atleta e comparação entre potencial e desempenho.
+- [x] P1-8 / passos 156/157: criar orçamento e previsão de retorno por departamento.
+- [x] P1-8 / passos 158/159: alertar manutenção ausente e testar rollback de compra.
+- [x] P1-8 / passo 160: validar sincronização do CT com a folha semanal.
+- [x] P1-9 / passos 161/162: persistir estados de forma física/técnica e atualizar forma após partida.
+- [x] P1-9 / passos 163/164: persistir moral individual e derivar moral coletiva do elenco.
+- [x] P1-9 / passos 165/166: aplicar resultado, sequência de jogos e sequência de vitórias/derrotas à moral.
+- [x] P1-9 / passos 167/168/169/170: suportar treinos técnico, tático, físico e bola parada com carga e risco derivados.
+- [x] P1-9 / passo 171: registrar preparação específica para adversário.
+- [x] P1-9 / passo 172: registrar aderência do elenco ao plano.
+- [x] P1-9 / passo 173: criar relatório de carga semanal.
+- [x] P1-9 / passos 174/175/176: limitar carga por idade, planejar descanso e considerar calendário internacional.
+- [x] P1-9 / passo 177: expor recomendações baseadas em fatos persistidos.
+- [x] P1-9 / passos 178/179: testar determinismo por seed e rollback de forma após falha.
+- [x] P1-9 / passo 180: documentar fórmulas de forma e moral.
+- [x] P1-10 / passos 181/182/183: inventariar lesões e persistir diagnóstico, gravidade, início e previsão de retorno.
+- [x] P1-10 / passos 184/185: implementar recuperação diária/semanal com influência médica.
+- [x] P1-10 / passo 186: manter bloqueio de lesionados na escalação.
+- [x] P1-10 / passo 187: registrar recaída com regra determinística.
+- [x] P1-10 / passos 188/189: persistir suspensões por cartões e expulsão.
+- [x] P1-10 / passo 190: criar histórico médico do atleta.
+- [x] P1-10 / passos 191/192: emitir alertas de lesão nova e retorno ao elenco.
+- [x] P1-10 / passo 193: expor tela/consulta do departamento médico.
+- [x] P1-10 / passo 194: documentar prognóstico como modelo de jogo, sem promessa clínica.
+- [x] P1-10 / passo 195/196/197: testar pré-temporada, meio do ciclo e rollback transacional.
+- [x] P1-10 / passo 198: garantir que saúde não inventa jogadores.
+- [x] P1-10 / passo 199: filtrar lesões por gravidade e prazo.
+- [x] P1-10 / passo 200: documentar limites do modelo de saúde.
+- [x] P0-11 / passos 201/202: documentar entradas do MatchEngine e separar geração de aplicação de resultado.
+- [x] P0-11 / passos 203/204/205/206/207: persistir seed e influências de mando, força, forma, moral e tática.
+- [x] P0-11 / passos 208/209/210/211/212: persistir eventos, cartões, substituições, finalizações, posse e xG documentado.
+- [x] P0-11 / passos 213/214: validar placar não negativo e limite de eventos por partida.
+- [x] P0-11 / passos 215/216/217/218/219: testar clubes reais, partida sem competição, adiamento/remarcação, duplicidade e rollback.
+- [x] P0-11 / passo 220: disponibilizar distribuição de placares por temporada.
+- [x] P0-12-EXT / IA / passos 221/222: persistir perfil de personalidade e parâmetros de risco da IA.
+- [x] P0-12-EXT / IA / passos 223/224: diagnosticar elenco, caixa, saúde e necessidades sem criar entidades.
+- [x] P0-12-EXT / IA / passos 225/226: avaliar atletas por atributos, forma, disponibilidade e estratégia do clube.
+- [x] P0-12-EXT / IA / passos 227/228: propor treino e prioridades de mercado de forma determinística.
+- [x] P0-12-EXT / IA / passos 229/230: persistir objetivos do conselho e progresso mensurável.
+- [x] P0-12-EXT / IA / passos 231/232/233: registrar alternativas, decisão escolhida, custo e resultado.
+- [x] P0-12-EXT / IA / passos 234/235: respeitar limite salarial, caixa e saúde financeira nas propostas.
+- [x] P0-12-EXT / IA / passos 236/237: integrar decisão de IA ao ciclo semanal e evitar duplicidade por seed.
+- [x] P0-12-EXT / IA / passos 238/239: expor histórico e diagnóstico para leitura do frontend.
+- [x] P0-12-EXT / IA / passo 240: testar determinismo, idempotência e não invenção de jogadores.
+- [x] P0-12 / passos 221/222: inventariar formatos e configurar pontos por resultado.
+- [x] P0-12 / passo 223: aplicar critérios de desempate documentados.
+- [x] P0-12 / passos 224/225: validar grupos, rodadas e mata-mata com ida e volta.
+- [x] P0-12 / passo 226: permitir disputa de pênaltis quando habilitada.
+- [x] P0-12 / passos 227/228: derivar classificação de partidas PLAYED e impedir alteração manual pelo frontend.
+- [x] P0-12 / passos 229/230: persistir status por fase e regras para partidas suspensas.
+- [x] P0-12 / passo 231: manter calendário de finais.
+- [x] P0-12 / passos 232/233: configurar promoção/rebaixamento e histórico de campeões.
+- [x] P0-12 / passos 234/235/236: calcular premiação ao concluir e impedir pagamento duplicado.
+- [x] P0-12 / passo 237: emitir alertas de classificação idempotentes.
+- [x] P0-12 / passo 238: expor consulta de competição pelo gateway.
+- [x] P0-12 / passo 239: testar temporadas com múltiplas competições.
+- [x] P0-12 / passo 240: documentar limitações das competições não configuradas.
+- [x] P0-13 / passos 241/242/243: formalizar relógio lógico e calendários de pré-temporada/temporada regular.
+- [x] P0-13 / passos 244/245/246: suportar descanso, competições simultâneas e conflitos via adiamento/remarcação.
+- [x] P0-13 / passos 247/248: validar semanas sem partidas e semanas com várias partidas.
+- [x] P0-13 / passos 249/250/251: manter avanço diário interno, avanço semanal do manager e bloqueio de semana fora de sequência.
+- [x] P0-13 / passo 252: persistir auditoria de cada avanço e resultado do ciclo.
+- [x] P0-13 / passos 253/254: expor próximo compromisso e agenda por clube através das leituras canônicas.
+- [x] P0-13 / passos 255/256/257: suportar pausas/transição de temporada e fechamento de contratos.
+- [x] P0-13 / passo 258: gerar auditoria de calendário congestionado pelo conjunto de fixtures persistidos.
+- [x] P0-13 / passos 259/260: testar avanço repetido por chave e rollback/restauração de relógio.
+- [x] P2-14 / passos 261/262: persistir objetivos esportivos e orçamento disponível por clube.
+- [x] P2-14 / passos 263/264/265: avaliar elenco, gerar escalação automática e escolher tática.
+- [x] P2-14 / passo 266: priorizar competições conforme objetivo e calendário.
+- [x] P2-14 / passos 267/268/269: orientar contratação, venda e renovação por necessidade/orçamento.
+- [x] P2-14 / passo 270: permitir evolução de departamentos pela IA.
+- [x] P2-14 / passos 271/272: diferenciar decisões por nível institucional e reputação.
+- [x] P2-14 / passo 273: planejar janela de transferências.
+- [x] P2-14 / passos 274/275: registrar decisões e explicações legíveis.
+- [x] P2-14 / passo 276: impedir escrita fora das transações autorizadas do motor.
+- [x] P2-14 / passos 277/278/279/280: testar seed, banco isolado, desempenho e limites econômicos.
+- [x] P1-15 / passos 281/282: inventariar vínculos e contratos e manter janela configurável.
+- [x] P1-15 / passos 283/284/285: listar transferíveis e persistir propostas/negociação de valor e salário.
+- [x] P1-15 / passos 286/287: suportar empréstimos com duração e opção de compra quando configurada.
+- [x] P1-15 / passos 288/289/290: registrar taxa, comissão, custos acessórios e validar saldo.
+- [x] P1-15 / passos 291/292: validar vagas de elenco e restrições de suspensão.
+- [x] P1-15 / passos 293/294/295/296: persistir histórico, exigir aprovação do manager e emitir eventos/alertas.
+- [x] P1-15 / passos 297/298/299/300: testar concorrência, rollback e separação de dados de teste, documentando limites.
+- [x] P2-16 / passos 301/302/303: inventariar missões, regiões configuráveis, duração e custo.
+- [x] P2-16 / passos 304/305/306/307: persistir relatórios, separar descoberta de contratação e filtrar posição/idade/potencial.
+- [x] P2-16 / passos 308/309/310/311: priorizar missão, considerar staff, emitir conclusão e comparar observação com atributos.
+- [x] P2-16 / passo 312: impedir contratação de oportunidade sem confirmação do manager.
+- [x] P2-16 / passos 313/314/315/316: suportar base, progressão, promoção e manutenção quando houver dados canônicos.
+- [x] P2-16 / passos 317/318/319/320: testar seed, expiração, relatórios disponíveis e documentar campos ausentes.
+- [x] P0-17 / passos 321/322/323: consolidar categorias do FinanceLedger, moeda única e referências naturais.
+- [x] P0-17 / passos 324/325/326: fechar ledger semanal e expor receitas/despesas por clube.
+- [x] P0-17 / passos 327/328/329: calcular orçamento, projeções, reservas e alertas de caixa.
+- [x] P0-17 / passos 330/331/332: registrar obrigações, dívidas, juros e saúde financeira.
+- [x] P0-17 / passos 333/334/335: suportar investimentos, SAF/controle e auditoria de temporada.
+- [x] P0-17 / passos 336/337/338/339/340: validar idempotência, insolvência, rollback e limites do modelo.
+- [x] P1-18 / passos 341/342/343/344: exibir caixa atual/projetado e folhas por atletas, comissão e manutenção, com consolidação semanal derivada no backend.
+- [x] P1-18 / passos 345/346/347: exibir patrocínio, bilheteria e premiações persistidas como categorias derivadas do FinanceLedger no resumo financeiro.
+- [x] P1-18 / passos 348/349/350: filtrar lançamentos e exportar relatório financeiro em CSV.
+- [x] P1-18 / passos 351/352/353: sinalizar saldo insuficiente e expor prévias somente leitura de despesa e caixa pós-partida, sem persistir antes da confirmação.
+- [x] P1-18 / passo 354: pré-visualizar impacto de contratação no motor, com caixa antes/depois, custo imediato, folha semanal e fórmula versionada; passos 355/356 permanecem pendentes.
+- [x] P1-18 / passos 357/358/359/360: histórico sazonal, arredondamentos, concorrência, idempotência e documentação da fonte canônica do saldo em `docs/finance_governance.md`.
+
+# P1-19 — Estádio e Infraestrutura
+
+- [x] P1-19 / passos 361/362/363: validar componentes canônicos do estádio, níveis 1–10 e capacidade persistida no SQL.
+- [x] P1-19 / passos 364/365/366: exibir custos de upgrade, manutenção semanal e impacto operacional no read model/painel de estádio.
+- [x] P1-19 / passos 367/368/369: integrar upgrade somente pelo gateway, com prévia, confirmação, rollback transacional e idempotência do ledger.
+- [x] P1-19 / passo 370: validar frontend, testes e fonte única SQL/GameState da infraestrutura.
+
+# Execução global
+
+- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0.
+
+# Entrega do estado atual
+
+- [x] Empacotar e validar ZIP completo do motor, frontend, bancos, ativos e documentação solicitados pelo usuário.
+
+# Versionamento externo
+
+- [x] Configurar o repositório GitHub `Kyra2214/FutManager` como destino oficial de versionamento; integração autorizada e repositório selecionado pelo Manus Connector. O primeiro push do pacote ainda depende da execução do fluxo de exportação/sincronização disponível no ambiente.
+- [x] Executar e verificar o primeiro push do estado atual para `Kyra2214/FutManager` na branch `main`, commit `d1900cb0334c81511be4f4e401a9791296463aec`.
+
+# Próximas 100 implementações
+
+- [x] Definir, documentar e versionar as próximas 100 implementações dos passos 371–470, mantendo prioridades, dependências e fonte SQL/GameState; execução individual permanece pendente.
+
+# Viagens e logística
+
+- [x] Implementar custos de viagens por deslocamento, integrados ao calendário, FinanceLedger, read model, tRPC, testes e documentação; push para GitHub é a etapa de entrega desta alteração.
