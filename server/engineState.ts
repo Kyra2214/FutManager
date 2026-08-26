@@ -67,6 +67,23 @@ export type MatchCard = {
   isPlayed: boolean;
 };
 
+export type PlayerSeasonTotal = {
+  playerId: number;
+  minutes: number;
+  goals: number;
+  assists: number;
+  cards: number;
+  appearances: number;
+  averageRating: number | null;
+};
+
+export type PlayerStatsRead = {
+  source: { mode: "LOCAL_READ_ONLY_SQLITE"; available: boolean; message: string; generatedAt: string };
+  competitionId: number | null;
+  matchIds: number[];
+  players: PlayerSeasonTotal[];
+};
+
 export type MatchesDashboard = {
   source: {
     mode: "LOCAL_READ_ONLY_SQLITE";
@@ -350,6 +367,30 @@ function getMatches(db: SQLiteDatabase, competitionId: number): MatchCard[] {
     .all(competitionId, competitionId) as SQLiteRow[];
 
   return rows.map(toMatchCard);
+}
+
+export function getPlayerSeasonTotals(
+  competitionId?: number,
+  matchIds?: number[],
+  databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH,
+): PlayerStatsRead {
+  const generatedAt = new Date().toISOString();
+  let db: SQLiteDatabase | null = null;
+  try {
+    db = new DatabaseSync(databasePath, { readOnly: true });
+    if (!tableExists(db, "player_match_stats")) {
+      return { source: { mode: "LOCAL_READ_ONLY_SQLITE", available: true, message: "O estado está conectado, mas não há estatísticas individuais persistidas.", generatedAt }, competitionId: competitionId ?? null, matchIds: matchIds ?? [], players: [] };
+    }
+    const clauses: string[] = [];
+    const params: unknown[] = [];
+    if (matchIds?.length) { clauses.push(`stats.match_id IN (${matchIds.map(() => "?").join(",")})`); params.push(...matchIds); }
+    if (competitionId !== undefined) { clauses.push("EXISTS (SELECT 1 FROM matches m WHERE m.match_id=stats.match_id AND m.competition_id=?)"); params.push(competitionId); }
+    const rows = db.prepare(`SELECT stats.player_id,SUM(stats.minutes) AS minutes,SUM(stats.goals) AS goals,SUM(stats.assists) AS assists,SUM(stats.cards) AS cards,COUNT(*) AS appearances,AVG(stats.rating) AS average_rating FROM player_match_stats stats${clauses.length ? ` WHERE ${clauses.join(" AND ")}` : ""} GROUP BY stats.player_id ORDER BY goals DESC,assists DESC,minutes DESC,stats.player_id`).all(...params) as SQLiteRow[];
+    return { source: { mode: "LOCAL_READ_ONLY_SQLITE", available: true, message: "Agregados individuais lidos diretamente do GameState em modo somente leitura.", generatedAt }, competitionId: competitionId ?? null, matchIds: matchIds ?? [], players: rows.map((row) => ({ playerId: asNumber(row.player_id), minutes: asNumber(row.minutes), goals: asNumber(row.goals), assists: asNumber(row.assists), cards: asNumber(row.cards), appearances: asNumber(row.appearances), averageRating: asNullableNumber(row.average_rating) })) };
+  } catch (error) {
+    console.error("[Player stats] Falha ao consultar estatísticas individuais:", error);
+    return { source: { mode: "LOCAL_READ_ONLY_SQLITE", available: false, message: "O estado local do motor não está disponível para leitura de estatísticas.", generatedAt }, competitionId: competitionId ?? null, matchIds: matchIds ?? [], players: [] };
+  } finally { db?.close(); }
 }
 
 export function getMatchesDashboard(
