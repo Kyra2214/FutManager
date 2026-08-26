@@ -102,6 +102,7 @@
 - [x] Documentar que o career_gateway.py não possui exceções legítimas de escrita direta mutável fora dos serviços autorizados.
 - [x] Rerodar o validador após documentar essa política de exceções.
 - [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0.
+- [x] Formalizar e validar a execução ordenada/gates do roadmap com `roadmap_gate.json`, `validate_roadmap_gate.py` e testes do RoadmapGate/career_gateway; P1/P2 seguem pendentes.
 - [x] Auditar P0-23 com matriz de ausência de estado paralelo e conformidade tRPC.
 - [x] Auditar P0-25 com matriz de testes, entrega, hashes e documentação operacional.
 - [x] Auditar a política SQL/GameState como fonte única nas implementações P0-17, P0-23 e P0-25.
