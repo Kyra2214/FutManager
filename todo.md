@@ -270,3 +270,5 @@
 - [x] P1-6: persistir formações salvas por competição e validar escalação contra elenco disponível.
 - [x] P1-6: gerar escalação automática determinística por posição a partir do elenco disponível, sem alterar a fonte canônica de jogadores.
 - [x] P1-6: persistir substituições planejadas por escalação, com jogador de saída, entrada e minuto-alvo validados.
+- [x] P1-6: registrar minutos, gols, assistências e cartões por atleta e partida em tabelas SQL idempotentes.
+- [x] P1-6: integrar estatísticas individuais ao apply_result quando houver escalações persistidas, sem duplicar eventos ou placares.
