@@ -20,4 +20,11 @@ def test_ai_decision_approval_and_audit(tmp_path):
     assert approved['status'] == 'APPROVED'
     audit = ai.decision_audit(1, seed=10)
     assert audit['count'] == 1 and audit['decisions'][0]['approval_status'] == 'APPROVED'
+    ai.set_risk_limit(1, 2026, 1000)
+    preview = ai.strategic_preview(1, 2026, 'GROWTH', 500)
+    assert preview['persisted'] is False and preview['incompatible'] is False
+    approved_strategy = ai.approve_strategy(1, 2026, 'GROWTH', 500)
+    assert approved_strategy['status'] == 'APPROVED'
+    explanation = ai.explain_diagnosis(1)
+    assert {fact['source'] for fact in explanation['facts']} == {'player_sport_state', 'club_economic_state'}
     ai.close()

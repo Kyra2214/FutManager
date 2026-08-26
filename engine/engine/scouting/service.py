@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS scout_opportunities(opportunity_id INTEGER PRIMARY KE
 CREATE TABLE IF NOT EXISTS scout_reports(report_id INTEGER PRIMARY KEY AUTOINCREMENT,mission_id INTEGER NOT NULL UNIQUE,created_at TEXT NOT NULL,seed INTEGER,summary TEXT,FOREIGN KEY(mission_id) REFERENCES scout_missions(mission_id));
 CREATE TABLE IF NOT EXISTS scout_regions(region TEXT PRIMARY KEY,enabled INTEGER NOT NULL DEFAULT 1,cost_multiplier REAL NOT NULL DEFAULT 1.0);
 CREATE TABLE IF NOT EXISTS academy_players(player_id INTEGER PRIMARY KEY,club_id INTEGER NOT NULL,progress REAL NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'YOUTH',maintenance_cost INTEGER NOT NULL DEFAULT 0);
+CREATE TABLE IF NOT EXISTS opponent_observations(observation_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,opponent_id INTEGER NOT NULL,competition_id INTEGER,season INTEGER NOT NULL,style TEXT NOT NULL,weakness TEXT NOT NULL,evidence TEXT NOT NULL,confidence REAL NOT NULL,sample_size INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',expires_at TEXT NOT NULL,UNIQUE(club_id,opponent_id,competition_id,season));
+CREATE TABLE IF NOT EXISTS game_plans(plan_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,opponent_id INTEGER NOT NULL,observation_id INTEGER NOT NULL,plan TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PREVIEW',approved_by TEXT,approved_at TEXT);
 '''
 class MissionStatus(StrEnum): PLANNED='PLANNED'; ACTIVE='ACTIVE'; COMPLETED='COMPLETED'; CANCELLED='CANCELLED'
 class Knowledge(StrEnum): UNKNOWN='UNKNOWN'; OBSERVED='OBSERVED'; SCOUTED='SCOUTED'; CONFIRMED='CONFIRMED'
@@ -77,6 +79,33 @@ class ScoutService:
   if row['status']!='READY': raise ValueError('ACADEMY_NOT_READY')
   self.connection.execute('update academy_players set status=\'PROMOTED\' where player_id=?',(player_id,)); self.connection.execute('insert or ignore into jogador_time(jogador_id,time_id,status) values(?,?,?)',(player_id,row['club_id'],'Reserva')); self.connection.commit(); return {'promoted':True,'player_id':player_id,'club_id':row['club_id']}
  def academy_maintenance(self,club_id:int): return self.connection.execute('select * from academy_players where club_id=? order by player_id',(club_id,)).fetchall()
+ def observe_opponent(self,club_id,opponent_id,competition_id,season,style,weakness,evidence,confidence,sample_size,expires_at):
+  if not str(evidence).strip() or not 0 <= float(confidence) <= 1 or int(sample_size) < 1: raise ValueError('OBSERVATION_INVALID')
+  with self.connection:
+   self.connection.execute('INSERT INTO opponent_observations(club_id,opponent_id,competition_id,season,style,weakness,evidence,confidence,sample_size,expires_at) VALUES(?,?,?,?,?,?,?,?,?,?) ON CONFLICT(club_id,opponent_id,competition_id,season) DO UPDATE SET style=excluded.style,weakness=excluded.weakness,evidence=excluded.evidence,confidence=excluded.confidence,sample_size=excluded.sample_size,expires_at=excluded.expires_at,status=\'ACTIVE\'',(club_id,opponent_id,competition_id,season,style,weakness,evidence,confidence,sample_size,expires_at))
+  return dict(self.connection.execute('SELECT * FROM opponent_observations WHERE club_id=? AND opponent_id=? AND competition_id=? AND season=?',(club_id,opponent_id,competition_id,season)).fetchone())
+ def opponent_report(self,club_id,opponent_id,competition_id=None,season=None):
+  query='SELECT * FROM opponent_observations WHERE club_id=? AND opponent_id=?'; args=[club_id,opponent_id]
+  if competition_id is not None: query+=' AND competition_id=?'; args.append(competition_id)
+  if season is not None: query+=' AND season=?'; args.append(season)
+  rows=[dict(r) for r in self.connection.execute(query+' ORDER BY observation_id DESC',args).fetchall()]
+  return {'club_id':club_id,'opponent_id':opponent_id,'reports':rows,'quality':round(sum(r['confidence']*min(1,r['sample_size']/5) for r in rows)/len(rows),3) if rows else 0.0}
+ def preview_game_plan(self,club_id,opponent_id,observation_id,plan):
+  if not self.connection.execute('SELECT 1 FROM opponent_observations WHERE observation_id=? AND club_id=? AND opponent_id=?',(observation_id,club_id,opponent_id)).fetchone(): raise KeyError(observation_id)
+  return {'club_id':club_id,'opponent_id':opponent_id,'observation_id':observation_id,'plan':plan,'persisted':False}
+ def approve_game_plan(self,club_id,opponent_id,observation_id,plan,approved_by='manager'):
+  preview=self.preview_game_plan(club_id,opponent_id,observation_id,plan)
+  with self.connection: cur=self.connection.execute('INSERT INTO game_plans(club_id,opponent_id,observation_id,plan,status,approved_by,approved_at) VALUES(?,?,?,?,?,?,?)',(club_id,opponent_id,observation_id,plan,'APPROVED',approved_by,date.today().isoformat()))
+  return {'plan_id':int(cur.lastrowid),'status':'APPROVED','preview':preview}
+ def expire_opponent_reports(self,as_of):
+  with self.connection: cur=self.connection.execute("UPDATE opponent_observations SET status='EXPIRED' WHERE status='ACTIVE' AND expires_at<?",(as_of,))
+  return int(cur.rowcount)
+ def compare_opponents(self,club_id,opponent_ids,competition_id,season):
+  result=[]
+  for opponent_id in opponent_ids:
+   report=self.opponent_report(club_id,opponent_id,competition_id,season); result.append({'opponent_id':opponent_id,'quality':report['quality'],'styles':[r['style'] for r in report['reports']],'weaknesses':[r['weakness'] for r in report['reports']]})
+  return result
+
  def compare(self,opportunity_id:int):
   row=self.connection.execute('select * from scout_opportunities where opportunity_id=?',(opportunity_id,)).fetchone()
   if not row: raise KeyError(opportunity_id)

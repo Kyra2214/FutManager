@@ -109,6 +109,24 @@ class ClubAI:
   training=self.propose_training(club_id); market=self.propose_market(club_id,seed); tactic=self.choose_tactic(club_id,seed); priority=self.prioritize_competitions(club_id,seed); window=self.transfer_window_plan(club_id,2026,1,seed); lineup=self.auto_lineup(club_id,seed); decisions={'training':training,'market':market,'tactic':tactic,'priority':priority,'window':window,'lineup':lineup}
   self._decision(club_id,'WEEKLY_CYCLE',json.dumps(decisions,sort_keys=True),'decisões semanais derivadas do diagnóstico',0,seed=seed)
   return {'club_id':club_id,'seed':seed,'idempotent':False,'decisions':decisions}
+ def strategic_preview(self, club_id: int, season: int, strategy: str, estimated_cost: int) -> dict:
+  diagnosis=self.diagnose(club_id); limit=self.connection.execute('SELECT max_cost FROM club_ai_risk_limits WHERE club_id=? AND season=?',(club_id,season)).fetchone(); max_cost=int(limit['max_cost']) if limit else None
+  incompatible=bool(max_cost is not None and int(estimated_cost)>max_cost) or diagnosis.health in ('CRITICAL','INSOLVENT')
+  return {'club_id':int(club_id),'season':int(season),'strategy':str(strategy),'estimated_cost':int(estimated_cost),'risk_limit':max_cost,'incompatible':incompatible,'reason':'limite de risco ou saúde financeira persistidos' if incompatible else 'compatível com o diagnóstico persistido','persisted':False}
+
+ def approve_strategy(self, club_id: int, season: int, strategy: str, estimated_cost: int, approved_by: str = 'board') -> dict:
+  preview=self.strategic_preview(club_id,season,strategy,estimated_cost)
+  if preview['incompatible']: raise ValueError('STRATEGY_RISK_LIMIT')
+  decision=self._decision(club_id,'STRATEGY',strategy,'aprovação baseada no diagnóstico econômico persistido',int(estimated_cost),target=str(season),alternatives=['HOLD','REVIEW'])
+  row=self.connection.execute("SELECT decision_id FROM club_decision_history WHERE club_id=? AND type='STRATEGY' ORDER BY decision_id DESC LIMIT 1",(club_id,)).fetchone()
+  self.approve_decision(row['decision_id'],approved_by)
+  return {'decision_id':int(row['decision_id']),'status':'APPROVED','preview':preview}
+
+ def explain_diagnosis(self, club_id: int) -> dict:
+  payload=self.diagnostic_payload(club_id)
+  facts=[{'field':'squad_size','value':payload['squad_size'],'source':'player_sport_state'},{'field':'unavailable','value':payload['unavailable'],'source':'player_sport_state'},{'field':'cash','value':payload['cash'],'source':'club_economic_state'},{'field':'health','value':payload['health'],'source':'club_economic_state'}]
+  return {'club_id':int(club_id),'needs':payload['needs'],'facts':facts,'persisted':True}
+
  def approve_decision(self, decision_id: int, approved_by: str = 'manager'):
   row=self.connection.execute('select decision_id from club_decision_history where decision_id=?',(int(decision_id),)).fetchone()
   if not row: raise KeyError(decision_id)
