@@ -1,3 +1,7 @@
 - [x] Promover "Seu Clube" para a primeira posição da navegação e do dashboard.
 - [x] Criar a aba "Nossas Partidas" com competições, tabela, calendário, próximos jogos e resultados.
 - [x] Validar a nova navegação em desktop e mobile.
+- [x] Habilitar uma camada de dados segura para a aba Nossas Partidas.
+- [x] Mapear competições, partidas, calendário e classificação do estado real do motor.
+- [x] Conectar as quatro visões da aba aos dados reais e validar os estados de carregamento.
+- [x] Validar explicitamente o estado de carregamento da aba Nossas Partidas com resposta atrasada do backend.

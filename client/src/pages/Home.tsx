@@ -3,8 +3,9 @@
  * Dashboard visual offline-first: apresenta o contrato visual do motor sem inventar
  * jogadores, caixa, resultados ou regras; dados ausentes são mostrados como estados honestos.
  */
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { toast } from "sonner";
+import { trpc } from "@/lib/trpc";
 import {
   Activity,
   ArrowUpRight,
@@ -153,21 +154,53 @@ function EventCard({ type, tone, label, title, detail, time, icon: Icon }: { typ
   return <button className={`event-card event-${tone}`} onClick={() => toast(`${type}: o detalhe será aberto a partir do evento persistido.`)}><div className="event-icon"><Icon size={17} /></div><div className="event-content"><div className="event-label"><span>{label}</span><time>{time}</time></div><h3>{title}</h3><p>{detail}</p></div><ArrowUpRight className="event-open" size={16} /></button>;
 }
 
-function MatchesPage() {
-  const [view, setView] = useState<"competicoes" | "tabela" | "calendario" | "resultados">("competicoes");
+function formatMatchDate(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short" }).format(date).replace(".", "").toUpperCase();
+}
+
+function formatMatchTime(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime()) || !value.includes("T")) return "horário não informado";
+  return new Intl.DateTimeFormat("pt-BR", { hour: "2-digit", minute: "2-digit" }).format(date);
+}
+
+export function MatchesPage({ initialView = "competicoes" }: { initialView?: "competicoes" | "tabela" | "calendario" | "resultados" }) {
+  const [view, setView] = useState<"competicoes" | "tabela" | "calendario" | "resultados">(initialView);
+  const [competitionId, setCompetitionId] = useState<number | undefined>();
+  const queryInput = useMemo(() => (competitionId ? { competitionId } : undefined), [competitionId]);
+  const dashboardQuery = trpc.matches.dashboard.useQuery(queryInput, { retry: 1 });
+  const dashboard = dashboardQuery.data;
+  const selectedCompetition = dashboard?.selectedCompetition ?? null;
+  const controlledClub = dashboard?.controlledClub ?? null;
+  const filteredFixtures = controlledClub
+    ? dashboard?.upcomingFixtures.filter((match) => match.homeClub.clubId === controlledClub.clubId || match.awayClub.clubId === controlledClub.clubId) ?? []
+    : dashboard?.upcomingFixtures ?? [];
+  const filteredResults = controlledClub
+    ? dashboard?.recentResults.filter((match) => match.homeClub.clubId === controlledClub.clubId || match.awayClub.clubId === controlledClub.clubId) ?? []
+    : dashboard?.recentResults ?? [];
+  const nextMatch = filteredFixtures[0] ?? null;
+  const totalMatches = (dashboard?.upcomingFixtures.length ?? 0) + (dashboard?.recentResults.length ?? 0);
   const tabs = [
     ["competicoes", "Competições"],
     ["tabela", "Tabela"],
     ["calendario", "Calendário"],
     ["resultados", "Resultados"],
   ] as const;
+  const waitingMessage = dashboardQuery.isLoading
+    ? "Consultando o estado oficial do motor…"
+    : dashboardQuery.error
+      ? "Não foi possível consultar o estado do motor neste momento."
+      : dashboard?.source.message ?? "Aguardando a leitura do estado do motor.";
+
   return <>
-    <section className="page-intro match-intro"><div><span className="eyebrow">SEU CLUBE / CICLO ESPORTIVO</span><h1>Nossas partidas</h1><p>Competições, calendário, classificação e resultados em uma única leitura. O estado exibido virá sempre do motor.</p></div><div className="match-score-mark"><span>JOGOS</span><strong>—</strong><small>temporada atual</small></div></section>
-    <section className="matches-command"><div className="matches-heading"><div><span className="eyebrow">PAINEL DE COMPETIÇÃO</span><h2>Leia o jogo antes da rodada.</h2></div><span className="match-state"><span className="status-pip" /> aguardando calendário oficial</span></div><div className="match-tabs" role="tablist" aria-label="Visões de partidas">{tabs.map(([id, label]) => <button key={id} className={view === id ? "selected" : ""} onClick={() => setView(id)} role="tab" aria-selected={view === id}>{label}</button>)}</div></section>
-    {view === "competicoes" && <section className="competition-layout"><article className="competition-main"><div className="section-heading compact"><div><span className="eyebrow">COMPETIÇÕES INSCRITAS</span><h2>Sem competição carregada</h2></div><Flag size={18} /></div><div className="competition-empty"><span className="competition-badge">—</span><div><b>O calendário da temporada ainda não chegou.</b><p>Quando uma competição for criada pelo motor, ela aparecerá aqui com fase, rodada, posição e próximos compromissos.</p></div></div></article><aside className="competition-side"><span className="eyebrow">PRÓXIMO JOGO</span><h3>Sem compromisso<br />confirmado.</h3><p>Data, hora, mando e adversário serão exibidos a partir do fixture oficial.</p><div className="side-rule" /><span className="mini-label">CONTEXTO</span><b>—</b></aside></section>}
-    {view === "tabela" && <section className="standings-panel"><div className="section-heading compact"><div><span className="eyebrow">CLASSIFICAÇÃO</span><h2>Tabela da competição</h2></div><span className="table-legend">P · J · V · E · D · SG</span></div><div className="table-scroll"><table><thead><tr><th>#</th><th>CLUBE</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead><tbody><tr className="waiting-row"><td>—</td><td colSpan={7}>A tabela aparecerá quando a competição e as partidas forem carregadas.</td></tr></tbody></table></div></section>}
-    {view === "calendario" && <section className="calendar-layout"><article className="calendar-main"><span className="eyebrow">CALENDÁRIO DO CLUBE</span><h2>Próximos compromissos</h2><div className="calendar-list"><div><span>—</span><b>Nenhuma partida agendada</b><small>O fixture oficial ainda não retornou partidas para o clube.</small></div><div><span>—</span><b>Espaço reservado para rodada</b><small>Competição · local · horário</small></div><div><span>—</span><b>Espaço reservado para rodada</b><small>Competição · local · horário</small></div></div></article><aside className="calendar-aside"><CalendarDays size={26} /><h3>O calendário<br />decide o ritmo.</h3><p>Treino, descanso e viagem serão apresentados aqui apenas quando existirem no estado persistido.</p></aside></section>}
-    {view === "resultados" && <section className="results-layout"><article className="results-main"><div className="section-heading compact"><div><span className="eyebrow">ÚLTIMOS RESULTADOS</span><h2>Histórico de partidas</h2></div><Goal size={18} /></div><div className="result-empty"><span>—</span><h3>Ainda não há resultado registrado.</h3><p>Quando uma partida for processada, placar, competição, eventos e posição posterior ficarão disponíveis neste painel.</p></div></article><aside className="form-aside"><span className="eyebrow">FORMA RECENTE</span><div className="form-slots"><i>—</i><i>—</i><i>—</i><i>—</i><i>—</i></div><p>Os resultados reais definem a sequência.</p></aside></section>}
+    <section className="page-intro match-intro"><div><span className="eyebrow">SEU CLUBE / CICLO ESPORTIVO</span><h1>Nossas partidas</h1><p>Competições, calendário, classificação e resultados em uma única leitura. O estado exibido vem diretamente do motor.</p></div><div className="match-score-mark"><span>JOGOS</span><strong>{dashboardQuery.isLoading ? "—" : totalMatches}</strong><small>{selectedCompetition?.seasonYear ? `temporada ${selectedCompetition.seasonYear}` : "estado atual"}</small></div></section>
+    <section className="matches-command"><div className="matches-heading"><div><span className="eyebrow">PAINEL DE COMPETIÇÃO</span><h2>{selectedCompetition ? selectedCompetition.name : "Leia o jogo antes da rodada."}</h2></div><span className="match-state"><span className="status-pip" /> {dashboard?.source.available ? "estado SQL conectado" : dashboardQuery.isLoading ? "consultando estado" : "estado indisponível"}</span></div><div className="match-tabs" role="tablist" aria-label="Visões de partidas">{tabs.map(([id, label]) => <button key={id} className={view === id ? "selected" : ""} onClick={() => setView(id)} role="tab" aria-selected={view === id}>{label}</button>)}</div></section>
+    {view === "competicoes" && <section className="competition-layout"><article className="competition-main"><div className="section-heading compact"><div><span className="eyebrow">COMPETIÇÕES PERSISTIDAS</span><h2>{selectedCompetition ? `${dashboard?.competitions.length ?? 0} competição(ões) disponível(is)` : "Nenhuma competição persistida"}</h2></div><Flag size={18} /></div>{dashboard?.competitions.length ? <div className="competition-select-list">{dashboard.competitions.map((competition) => <button key={competition.competitionId} className={`competition-select ${competition.competitionId === dashboard.selectedCompetitionId ? "is-selected" : ""}`} onClick={() => setCompetitionId(competition.competitionId)}><span className="competition-badge">{competition.seasonYear ?? "—"}</span><span><b>{competition.name}</b><small>{competition.type} · {competition.format} · {competition.status}</small></span><em>{competition.playedMatches} realizados · {competition.scheduledFixtures} agendados</em></button>)}</div> : <div className="competition-empty"><span className="competition-badge">—</span><div><b>{dashboardQuery.isLoading ? "Lendo o estado esportivo" : "Nenhuma competição foi criada na carreira."}</b><p>{waitingMessage}</p></div></div>}</article><aside className="competition-side"><span className="eyebrow">PRÓXIMO JOGO</span>{nextMatch ? <><h3>{nextMatch.homeClub.name}<br />× {nextMatch.awayClub.name}</h3><p>{selectedCompetition?.name} · rodada {nextMatch.round ?? "—"}</p><div className="side-rule" /><span className="mini-label">AGENDA</span><b>{formatMatchDate(nextMatch.scheduledAt)}</b></> : <><h3>Sem compromisso<br />confirmado.</h3><p>{controlledClub ? "Não há fixture futuro para o clube controlado nesta competição." : "A carreira ainda não possui clube controlado ou fixture persistido."}</p><div className="side-rule" /><span className="mini-label">CONTEXTO</span><b>—</b></>}</aside></section>}
+    {view === "tabela" && <section className="standings-panel"><div className="section-heading compact"><div><span className="eyebrow">CLASSIFICAÇÃO</span><h2>{selectedCompetition ? selectedCompetition.name : "Tabela da competição"}</h2></div><span className="table-legend">P · J · V · E · D · SG</span></div><div className="table-scroll"><table><thead><tr><th>#</th><th>CLUBE</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead><tbody>{dashboard?.standings.length ? dashboard.standings.map((row) => <tr key={row.clubId} className={row.isControlledClub ? "controlled-row" : ""}><td>{row.position}</td><td>{row.clubName}</td><td>{row.points}</td><td>{row.played}</td><td>{row.wins}</td><td>{row.draws}</td><td>{row.losses}</td><td>{row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference}</td></tr>) : <tr className="waiting-row"><td>—</td><td colSpan={7}>{waitingMessage}</td></tr>}</tbody></table></div></section>}
+    {view === "calendario" && <section className="calendar-layout"><article className="calendar-main"><span className="eyebrow">{controlledClub ? `CALENDÁRIO DE ${controlledClub.name.toUpperCase()}` : "CALENDÁRIO DA COMPETIÇÃO"}</span><h2>{selectedCompetition ? "Próximos compromissos" : "Agenda esportiva"}</h2><div className="calendar-list">{filteredFixtures.length ? filteredFixtures.map((match) => <div key={match.key}><span>{formatMatchDate(match.scheduledAt).split(" ")[0]}</span><b>{match.homeClub.name} × {match.awayClub.name}</b><small>{selectedCompetition?.name ?? "Competição"} · rodada {match.round ?? "—"} · {formatMatchTime(match.scheduledAt)}</small></div>) : <div><span>—</span><b>Nenhuma partida agendada</b><small>{waitingMessage}</small></div>}</div></article><aside className="calendar-aside"><CalendarDays size={26} /><h3>O calendário<br />decide o ritmo.</h3><p>{controlledClub ? "Os compromissos exibidos pertencem ao clube controlado no estado da carreira." : "Sem clube controlado, a agenda mostra a competição selecionada assim que houver fixtures."}</p></aside></section>}
+    {view === "resultados" && <section className="results-layout"><article className="results-main"><div className="section-heading compact"><div><span className="eyebrow">ÚLTIMOS RESULTADOS</span><h2>{selectedCompetition ? selectedCompetition.name : "Histórico de partidas"}</h2></div><Goal size={18} /></div>{filteredResults.length ? <div className="result-list">{filteredResults.map((match) => <div className="result-row" key={match.key}><span>{formatMatchDate(match.scheduledAt)}</span><b>{match.homeClub.name}</b><strong>{match.homeGoals} — {match.awayGoals}</strong><b>{match.awayClub.name}</b><small>rodada {match.round ?? "—"}</small></div>)}</div> : <div className="result-empty"><span>—</span><h3>Ainda não há resultado registrado.</h3><p>{waitingMessage}</p></div>}</article><aside className="form-aside"><span className="eyebrow">PLACARES RECENTES</span><div className="form-slots">{filteredResults.slice(0, 5).map((match) => <i key={match.key}>{match.homeGoals}-{match.awayGoals}</i>)}{Array.from({ length: Math.max(0, 5 - filteredResults.slice(0, 5).length) }).map((_, index) => <i key={`empty-${index}`}>—</i>)}</div><p>Somente placares persistidos pelo motor aparecem nesta sequência.</p></aside></section>}
   </>;
 }
 
