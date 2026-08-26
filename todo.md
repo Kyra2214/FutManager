@@ -164,3 +164,5 @@
 - [x] Validar que o gate só abre quando todos os fronts P0 estiverem CONSOLIDATED.
 - [x] Criar auditoria executável do Front P0-2 para contratos, transações, contexto, gateway, esquema e extensibilidade.
 - [x] Executar a auditoria do Front P0-2 e registrar lacunas sem promover o front indevidamente.
+- [x] Cobrir composição transacional do orquestrador com `managed_transaction=False` em GameState temporário.
+- [x] Implementar e testar cancelamento cooperativo seguro na simulação em lote, sem alterar a fonte SQL/GameState.

@@ -20,3 +20,7 @@ A auditoria executável `scripts/validate_p0_architecture.py` verificou dez cont
 ## Limite de consolidação
 
 Esta auditoria comprova a fundação arquitetural observada, mas **não marca o Front P0-2 como CONSOLIDATED**. Ainda faltam critérios item a item para os 20 passos do roadmap, especialmente limites operacionais de lotes, cancelamento seguro, relatório automatizado de dependências circulares, pontos de extensão por plugins e suíte de contratos compartilhados Python/TypeScript. O `roadmap_gate.json` permanece com Front P0-2 `PENDING`, e P0/P1/P2 seguem governados sem liberação indevida.
+
+## Incremento validado
+
+A simulação em lote passou a aceitar `cancel_check`, encerrando o tick com `CANCELLED` antes de processar a próxima partida e persistindo a contagem processada no GameState. O cenário foi validado em cópia temporária com os testes de fases, orquestração e contratos: **13 testes aprovados**. Essa entrega cobre o mecanismo de cancelamento seguro do item 34, mas não encerra os demais critérios do Front P0-2.
