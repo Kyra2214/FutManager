@@ -15,7 +15,7 @@ export type CareerCatalogItem = {
 };
 
 type GatewayResult = { ok: boolean; error?: string } & Record<string, unknown>;
-type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "training_departments" | "morale_summary" | "morale_match" | "weekly_training" | "opponent_preparation" | "weekly_load" | "form_recommendations" | "health_list" | "health_alerts" | "health_injury" | "health_recover" | "health_suspension" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance" | "events_list" | "events_mark_read";
+type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "training_departments" | "morale_summary" | "morale_match" | "weekly_training" | "opponent_preparation" | "weekly_load" | "form_recommendations" | "health_list" | "health_alerts" | "health_injury" | "health_recover" | "health_suspension" | "ai_diagnosis" | "ai_history" | "ai_training" | "ai_market" | "ai_weekly" | "ai_objective_progress" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_upgrade" | "ticket_price" | "weekly_advance" | "events_list" | "events_mark_read";
 
 function callGateway<T extends GatewayResult>(action: GatewayAction, payload: Record<string, unknown>, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): T {
   try {
@@ -116,6 +116,18 @@ export function createTrainingPlan(season: number, week: number, planType: strin
 
 export function listTrainingDevelopment(databasePath?: string) {
   return staffMarketAction<GatewayResult & { items: Array<Record<string, unknown>> }>("training_development", {}, databasePath).items;
+}
+
+export function getAiDiagnosis(databasePath?: string) {
+  return staffMarketAction<GatewayResult & { club_id: number; needs: string[]; unavailable: number; squad_size: number; cash: number; health: string; objectives: Array<Record<string, unknown>> }>("ai_diagnosis", {}, databasePath);
+}
+
+export function getAiHistory(databasePath?: string) {
+  return staffMarketAction<GatewayResult & { items: Array<Record<string, unknown>> }>("ai_history", {}, databasePath).items;
+}
+
+export function runAiWeekly(seed?: number, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { idempotent: boolean; decisions: Record<string, string> }>("ai_weekly", { seed }, databasePath);
 }
 
 export function listHealth(severity?: string, maxDays?: number, databasePath?: string) {
