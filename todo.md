@@ -224,3 +224,12 @@
 - [x] Executar a matriz P0-5 e corrigir apenas lacunas reais de clubes, seleções e identidades.
 - [x] Promover o Front P0-5 após matriz 20/20, 8.399 clubes, 86 seleções e testes de identidade/ativos aprovados.
 - [x] Confirmar que a promoção de P0-5 mantém ausências honestas e não altera o banco-base.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-11.
+- [x] Executar a matriz P0-11 e corrigir apenas lacunas reais do motor de partidas.
+- [x] Separar geração e aplicação de resultado no MatchEngine.
+- [x] Adicionar entradas documentadas de mando, forma, moral e tática sem alterar partidas existentes.
+- [x] Persistir eventos/estatísticas suportados com limite por partida.
+- [x] Implementar adiamento/remarcação e relatório de distribuição de placares.
+- [x] Ampliar testes P0-11 para os contratos adicionados em cópias temporárias.
+- [x] Promover o Front P0-11 após matriz 20/20, geração/aplicação separadas e testes de remarcação/rollback.
+- [x] Confirmar que nenhuma partida oficial foi executada durante a consolidação P0-11.

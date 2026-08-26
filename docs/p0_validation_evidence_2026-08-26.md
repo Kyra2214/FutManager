@@ -82,3 +82,9 @@ As extensões que ainda não possuem fatos observados foram modeladas sem preenc
 A matriz `scripts/validate_p0_5_matrix.py` confirmou `20/20 PASS` nos passos 81–100. A cobertura combina os 8.399 clubes e entidades canônicas do banco-base read-only, consultas de identidade extensíveis no GameState, vínculos de escudos/camisas, ausências explícitas, fallbacks, aliases, rivalidades e histórico de nomes documentados. O teste `tests/test_club_identity.py` passou com 4 casos, sem escrever no banco-base.
 
 A política de ativos mantém a distinção entre escudo de clube e camisa de seleção: quando o arquivo-mãe não fornece escudo nacional, o estado permanece `SOURCE_NOT_PROVIDED` e a UI não apresenta a camisa como escudo. Nenhuma rivalidade, histórico, região, confederação ou kit secundário foi preenchido com dado inventado; os serviços aceitam somente observações explicitamente fornecidas.
+
+## Matriz P0-11 — motor de partidas
+
+A matriz `scripts/validate_p0_11_matrix.py` confirmou `20/20 PASS` nos passos 201–220. O MatchEngine agora separa `generate_result` de `apply_result`, fixa seed persistida, explicita mando/força/forma/moral/tática, persiste eventos e estatísticas suportadas (finalizações, posse e xG documentado), valida placar não negativo, limita eventos, impede execução duplicada, permite adiamento/remarcação e expõe distribuição de placares por temporada.
+
+A validação em GameState temporário passou com 5 testes no arquivo `tests/test_phases16_17.py`; os testes anteriores de orquestração e contratos também permaneceram aprovados. Nenhuma partida oficial foi executada nesta etapa.
