@@ -189,3 +189,5 @@
 - [x] Executar bateria consolidada das auditorias P0 e das suítes Python/frontend após as mudanças governadas.
 - [x] Criar auditoria testável do Front P0-16 para simulação mundial em lote, níveis e cancelamento.
 - [x] Executar a auditoria P0-16 e registrar determinismo, auditoria e idempotência sem alterar bancos oficiais.
+- [x] Registrar no roadmap_gate.json as evidências parciais dos fronts auditados sem promovê-los a CONSOLIDATED.
+- [x] Validar que o manifesto continua com P0_GATE CLOSED e P1/P2 bloqueados após o registro parcial.
