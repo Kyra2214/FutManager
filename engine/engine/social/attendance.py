@@ -15,6 +15,9 @@ CREATE TABLE IF NOT EXISTS ticket_price_configs (
   base_price INTEGER NOT NULL CHECK(base_price >= 1),
   updated_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS stadium_ticket_sectors(sector_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,name TEXT NOT NULL,capacity INTEGER NOT NULL CHECK(capacity > 0),price_multiplier REAL NOT NULL DEFAULT 1.0,UNIQUE(club_id,name));
+CREATE TABLE IF NOT EXISTS ticket_sales(sale_id INTEGER PRIMARY KEY AUTOINCREMENT,match_id INTEGER NOT NULL,club_id INTEGER NOT NULL,sector_id INTEGER NOT NULL,quantity INTEGER NOT NULL CHECK(quantity > 0),unit_price INTEGER NOT NULL,complimentary INTEGER NOT NULL DEFAULT 0,reason TEXT NOT NULL DEFAULT '',responsible TEXT NOT NULL DEFAULT '',status TEXT NOT NULL DEFAULT 'SOLD',created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS ticket_refunds(refund_id INTEGER PRIMARY KEY AUTOINCREMENT,sale_id INTEGER NOT NULL UNIQUE,amount INTEGER NOT NULL,reason TEXT NOT NULL,created_at TEXT NOT NULL);
 """
 
 
@@ -40,6 +43,42 @@ class AttendanceService:
         self.connection.executescript(SCHEMA)
         self.social = SocialService(self.connection)
         self.connection.commit()
+
+    def configure_sector(self, club_id: int, name: str, capacity: int, price_multiplier: float = 1.0) -> dict:
+        if int(capacity) <= 0 or float(price_multiplier) <= 0 or not str(name).strip(): raise ValueError('TICKET_SECTOR_INVALID')
+        with self.connection:
+            self.connection.execute('INSERT INTO stadium_ticket_sectors(club_id,name,capacity,price_multiplier) VALUES(?,?,?,?) ON CONFLICT(club_id,name) DO UPDATE SET capacity=excluded.capacity,price_multiplier=excluded.price_multiplier',(int(club_id),str(name).strip(),int(capacity),float(price_multiplier)))
+        return dict(self.connection.execute('SELECT * FROM stadium_ticket_sectors WHERE club_id=? AND name=?',(int(club_id),str(name).strip())).fetchone())
+
+    def preview_sector_demand(self, match_id: int, club_id: int) -> list[dict]:
+        rows=[]
+        for sector in self.connection.execute('SELECT * FROM stadium_ticket_sectors WHERE club_id=? ORDER BY sector_id',(int(club_id),)).fetchall():
+            sold=self.connection.execute("SELECT COALESCE(SUM(quantity),0) FROM ticket_sales WHERE match_id=? AND sector_id=? AND status='SOLD'",(int(match_id),int(sector['sector_id']))).fetchone()[0]
+            rows.append({'sector_id':int(sector['sector_id']),'name':sector['name'],'capacity':int(sector['capacity']),'sold':int(sold),'available':max(0,int(sector['capacity'])-int(sold)),'persisted':False})
+        return rows
+
+    def sell_tickets(self, match_id: int, club_id: int, sector_id: int, quantity: int, unit_price: int, complimentary: bool = False, reason: str = '', responsible: str = '') -> dict:
+        if int(quantity) <= 0 or int(unit_price) < 0: raise ValueError('TICKET_SALE_INVALID')
+        sector=self.connection.execute('SELECT * FROM stadium_ticket_sectors WHERE sector_id=? AND club_id=?',(int(sector_id),int(club_id))).fetchone()
+        if not sector: raise KeyError(sector_id)
+        available=self.preview_sector_demand(match_id,club_id); current=next((x for x in available if x['sector_id']==int(sector_id)),None)
+        if not current or int(quantity)>current['available']: raise ValueError('TICKET_CAPACITY_EXCEEDED')
+        if complimentary and (not str(reason).strip() or not str(responsible).strip()): raise ValueError('COMPLIMENTARY_AUDIT_REQUIRED')
+        with self.connection:
+            cur=self.connection.execute('INSERT INTO ticket_sales(match_id,club_id,sector_id,quantity,unit_price,complimentary,reason,responsible,created_at) VALUES(?,?,?,?,?,?,?,?,?)',(int(match_id),int(club_id),int(sector_id),int(quantity),int(unit_price),int(bool(complimentary)),str(reason),str(responsible),date.today().isoformat()))
+        return {'sale_id':int(cur.lastrowid),'quantity':int(quantity),'gross_revenue':0 if complimentary else int(quantity)*int(unit_price),'complimentary':bool(complimentary),'persisted':True}
+
+    def refund_ticket_sale(self, sale_id: int, reason: str) -> dict:
+        sale=self.connection.execute("SELECT * FROM ticket_sales WHERE sale_id=? AND status='SOLD'",(int(sale_id),)).fetchone()
+        if not sale: raise KeyError(sale_id)
+        amount=0 if sale['complimentary'] else int(sale['quantity'])*int(sale['unit_price'])
+        with self.connection:
+            self.connection.execute("UPDATE ticket_sales SET status='REFUNDED' WHERE sale_id=?",(int(sale_id),))
+            self.connection.execute('INSERT INTO ticket_refunds(sale_id,amount,reason,created_at) VALUES(?,?,?,?)',(int(sale_id),amount,str(reason),date.today().isoformat()))
+        return {'sale_id':int(sale_id),'refund':amount,'persisted':True}
+
+    def occupancy(self, match_id: int, club_id: int) -> dict:
+        rows=self.preview_sector_demand(match_id,club_id); return {'match_id':int(match_id),'club_id':int(club_id),'capacity':sum(x['capacity'] for x in rows),'sold':sum(x['sold'] for x in rows),'expected':sum(x['capacity'] for x in rows),'realized':sum(x['sold'] for x in rows),'sectors':rows}
 
     def configure_ticket_price(self, club_id: int, base_price: int) -> None:
         if base_price < 1 or base_price > 2_000:

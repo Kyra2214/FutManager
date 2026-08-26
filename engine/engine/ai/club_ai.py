@@ -11,6 +11,8 @@ SCHEMA='''
 CREATE TABLE IF NOT EXISTS club_ai_profiles(club_id INTEGER PRIMARY KEY,strategy TEXT NOT NULL DEFAULT 'BALANCED',aggressiveness INTEGER NOT NULL DEFAULT 50,risk_tolerance INTEGER NOT NULL DEFAULT 50,youth_focus INTEGER NOT NULL DEFAULT 50,market_focus INTEGER NOT NULL DEFAULT 50,result_focus INTEGER NOT NULL DEFAULT 50,young_preference INTEGER NOT NULL DEFAULT 50,experienced_preference INTEGER NOT NULL DEFAULT 50,salary_limit INTEGER NOT NULL DEFAULT 0,social_priority INTEGER NOT NULL DEFAULT 50,scouting_intensity INTEGER NOT NULL DEFAULT 50,autonomy INTEGER NOT NULL DEFAULT 50,seed INTEGER,version TEXT NOT NULL DEFAULT '1.0');
 CREATE TABLE IF NOT EXISTS club_objectives(objective_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,type TEXT NOT NULL,priority INTEGER NOT NULL,deadline TEXT,status TEXT NOT NULL DEFAULT 'ACTIVE',origin TEXT,progress REAL NOT NULL DEFAULT 0);
 CREATE TABLE IF NOT EXISTS club_decision_history(decision_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,decision_date TEXT NOT NULL,type TEXT NOT NULL,decision TEXT NOT NULL,target TEXT,reason TEXT,priority INTEGER,alternatives TEXT,chosen TEXT,cost INTEGER,result TEXT,seed INTEGER,ai_version TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS club_ai_risk_limits(club_id INTEGER NOT NULL,season INTEGER NOT NULL,max_cost INTEGER NOT NULL,max_aggressiveness INTEGER NOT NULL DEFAULT 50,updated_at TEXT NOT NULL,PRIMARY KEY(club_id,season));
+CREATE TABLE IF NOT EXISTS club_ai_approvals(decision_id INTEGER PRIMARY KEY,approved_by TEXT NOT NULL,approved_at TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'APPROVED');
 '''
 class Personality(StrEnum): CONSERVATIVE='CONSERVATIVE'; BALANCED='BALANCED'; AGGRESSIVE='AGGRESSIVE'; YOUTH_FOCUSED='YOUTH_FOCUSED'; STAR_FOCUSED='STAR_FOCUSED'; FINANCIAL='FINANCIAL'
 @dataclass(frozen=True)
@@ -107,7 +109,37 @@ class ClubAI:
   training=self.propose_training(club_id); market=self.propose_market(club_id,seed); tactic=self.choose_tactic(club_id,seed); priority=self.prioritize_competitions(club_id,seed); window=self.transfer_window_plan(club_id,2026,1,seed); lineup=self.auto_lineup(club_id,seed); decisions={'training':training,'market':market,'tactic':tactic,'priority':priority,'window':window,'lineup':lineup}
   self._decision(club_id,'WEEKLY_CYCLE',json.dumps(decisions,sort_keys=True),'decisões semanais derivadas do diagnóstico',0,seed=seed)
   return {'club_id':club_id,'seed':seed,'idempotent':False,'decisions':decisions}
+ def approve_decision(self, decision_id: int, approved_by: str = 'manager'):
+  row=self.connection.execute('select decision_id from club_decision_history where decision_id=?',(int(decision_id),)).fetchone()
+  if not row: raise KeyError(decision_id)
+  self.connection.execute('INSERT OR REPLACE INTO club_ai_approvals(decision_id,approved_by,approved_at,status) VALUES(?,?,?,?)',(int(decision_id),str(approved_by),date.today().isoformat(),'APPROVED')); self.connection.commit()
+  return {'decision_id':int(decision_id),'approved_by':str(approved_by),'status':'APPROVED','persisted':True}
+
+ def decision_audit(self, club_id: int, seed: int | None = None):
+  query='SELECT h.*,a.approved_by,a.status AS approval_status FROM club_decision_history h LEFT JOIN club_ai_approvals a ON a.decision_id=h.decision_id WHERE h.club_id=?'
+  args=[int(club_id)]
+  if seed is not None: query+=' AND h.seed=?'; args.append(seed)
+  rows=[dict(row) for row in self.connection.execute(query+' ORDER BY h.decision_id',args).fetchall()]
+  return {'club_id':int(club_id),'seed':seed,'decisions':rows,'count':len(rows),'persisted':True}
+
  def diagnostic_payload(self,club_id):
   diagnosis=self.diagnose(club_id); return {'club_id':club_id,'needs':list(diagnosis.needs),'unavailable':diagnosis.unavailable,'squad_size':diagnosis.squad_size,'cash':diagnosis.cash,'health':diagnosis.health,'institutional':self.institutional_context(club_id),'objectives':[dict(row) for row in self.connection.execute('select * from club_objectives where club_id=? order by priority desc,objective_id',(club_id,)).fetchall()]}
+ def set_risk_limit(self,club_id,season,max_cost,max_aggressiveness=50):
+  if min(int(max_cost), int(max_aggressiveness)) < 0: raise ValueError('AI_RISK_LIMIT_INVALID')
+  self.connection.execute('INSERT INTO club_ai_risk_limits(club_id,season,max_cost,max_aggressiveness,updated_at) VALUES(?,?,?,?,?) ON CONFLICT(club_id,season) DO UPDATE SET max_cost=excluded.max_cost,max_aggressiveness=excluded.max_aggressiveness,updated_at=excluded.updated_at',(club_id,season,int(max_cost),int(max_aggressiveness),date.today().isoformat())); self.connection.commit(); return dict(self.connection.execute('SELECT * FROM club_ai_risk_limits WHERE club_id=? AND season=?',(club_id,season)).fetchone())
+ def preview_decision(self,club_id,type_,decision,target=None,cost=0,season=2026):
+  limit=self.connection.execute('SELECT * FROM club_ai_risk_limits WHERE club_id=? AND season=?',(club_id,season)).fetchone(); allowed=not limit or int(cost)<=int(limit['max_cost'])
+  return {'club_id':club_id,'type':type_,'decision':decision,'target':target,'cost':int(cost),'allowed':allowed,'requires_approval':True,'persisted':False,'reason':'prévia derivada de fatos e limites persistidos','risk_limit':dict(limit) if limit else None}
+ def approve_decision(self,decision_id,approved_by='manager'):
+  row=self.connection.execute('SELECT * FROM club_decision_history WHERE decision_id=?',(decision_id,)).fetchone()
+  if not row: raise KeyError(decision_id)
+  if row['result']=='APPROVED': return {'decision_id':decision_id,'status':'APPROVED','idempotent':True}
+  if row['result'] not in ('PROPOSED','PENDING'): raise ValueError('AI_DECISION_NOT_APPROVABLE')
+  self.connection.execute('INSERT OR REPLACE INTO club_ai_approvals(decision_id,approved_by,approved_at,status) VALUES(?,?,?,?)',(decision_id,approved_by,date.today().isoformat(),'APPROVED')); self.connection.execute("UPDATE club_decision_history SET result='APPROVED' WHERE decision_id=?",(decision_id,)); self.connection.commit(); return {'decision_id':decision_id,'status':'APPROVED','idempotent':False}
+ def budget_alerts(self,club_id,season=2026):
+  limit=self.connection.execute('SELECT max_cost FROM club_ai_risk_limits WHERE club_id=? AND season=?',(club_id,season)).fetchone(); max_cost=int(limit['max_cost']) if limit else None
+  query="SELECT decision_id,type,decision,cost,result,target FROM club_decision_history WHERE club_id=? AND result IN ('PROPOSED','PENDING') AND cost>0"; args=[club_id]
+  if max_cost is not None: query += ' AND cost>?'; args.append(max_cost)
+  return self.connection.execute(query+' ORDER BY decision_id DESC',args).fetchall()
  def history(self,club_id): return self.connection.execute('select * from club_decision_history where club_id=? order by decision_id desc',(club_id,)).fetchall()
  def close(self): self.connection.close()

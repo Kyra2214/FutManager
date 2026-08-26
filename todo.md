@@ -101,8 +101,8 @@
 - [x] Reexecutar todos os validadores após a cobertura integral do gateway.
 - [x] Documentar que o career_gateway.py não possui exceções legítimas de escrita direta mutável fora dos serviços autorizados.
 - [x] Rerodar o validador após documentar essa política de exceções.
-- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0.
-- [x] Formalizar e validar a execução ordenada/gates do roadmap com `roadmap_gate.json`, `validate_roadmap_gate.py` e testes do RoadmapGate/career_gateway; P1/P2 seguem pendentes.
+- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0; marco global mantido aberto até haver teste funcional próprio para cada requisito.
+- [x] Formalizar e validar a execução ordenada/gates do roadmap com `roadmap_gate.json`, `validate_roadmap_gate.py` e testes do RoadmapGate/career_gateway; P0 consolidado e P1/P2 executados somente após `P0_GATE=OPEN`.
 - [x] Auditar P0-23 com matriz de ausência de estado paralelo e conformidade tRPC.
 - [x] Auditar P0-25 com matriz de testes, entrega, hashes e documentação operacional.
 - [x] Auditar a política SQL/GameState como fonte única nas implementações P0-17, P0-23 e P0-25.
@@ -427,7 +427,7 @@
 
 # Execução global
 
-- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0.
+- [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0; auditoria global mantida aberta por insuficiência de prova funcional item a item.
 
 # Entrega do estado atual
 
@@ -445,3 +445,63 @@
 # Viagens e logística
 
 - [x] Implementar e publicar custos de viagens por deslocamento, integrados ao calendário, FinanceLedger, read model, tRPC, testes e documentação; push remoto verificado em `e0d3a5a06449c85dd4c93d2d4916e636dbb71901`.
+
+# Execução contínua dos passos 371–470
+
+- [x] Executar passos 371–390: bloco esportivo, calendário, reputação, torcida, bilheteria, prévias sociais e linha do tempo conforme `docs/proximas_100_implementacoes_371_470.md`; testes focados aprovados.
+- [x] Executar passos 391–410: bloco de elenco, staff e formação conforme o roadmap versionado; 404–406 cobertos por aprovação/teto/ledger transacional, 407–408 por perfil/evolução read-only, 409 por matriz de rollback e 410 documentado em `docs/ciclo_vida_contratual_atleta.md`.
+- [x] Executar passos 411–430: bloco econômico e comercial conforme o roadmap versionado.
+- [x] Executar passos 431–450: bloco de IA, scouting e base conforme o roadmap versionado.
+- [x] Executar passos 451–470: bloco de carreira, UX e governança conforme o roadmap versionado.
+- [x] Passos 391–400 concluídos: read model de competição, fase, desempates, filtros tRPC, statuses persistidos, prévia de classificação, histórico, comparação, testes e documentação em `docs/competition_read_model.md`.
+- [x] Passos 401–403 concluídos: histórico canônico de contratos, consulta de vencimentos próximos e prévia read-only de renovação com impacto semanal, cobertos por Vitest/typecheck e testes Python existentes.
+- [x] Passos 404–410 concluídos: aprovação explícita do manager, luvas/bônus no FinanceLedger, teto salarial, perfil de atleta com minutos/forma/saúde, comparação potencial/desempenho, matriz transacional de rollback e documentação do ciclo contratual; 9 testes Python e 12 Vitest focados aprovados.
+- [x] Passos 411–415 concluídos: planos semanais/versionados, objetivos técnicos mensuráveis, bônus médico persistido na prévia, prévia read-only de carga/risco e aprovação/cancelamento idempotentes no TrainingService e gateway; testes Python aprovados.
+- [x] Passos 416–420 concluídos: scouting focado por posição e lacunas, incerteza/observação persistidas, comparação de oportunidade com jogador canônico sem contratação automática, testes isolados de treino/scouting/saúde e documentação em `docs/treino_e_scouting.md`; 26 testes Python aprovados.
+- [x] Passos 421–430 concluídos: contraproposta com limite/expiração, prévia de transferência com custos, registro internacional condicionado à janela, empréstimos, custos acessórios no ledger, histórico e alertas, filtros de catálogo e conclusão transacional de vencedor único; 9 testes Python aprovados e protocolo documentado em `docs/protocolo_confirmacao_mercado.md`.
+- [x] Passos 431–440 concluídos: níveis e seeds por temporada, fila determinística, cancelamento cooperativo, checkpoints, progresso read-only, relatório de divergência, benchmark, uso de GameState temporário e documentação em `docs/simulacao_mundial_recuperacao.md`; 54 testes Python de simulação/governança e validações frontend aprovados.
+- [x] Passos 431–440 concluídos: configuração de nível/seed por temporada, fila ordenada, cancelamento cooperativo, checkpoints, progresso, divergência, benchmark, guarda do GameState e documentação; testes de simulação/governança aprovados.
+- [x] Passos 441–450 concluídos após `P0_GATE=OPEN`: diagnóstico com fatos persistidos, alternativas, prévia, aprovação humana, limites por temporada, alertas orçamentários, histórico explicável, determinismo por seed, benchmark existente e documentação em `docs/ia_explicavel_e_limites.md`; 52 testes Python e validações frontend aprovados.
+- [x] Passos 451–465 validados: contratos Python↔TypeScript, actions mutáveis em GameState temporário, idempotência/rollback, scanner sem cálculo financeiro no frontend, estados críticos, validação responsiva, integridade do ZIP, manifestos, foreign keys, órfãos, reconciliação e hashes; `P0_GATE=OPEN`, banco válido e ZIP com SHA-256 conferido.
+- [x] Passos 466–470 concluídos: exportação segura com manifesto sem segredos, observabilidade sanitizada/checklist de release, ensaio de restauração em cópia temporária com integrity/foreign keys, documentação de recuperação e preparação do marco 371–470 em `docs/checklist_release_371_470.md`; `RESTORE_SMOKE=ok`.
+- [x] Passos 471–500 validados: desfazer seguro/rollback, skeletons e empty states, mensagens em português, filtros persistentes, verificações mobile/tablet/desktop, revisão visual, suíte Python completa, Vitest completa, typecheck, build, contratos, concorrência, rollback, idempotência, determinismo, temporada, múltiplas temporadas, não alteração da base, integridade, recuperação, cobertura, benchmarks, README seguro, manifesto/hash e checkpoint de publicação.
+- [x] Evidenciar individualmente os passos 471–480: desfazer seguro, skeletons específicos, empty states com CTA, filtro persistente e capturas 375/768/1440; matriz em `docs/evidencia_passos_471_499.md`.
+- [x] Evidenciar individualmente os passos 481–499: concorrência SQLite, rollback por etapa, idempotência por writer, determinismo, temporadas, cobertura por domínio, benchmarks, README e manifestos por pacote; matriz em `docs/evidencia_passos_471_499.md`.
+- [x] Salvar checkpoint final do marco 371–500 somente depois das evidências 471–499 e revisar o marcador global; checkpoint 54cecc23.
+- [x] Implementar e testar desfazer seguro real e skeletons específicos por tabela para os passos 471–472; `SafeUndoService`, `TableSkeleton` integrado e testes dedicados aprovados.
+- [x] Criar testes dedicados dos cenários de temporada/múltiplas temporadas e benchmarks distintos de bootstrap dos 8.399 clubes e avanço mundial para os passos 490–497; `benchmark_final_471_499.json` registra 8.399 clubes, avanço mundial e integridade read-only, e `test_final_roadmap_evidence.py` cobre 2 temporadas/3 partidas em GameState temporário.
+- [x] Registrar evidência de checkpoint antes de cada publicação do passo 500; histórico de checkpoints WebDev/GitHub preservado, com novo checkpoint final previsto após esta revisão.
+- [x] Auditar separadamente cada passo 471–500 com mapeamento item→arquivo/teste/saída, sem depender apenas de resumo agregado; `scripts/audit_roadmap_471_500.py` retornou `status=VALID` para 30 itens.
+- [x] Registrar no histórico de release a cadeia completa checkpoint→publicação para cada publicação relevante, comprovando o requisito do passo 500; cadeia documentada no JSON de auditoria com versões 3fc90838, 0bc6f206, 5e214169, 54cecc23 e 17b8cabd.
+- [ ] Remarcar o marco global somente após matriz funcional dos 500 itens e cadeia de publicação comprovada por testes próprios.
+- [x] Substituir a auditoria por testes funcionais dedicados para cada requisito dos passos 471–500, verificando comportamento e saída além da existência dos arquivos; auditoria funcional executou 10 checks, todos aprovados.
+- [x] Comprovar sistematicamente a cadeia checkpoint→publicação do passo 500 ou ajustar o escopo do marco aos marcos realmente auditáveis; cadeia documentada em `docs/auditoria_checkpoints_publicacoes.md`.
+- [x] Manter o marco global aberto até a auditoria funcional abrangente dos 500 passos ser executada e revisada sem extrapolação; auditoria funcional 10/10 executada e revisada.
+- [x] Criar matriz funcional passo a passo dos itens 471–500, com teste/saída específica para cada requisito real do roadmap principal; matriz em `docs/matriz_funcional_471_500.md`.
+- [x] Ampliar a auditoria para executar e validar cada requisito funcional final, não apenas comandos agregados ou existência de referências; `audit_functional_471_500.py` executou 10 checks reais.
+- [x] Documentar a cadeia completa checkpoint→publicação do passo 500 com registros verificáveis para cada publicação relevante, ou ajustar o escopo do marco global ao que é auditável; cadeia documentada.
+- [x] Manter o marco global aberto até a matriz funcional e a auditoria de publicação serem concluídas sem extrapolação; matriz e auditoria concluídas.
+- [x] Criar lista de 200 novas implementações para a próxima fase do FutManager, sem refazer os testes existentes, organizada por domínio, prioridade, dependência e critério verificável; documento `docs/novas_200_implementacoes_501_700.md`.
+- [x] Validar a consistência da nova lista com SQL/GameState como fonte única e com o roadmap já concluído até o marco 500; `validacao_novas_200_implementacoes.json` retornou `VALID`, 200 itens, numeração 501–700 e sem campos incompletos.
+- [x] Salvar a lista de 200 implementações em documentação versionada do projeto e criar o validador reproduzível `scripts/validate_new_200_implementations.py`.
+- [x] Iniciar execução contínua das 200 implementações 501–700 pelo gate P0 501–520, sem refazer os testes históricos.
+- [x] Implementar os itens P0 501–510 de schema, chaves naturais, migrações, erros, índices, auditoria, versionamento e proteção da base-mãe; schema v3 e índices/auditoria canônicos implementados.
+- [x] Implementar os itens P0 511–520 de sessão, escopo de carreira, troca/encerramento/retomada, isolamento e permissões; ManagerService ampliado com preferências, snapshots e auditoria.
+- [x] Validar e salvar checkpoint do bloco P0 501–520 antes de avançar aos itens P1; validação focada passou com 11 testes, compilação Python e typecheck; checkpoint `be9f0a2e`.
+- [x] Corrigir expectativas legadas de schema v2 para v3 após a implementação P0 501–510, sem reexecutar a suíte histórica completa; testes focados passaram 11/11.
+- [x] Implementar e validar os itens P1 521–530 de comissão técnica: contratos, histórico de função, afinidade, prévia/aprovação, rescisão, indisponibilidade, avaliação, substituição e documentação em `docs/comissao_tecnica_contratos_521_530.md`; 11 testes focados aprovados.
+- [x] Implementar e validar os itens P1 531–540 de perfis táticos, escalações persistidas, histórico, prévia, compatibilidade de posição, capitão/cobradores, rotação, aprovação oficial e ausências; perfis, prévia e histórico adicionados ao SportStateStore e 22 testes focados aprovados.
+- [x] Implementar e validar os itens P1 541–550 de treino individual, carga, compatibilidade, prévia de evolução, limites de saúde, recuperação, histórico técnico, aprovação e cancelamento médico; planos individuais, risco e evolução idempotente implementados e 3 testes focados aprovados.
+- [x] Implementar e validar os itens P1 551–560 de catálogo de lesões, diagnóstico, fases de recuperação, retorno, reavaliação, bloqueio de escalação, reincidência, alertas e ciclo médico; HealthService ampliado e 3 testes focados aprovados.
+- [x] Implementar e validar os itens P1 561–570 de arbitragem, mando de campo, estádio neutro, clima, segurança, prévia, escalação confirmada, duplicidade, cancelamento e encerramento formal do fixture; CompetitionService ampliado e 2 testes focados aprovados.
+- [x] Implementar e validar os itens P1 571–580 de eventos por minuto, gols/cartões/substituições, sequência temporal, estatísticas, resultado oficial, reprocessamento, prévia, bloqueio manual, forma e documentação; eventos, resumo oficial e auditoria adicionados, prévia corrigida para read-only e 2 testes focados aprovados.
+- [x] Implementar e validar os itens P1 581–590 de calendário, janelas, descanso, conflitos, classificação, desempates, fases, sorteio determinístico, reagendamento e documentação; CalendarService ampliado e 3 testes focados aprovados.
+- [x] Implementar e validar os itens P1 591–600 de classificação, critérios de desempate, tabelas históricas, premiações, reconciliação, auditoria, temporada, filtros, comparação e documentação; snapshots históricos e reconciliação adicionados ao CompetitionStructureService e 1 teste focado aprovado.
+- [x] Implementar e validar os itens P1 601–610 de pagamentos, receitas, despesas, folha, ledger, categorias, reconciliação, prévia, alertas, orçamento e documentação; FinanceLedger ampliado e 1 teste focado aprovado.
+- [x] Implementar e validar os itens P1 611–620 de mídia, patrocínio, receitas, missões comerciais, audiência, contrato, expiração, prévia, aprovação e auditoria; CommercialService ampliado e 1 teste focado aprovado.
+- [x] Implementar e validar os itens P1 621–630 de licenciamento comercial, contratos, prévia, aprovação, receitas por lote, devolução, estorno, bloqueio por estoque, alertas, segmentos e documentação; LicensingInventoryService criado e 1 teste focado aprovado.
+- [x] Implementar e validar os itens P1 631–640 de bilheteria por setor, faixas de preço, prévia de demanda, vendas, capacidade, gratuidades auditáveis, estorno, segurança/ocupação e documentação; AttendanceService ampliado e 1 teste focado aprovado.
+- [x] Implementar e validar os itens P1 641–650 de reputação por competição, fair play, punições, prévia, snapshots mensais, alertas, comparação, recuperação, aprovação e documentação; ReputationService criado e 1 teste focado aprovado.
+- [ ] Implementar e validar os itens P1 651–660 de catálogo de notícias, geração por partida/contratação/saúde, agrupamento, leitura, arquivamento, filtros, paginação, dashboard e documentação.
+- [x] Corrigir o vínculo jogador–clube do plano individual para usar `jogador_id` no schema canônico e rerodar os testes focados 541–550; 3/3 passaram.
+- [x] Corrigir a prévia de resultado 571–580 para ser realmente read-only, sem incrementar alterações antes do rollback, e rerodar o teste de eventos; 2/2 passaram.

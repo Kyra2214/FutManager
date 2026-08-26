@@ -2,6 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import StrEnum
 from datetime import date
+import json
 import sqlite3
 from engine.world.time_and_finance import FinanceLedger, WorldTickContext, LogicalClock
 from engine.economy.world_economy import EconomyService
@@ -16,6 +17,7 @@ CREATE TABLE IF NOT EXISTS transfer_history(transfer_id INTEGER PRIMARY KEY AUTO
 CREATE TABLE IF NOT EXISTS transfer_events(event_id INTEGER PRIMARY KEY AUTOINCREMENT,offer_id INTEGER NOT NULL,event_type TEXT NOT NULL,event_date TEXT NOT NULL,payload TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS transfer_loans(loan_id INTEGER PRIMARY KEY AUTOINCREMENT,player_id INTEGER NOT NULL,from_club_id INTEGER NOT NULL,to_club_id INTEGER NOT NULL,start_date TEXT NOT NULL,end_date TEXT NOT NULL,loan_fee INTEGER NOT NULL DEFAULT 0,option_fee INTEGER,option_deadline TEXT,status TEXT NOT NULL DEFAULT 'ACTIVE');
 CREATE TABLE IF NOT EXISTS transfer_approvals(approval_id INTEGER PRIMARY KEY AUTOINCREMENT,offer_id INTEGER NOT NULL UNIQUE,approved_by TEXT NOT NULL,approved_at TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'APPROVED');
+CREATE TABLE IF NOT EXISTS transfer_shortlist(shortlist_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,player_id INTEGER NOT NULL,priority INTEGER NOT NULL DEFAULT 0,notes TEXT NOT NULL DEFAULT '',status TEXT NOT NULL DEFAULT 'ACTIVE',created_at TEXT NOT NULL,UNIQUE(club_id,player_id));
 '''
 class OfferStatus(StrEnum): PENDING='PENDING'; ACCEPTED='ACCEPTED'; REJECTED='REJECTED'; EXPIRED='EXPIRED'; CANCELLED='CANCELLED'; COMPLETED='COMPLETED'
 class NegotiationTemperature(StrEnum): COLD='COLD'; COOL='COOL'; NEUTRAL='NEUTRAL'; WARM='WARM'; HOT='HOT'
@@ -40,10 +42,37 @@ class TransferMarketService:
         for name,definition in {'salary':'INTEGER NOT NULL DEFAULT 0','commission':'INTEGER NOT NULL DEFAULT 0','accessory_cost':'INTEGER NOT NULL DEFAULT 0','manager_approved':'INTEGER NOT NULL DEFAULT 1'}.items():
             if name not in columns: self.connection.execute(f'ALTER TABLE transfer_offers ADD COLUMN {name} {definition}')
         self.connection.commit(); LogicalClock(self.connection); self.ledger=FinanceLedger(self.connection)
-    def open_window(self,season:int,number:int,start_date:str,end_date:str)->int:
-        cur=self.connection.execute('insert into transfer_windows(season,number,start_date,end_date,status) values(?,?,?,?,?)',(season,number,start_date,end_date,'OPEN')); self.connection.commit(); return int(cur.lastrowid)
-    def transferable_players(self,seller_club_id:int):
-        return self.connection.execute("SELECT * FROM player_market_state WHERE club_id=? AND status='ACTIVE' ORDER BY player_id",(seller_club_id,)).fetchall()
+    def open_window(self,season:int,number:int,start_date:str,end_date:str,rules:dict|None=None)->int:
+        cur=self.connection.execute('insert into transfer_windows(season,number,start_date,end_date,status,rules) values(?,?,?,?,?,?)',(season,number,start_date,end_date,'OPEN',json.dumps(rules or {}, ensure_ascii=False, sort_keys=True))); self.connection.commit(); return int(cur.lastrowid)
+    def transferable_players(self,seller_club_id:int, age_min=None, age_max=None, position_code=None, min_strength=None, max_budget=None):
+        has_players = self.connection.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='jogadores'").fetchone() is not None
+        query = "SELECT market.* FROM player_market_state market WHERE market.club_id=? AND market.status='ACTIVE'"
+        args = [seller_club_id]
+        if has_players:
+            query = "SELECT market.*, players.idade AS age, players.posicao_codigo AS position_code, players.cr1, players.cr2 FROM player_market_state market LEFT JOIN jogadores players ON players.jogador_id=market.player_id WHERE market.club_id=? AND market.status='ACTIVE'"
+            if age_min is not None: query += " AND players.idade>=?"; args.append(age_min)
+            if age_max is not None: query += " AND players.idade<=?"; args.append(age_max)
+            if position_code is not None: query += " AND players.posicao_codigo=?"; args.append(position_code)
+            if min_strength is not None: query += " AND ((players.cr1+players.cr2)/2)>=?"; args.append(min_strength)
+        if max_budget is not None: query += " AND market.asking_price<=?"; args.append(max_budget)
+        return self.connection.execute(query + " ORDER BY market.player_id", args).fetchall()
+    def evaluate_player(self, player_id: int, strength: int | None = None, potential: int | None = None, asking_multiplier: float = 1.4) -> dict:
+        row = self.connection.execute('SELECT * FROM player_market_state WHERE player_id=?',(int(player_id),)).fetchone()
+        if row is None: raise KeyError(player_id)
+        value=MarketValueService().estimate(strength, potential, asking_multiplier)
+        return {'player_id':int(player_id),'market_value':value.market_value,'asking_price':value.asking_price,'persisted':False,'source':'MarketValueService'}
+
+    def shortlist(self, club_id: int, player_id: int, priority: int = 0, notes: str = '') -> dict:
+        if int(priority) < 0: raise ValueError('SHORTLIST_PRIORITY_INVALID')
+        self.connection.execute('INSERT OR IGNORE INTO transfer_shortlist(club_id,player_id,priority,notes,created_at) VALUES(?,?,?,?,?)',(int(club_id),int(player_id),int(priority),str(notes),date.today().isoformat()))
+        self.connection.execute('UPDATE transfer_shortlist SET priority=?,notes=?,status=\'ACTIVE\' WHERE club_id=? AND player_id=?',(int(priority),str(notes),int(club_id),int(player_id)))
+        self.connection.commit()
+        return dict(self.connection.execute('SELECT * FROM transfer_shortlist WHERE club_id=? AND player_id=?',(int(club_id),int(player_id))).fetchone())
+
+    def shortlist_audit(self, club_id: int) -> dict:
+        rows=[dict(row) for row in self.connection.execute('SELECT * FROM transfer_shortlist WHERE club_id=? AND status=\'ACTIVE\' ORDER BY priority DESC,player_id',(int(club_id),)).fetchall()]
+        return {'club_id':int(club_id),'players':rows,'count':len(rows),'persisted':True}
+
     def approve_offer(self,offer_id:int,approved_by:str='manager'):
         self._offer(offer_id); self.connection.execute('INSERT OR REPLACE INTO transfer_approvals(offer_id,approved_by,approved_at,status) VALUES(?,?,?,?)',(offer_id,approved_by,date.today().isoformat(),'APPROVED')); self.connection.execute('UPDATE transfer_offers SET manager_approved=1 WHERE offer_id=?',(offer_id,)); self._event(offer_id,'TRANSFER_APPROVED',{'approved_by':approved_by}); self.connection.commit()
     def preview_offer(self,buyer_club_id:int,value:int,salary:int=0,commission:int=0,accessory_cost:int=0)->dict:
@@ -56,9 +85,12 @@ class TransferMarketService:
         upfront=int(value)+int(commission)+int(accessory_cost)
         return {'buyer_club_id':buyer_club_id,'transfer_value':int(value),'commission':int(commission),'accessory_cost':int(accessory_cost),'upfront_total':upfront,'cash_before':cash,'cash_after':cash-upfront,'weekly_salary_before':weekly_before,'weekly_salary_after':weekly_before+int(salary),'cash_sufficient':cash>=upfront,'formula_version':'transfer-impact-v1'}
 
-    def create_offer(self,player_id:int,buyer_club_id:int,seller_club_id:int,value:int,window_id:int,asking_price:int|None=None,valid_until:str|None=None,salary:int=0,commission:int=0,accessory_cost:int=0)->int:
+    def create_offer(self,player_id:int,buyer_club_id:int,seller_club_id:int,value:int,window_id:int,asking_price:int|None=None,valid_until:str|None=None,salary:int=0,commission:int=0,accessory_cost:int=0,international:bool=False)->int:
         w=self.connection.execute('select * from transfer_windows where window_id=?',(window_id,)).fetchone()
         if not w or w['status']!='OPEN': raise ValueError('TRANSFER_WINDOW_CLOSED')
+        if valid_until is not None and valid_until > w['end_date']: raise ValueError('TRANSFER_WINDOW_CLOSED')
+        rules=json.loads(w['rules'] or '{}')
+        if international and not bool(rules.get('international_registration_open', False)): raise ValueError('INTERNATIONAL_REGISTRATION_CLOSED')
         if buyer_club_id==seller_club_id: raise ValueError('buyer e seller devem ser diferentes')
         current=self.connection.execute('select club_id,status from player_market_state where player_id=?',(player_id,)).fetchone()
         if current and (current['club_id']!=seller_club_id or current['status'] in ('RETIRED','NEGOTIATING')): raise ValueError('TRANSFER_BLOCKED')
@@ -78,12 +110,26 @@ class TransferMarketService:
         if not state or int(state['club_id'])!=from_club_id or state['status']!='ACTIVE': raise ValueError('LOAN_PLAYER_UNAVAILABLE')
         cur=self.connection.execute('INSERT INTO transfer_loans(player_id,from_club_id,to_club_id,start_date,end_date,loan_fee,option_fee,option_deadline) VALUES(?,?,?,?,?,?,?,?)',(player_id,from_club_id,to_club_id,start_date,end_date,loan_fee,option_fee,option_deadline)); self.connection.commit(); return int(cur.lastrowid)
     def counter(self,offer_id:int,value:int,max_counters:int=1):
+        if value < 0:
+            raise ValueError('TRANSFER_VALUES_INVALID')
         row=self._offer(offer_id)
         if row['status']!='PENDING': raise ValueError('OFFER_NOT_PENDING')
         if row['counter_count']>=max_counters: raise ValueError('COUNTER_LIMIT_REACHED')
         self.connection.execute('update transfer_offers set value=?,counter_count=counter_count+1 where offer_id=?',(value,offer_id)); self._event(offer_id,'TRANSFER_COUNTERED',{'value':value}); self.connection.commit()
     def accept(self,offer_id:int):
         self._offer(offer_id); self._set_offer(offer_id,'ACCEPTED','TRANSFER_ACCEPTED'); self.approve_offer(offer_id,'manager')
+    def expire_offers(self, as_of: str):
+        rows = self.connection.execute("SELECT offer_id FROM transfer_offers WHERE status IN ('PENDING','ACCEPTED') AND valid_until IS NOT NULL AND valid_until < ?", (as_of,)).fetchall()
+        for row in rows:
+            self.connection.execute("UPDATE transfer_offers SET status='EXPIRED' WHERE offer_id=? AND status IN ('PENDING','ACCEPTED')", (row['offer_id'],))
+            self._event(row['offer_id'], 'TRANSFER_EXPIRED', {'as_of': as_of})
+        self.connection.commit()
+        return len(rows)
+    def negotiation_history(self, offer_id: int):
+        self._offer(offer_id)
+        return self.connection.execute("SELECT event_id,offer_id,event_type,event_date,payload FROM transfer_events WHERE offer_id=? ORDER BY event_id", (offer_id,)).fetchall()
+    def negotiation_alerts(self, club_id: int):
+        return self.connection.execute("SELECT offer.offer_id, offer.player_id, offer.status, offer.valid_until, offer.counter_count FROM transfer_offers offer WHERE (offer.buyer_club_id=? OR offer.seller_club_id=?) AND offer.status IN ('EXPIRED','PENDING') ORDER BY offer.offer_id DESC", (club_id, club_id)).fetchall()
     def reject(self,offer_id:int): self._set_offer(offer_id,'REJECTED','TRANSFER_REJECTED')
     def cancel(self,offer_id:int): self._set_offer(offer_id,'CANCELLED','TRANSFER_CANCELLED')
     def temperature(self,offer_id:int)->NegotiationTemperature:

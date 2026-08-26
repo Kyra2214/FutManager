@@ -96,5 +96,21 @@ class FinanceLedger:
         row = self.connection.execute(f'SELECT COUNT(*) AS entries, COALESCE(SUM(CASE WHEN amount > 0 THEN amount ELSE 0 END),0) AS income, COALESCE(SUM(CASE WHEN amount < 0 THEN -amount ELSE 0 END),0) AS expense FROM financial_ledger{where}', args).fetchone()
         return {'season': season, 'currency': self.CURRENCY, 'entries': int(row['entries']), 'income': int(row['income']), 'expense': int(row['expense']), 'net': int(row['income']) - int(row['expense'])}
 
+    def preview_post(self, context: WorldTickContext, club_id: int | None, type_: str, category: str, amount: int, source_type: str, source_id: str, description: str) -> dict:
+        if category not in self.CATEGORIES: raise ValueError('LEDGER_CATEGORY_INVALID')
+        if not isinstance(amount, int): raise ValueError('LEDGER_AMOUNT_MUST_BE_INTEGER')
+        existing = self.connection.execute('SELECT ledger_id FROM financial_ledger WHERE club_id IS ? AND season=? AND week=? AND category=? AND source_type=? AND source_id=?', (club_id, context.season, context.week, category, source_type, str(source_id))).fetchone()
+        return {'club_id': club_id, 'season': context.season, 'week': context.week, 'category': category, 'amount': amount, 'duplicate': existing is not None, 'persisted': False}
+
+    def reconcile_club(self, club_id: int, season: int | None = None) -> dict:
+        report = self.report_club(club_id, season)
+        duplicate_rows = self.connection.execute('SELECT COUNT(*) AS total FROM (SELECT club_id,season,week,category,source_type,source_id,COUNT(*) c FROM financial_ledger WHERE club_id=? GROUP BY club_id,season,week,category,source_type,source_id HAVING c>1)', (int(club_id),)).fetchone()['total']
+        return {**report, 'duplicate_sources': int(duplicate_rows), 'reconciled': int(duplicate_rows) == 0}
+
+    def budget_alert(self, club_id: int, season: int, week: int, limit: int) -> dict:
+        row = self.connection.execute('SELECT COALESCE(SUM(CASE WHEN amount < 0 THEN -amount ELSE 0 END),0) AS expense FROM financial_ledger WHERE club_id=? AND season=? AND week=?', (int(club_id), int(season), int(week))).fetchone()
+        expense = int(row['expense'])
+        return {'club_id': int(club_id), 'season': int(season), 'week': int(week), 'limit': int(limit), 'expense': expense, 'over_limit': expense > int(limit), 'persisted': False}
+
     def season_audit(self, season: int) -> dict:
         return {'season': season, 'currency': self.CURRENCY, 'world': self.world_report(season), 'clubs': [self.report_club(int(row['club_id']), season) for row in self.connection.execute('SELECT DISTINCT club_id FROM financial_ledger WHERE season=? AND club_id IS NOT NULL ORDER BY club_id', (season,)).fetchall()]}
