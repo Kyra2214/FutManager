@@ -19,6 +19,7 @@ function action<T extends { ok: boolean; error?: string } & Record<string, unkno
 
 export const operationsRouter = router({
   snapshots: router({
+    list: protectedProcedure.query(() => action("career_snapshot_list")),
     create: protectedProcedure.mutation(() => action<{ ok: boolean; snapshot_id: number }>("career_snapshot")),
     hash: protectedProcedure.input(z.object({ snapshotId: z.number().int().positive() })).query(({ input }) => action("career_snapshot_hash", { snapshot_id: input.snapshotId })),
     compare: protectedProcedure.input(z.object({ leftId: z.number().int().positive(), rightId: z.number().int().positive() })).query(({ input }) => action("career_snapshot_compare", { left_id: input.leftId, right_id: input.rightId })),

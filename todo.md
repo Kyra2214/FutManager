@@ -540,3 +540,9 @@
 - [x] Criar telas React para snapshots de carreira, simulação mundial e auditoria financeira consumindo apenas tRPC; OperationsPanel integrado à navegação com estados protegidos e responsivos.
 - [x] Expor ações de snapshots, simulação e auditoria financeira no tRPC com permissões por manager e erros tipados; operationsRouter e dispatcher Python ampliados.
 - [x] Criar e validar teste de temporada completa usando o GameState SQLite real, com checkpoint, retomada e relatório financeiro; 12 semanas, ledger, idempotência e PRAGMA integrity_check aprovados.
+- [x] Adicionar comparação lado a lado entre dois snapshots na seção Operações.
+- [x] Adicionar restauração seletiva de snapshot com seleção explícita de campos e confirmação visual antes da mutação.
+- [x] Criar testes Vitest para confirmação, validação da seleção e proteção da mutação de restauração.
+- [x] Corrigir a entrada principal: exibir nova carreira quando não houver save ativo, permitir selecionar clube ou seleção e criar save novo.
+- [x] Garantir que dashboard, Operações e restauração de snapshots só sejam liberados após save ativo persistido.
+- [x] Adicionar testes focados para seleção, criação de save e bloqueio do dashboard sem carreira.

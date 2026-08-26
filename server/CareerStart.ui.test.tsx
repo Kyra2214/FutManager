@@ -1,8 +1,8 @@
 /** @vitest-environment jsdom */
 import React, { useState } from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
   catalog: vi.fn(),
@@ -10,6 +10,7 @@ const mocks = vi.hoisted(() => ({
   invalidate: vi.fn(),
   mutationOptions: undefined as { onSuccess?: () => void } | undefined,
   mutationError: null as Error | null,
+  current: { started: false } as { started: boolean; careerName?: string; targetName?: string; targetType?: "club" | "selection" },
 }));
 
 vi.mock("@/lib/trpc", () => ({
@@ -17,6 +18,7 @@ vi.mock("@/lib/trpc", () => ({
     useUtils: () => ({ career: { current: { invalidate: mocks.invalidate } } }),
     career: {
       catalog: { useQuery: mocks.catalog },
+      current: { useQuery: () => ({ data: mocks.current, isLoading: false }) },
       start: { useMutation: (options: { onSuccess?: () => void }) => {
         mocks.mutationOptions = options;
         return { mutate: mocks.mutate, isPending: false, error: mocks.mutationError };
@@ -36,8 +38,10 @@ function Harness() {
 }
 
 describe("CareerStart UI", () => {
+  afterEach(() => cleanup());
   beforeEach(() => {
     mocks.mutationError = null;
+    mocks.current = { started: false };
     mocks.invalidate.mockReset();
     mocks.mutate.mockReset();
     mocks.catalog.mockImplementation(({ targetType }: { targetType: "club" | "selection" }) => ({
@@ -69,9 +73,17 @@ describe("CareerStart UI", () => {
     expect(screen.getByText("Escudo da seleção não fornecido; camisa disponível")).toBeTruthy();
   });
 
-  it("exibe o erro retornado pela mutation", () => {
-    mocks.mutationError = new Error("ACTIVE_CAREER_EXISTS");
-    render(<CareerStart onStarted={vi.fn()} />);
-    expect(screen.getByText("Já existe uma carreira ativa neste estado.")).toBeTruthy();
+  it("oferece continuar o save ativo ou criar um novo save", async () => {
+    const user = userEvent.setup();
+    mocks.current = { started: true, careerName: "Temporada 2026", targetName: "Flamengo", targetType: "club" };
+    const onContinue = vi.fn();
+    render(<CareerStart onStarted={vi.fn()} onContinue={onContinue} />);
+    expect(screen.getByText("Temporada 2026")).toBeTruthy();
+    await user.click(screen.getByRole("button", { name: /Continuar save/i }));
+    expect(onContinue).toHaveBeenCalledOnce();
+    await user.type(screen.getByPlaceholderText("Como o manager será chamado?"), "Novo Manager");
+    await user.click(screen.getByRole("button", { name: /Clube Exemplo/i }));
+    await user.click(screen.getByRole("button", { name: /Começar carreira/i }));
+    expect(mocks.mutate).toHaveBeenCalledWith(expect.objectContaining({ managerName: "Novo Manager", targetId: 7 }));
   });
 });

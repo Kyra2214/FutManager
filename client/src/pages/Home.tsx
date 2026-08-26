@@ -275,13 +275,13 @@ function SponsorshipPage() {
   return <><section className="page-intro sponsorship-intro"><div><span className="eyebrow">SEU CLUBE / VALOR DE MARCA</span><h1>Patrocinadores</h1><p>O elenco, o CT e o estádio definem o overall institucional. Esse valor abre propostas melhores, mas cada janela exige decisão antes de expirar.</p></div><span className="page-code">SP-01</span></section><SponsorshipPanel /></>;
 }
 
-export default function Home({ section = "clube", onSectionChange = () => undefined }: { section?: AppSection; onSectionChange?: (section: AppSection) => void }) {
+export default function Home({ section = "inicio", onSectionChange = () => undefined }: { section?: AppSection; onSectionChange?: (section: AppSection) => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const careerQuery = trpc.career.current.useQuery(undefined, { retry: 1 });
   const main = useMemo(() => section === "clube" ? <Dashboard onSectionChange={onSectionChange} /> : section === "partidas" ? <MatchesPage /> : section === "patrocinadores" ? <SponsorshipPage /> : section === "operacoes" ? <OperationsPanel /> : <StructurePage section={section} onSectionChange={onSectionChange} />, [section, onSectionChange]);
 
-  if (!careerQuery.isLoading && careerQuery.data?.started === false) {
-    return <CareerStart onStarted={() => onSectionChange("clube")} />;
+  if (section === "inicio" || (!careerQuery.isLoading && careerQuery.data?.started === false)) {
+    return <CareerStart onStarted={() => onSectionChange("clube")} onContinue={() => onSectionChange("clube")} />;
   }
   return <div className="app-shell"><Sidebar section={section} onSectionChange={onSectionChange} open={menuOpen} onClose={() => setMenuOpen(false)} /><main className="app-main"><Header section={section} onMenu={() => setMenuOpen(true)} /><div className="page-wrap">{main}</div><footer className="page-footer"><span>FUTMANAGER / EDITORIAL DE ARQUIBANCADA</span><span>SQL · STATE · SERVICES</span></footer></main></div>;
 }

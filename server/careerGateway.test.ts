@@ -51,7 +51,8 @@ describe("careerGateway", () => {
     expect(listCareerTargets("selection", "ARG", 8, path)[0]).toMatchObject({ entityId: 4, assetKind: "kit" });
     expect(startCareer({ managerName: "Ana", nationality: "BR", age: 31, careerName: "Carreira Ana", targetType: "club", targetId: 7 }, path)).toMatchObject({ started: true, target_id: 7 });
     expect(getCurrentCareer(path)).toMatchObject({ started: true, targetType: "club", targetId: 7, managerName: "Ana" });
-    expect(() => startCareer({ managerName: "Bia", age: 29, careerName: "Outra", targetType: "club", targetId: 7 }, path)).toThrow("ACTIVE_CAREER_EXISTS");
+    expect(startCareer({ managerName: "Bia", age: 29, careerName: "Outra", targetType: "club", targetId: 7 }, path)).toMatchObject({ started: true });
+    expect(getCurrentCareer(path)).toMatchObject({ started: true, targetId: 7, managerName: "Bia" });
   });
 
   it("executa ação tipada de leitura e preserva erro honesto do motor", () => {
