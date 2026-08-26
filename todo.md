@@ -405,3 +405,9 @@
 - [x] P2-16 / passo 312: impedir contratação de oportunidade sem confirmação do manager.
 - [x] P2-16 / passos 313/314/315/316: suportar base, progressão, promoção e manutenção quando houver dados canônicos.
 - [x] P2-16 / passos 317/318/319/320: testar seed, expiração, relatórios disponíveis e documentar campos ausentes.
+- [x] P0-17 / passos 321/322/323: consolidar categorias do FinanceLedger, moeda única e referências naturais.
+- [x] P0-17 / passos 324/325/326: fechar ledger semanal e expor receitas/despesas por clube.
+- [x] P0-17 / passos 327/328/329: calcular orçamento, projeções, reservas e alertas de caixa.
+- [x] P0-17 / passos 330/331/332: registrar obrigações, dívidas, juros e saúde financeira.
+- [x] P0-17 / passos 333/334/335: suportar investimentos, SAF/controle e auditoria de temporada.
+- [x] P0-17 / passos 336/337/338/339/340: validar idempotência, insolvência, rollback e limites do modelo.
