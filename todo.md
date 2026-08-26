@@ -209,3 +209,8 @@
 - [x] Ajustar a política de plugins para ser reconhecida pelo critério executável sem liberar escrita paralela.
 - [x] Registrar o Front P0-2 como CONSOLIDATED com implementação, testes, documentação e checkpoint no gate.
 - [x] Validar que a consolidação de P0-2 não abre o gate global nem libera P1/P2.
+- [x] Criar matriz executável item→evidência para os 20 passos do Front P0-3.
+- [x] Executar a matriz P0-3 e corrigir apenas lacunas compatíveis com migrações idempotentes e GameState mutável.
+- [x] Completar inventário documentado de tabelas do banco-base e GameState para P0-3.
+- [x] Criar comparador read-only de esquemas para P0-3.
+- [x] Criar medição read-only de planos de consulta para P0-3.

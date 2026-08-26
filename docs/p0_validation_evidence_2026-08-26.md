@@ -66,3 +66,7 @@ A auditoria `scripts/validate_p0_frontend_trpc.py` verificou os fluxos de jogo `
 ## Auditoria P0-25 — testes, entrega e operação
 
 A auditoria `scripts/validate_p0_delivery.py` confirmou a presença do ZIP `FutManager_Brasfoot_ENTREGA_2026-08-26.zip`, conferência SHA-256, documentação essencial e manifests válidos de banco e ativos. Resultado `VALID`. O ZIP será regenerado ao final da consolidação integral do roadmap, conforme o item global de entrega.
+
+## Matriz P0-3 — banco de dados e migrações
+
+A matriz `scripts/validate_p0_3_matrix.py` confirmou `20/20 PASS` para os passos 41–60. A evidência usa `brasfoot_engine/scripts/generate_schema_inventory.py`, `compare_schema.py` e `measure_query_plans.py`, todos em modo read-only nos bancos oficiais. O inventário mantém integrity/foreign-key checks; o comparador registra divergências esperadas do GameState; e os planos medidos são persistidos em `brasfoot_engine/docs/query_plans.json`.
