@@ -171,3 +171,5 @@
 - [x] Documentar pontos seguros de extensão por plugins internos sem permitir escrita fora dos serviços de domínio.
 - [x] Definir manifesto compartilhado de contratos do gateway entre Python e TypeScript.
 - [x] Validar que o manifesto compartilhado contém somente contratos serializáveis e sem regras paralelas.
+- [x] Criar auditoria read-only do Front P0-3 para integridade SQLite, foreign keys, schema_versions, índices e hash do banco-base.
+- [x] Executar a auditoria P0-3 nos bancos oficiais em modo read-only, sem modificá-los.

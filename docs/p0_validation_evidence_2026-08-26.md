@@ -18,3 +18,7 @@ A validação governada executada após a consolidação do Front P0-1 retornou 
 ## Decisão de gate
 
 O Front P0-1 está `CONSOLIDATED` no `roadmap_gate.json`. Os fronts P0 restantes continuam `PENDING`; portanto, não há autorização para abrir P0 nem iniciar itens P1/P2.
+
+## Auditoria P0-3 — banco e migrações
+
+A auditoria read-only `scripts/validate_p0_database.py` verificou os dois bancos oficiais. O banco-base possui 7 tabelas e hash SHA-256 conferido contra o manifesto; o GameState possui 97 tabelas, `schema_version=2` e os índices de ledger esperados disponíveis. Ambos retornaram `integrity_check=ok` e zero erros em `foreign_key_check`. Índices específicos do ciclo não são exigidos no banco-base imutável quando suas tabelas não existem.
