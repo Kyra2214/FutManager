@@ -428,3 +428,7 @@
 # Execução global
 
 - [ ] Executar os 500 passos em ordem, sem iniciar P1/P2 antes da abertura do gate P0.
+
+# Entrega do estado atual
+
+- [x] Empacotar e validar ZIP completo do motor, frontend, bancos, ativos e documentação solicitados pelo usuário.
