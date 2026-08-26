@@ -3,4 +3,5 @@ import { publicProcedure, router } from "../_core/trpc";
 
 export const clubRouter = router({
   workspace: publicProcedure.query(() => getClubWorkspaceDashboard()),
+  finance: publicProcedure.query(() => getClubWorkspaceDashboard().finance),
 });

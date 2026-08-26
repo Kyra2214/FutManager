@@ -56,6 +56,7 @@ const navItems: { id: AppSection; label: string; short: string; icon: typeof Lay
   { id: "mercado", label: "Mercado", short: "06", icon: ArrowUpRight },
   { id: "patrocinadores", label: "Patrocinadores", short: "07", icon: Trophy },
   { id: "transferencias", label: "Transferências", short: "08", icon: ClipboardList },
+  { id: "financas", label: "Finanças", short: "09", icon: CircleDollarSign },
 ];
 
 function formatSection(section: AppSection) {
@@ -218,6 +219,7 @@ export function StructurePage({ section, onSectionChange }: { section: AppSectio
   const isTeam = section === "time";
   const isCt = section === "ct";
   const isMarket = section === "mercado" || section === "transferencias";
+  const isFinance = section === "financas";
   const workspaceQuery = trpc.club.workspace.useQuery(undefined, { retry: 1 });
   const [playerFilter, setPlayerFilter] = useState("");
   const [competitionFilter, setCompetitionFilter] = useState("");
@@ -227,9 +229,11 @@ export function StructurePage({ section, onSectionChange }: { section: AppSectio
   const workspace = workspaceQuery.data;
   const visiblePlayerStats = (playerStatsQuery?.data?.players ?? []).filter((player) => !playerFilter.trim() || String(player.playerId) === playerFilter.trim());
   const playerById = useMemo(() => new Map((workspace?.squad.players ?? []).map((player) => [player.playerId, player])), [workspace?.squad.players]);
-  const title = isStadium ? "Estádio" : isTeam ? "Time" : isCt ? "Centro de treinamento" : section === "transferencias" ? "Transferências" : "Mercado";
-  const intro = isStadium ? "O palco é uma operação. Capacidade, experiência e receita em camadas separadas." : isTeam ? "O elenco é uma fotografia viva — identidade, condição e contrato sem atalhos." : isCt ? "Desenvolvimento com contexto: comissão, carga e recuperação em uma mesma leitura." : "Leia a oportunidade antes de mover o mercado. Toda decisão passa pelo motor.";
-  const structureRows = isStadium
+  const title = isStadium ? "Estádio" : isTeam ? "Time" : isCt ? "Centro de treinamento" : isFinance ? "Finanças" : section === "transferencias" ? "Transferências" : "Mercado";
+  const intro = isStadium ? "O palco é uma operação. Capacidade, experiência e receita em camadas separadas." : isTeam ? "O elenco é uma fotografia viva — identidade, condição e contrato sem atalhos." : isCt ? "Desenvolvimento com contexto: comissão, carga e recuperação em uma mesma leitura." : isFinance ? "O caixa é uma leitura do ledger. O frontend não calcula nem altera o saldo." : "Leia a oportunidade antes de mover o mercado. Toda decisão passa pelo motor.";
+  const structureRows = isFinance
+    ? [{ label: "Caixa atual", value: workspace?.finance.cash !== null && workspace?.finance.cash !== undefined ? formatCash(workspace.finance.cash) : "sem registro" }, { label: "Orçamento", value: workspace?.finance.budget !== null && workspace?.finance.budget !== undefined ? formatCash(workspace.finance.budget) : "sem registro" }, { label: "Folha semanal", value: workspace?.finance.weeklyTotal !== null && workspace?.finance.weeklyTotal !== undefined ? formatCash(workspace.finance.weeklyTotal) : "sem registro" }, { label: "Fonte", value: workspace?.finance.source ?? "UNAVAILABLE" }]
+    : isStadium
     ? [{ label: "Nome", value: workspace?.stadium.name ?? "sem registro" }, { label: "Capacidade", value: workspace?.stadium.capacity?.toLocaleString("pt-BR") ?? "sem registro" }, { label: "Nível", value: workspace?.stadium.level?.toString() ?? "sem registro" }, { label: "Status", value: workspace?.stadium.status ?? workspace?.stadium.source ?? "sem registro" }]
     : isCt
       ? [
@@ -245,6 +249,7 @@ export function StructurePage({ section, onSectionChange }: { section: AppSectio
     <section className="page-intro"><div><span className="eyebrow">FUTMANAGER / {formatSection(section).toUpperCase()}</span><h1>{title}</h1><p>{intro}</p></div><span className="page-code">{section === "estadio" ? "ST-01" : section === "time" ? "TM-01" : section === "ct" ? "CT-01" : "MK-01"}</span></section>
     <section className="feature-banner"><img src={isCt ? ASSETS.training : ASSETS.stadium} alt="" /><div className="banner-overlay" /><div className="banner-copy"><span className="eyebrow light">DADOS DO MOTOR</span><h2>{isStadium ? "Construído para o dia de jogo." : isTeam ? "Uma só identidade por jogador." : isCt ? "Treino não é força. É processo." : "Toda proposta deixa um rastro."}</h2><p>Estrutura visual pronta para receber o estado persistido.</p></div></section>
     {isStadium && <StadiumOperationsPanel />}
+    {isFinance && <section className="detail-panel finance-source-panel"><span className="eyebrow">FINANCELEDGER / SOMENTE LEITURA</span><h2>O saldo vem do motor.</h2><p>Caixa, orçamento e folha são apresentados a partir do workspace SQLite. O cliente não recalcula nem altera o saldo.</p><small>Atualização: {workspace?.finance.updatedAt ?? "sem registro"}</small></section>}
     {(isCt || isMarket) && <StaffEconomyPanel mode={isCt ? "ct" : "market"} onNavigateToMarket={() => onSectionChange("mercado")} />}
     {isTeam && !workspace?.club && <EntityLookupPanel />}
     <div className="detail-grid">
