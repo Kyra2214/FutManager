@@ -36,3 +36,9 @@
 - [x] Expor o contrato de dados detalhados do elenco e da equipe técnica no backend.
 - [x] Conectar Time, CT e Mercado aos dados persistidos e estados de ausência reais.
 - [x] Validar a interface detalhada em desktop e mobile sem criar profissionais ou jogadores fictícios.
+- [x] Mapear os vazios de comissão, médicos, auxiliares e departamentos para os destinos corretos de Mercado.
+- [x] Exibir mensagem contextual e atalho para o Mercado ao abrir uma área de CT sem dados contratados.
+- [x] Validar os atalhos interativos do CT em desktop e mobile.
+- [x] Validar em viewport móvel os atalhos de Comissão, Médicos, Auxiliares e Departamentos do CT.
+- [x] Adicionar teste de interface para mensagens e navegação dos quatro atalhos vazios do CT.
+- [x] Executar os quatro atalhos do CT em condição de viewport móvel e confirmar mensagens e destino Mercado.
