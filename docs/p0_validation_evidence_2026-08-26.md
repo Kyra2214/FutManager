@@ -34,3 +34,7 @@ A auditoria read-only `scripts/audit_canonical_clubs.py` confirmou **8.399 clube
 ## Auditoria P0-11 — motor de partidas
 
 A auditoria `scripts/validate_p0_match_engine.py` confirmou a implementação de `CompetitionService.play`, seed determinístico, transição para `PLAYED`, commits controlados e testes existentes para partida inválida, partida já jogada, seed, rollback e idempotência. O resultado foi `VALID`; a cobertura estrutural foi registrada sem iniciar P1/P2.
+
+## Auditoria P0-12/P0-13 — competições, classificação, calendário e temporadas
+
+A auditoria `scripts/validate_p0_competitions_calendar.py` confirmou, em cinco arquivos reais, contratos de criação de competições, geração de fixtures, calendário, classificação em `team_competition_stats`, prevenção de encerramento com fixtures pendentes e idempotência/rollback da integração. O resultado foi `VALID`. A auditoria comprova a presença dos contratos e testes, mas não altera o status dos fronts no gate sem uma matriz integral item a item.

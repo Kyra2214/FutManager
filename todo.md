@@ -179,3 +179,6 @@
 - [x] Executar a auditoria P0-5 e registrar cobertura e duplicidades sem alterar o SQL.
 - [x] Criar auditoria read-only/testável do Front P0-11 para partidas, determinismo, idempotência e rollback.
 - [x] Executar a auditoria P0-11 sem iniciar itens dependentes de P1/P2.
+- [x] Criar auditoria read-only/testável de competições e classificação do Front P0-12.
+- [x] Criar auditoria read-only/testável de calendário e temporadas do Front P0-13.
+- [x] Executar as auditorias P0-12/P0-13 sem alterar bancos oficiais e registrar lacunas reais.
