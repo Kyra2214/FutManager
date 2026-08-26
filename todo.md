@@ -441,3 +441,7 @@
 # Próximas 100 implementações
 
 - [x] Definir, documentar e versionar as próximas 100 implementações dos passos 371–470, mantendo prioridades, dependências e fonte SQL/GameState; execução individual permanece pendente.
+
+# Viagens e logística
+
+- [x] Implementar custos de viagens por deslocamento, integrados ao calendário, FinanceLedger, read model, tRPC, testes e documentação; push para GitHub é a etapa de entrega desta alteração.
