@@ -272,3 +272,4 @@
 - [x] P1-6: persistir substituições planejadas por escalação, com jogador de saída, entrada e minuto-alvo validados.
 - [x] P1-6: registrar minutos, gols, assistências e cartões por atleta e partida em tabelas SQL idempotentes.
 - [x] P1-6: integrar estatísticas individuais ao apply_result quando houver escalações persistidas, sem duplicar eventos ou placares.
+- [x] P1-6: aplicar substituição planejada no GameState, atualizando a escalação efetiva sem duplicidade e respeitando o minuto da partida.
