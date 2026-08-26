@@ -102,7 +102,20 @@ export type ClubWorkspaceDashboard = {
   career: { managerName: string; careerName: string; targetType: "club" | "selection"; targetId: number; targetName: string } | null;
   club: { clubId: number; name: string; stadiumName: string | null } | null;
   squad: { total: number; starters: number; reserves: number; injured: number; players: Array<{ playerId: number; name: string; age: number; position: string; status: string; category: string; cr1: number; cr2: number; side: string | null; star: boolean; topWorld: boolean }> };
-  finance: { cash: number | null; updatedAt: string | null };
+  finance: {
+    cash: number | null;
+    updatedAt: string | null;
+    source: "ECONOMIC_PROFILE" | "LEGACY_FINANCE" | "UNAVAILABLE";
+    budget: number | null;
+    initialCash: number | null;
+    weeklyPlayerPayroll: number | null;
+    weeklyStaffPayroll: number | null;
+    weeklyDepartmentMaintenance: number | null;
+    weeklyTotal: number | null;
+    teamPower: number | null;
+    countryFactor: number | null;
+    baseLevel: number | null;
+  };
   reputation: { sporting: number | null; national: number | null; international: number | null; commercial: number | null; historical: number | null };
   stadium: { name: string | null; capacity: number | null; level: number | null; status: string | null; source: "CLUB_STADIUM" | "TEAM_RECORD" | "UNAVAILABLE" };
   training: { available: boolean; message: string };
@@ -461,7 +474,7 @@ function emptyClubWorkspace(message: string): ClubWorkspaceDashboard {
     career: null,
     club: null,
     squad: { total: 0, starters: 0, reserves: 0, injured: 0, players: [] },
-    finance: { cash: null, updatedAt: null },
+    finance: { cash: null, updatedAt: null, source: "UNAVAILABLE", budget: null, initialCash: null, weeklyPlayerPayroll: null, weeklyStaffPayroll: null, weeklyDepartmentMaintenance: null, weeklyTotal: null, teamPower: null, countryFactor: null, baseLevel: null },
     reputation: { sporting: null, national: null, international: null, commercial: null, historical: null },
     stadium: { name: null, capacity: null, level: null, status: null, source: "UNAVAILABLE" },
     training: { available: false, message: "O estado do motor ainda não possui CT persistido para este clube." },
@@ -523,7 +536,15 @@ export function getClubWorkspaceDashboard(
        WHERE membership.time_id = ? AND injury.status = 'ACTIVE'
        ORDER BY injury.end_date ASC, injury.injury_id ASC`,
     ).all(clubId) as SQLiteRow[] : [];
-    const finance = db.prepare("SELECT cash, updated_at FROM club_finances WHERE club_id = ?").get(clubId) as SQLiteRow | undefined;
+    const legacyFinance = tableExists(db, "club_finances") ? db.prepare("SELECT cash, updated_at FROM club_finances WHERE club_id = ?").get(clubId) as SQLiteRow | undefined : undefined;
+    const economicFinance = tableExists(db, "club_economic_state") && tableExists(db, "club_payroll_profiles") ? db.prepare(
+      `SELECT state.cash, state.budget, state.updated_at, profile.initial_cash, profile.weekly_player_payroll,
+              profile.weekly_staff_payroll, profile.weekly_department_maintenance, profile.team_power,
+              profile.country_factor, profile.base_level
+       FROM club_economic_state state
+       INNER JOIN club_payroll_profiles profile ON profile.club_id = state.club_id
+       WHERE state.club_id = ?`,
+    ).get(clubId) as SQLiteRow | undefined : undefined;
     const reputation = db.prepare("SELECT sporting, national, international, commercial, historical FROM club_reputation WHERE club_id = ?").get(clubId) as SQLiteRow | undefined;
     const stadiumRecord = db.prepare("SELECT name, capacity, level, status FROM club_stadiums WHERE club_id = ? AND is_primary = 1 LIMIT 1").get(clubId) as SQLiteRow | undefined;
     const stadiumName = stadiumRecord ? asText(stadiumRecord.name) : typeof active.team_stadium === "string" && active.team_stadium.trim() ? active.team_stadium : null;
@@ -551,7 +572,24 @@ export function getClubWorkspaceDashboard(
       career,
       club: { clubId, name: asText(active.club_name, "Clube"), stadiumName },
       squad: { total: asNumber(squadSummary.total), starters: asNumber(squadSummary.starters), reserves: asNumber(squadSummary.reserves), injured: injuryRows.length, players: players.map((row) => ({ playerId: asNumber(row.jogador_id), name: asText(row.nome), age: asNumber(row.idade), position: asText(row.posicao), status: asText(row.status), category: asText(row.categoria), cr1: asNumber(row.cr1), cr2: asNumber(row.cr2), side: typeof row.lado === "string" && row.lado.trim() ? row.lado : null, star: asNumber(row.estrela) === 1, topWorld: asNumber(row.top_mundial) === 1 })) },
-      finance: { cash: finance ? asNullableNumber(finance.cash) : null, updatedAt: finance && typeof finance.updated_at === "string" ? finance.updated_at : null },
+      finance: economicFinance
+        ? {
+            cash: asNullableNumber(economicFinance.cash),
+            updatedAt: typeof economicFinance.updated_at === "string" ? economicFinance.updated_at : null,
+            source: "ECONOMIC_PROFILE",
+            budget: asNullableNumber(economicFinance.budget),
+            initialCash: asNullableNumber(economicFinance.initial_cash),
+            weeklyPlayerPayroll: asNullableNumber(economicFinance.weekly_player_payroll),
+            weeklyStaffPayroll: asNullableNumber(economicFinance.weekly_staff_payroll),
+            weeklyDepartmentMaintenance: asNullableNumber(economicFinance.weekly_department_maintenance),
+            weeklyTotal: asNumber(economicFinance.weekly_player_payroll) + asNumber(economicFinance.weekly_staff_payroll) + asNumber(economicFinance.weekly_department_maintenance),
+            teamPower: asNullableNumber(economicFinance.team_power),
+            countryFactor: asNullableNumber(economicFinance.country_factor),
+            baseLevel: asNullableNumber(economicFinance.base_level),
+          }
+        : legacyFinance
+          ? { cash: asNullableNumber(legacyFinance.cash), updatedAt: typeof legacyFinance.updated_at === "string" ? legacyFinance.updated_at : null, source: "LEGACY_FINANCE", budget: null, initialCash: null, weeklyPlayerPayroll: null, weeklyStaffPayroll: null, weeklyDepartmentMaintenance: null, weeklyTotal: null, teamPower: null, countryFactor: null, baseLevel: null }
+          : { cash: null, updatedAt: null, source: "UNAVAILABLE", budget: null, initialCash: null, weeklyPlayerPayroll: null, weeklyStaffPayroll: null, weeklyDepartmentMaintenance: null, weeklyTotal: null, teamPower: null, countryFactor: null, baseLevel: null },
       reputation: { sporting: reputation ? asNullableNumber(reputation.sporting) : null, national: reputation ? asNullableNumber(reputation.national) : null, international: reputation ? asNullableNumber(reputation.international) : null, commercial: reputation ? asNullableNumber(reputation.commercial) : null, historical: reputation ? asNullableNumber(reputation.historical) : null },
       stadium: { name: stadiumName, capacity: stadiumRecord ? asNullableNumber(stadiumRecord.capacity) : null, level: stadiumRecord ? asNullableNumber(stadiumRecord.level) : null, status: stadiumRecord && typeof stadiumRecord.status === "string" ? stadiumRecord.status : null, source: stadiumRecord ? "CLUB_STADIUM" : stadiumName ? "TEAM_RECORD" : "UNAVAILABLE" },
       training: { available: false, message: "O estado do motor ainda não possui CT persistido para este clube." },

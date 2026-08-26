@@ -42,3 +42,19 @@
 - [x] Validar em viewport móvel os atalhos de Comissão, Médicos, Auxiliares e Departamentos do CT.
 - [x] Adicionar teste de interface para mensagens e navegação dos quatro atalhos vazios do CT.
 - [x] Executar os quatro atalhos do CT em condição de viewport móvel e confirmar mensagens e destino Mercado.
+- [x] Mapear regras e tabelas de catálogo, contratação de staff, salários, caixa e departamentos do CT.
+- [x] Implementar catálogo persistido de profissionais disponíveis por função e nível.
+- [x] Implementar contratação transacional de profissionais com salário e impacto financeiro.
+- [x] Implementar compra e evolução persistida de departamentos do CT.
+- [x] Expor Mercado e CT interativos no frontend e validar persistência em desktop e mobile.
+- [x] Formalizar a fórmula de caixa inicial e salários semanais por poder do clube, país, comissão, bases e temporada.
+- [x] Implementar a projeção econômica semanal para todos os clubes sem inventar saldos arbitrários.
+- [x] Integrar catálogo, contratação de staff e evolução de departamentos à nova economia semanal.
+- [x] Localizar e descompilar a lógica original de salários, caixa e valores no arquivo-mãe Brasfoot.
+- [x] Comparar a fórmula original recuperada com a economia semanal em implementação antes de ativá-la no frontend.
+- [x] Substituir a folha agregada pela fórmula individual adaptada do arquivo-mãe, mantendo a reserva inicial de 39 semanas.
+- [x] Manter comissão técnica e departamentos como complementos explícitos da folha e manutenção semanal do motor econômico.
+- [x] Unificar contratação de staff e atualização da folha econômica em uma única transação, com cobertura de rollback.
+- [x] Processar em lote e de forma idempotente a cobrança semanal de todos os clubes bootstrapados.
+- [x] Validar em banco temporário, pelo adaptador frontend e gateway real, contratação e evolução de CT com atualização financeira persistida.
+- [x] Cobrir em condições desktop e móvel o refetch/rerender pós-mutation do resumo econômico e das listas de catálogo/departamentos.

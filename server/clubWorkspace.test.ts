@@ -38,6 +38,8 @@ function fixture() {
     CREATE TABLE scout_opportunities(opportunity_id INTEGER PRIMARY KEY, mission_id INTEGER, club_id INTEGER);
     CREATE TABLE scout_reports(report_id INTEGER PRIMARY KEY, mission_id INTEGER);
     CREATE TABLE club_finances(club_id INTEGER PRIMARY KEY, cash INTEGER, updated_at TEXT);
+    CREATE TABLE club_economic_state(club_id INTEGER PRIMARY KEY, cash INTEGER, budget INTEGER, updated_at TEXT);
+    CREATE TABLE club_payroll_profiles(club_id INTEGER PRIMARY KEY, initial_cash INTEGER, weekly_player_payroll INTEGER, weekly_staff_payroll INTEGER, weekly_department_maintenance INTEGER, team_power REAL, country_factor REAL, base_level INTEGER);
     CREATE TABLE club_reputation(club_id INTEGER PRIMARY KEY, sporting INTEGER, national INTEGER, international INTEGER, commercial INTEGER, historical INTEGER);
     CREATE TABLE club_stadiums(stadium_id INTEGER PRIMARY KEY, club_id INTEGER, name TEXT, capacity INTEGER, level INTEGER, status TEXT, is_primary INTEGER);
     INSERT INTO managers VALUES(1,'Manager Teste');
@@ -52,6 +54,8 @@ function fixture() {
     INSERT INTO scout_opportunities VALUES(1,1,9);
     INSERT INTO scout_reports VALUES(1,1);
     INSERT INTO club_finances VALUES(9,750000,'2026-08-26T00:00:00Z');
+    INSERT INTO club_economic_state VALUES(9,975000,975000,'2026-08-27T00:00:00Z');
+    INSERT INTO club_payroll_profiles VALUES(9,975000,21000,4500,1200,84.5,1.1,2);
     INSERT INTO club_reputation VALUES(9,72,65,40,60,88);
     INSERT INTO club_stadiums VALUES(1,9,'Estádio Persistido',42000,3,'OPEN',1);
   `);
@@ -67,7 +71,7 @@ describe("getClubWorkspaceDashboard", () => {
     expect(dashboard.club).toMatchObject({ name: "Clube Persistido", stadiumName: "Estádio Persistido" });
     expect(dashboard.squad).toMatchObject({ total: 3, starters: 2, reserves: 1, injured: 1 });
     expect(dashboard.squad.players[0]).toMatchObject({ name: "Goleiro Real", status: "Titular" });
-    expect(dashboard.finance.cash).toBe(750000);
+    expect(dashboard.finance).toMatchObject({ cash: 975000, source: "ECONOMIC_PROFILE", budget: 975000, initialCash: 975000, weeklyPlayerPayroll: 21000, weeklyStaffPayroll: 4500, weeklyDepartmentMaintenance: 1200, weeklyTotal: 26700, teamPower: 84.5, countryFactor: 1.1, baseLevel: 2 });
     expect(dashboard.reputation.sporting).toBe(72);
     expect(dashboard.stadium).toMatchObject({ source: "CLUB_STADIUM", capacity: 42000, level: 3 });
     expect(dashboard.training.available).toBe(false);

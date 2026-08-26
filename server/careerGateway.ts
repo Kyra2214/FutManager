@@ -15,8 +15,9 @@ export type CareerCatalogItem = {
 };
 
 type GatewayResult = { ok: boolean; error?: string } & Record<string, unknown>;
+type GatewayAction = "catalog" | "current" | "start" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "department_offers" | "department_upgrade" | "economy_weekly";
 
-function callGateway<T extends GatewayResult>(action: "catalog" | "current" | "start", payload: Record<string, unknown>, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): T {
+function callGateway<T extends GatewayResult>(action: GatewayAction, payload: Record<string, unknown>, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): T {
   try {
     const output = execFileSync("python3", [GATEWAY_PATH, action, "--database", databasePath], {
       input: JSON.stringify(payload),
@@ -65,4 +66,34 @@ export function startCareer(input: {
   }, databasePath);
   if (!result.ok) throw new Error(result.error || "CAREER_START_UNAVAILABLE");
   return result;
+}
+
+function staffMarketAction<T extends GatewayResult>(action: Exclude<GatewayAction, "catalog" | "current" | "start">, payload: Record<string, unknown> = {}, databasePath?: string): T {
+  const result = callGateway<T>(action, payload, databasePath);
+  if (!result.ok) throw new Error(result.error || "STAFF_MARKET_UNAVAILABLE");
+  return result;
+}
+
+export function bootstrapClubEconomy(databasePath?: string) {
+  return staffMarketAction<GatewayResult & { cash: number; budget: number; payroll: number; weekly_player_payroll: number; weekly_staff_payroll: number; weekly_department_maintenance: number; initial_cash: number; team_power: number; country_factor: number; base_level: number }>("economy_bootstrap", {}, databasePath);
+}
+
+export function getClubEconomySummary(databasePath?: string) {
+  return staffMarketAction<GatewayResult & { cash: number; budget: number; payroll: number; expense_accumulated: number; weekly_player_payroll: number; weekly_staff_payroll: number; weekly_department_maintenance: number; weekly_total: number; initial_cash: number; team_power: number; country_factor: number; base_level: number }>("economy_summary", {}, databasePath);
+}
+
+export function listAvailableStaff(role?: string, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { items: Array<{ staff_id: number; name: string; role: string; age: number; experience: number; reputation: number; level: number; potential: number; specialization: string | null; weekly_salary: number }> }>("staff_catalog", { role }, databasePath).items;
+}
+
+export function hireAvailableStaff(staffId: number, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { staff_id: number; name: string; role: string; weekly_salary: number; payroll: number }>("staff_hire", { staff_id: staffId }, databasePath);
+}
+
+export function listDepartmentOffers(databasePath?: string) {
+  return staffMarketAction<GatewayResult & { items: Array<{ department: string; label: string; target_level: number; cost: number; maintenance: number; capacity: number }> }>("department_offers", {}, databasePath).items;
+}
+
+export function upgradeClubDepartment(department: string, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { department: string; label: string; target_level: number; cost: number; maintenance: number; capacity: number }>("department_upgrade", { department }, databasePath);
 }

@@ -3,9 +3,19 @@ import React from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const mocks = vi.hoisted(() => ({ workspace: vi.fn(), toast: vi.fn() }));
+const mocks = vi.hoisted(() => ({ workspace: vi.fn(), toast: vi.fn(), useUtils: vi.fn(), summary: vi.fn(), catalog: vi.fn(), departmentOffers: vi.fn(), hire: vi.fn(), upgradeDepartment: vi.fn() }));
 
-vi.mock("@/lib/trpc", () => ({ trpc: { club: { workspace: { useQuery: mocks.workspace } } } }));
+vi.mock("@/lib/trpc", () => ({ trpc: {
+  useUtils: mocks.useUtils,
+  club: { workspace: { useQuery: mocks.workspace } },
+  staffMarket: {
+    summary: { useQuery: mocks.summary },
+    catalog: { useQuery: mocks.catalog },
+    departmentOffers: { useQuery: mocks.departmentOffers },
+    hire: { useMutation: mocks.hire },
+    upgradeDepartment: { useMutation: mocks.upgradeDepartment },
+  },
+} }));
 vi.mock("sonner", () => ({ toast: mocks.toast }));
 
 import { StructurePage } from "../client/src/pages/Home";
@@ -30,6 +40,12 @@ describe("Atalhos de contratação do CT", () => {
   beforeEach(() => {
     mocks.workspace.mockReturnValue({ data: emptyWorkspace, isLoading: false });
     mocks.toast.mockReset();
+    mocks.useUtils.mockReturnValue({ staffMarket: { summary: { invalidate: vi.fn() }, catalog: { invalidate: vi.fn() }, departmentOffers: { invalidate: vi.fn() } }, club: { workspace: { invalidate: vi.fn() } } });
+    mocks.summary.mockReturnValue({ data: undefined, isLoading: false });
+    mocks.catalog.mockReturnValue({ data: [], isLoading: false });
+    mocks.departmentOffers.mockReturnValue({ data: [], isLoading: false });
+    mocks.hire.mockReturnValue({ mutate: vi.fn(), isPending: false });
+    mocks.upgradeDepartment.mockReturnValue({ mutate: vi.fn(), isPending: false });
   });
 
   it.each([
