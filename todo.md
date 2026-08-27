@@ -784,3 +784,4 @@
 - [x] Produzir o lote P1 3411–3420: contrato de concessão derivado do contrato genérico existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3451–3460: contrato de distância ancorado no TravelCostService e nas tabelas de viagem existentes, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3461–3470: contrato de custo ancorado no TravelCostService existente, integração ao gateway e validação mínima.
+- [x] Produzir o lote P1 3471–3480: adaptador de hotel baseado no TravelCostService existente, sem nova tarifa, integração ao gateway e validação mínima.
