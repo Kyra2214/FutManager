@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 690,
-    "pending": 2310,
+    "done": 700,
+    "pending": 2300,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -6795,8 +6795,12 @@
       "title": "definir contrato para data FIFA",
       "dependency": "1470",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fifa_date_contract.py::test_fifa_date_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1472,
@@ -6804,8 +6808,12 @@
       "title": "validar regras de data FIFA",
       "dependency": "1471",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fifa_date_contract.py::test_fifa_date_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1473,
@@ -6813,8 +6821,12 @@
       "title": "persistir estado de data FIFA",
       "dependency": "1472",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fifa_date_contract.py::test_fifa_date_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1474,
@@ -6822,8 +6834,12 @@
       "title": "expor leitura de data FIFA",
       "dependency": "1473",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fifa_date_contract.py::test_fifa_date_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1475,
@@ -6831,8 +6847,12 @@
       "title": "proteger mutação de data FIFA",
       "dependency": "1474",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fifa_date_contract.py::test_fifa_date_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1476,
@@ -6840,8 +6860,12 @@
       "title": "auditar fluxo de data FIFA",
       "dependency": "1475",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fifa_date_contract.py::test_fifa_date_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1477,
@@ -6849,8 +6873,12 @@
       "title": "otimizar consulta de data FIFA",
       "dependency": "1476",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fifa_date_contract.py::test_fifa_date_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1478,
@@ -6858,8 +6886,12 @@
       "title": "simular cenário de data FIFA",
       "dependency": "1477",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fifa_date_contract.py::test_fifa_date_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1479,
@@ -6867,8 +6899,12 @@
       "title": "documentar ciclo de data FIFA",
       "dependency": "1478",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fifa_date_contract.py::test_fifa_date_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1480,
@@ -6876,8 +6912,12 @@
       "title": "testar integração de data FIFA",
       "dependency": "1479",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fifa_date_contract.py::test_fifa_date_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1481,

@@ -638,3 +638,4 @@
 - [x] Implementar e validar o lote P1 1411–1420: contrato de histórico, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1451–1460: contrato de convocação, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1461–1470: contrato de ranking, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1471–1480: contrato de data FIFA, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
