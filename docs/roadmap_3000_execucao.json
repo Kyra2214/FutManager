@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 730,
-    "pending": 2270,
+    "done": 740,
+    "pending": 2260,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -7315,8 +7315,12 @@
       "title": "definir contrato para calendário",
       "dependency": "1510",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_calendar_contract.py::test_calendar_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1512,
@@ -7324,8 +7328,12 @@
       "title": "validar regras de calendário",
       "dependency": "1511",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_calendar_contract.py::test_calendar_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1513,
@@ -7333,8 +7341,12 @@
       "title": "persistir estado de calendário",
       "dependency": "1512",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_calendar_contract.py::test_calendar_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1514,
@@ -7342,8 +7354,12 @@
       "title": "expor leitura de calendário",
       "dependency": "1513",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_calendar_contract.py::test_calendar_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1515,
@@ -7351,8 +7367,12 @@
       "title": "proteger mutação de calendário",
       "dependency": "1514",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_calendar_contract.py::test_calendar_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1516,
@@ -7360,8 +7380,12 @@
       "title": "auditar fluxo de calendário",
       "dependency": "1515",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_calendar_contract.py::test_calendar_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1517,
@@ -7369,8 +7393,12 @@
       "title": "otimizar consulta de calendário",
       "dependency": "1516",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_calendar_contract.py::test_calendar_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1518,
@@ -7378,8 +7406,12 @@
       "title": "simular cenário de calendário",
       "dependency": "1517",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_calendar_contract.py::test_calendar_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1519,
@@ -7387,8 +7419,12 @@
       "title": "documentar ciclo de calendário",
       "dependency": "1518",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_calendar_contract.py::test_calendar_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1520,
@@ -7396,8 +7432,12 @@
       "title": "testar integração de calendário",
       "dependency": "1519",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_calendar_contract.py::test_calendar_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1521,
