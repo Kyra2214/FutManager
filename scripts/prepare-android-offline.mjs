@@ -27,15 +27,18 @@ if (!existsSync(shields)) {
   throw new Error(`Diretório de escudos não encontrado em ${shields}`);
 }
 
-const targetRoot = join(projectRoot, "android/app/src/main/assets/bootstrap");
-mkdirSync(targetRoot, { recursive: true });
-cpSync(database, join(targetRoot, "game.db"));
-cpSync(shields, join(targetRoot, "escudos"), { recursive: true });
+const targetRoot = join(projectRoot, "android/app/src/main/assets/public/assets");
+const databaseTarget = join(targetRoot, "databases");
+const shieldsTarget = join(targetRoot, "escudos");
+mkdirSync(databaseTarget, { recursive: true });
+mkdirSync(shieldsTarget, { recursive: true });
+cpSync(database, join(databaseTarget, "game.db"));
+cpSync(shields, shieldsTarget, { recursive: true });
 
 const hash = createHash("sha256");
-hash.update(await readFile(join(targetRoot, "game.db")));
+hash.update(await readFile(join(databaseTarget, "game.db")));
 writeFileSync(
-  join(targetRoot, "manifest.json"),
+  join(targetRoot, "offline-manifest.json"),
   JSON.stringify(
     {
       format: 1,

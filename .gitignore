@@ -115,3 +115,6 @@ client/public/__manus__/version.json
 
 # APK offline: banco-base e escudos são gerados por scripts/prepare-android-offline.mjs
 android/app/src/main/assets/bootstrap/
+android/app/src/main/assets/public/assets/escudos/
+android/app/src/main/assets/public/assets/offline-manifest.json
+

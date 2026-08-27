@@ -5,11 +5,12 @@ import {
   type SQLiteDBConnection,
 } from "@capacitor-community/sqlite";
 
-const DATABASE_NAME = "futmanager_gamestate";
+const DATABASE_NAME = "game";
 const DATABASE_VERSION = 1;
 
 let connection: SQLiteConnection | undefined;
 let database: SQLiteDBConnection | undefined;
+let assetsCopied = false;
 
 function getConnection() {
   connection ??= new SQLiteConnection(CapacitorSQLite);
@@ -32,6 +33,10 @@ async function getDatabase() {
   if (database) return database;
 
   const sqlite = getConnection();
+  if (!assetsCopied) {
+    await sqlite.copyFromAssets(false);
+    assetsCopied = true;
+  }
   const consistency = await sqlite.checkConnectionsConsistency();
   const hasConnection = consistency.result && (await sqlite.isConnection(DATABASE_NAME, false)).result;
 
