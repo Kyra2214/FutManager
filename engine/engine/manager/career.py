@@ -35,6 +35,9 @@ CREATE TABLE IF NOT EXISTS career_parallel_entries(career_id INTEGER NOT NULL,cl
 CREATE TABLE IF NOT EXISTS career_parallel_fixtures(fixture_id INTEGER PRIMARY KEY AUTOINCREMENT,career_id INTEGER NOT NULL,season_number INTEGER NOT NULL,matchday INTEGER NOT NULL,leg INTEGER NOT NULL,division INTEGER NOT NULL,scheduled_date TEXT NOT NULL,home_club_id INTEGER NOT NULL,away_club_id INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'SCHEDULED',home_goals INTEGER,away_goals INTEGER,played_at TEXT,UNIQUE(career_id,season_number,matchday,leg,home_club_id,away_club_id));
 CREATE TABLE IF NOT EXISTS career_parallel_standings(career_id INTEGER NOT NULL,season_number INTEGER NOT NULL,club_id INTEGER NOT NULL,division INTEGER NOT NULL,played INTEGER NOT NULL DEFAULT 0,wins INTEGER NOT NULL DEFAULT 0,draws INTEGER NOT NULL DEFAULT 0,losses INTEGER NOT NULL DEFAULT 0,goals_for INTEGER NOT NULL DEFAULT 0,goals_against INTEGER NOT NULL DEFAULT 0,points INTEGER NOT NULL DEFAULT 0,position INTEGER NOT NULL,updated_at TEXT NOT NULL,PRIMARY KEY(career_id,season_number,club_id));
 CREATE TABLE IF NOT EXISTS career_parallel_season_closures(closure_id INTEGER PRIMARY KEY AUTOINCREMENT,career_id INTEGER NOT NULL,season_number INTEGER NOT NULL,closed_at TEXT NOT NULL,promoted_count INTEGER NOT NULL,relegated_count INTEGER NOT NULL,details TEXT NOT NULL,UNIQUE(career_id,season_number));
+CREATE TABLE IF NOT EXISTS career_backup_manifests(backup_id INTEGER PRIMARY KEY AUTOINCREMENT,career_id INTEGER NOT NULL,manager_id INTEGER NOT NULL,created_at TEXT NOT NULL,state_hash TEXT NOT NULL,row_counts TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'VERIFIED',UNIQUE(career_id,state_hash));
+CREATE TABLE IF NOT EXISTS career_journal(journal_id INTEGER PRIMARY KEY AUTOINCREMENT,career_id INTEGER NOT NULL,manager_id INTEGER NOT NULL,sequence_no INTEGER NOT NULL,action TEXT NOT NULL,entity TEXT NOT NULL,entity_id INTEGER,payload TEXT NOT NULL,created_at TEXT NOT NULL,UNIQUE(career_id,sequence_no));
+CREATE INDEX IF NOT EXISTS idx_journal_career_sequence ON career_journal(career_id,sequence_no);
 CREATE INDEX IF NOT EXISTS idx_parallel_fixtures_lookup ON career_parallel_fixtures(career_id,season_number,division,matchday,leg);
 CREATE INDEX IF NOT EXISTS idx_parallel_standings_lookup ON career_parallel_standings(career_id,season_number,division,position);
 CREATE INDEX IF NOT EXISTS idx_first_division_country ON first_division_membership(country_id,club_id);
@@ -124,6 +127,83 @@ class ManagerService:
                 'invalid_divisions': invalid_divisions,
             },
         }
+
+    def append_journal(self, career_id: int, manager_id: int, action: str, entity: str, entity_id: int | None = None, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        if not action.strip() or not entity.strip():
+            raise ValueError('JOURNAL_ACTION_ENTITY_REQUIRED')
+        career = self.connection.execute('SELECT 1 FROM manager_careers WHERE career_id=? AND manager_id=?', (career_id, manager_id)).fetchone()
+        if not career:
+            raise ValueError('CAREER_MANAGER_SCOPE_INVALID')
+        encoded = json.dumps(payload or {}, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
+        existing = self.connection.execute('SELECT journal_id,sequence_no,created_at FROM career_journal WHERE career_id=? AND action=? AND entity=? AND entity_id IS ? AND payload=? ORDER BY journal_id LIMIT 1', (career_id, action, entity, entity_id, encoded)).fetchone()
+        if existing:
+            return {'journal_id': int(existing[0]), 'career_id': career_id, 'manager_id': manager_id, 'sequence_no': int(existing[1]), 'created_at': str(existing[2]), 'idempotent': True}
+        next_sequence = int(self.connection.execute('SELECT COALESCE(MAX(sequence_no),0)+1 FROM career_journal WHERE career_id=?', (career_id,)).fetchone()[0])
+        created_at = self._now()
+        cur = self.connection.execute('INSERT INTO career_journal(career_id,manager_id,sequence_no,action,entity,entity_id,payload,created_at) VALUES(?,?,?,?,?,?,?,?)', (career_id, manager_id, next_sequence, action, entity, entity_id, encoded, created_at))
+        self.connection.commit()
+        return {'journal_id': int(cur.lastrowid), 'career_id': career_id, 'manager_id': manager_id, 'sequence_no': next_sequence, 'created_at': created_at, 'idempotent': False}
+
+    def list_journal(self, career_id: int, limit: int = 100) -> list[dict[str, Any]]:
+        if int(limit) < 1 or int(limit) > 1000:
+            raise ValueError('JOURNAL_LIMIT_INVALID')
+        rows = self.connection.execute('SELECT journal_id,career_id,manager_id,sequence_no,action,entity,entity_id,payload,created_at FROM career_journal WHERE career_id=? ORDER BY sequence_no LIMIT ?', (career_id, int(limit))).fetchall()
+        return [{**dict(row), 'payload': json.loads(row['payload'])} for row in rows]
+
+    def audit_journal(self, career_id: int) -> dict[str, Any]:
+        rows = self.connection.execute('SELECT journal_id,career_id,manager_id,sequence_no,payload FROM career_journal WHERE career_id=? ORDER BY sequence_no', (career_id,)).fetchall()
+        checks = {'ordered_sequence': True, 'career_scope': True, 'manager_scope': True, 'payload_json': True}
+        violations: list[dict[str, Any]] = []
+        expected = 1
+        for row in rows:
+            if int(row['sequence_no']) != expected:
+                checks['ordered_sequence'] = False
+                violations.append({'journal_id': int(row['journal_id']), 'expected_sequence': expected, 'actual_sequence': int(row['sequence_no'])})
+            if int(row['career_id']) != int(career_id):
+                checks['career_scope'] = False
+            if not self.connection.execute('SELECT 1 FROM manager_careers WHERE career_id=? AND manager_id=?', (career_id, row['manager_id'])).fetchone():
+                checks['manager_scope'] = False
+            try:
+                json.loads(row['payload'])
+            except json.JSONDecodeError:
+                checks['payload_json'] = False
+            expected += 1
+        return {'status': 'VALID' if all(checks.values()) else 'INVALID', 'career_id': career_id, 'entry_count': len(rows), 'checks': checks, 'violations': violations, 'read_only': True}
+
+    def create_backup_manifest(self, career_id: int, manager_id: int | None = None) -> dict[str, Any]:
+        """Registra um manifesto lógico do estado; os bytes continuam no SQLite/GameState."""
+        career = self.connection.execute('SELECT manager_id FROM manager_careers WHERE career_id=?', (career_id,)).fetchone()
+        if career is None:
+            raise ValueError('career not found')
+        resolved_manager_id = int(manager_id if manager_id is not None else career[0])
+        tables = [
+            'manager_careers', 'career_world_configs', 'career_world_countries',
+            'career_national_reassignments', 'career_parallel_leagues',
+            'career_parallel_entries', 'career_parallel_fixtures',
+            'career_parallel_standings', 'career_parallel_season_closures',
+            'career_snapshots',
+        ]
+        row_counts: dict[str, int] = {}
+        for table in tables:
+            columns = {str(row[1]) for row in self.connection.execute(f'PRAGMA table_info({table})').fetchall()}
+            if 'career_id' in columns:
+                row_counts[table] = int(self.connection.execute(f'SELECT COUNT(*) FROM {table} WHERE career_id=?', (career_id,)).fetchone()[0])
+            else:
+                row_counts[table] = int(self.connection.execute(f'SELECT COUNT(*) FROM {table}').fetchone()[0])
+        state_material = json.dumps({'career_id': career_id, 'row_counts': row_counts}, sort_keys=True, separators=(',', ':'))
+        state_hash = hashlib.sha256(state_material.encode('utf-8')).hexdigest()
+        created_at = self._now()
+        self.connection.execute(
+            'INSERT OR IGNORE INTO career_backup_manifests(career_id,manager_id,created_at,state_hash,row_counts) VALUES(?,?,?,?,?)',
+            (career_id, resolved_manager_id, created_at, state_hash, json.dumps(row_counts, sort_keys=True)),
+        )
+        self.connection.commit()
+        row = self.connection.execute('SELECT backup_id,career_id,manager_id,created_at,state_hash,row_counts,status FROM career_backup_manifests WHERE career_id=? AND state_hash=?', (career_id, state_hash)).fetchone()
+        return {'backup_id': int(row[0]), 'career_id': int(row[1]), 'manager_id': int(row[2]), 'created_at': str(row[3]), 'state_hash': str(row[4]), 'row_counts': json.loads(row[5]), 'status': str(row[6]), 'idempotent': True}
+
+    def list_backup_manifests(self, career_id: int) -> list[dict[str, Any]]:
+        rows = self.connection.execute('SELECT backup_id,career_id,manager_id,created_at,state_hash,row_counts,status FROM career_backup_manifests WHERE career_id=? ORDER BY backup_id DESC', (career_id,)).fetchall()
+        return [{'backup_id': int(row[0]), 'career_id': int(row[1]), 'manager_id': int(row[2]), 'created_at': str(row[3]), 'state_hash': str(row[4]), 'row_counts': json.loads(row[5]), 'status': str(row[6])} for row in rows]
 
     def audit_indexes(self, career_id: int | None = None) -> dict[str, Any]:
         """Confirma índices de leitura sem executar mutações ou regras no frontend."""
@@ -456,12 +536,54 @@ class ManagerService:
         if not left or not right: raise ValueError('SNAPSHOT_NOT_FOUND')
         return {'left_id':int(left_id),'right_id':int(right_id),'same_career':int(left['career_id'])==int(right['career_id']),'left_hash':hashlib.sha256(str(left['payload']).encode()).hexdigest(),'right_hash':hashlib.sha256(str(right['payload']).encode()).hexdigest(),'identical':str(left['payload'])==str(right['payload']),'read_only':True}
 
+    def audit_snapshots(self, career_id: int) -> dict[str, Any]:
+        rows = self.connection.execute('SELECT snapshot_id,career_id,manager_id,payload,engine_version FROM career_snapshots WHERE career_id=? ORDER BY snapshot_id', (career_id,)).fetchall()
+        checks = {'payload_json': True, 'career_scope': True, 'manager_scope': True, 'hash_stable': True, 'restore_fields_whitelisted': True}
+        violations: list[dict[str, Any]] = []
+        allowed = {'current_club_id', 'season_id', 'status', 'name'}
+        for row in rows:
+            try:
+                payload = json.loads(row['payload'])
+                if int(payload.get('career', {}).get('career_id')) != int(career_id):
+                    checks['career_scope'] = False
+                manager_id = int(payload.get('career', {}).get('manager_id'))
+                if manager_id != int(row['manager_id']):
+                    checks['manager_scope'] = False
+                digest = hashlib.sha256(str(row['payload']).encode()).hexdigest()
+                if digest != self.snapshot_hash(int(row['snapshot_id'])):
+                    checks['hash_stable'] = False
+            except (ValueError, TypeError, json.JSONDecodeError, KeyError) as exc:
+                checks['payload_json'] = False
+                violations.append({'snapshot_id': int(row['snapshot_id']), 'error': str(exc)})
+        audit_rows = self.connection.execute('SELECT details FROM career_snapshot_audit WHERE career_id=? AND action=?', (career_id, 'RESTORE_SELECTIVE')).fetchall()
+        for audit_row in audit_rows:
+            try:
+                fields = set(json.loads(audit_row['details']).get('fields', []))
+                if not fields or not fields <= allowed:
+                    checks['restore_fields_whitelisted'] = False
+            except (TypeError, json.JSONDecodeError):
+                checks['restore_fields_whitelisted'] = False
+        return {'status': 'VALID' if all(checks.values()) else 'INVALID', 'career_id': career_id, 'snapshot_count': len(rows), 'checks': checks, 'violations': violations, 'read_only': True}
+
     def retain_snapshots(self, career_id: int, keep: int = 10) -> int:
         if int(keep)<1: raise ValueError('SNAPSHOT_RETENTION_INVALID')
         rows=self.connection.execute('SELECT snapshot_id FROM career_snapshots WHERE career_id=? ORDER BY snapshot_id DESC',(career_id,)).fetchall(); removed=rows[int(keep):]
         with self.connection:
             for row in removed: self.connection.execute('DELETE FROM career_snapshots WHERE snapshot_id=?',(row['snapshot_id'],))
         return len(removed)
+
+    def preview_restore(self, manager_id: int, snapshot_id: int, fields: list[str]) -> dict[str, Any]:
+        allowed = {'current_club_id', 'season_id', 'status', 'name'}
+        if not fields or not set(fields) <= allowed:
+            raise ValueError('SNAPSHOT_FIELDS_INVALID')
+        row = self.connection.execute('SELECT career_id,manager_id,payload FROM career_snapshots WHERE snapshot_id=? AND manager_id=?', (snapshot_id, manager_id)).fetchone()
+        if not row:
+            raise ValueError('SNAPSHOT_NOT_FOUND')
+        payload = json.loads(row['payload'])
+        career_id = int(row['career_id'])
+        current = self.connection.execute('SELECT ' + ','.join(fields) + ' FROM manager_careers WHERE career_id=?', (career_id,)).fetchone()
+        changes = [{'field': field, 'before': current[field], 'after': payload.get('career', {}).get(field), 'changed': current[field] != payload.get('career', {}).get(field)} for field in fields]
+        return {'snapshot_id': int(snapshot_id), 'career_id': career_id, 'manager_id': int(manager_id), 'fields': fields, 'changes': changes, 'read_only': True, 'would_change': any(change['changed'] for change in changes)}
 
     def restore_selective(self, manager_id: int, snapshot_id: int, fields: list[str]) -> dict:
         allowed={'current_club_id','season_id','status','name'}

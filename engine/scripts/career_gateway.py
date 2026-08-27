@@ -27,6 +27,7 @@ from engine.economy.world_economy import WorldEconomyService, EconomyService
 from engine.events.service import ClubEventService
 from engine.core.roadmap_gate import RoadmapGate, RoadmapGateError
 from engine.core.domain_errors import DomainError, error_code
+from engine.core.payload_contract import validate_payload, payload_fingerprint
 from engine.social.attendance import AttendanceService
 from engine.social.stadium_fans import SocialService
 from engine.stadiums.service import StadiumService
@@ -407,6 +408,27 @@ def career_operations(connection: sqlite3.Connection, action: str, payload: dict
     raise ValueError('CAREER_OPERATION_INVALID')
 
 
+def _roadmap_3000_guard(front: int, priority: str) -> dict:
+    manifest_path = Path(__file__).resolve().parents[2] / "futmanager_frontend" / "docs" / "roadmap_3000_execucao.json"
+    if not manifest_path.exists():
+        raise RoadmapGateError("ROADMAP_3000_MANIFEST_NOT_FOUND")
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise RoadmapGateError("ROADMAP_3000_MANIFEST_INVALID") from error
+    item = next((entry for entry in manifest.get("items", []) if int(entry.get("item_id", -1)) == front), None)
+    if item is None:
+        raise RoadmapGateError(f"ROADMAP_3000_ITEM_NOT_FOUND:{front}")
+    if str(item.get("priority", "")).upper() != priority:
+        raise RoadmapGateError(f"ROADMAP_PRIORITY_MISMATCH:{front}")
+    gates = manifest.get("gates", {})
+    if priority != "P0" and gates.get("P0_GLOBAL_GATE") != "OPEN":
+        raise RoadmapGateError(f"{priority}_BLOCKED_UNTIL_P0_CONSOLIDATED")
+    if priority == "P2" and gates.get("P1_GLOBAL_GATE") != "OPEN":
+        raise RoadmapGateError("P2_BLOCKED_UNTIL_P1_STABLE")
+    return {"priority": priority, "front": front, "allowed": True, "gate": gates, "manifest": "roadmap_3000_execucao.json"}
+
+
 def roadmap_guard(payload: dict) -> dict:
     priority = str(payload.get("priority", "")).upper()
     if priority not in {"P0", "P1", "P2"}:
@@ -415,6 +437,8 @@ def roadmap_guard(payload: dict) -> dict:
     gate_path = Path(configured_path) if configured_path else Path(__file__).resolve().parents[2] / "futmanager_frontend" / "roadmap_gate.json"
     gate = RoadmapGate(gate_path)
     front = payload.get("front")
+    if front is not None and int(front) >= 941:
+        return _roadmap_3000_guard(int(front), priority)
     if front is not None:
         gate.assert_front_allowed(int(front))  # dependency guard before real runtime execution
     else:
@@ -512,9 +536,11 @@ def main() -> None:
     parser.add_argument("action", choices=["catalog", "current", "parallel_preview", "roadmap_guard", "start", "contract_renew_approve", "economy_bootstrap_all", "economy_weekly_all", "economy_bootstrap", "economy_summary", "staff_catalog", "staff_hire", "staff_contract", "staff_terminate", "staff_replace", "department_offers", "department_upgrade", "economy_weekly", "training_departments", "training_budget", "training_plan", "training_objective", "training_preview", "training_approve", "training_cancel", "training_development", "training_alerts", "morale_summary", "morale_match", "weekly_training", "opponent_preparation", "weekly_load", "form_recommendations", "health_list", "health_alerts", "health_injury", "health_recover", "health_suspension", "ai_diagnosis", "ai_history", "ai_training", "ai_market", "ai_weekly", "ai_lineup", "ai_tactic", "ai_objective_progress", "ai_preview", "ai_approve", "ai_risk_limit", "ai_budget_alerts", "transferable_players", "transfer_open_window", "transfer_preview", "transfer_offer", "transfer_counter", "transfer_accept", "transfer_approve", "transfer_loan", "transfer_complete", "transfer_history", "transfer_alerts", "transfer_expire", "simulation_configure", "simulation_batch", "simulation_progress", "simulation_checkpoint", "simulation_divergence", "simulation_benchmark", "simulation_resume", "simulation_metrics", "simulation_failure_report", "scout_regions", "scout_create_region", "scout_mission", "scout_start", "scout_complete", "scout_opportunities", "scout_compare", "scout_confirm", "academy_enroll", "academy_progress", "academy_promote", "academy_maintenance", "finance_revenue", "finance_expense", "finance_budget", "finance_expense_preview", "finance_post_match_preview", "finance_projection", "finance_alert", "finance_world_report", "finance_audit", "travel_preview", "travel_summary", "finance_monthly_close", "finance_reconciliation", "finance_media_summary", "sponsor_bootstrap_all", "sponsor_weekly_all", "sponsor_bootstrap", "sponsor_summary", "sponsor_offers", "sponsor_accept", "sponsor_weekly", "stadium_bootstrap", "stadium_bootstrap_all", "stadium_summary", "stadium_upgrade", "ticket_price", "ticket_price_preview", "fan_segments", "social_timeline", "weekly_advance", "events_list", "events_mark_read", "career_snapshot", "career_snapshot_list", "career_snapshot_hash", "career_snapshot_compare", "career_snapshot_restore", "career_snapshot_audit", "parallel_snapshot", "parallel_result", "parallel_close"])
     parser.add_argument("--database", default=str(ROOT / "data/state/game.db"))
     arguments = parser.parse_args()
-    payload = json.loads(sys.stdin.read() or "{}")
     try:
-        print(json.dumps(run(arguments.action, payload, Path(arguments.database)), ensure_ascii=False))
+        payload = validate_payload(arguments.action, json.loads(sys.stdin.read() or "{}"))
+        result = run(arguments.action, payload, Path(arguments.database))
+        result.setdefault("payload_fingerprint", payload_fingerprint(arguments.action, payload))
+        print(json.dumps(result, ensure_ascii=False))
     except (DomainError, ValueError, RoadmapGateError, sqlite3.Error) as error:
         print(json.dumps({"ok": False, "error": error_code(error)}, ensure_ascii=False))
 

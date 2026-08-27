@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 40,
-    "pending": 2960,
+    "done": 90,
+    "pending": 2910,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -479,8 +479,10 @@
       "title": "definir contrato para backup",
       "dependency": "980",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:create_backup_manifest"
+      ]
     },
     {
       "item_id": 982,
@@ -488,8 +490,10 @@
       "title": "validar regras de backup",
       "dependency": "981",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py:test_backup_manifest_is_deterministic_and_idempotent"
+      ]
     },
     {
       "item_id": 983,
@@ -497,8 +501,10 @@
       "title": "persistir estado de backup",
       "dependency": "982",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:career_backup_manifests"
+      ]
     },
     {
       "item_id": 984,
@@ -506,8 +512,10 @@
       "title": "expor leitura de backup",
       "dependency": "983",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:list_backup_manifests"
+      ]
     },
     {
       "item_id": 985,
@@ -515,8 +523,10 @@
       "title": "proteger mutação de backup",
       "dependency": "984",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:assert_mutable_state_path"
+      ]
     },
     {
       "item_id": 986,
@@ -524,8 +534,10 @@
       "title": "auditar fluxo de backup",
       "dependency": "985",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:create_backup_manifest"
+      ]
     },
     {
       "item_id": 987,
@@ -533,8 +545,10 @@
       "title": "otimizar consulta de backup",
       "dependency": "986",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:idx_world_countries_career"
+      ]
     },
     {
       "item_id": 988,
@@ -542,8 +556,10 @@
       "title": "simular cenário de backup",
       "dependency": "987",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py"
+      ]
     },
     {
       "item_id": 989,
@@ -551,8 +567,10 @@
       "title": "documentar ciclo de backup",
       "dependency": "988",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "docs/procedimento_recuperacao_checkpoint.md"
+      ]
     },
     {
       "item_id": 990,
@@ -560,8 +578,10 @@
       "title": "testar integração de backup",
       "dependency": "989",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py:test_backup_manifest_is_deterministic_and_idempotent"
+      ]
     },
     {
       "item_id": 991,
@@ -569,8 +589,10 @@
       "title": "definir contrato para snapshot",
       "dependency": "990",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:career_snapshots"
+      ]
     },
     {
       "item_id": 992,
@@ -578,8 +600,10 @@
       "title": "validar regras de snapshot",
       "dependency": "991",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:audit_snapshots"
+      ]
     },
     {
       "item_id": 993,
@@ -587,8 +611,10 @@
       "title": "persistir estado de snapshot",
       "dependency": "992",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:snapshot_hash"
+      ]
     },
     {
       "item_id": 994,
@@ -596,8 +622,10 @@
       "title": "expor leitura de snapshot",
       "dependency": "993",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:compare_snapshots"
+      ]
     },
     {
       "item_id": 995,
@@ -605,8 +633,10 @@
       "title": "proteger mutação de snapshot",
       "dependency": "994",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:restore_selective"
+      ]
     },
     {
       "item_id": 996,
@@ -614,8 +644,10 @@
       "title": "auditar fluxo de snapshot",
       "dependency": "995",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:career_snapshot_audit"
+      ]
     },
     {
       "item_id": 997,
@@ -623,8 +655,10 @@
       "title": "otimizar consulta de snapshot",
       "dependency": "996",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:idx_parallel_standings_lookup"
+      ]
     },
     {
       "item_id": 998,
@@ -632,8 +666,10 @@
       "title": "simular cenário de snapshot",
       "dependency": "997",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py:test_snapshot_audit_confirms_scope_and_hashes"
+      ]
     },
     {
       "item_id": 999,
@@ -641,8 +677,10 @@
       "title": "documentar ciclo de snapshot",
       "dependency": "998",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "docs/procedimento_recuperacao_checkpoint.md"
+      ]
     },
     {
       "item_id": 1000,
@@ -650,8 +688,11 @@
       "title": "testar integração de snapshot",
       "dependency": "999",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "server/OperationsPanel.ui.test.tsx",
+        "server/careerGateway.test.ts"
+      ]
     },
     {
       "item_id": 1001,
@@ -659,8 +700,10 @@
       "title": "definir contrato para restore",
       "dependency": "1000",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:preview_restore"
+      ]
     },
     {
       "item_id": 1002,
@@ -668,8 +711,10 @@
       "title": "validar regras de restore",
       "dependency": "1001",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:SNAPSHOT_FIELDS_INVALID"
+      ]
     },
     {
       "item_id": 1003,
@@ -677,8 +722,11 @@
       "title": "persistir estado de restore",
       "dependency": "1002",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:restore_selective",
+        "career_snapshot_audit"
+      ]
     },
     {
       "item_id": 1004,
@@ -686,8 +734,10 @@
       "title": "expor leitura de restore",
       "dependency": "1003",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:preview_restore"
+      ]
     },
     {
       "item_id": 1005,
@@ -695,8 +745,10 @@
       "title": "proteger mutação de restore",
       "dependency": "1004",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:restore_selective"
+      ]
     },
     {
       "item_id": 1006,
@@ -704,8 +756,10 @@
       "title": "auditar fluxo de restore",
       "dependency": "1005",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:audit_snapshots"
+      ]
     },
     {
       "item_id": 1007,
@@ -713,8 +767,10 @@
       "title": "otimizar consulta de restore",
       "dependency": "1006",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:idx_parallel_standings_lookup"
+      ]
     },
     {
       "item_id": 1008,
@@ -722,8 +778,10 @@
       "title": "simular cenário de restore",
       "dependency": "1007",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py:test_restore_preview_is_read_only_and_reports_field_diff"
+      ]
     },
     {
       "item_id": 1009,
@@ -731,8 +789,10 @@
       "title": "documentar ciclo de restore",
       "dependency": "1008",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "docs/procedimento_recuperacao_checkpoint.md"
+      ]
     },
     {
       "item_id": 1010,
@@ -740,8 +800,11 @@
       "title": "testar integração de restore",
       "dependency": "1009",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_career_snapshots_p1.py",
+        "server/OperationsPanel.ui.test.tsx"
+      ]
     },
     {
       "item_id": 1011,
@@ -749,8 +812,10 @@
       "title": "definir contrato para journal",
       "dependency": "1010",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:career_journal"
+      ]
     },
     {
       "item_id": 1012,
@@ -758,8 +823,10 @@
       "title": "validar regras de journal",
       "dependency": "1011",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:append_journal"
+      ]
     },
     {
       "item_id": 1013,
@@ -767,8 +834,10 @@
       "title": "persistir estado de journal",
       "dependency": "1012",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:career_journal"
+      ]
     },
     {
       "item_id": 1014,
@@ -776,8 +845,10 @@
       "title": "expor leitura de journal",
       "dependency": "1013",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:list_journal"
+      ]
     },
     {
       "item_id": 1015,
@@ -785,8 +856,10 @@
       "title": "proteger mutação de journal",
       "dependency": "1014",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:CAREER_MANAGER_SCOPE_INVALID"
+      ]
     },
     {
       "item_id": 1016,
@@ -794,8 +867,10 @@
       "title": "auditar fluxo de journal",
       "dependency": "1015",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:audit_journal"
+      ]
     },
     {
       "item_id": 1017,
@@ -803,8 +878,10 @@
       "title": "otimizar consulta de journal",
       "dependency": "1016",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:idx_journal_career_sequence"
+      ]
     },
     {
       "item_id": 1018,
@@ -812,8 +889,10 @@
       "title": "simular cenário de journal",
       "dependency": "1017",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py:test_journal_is_sequenced_scoped_and_idempotent"
+      ]
     },
     {
       "item_id": 1019,
@@ -821,8 +900,10 @@
       "title": "documentar ciclo de journal",
       "dependency": "1018",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "docs/procedimento_recuperacao_checkpoint.md"
+      ]
     },
     {
       "item_id": 1020,
@@ -830,8 +911,10 @@
       "title": "testar integração de journal",
       "dependency": "1019",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py:test_journal_is_sequenced_scoped_and_idempotent"
+      ]
     },
     {
       "item_id": 1021,
@@ -1019,8 +1102,10 @@
       "title": "definir contrato para payload",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/payload_contract.py"
+      ]
     },
     {
       "item_id": 1042,
@@ -1028,8 +1113,10 @@
       "title": "validar regras de payload",
       "dependency": "1041",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_payload_contract_p0.py::test_payload_contract_rejects_invalid_shapes_and_size"
+      ]
     },
     {
       "item_id": 1043,
@@ -1037,8 +1124,10 @@
       "title": "persistir estado de payload",
       "dependency": "1042",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:career_journal"
+      ]
     },
     {
       "item_id": 1044,
@@ -1046,8 +1135,10 @@
       "title": "expor leitura de payload",
       "dependency": "1043",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/scripts/career_gateway.py:515-522"
+      ]
     },
     {
       "item_id": 1045,
@@ -1055,8 +1146,11 @@
       "title": "proteger mutação de payload",
       "dependency": "1044",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/scripts/career_gateway.py:515-522",
+        "brasfoot_engine/tests/test_payload_contract_p0.py"
+      ]
     },
     {
       "item_id": 1046,
@@ -1064,8 +1158,11 @@
       "title": "auditar fluxo de payload",
       "dependency": "1045",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "docs/payload_contract_p0.md",
+        "brasfoot_engine/tests/test_gateway_contracts_p0.py"
+      ]
     },
     {
       "item_id": 1047,
@@ -1073,8 +1170,10 @@
       "title": "otimizar consulta de payload",
       "dependency": "1046",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/payload_contract.py:payload_fingerprint"
+      ]
     },
     {
       "item_id": 1048,
@@ -1082,8 +1181,10 @@
       "title": "simular cenário de payload",
       "dependency": "1047",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_payload_contract_p0.py::test_gateway_emits_payload_fingerprint_and_stable_error"
+      ]
     },
     {
       "item_id": 1049,
@@ -1091,8 +1192,10 @@
       "title": "documentar ciclo de payload",
       "dependency": "1048",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "docs/payload_contract_p0.md"
+      ]
     },
     {
       "item_id": 1050,
@@ -1100,8 +1203,11 @@
       "title": "testar integração de payload",
       "dependency": "1049",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_payload_contract_p0.py",
+        "server/careerGateway.test.ts"
+      ]
     },
     {
       "item_id": 1051,

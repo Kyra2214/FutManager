@@ -107,3 +107,68 @@ def test_index_audit_confirms_calendar_and_standings_plans(tmp_path):
     assert all(audit['indexes'].values())
     assert audit['plans']['fixtures']
     assert audit['plans']['standings']
+
+
+def test_backup_manifest_is_deterministic_and_idempotent(tmp_path):
+    db_path = tmp_path / 'game.db'
+    shutil.copyfile(STATE, db_path)
+    service = ManagerService(str(db_path))
+    career_id = service.start_career('Manager Backup', 'BR', 30, 'Backup', 'club', 2009, selected_country_ids=[29, 104])['career_id']
+    first = service.create_backup_manifest(career_id)
+    repeated = service.create_backup_manifest(career_id)
+    manifests = service.list_backup_manifests(career_id)
+    assert first['state_hash'] == repeated['state_hash']
+    assert first['backup_id'] == repeated['backup_id']
+    assert first['status'] == 'VERIFIED'
+    assert first['row_counts']['career_parallel_fixtures'] == 360
+    assert len(manifests) == 1
+
+
+def test_snapshot_audit_confirms_scope_and_hashes(tmp_path):
+    db_path = tmp_path / 'game.db'
+    shutil.copyfile(STATE, db_path)
+    service = ManagerService(str(db_path))
+    career_id = service.start_career('Manager Snapshot Audit', 'BR', 30, 'Snapshot Audit', 'club', 2009, selected_country_ids=[29])['career_id']
+    snapshot_id = service.snapshot(career_id)
+    audit = service.audit_snapshots(career_id)
+    assert snapshot_id > 0
+    assert audit['status'] == 'VALID'
+    assert audit['snapshot_count'] == 1
+    assert all(audit['checks'].values())
+    assert audit['read_only'] is True
+
+
+def test_restore_preview_is_read_only_and_reports_field_diff(tmp_path):
+    db_path = tmp_path / 'game.db'
+    shutil.copyfile(STATE, db_path)
+    service = ManagerService(str(db_path))
+    started = service.start_career('Manager Restore Preview', 'BR', 30, 'Restore Preview', 'club', 2009, selected_country_ids=[29])
+    career_id = started['career_id']
+    manager_id = started['manager_id']
+    snapshot_id = service.snapshot(career_id)
+    preview = service.preview_restore(manager_id, snapshot_id, ['current_club_id', 'status'])
+    assert preview['read_only'] is True
+    assert preview['career_id'] == career_id
+    assert {change['field'] for change in preview['changes']} == {'current_club_id', 'status'}
+    assert service.connection.execute('SELECT COUNT(*) FROM career_snapshot_audit WHERE career_id=?', (career_id,)).fetchone()[0] == 0
+
+
+def test_journal_is_sequenced_scoped_and_idempotent(tmp_path):
+    db_path = tmp_path / 'game.db'
+    shutil.copyfile(STATE, db_path)
+    service = ManagerService(str(db_path))
+    started = service.start_career('Manager Journal', 'BR', 30, 'Journal', 'club', 2009, selected_country_ids=[29])
+    career_id, manager_id = started['career_id'], started['manager_id']
+    first = service.append_journal(career_id, manager_id, 'CAREER_STARTED', 'career', career_id, {'source': 'test'})
+    repeated = service.append_journal(career_id, manager_id, 'CAREER_STARTED', 'career', career_id, {'source': 'test'})
+    second = service.append_journal(career_id, manager_id, 'SNAPSHOT_CREATED', 'snapshot', 1, {'source': 'test'})
+    rows = service.list_journal(career_id)
+    audit = service.audit_journal(career_id)
+    assert first['sequence_no'] == 1
+    assert repeated['journal_id'] == first['journal_id']
+    assert repeated['idempotent'] is True
+    assert second['sequence_no'] == 2
+    assert [row['sequence_no'] for row in rows] == [1, 2]
+    assert audit['status'] == 'VALID'
+    assert all(audit['checks'].values())
+    assert audit['read_only'] is True
