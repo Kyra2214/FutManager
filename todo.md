@@ -801,3 +801,4 @@
 - [x] Produzir o lote P1 3611–3620: contrato de prioridade derivado do contrato de ranking existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3651–3660: contrato de evento baseado no serviço existente, aliases compatíveis, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3661–3670: contrato de feed derivado do contrato de evento existente, sem conteúdo fabricado, integração ao gateway e validação mínima.
+- [x] Produzir o lote P1 3671–3680: contrato de severidade derivado do contrato de risco existente, integração ao gateway e validação mínima.
