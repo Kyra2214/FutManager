@@ -966,3 +966,12 @@
 - [x] Permitir fechar o resumo e continuar para o jogo sem bloquear a carreira.
 - [x] Testar persistência, duplicidade, estados vazios, mobile e navegação.
 - [x] Salvar checkpoint e sincronizar a alteração no GitHub.
+
+# Eventos acionáveis da timeline
+- [x] Mapear tipos de evento para as seções públicas correspondentes da carreira.
+- [x] Adicionar destino semântico aos eventos persistidos, com fallback seguro para Operações.
+- [x] Tornar cada evento da timeline clicável e acessível por teclado.
+- [x] Abrir diretamente relatórios de scout e demais telas correspondentes.
+- [x] Preservar a timeline e permitir retorno ao resumo ou à partida.
+- [x] Testar destinos, eventos desconhecidos, mobile e navegação sem perda de contexto.
+- [x] Salvar checkpoint e sincronizar a alteração no GitHub.

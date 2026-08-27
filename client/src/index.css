@@ -671,3 +671,8 @@ html, body, #root { max-width: 100%; overflow-x: hidden; }
 .week-summary-empty.large { padding: 26px 0; text-align: center; }
 .week-summary-continue { width: 100%; justify-content: center; }
 @media (max-width: 520px) { .week-summary-backdrop { align-items: end; padding: 0; } .week-summary-modal { max-height: 88vh; padding: 28px 18px 22px; } .week-summary-week { grid-template-columns: 92px 1fr; gap: 10px; } .week-summary-marker span { font-size: 8px; } .week-summary-modal h2 { font-size: 38px; } }
+
+.week-summary-event { width: 100%; padding: 0; border: 0; text-align: left; color: inherit; background: transparent; cursor: pointer; transition: transform .18s var(--ease-out, ease-out), opacity .18s ease; }
+.week-summary-event:hover { transform: translateX(4px); }
+.week-summary-event:focus-visible { outline: 2px solid #d8ef8e; outline-offset: 5px; }
+.week-summary-event-copy small { display: inline-flex; align-items: center; gap: 3px; margin-top: 6px; color: #d8ef8e; font-size: 9px; }

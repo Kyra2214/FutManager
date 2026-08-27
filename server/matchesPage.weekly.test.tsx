@@ -8,6 +8,7 @@ const mocks = vi.hoisted(() => ({
   goToMatch: vi.fn(),
   play: vi.fn(),
     openMatch: vi.fn(),
+  navigate: vi.fn(),
 }));
 
 vi.mock("@/lib/trpc", () => ({
@@ -50,6 +51,7 @@ describe("MatchesPage — avanço da carreira", () => {
     mocks.play.mockReset();
     mocks.openMatch.mockReset();
     mocks.goToMatch.mockReset();
+    mocks.navigate.mockReset();
   });
 
   it("exibe o resumo das semanas e eventos antes de abrir a partida", async () => {
@@ -59,6 +61,14 @@ describe("MatchesPage — avanço da carreira", () => {
     expect(screen.getByText("Reforma do estádio concluída")).toBeTruthy();
     expect(screen.getByText("2 semana(s) foram concluídas até o compromisso.")).toBeTruthy();
     expect(mocks.openMatch).not.toHaveBeenCalled();
+  });
+
+  it("abre a tela correspondente ao clicar no evento", async () => {
+    render(<MatchesPage onOpenMatch={mocks.openMatch} onNavigate={mocks.navigate} />);
+    fireEvent.click(screen.getAllByRole("button", { name: "Ir para partida" })[0]);
+    await waitFor(() => expect(screen.getByRole("dialog")).toBeTruthy());
+    fireEvent.click(screen.getByRole("button", { name: /Abrir estádio/i }));
+    expect(mocks.navigate).toHaveBeenCalledWith("estadio");
   });
 
   it("envia o avanço semanal pelo contrato da carreira", () => {
