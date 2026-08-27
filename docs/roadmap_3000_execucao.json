@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 390,
-    "pending": 2610,
+    "done": 400,
+    "pending": 2600,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -1515,8 +1515,14 @@
       "title": "definir contrato para permissão",
       "dependency": "1070",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_version_contract.py",
+        "docs/p1_version_1071_1080.md"
+      ]
     },
     {
       "item_id": 1072,
@@ -1524,8 +1530,14 @@
       "title": "validar regras de permissão",
       "dependency": "1071",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_version_contract.py",
+        "docs/p1_version_1071_1080.md"
+      ]
     },
     {
       "item_id": 1073,
@@ -1533,8 +1545,14 @@
       "title": "persistir estado de permissão",
       "dependency": "1072",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_version_contract.py",
+        "docs/p1_version_1071_1080.md"
+      ]
     },
     {
       "item_id": 1074,
@@ -1542,8 +1560,14 @@
       "title": "expor leitura de permissão",
       "dependency": "1073",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_version_contract.py",
+        "docs/p1_version_1071_1080.md"
+      ]
     },
     {
       "item_id": 1075,
@@ -1551,8 +1575,14 @@
       "title": "proteger mutação de permissão",
       "dependency": "1074",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_version_contract.py",
+        "docs/p1_version_1071_1080.md"
+      ]
     },
     {
       "item_id": 1076,
@@ -1560,8 +1590,14 @@
       "title": "auditar fluxo de permissão",
       "dependency": "1075",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_version_contract.py",
+        "docs/p1_version_1071_1080.md"
+      ]
     },
     {
       "item_id": 1077,
@@ -1569,8 +1605,14 @@
       "title": "otimizar consulta de permissão",
       "dependency": "1076",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_version_contract.py",
+        "docs/p1_version_1071_1080.md"
+      ]
     },
     {
       "item_id": 1078,
@@ -1578,8 +1620,14 @@
       "title": "simular cenário de permissão",
       "dependency": "1077",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_version_contract.py",
+        "docs/p1_version_1071_1080.md"
+      ]
     },
     {
       "item_id": 1079,
@@ -1587,8 +1635,14 @@
       "title": "documentar ciclo de permissão",
       "dependency": "1078",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_version_contract.py",
+        "docs/p1_version_1071_1080.md"
+      ]
     },
     {
       "item_id": 1080,
@@ -1596,8 +1650,14 @@
       "title": "testar integração de permissão",
       "dependency": "1079",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_version_contract.py",
+        "docs/p1_version_1071_1080.md"
+      ]
     },
     {
       "item_id": 1081,
