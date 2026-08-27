@@ -670,3 +670,4 @@
 - [x] Implementar e validar o lote P1 1881–1890: contrato de reagendamento, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1891–1900: contrato de fuso, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1901–1910: contrato de clima, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1911–1920: contrato de segurança, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
