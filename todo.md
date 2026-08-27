@@ -1019,3 +1019,5 @@
 - [x] Gerar catálogo offline de países a partir de `FIRST_DIVISION_SOURCES` da engine.
 - [x] Integrar busca e seleção de países locais na CareerStart Android.
 - [x] Validar a CareerStart com catálogo local por typecheck.
+- [x] Bloquear a mutação remota de início de carreira no Android até existir bridge local, com mensagem clara ao usuário.
+- [x] Validar a proteção da CareerStart com typecheck e 67 testes frontend.

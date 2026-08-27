@@ -25,6 +25,7 @@ export default function CareerStart({ onStarted, onContinue }: { onStarted: () =
   const [localCatalogLoading, setLocalCatalogLoading] = useState(false);
   const [localCountries, setLocalCountries] = useState<OfflineCountry[]>([]);
   const [localCountriesLoading, setLocalCountriesLoading] = useState(false);
+  const [localStartError, setLocalStartError] = useState("");
   const utils = trpc.useUtils();
   const currentCareer = trpc.career.current.useQuery(undefined, { retry: 1, enabled: !isNative });
   const catalogInput = useMemo(() => ({ targetType, search, limit: 48 }), [targetType, search]);
@@ -104,7 +105,14 @@ export default function CareerStart({ onStarted, onContinue }: { onStarted: () =
       {selectedTarget && <div className="career-confirm-target"><span className="eyebrow">ESCOLHIDO</span><strong>{selectedTarget.name}</strong><span>{targetType === "club" ? "Clube escolhido" : "Seleção escolhida"}</span></div>}
       {selectedCountryIds.length === 0 && <p className="career-world-validation">Escolha pelo menos uma liga para liberar o início da carreira.</p>}
       {startMutation.error && <p className="career-error">{getCareerStartErrorMessage(startMutation.error.message)}</p>}
-      <button className="career-start-action" disabled={!canStart} onClick={() => selectedTarget && startMutation.mutate({ managerName: managerName.trim(), nationality: nationality.trim() || undefined, age: Number(age), careerName: careerName.trim(), targetType, targetId: selectedTarget.entityId, selectedCountryIds })}>{startMutation.isPending ? "Iniciando carreira…" : "Começar carreira"}<ArrowRight size={18} /></button>
+      {localStartError && <p className="career-error" role="alert">{localStartError}</p>}
+      <button className="career-start-action" disabled={!canStart} onClick={() => {
+        if (isNative) {
+          setLocalStartError("A criação da carreira local ainda está sendo integrada ao motor embarcado. Nenhum dado foi enviado pela internet.");
+          return;
+        }
+        if (selectedTarget) startMutation.mutate({ managerName: managerName.trim(), nationality: nationality.trim() || undefined, age: Number(age), careerName: careerName.trim(), targetType, targetId: selectedTarget.entityId, selectedCountryIds });
+      }}>{startMutation.isPending ? "Iniciando carreira…" : "Começar carreira"}<ArrowRight size={18} /></button>
     </section>
   </main>;
 }
