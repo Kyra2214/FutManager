@@ -809,3 +809,4 @@
 - [x] Produzir o lote P1 3751–3760: contrato de objetivo derivado do contrato existente, integração ao gateway e validação mínima.
 - [x] Corrigir alias de compatibilidade do contrato de preferência reportado pelo carregamento do gateway.
 - [x] Produzir o lote P1 3761–3770: contrato de reputação derivado do contrato existente, integração ao gateway e validação mínima.
+- [x] Produzir o lote P1 3771–3780: contrato de experiência derivado do desenvolvimento existente, integração ao gateway e validação mínima.
