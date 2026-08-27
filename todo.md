@@ -599,3 +599,5 @@
 - [x] Implementar e validar o lote P1 1111–1120: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de telemetria.
 - [x] Implementar e validar o lote P1 1151–1160: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de sessão.
 - [x] Implementar e validar o lote P1 1161–1170: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de papel.
+- [x] Reproduzir o início de uma liga e corrigir a ausência de partidas materializadas no motor e na aba Nossas Partidas.
+- [x] Validar a cadeia completa início da carreira → calendário SQL → gateway/tRPC → interface, sem dados estáticos ou fictícios.
