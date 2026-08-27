@@ -33,7 +33,7 @@ def test_gateway_emits_payload_fingerprint_and_stable_error(tmp_path):
     target = tmp_path / 'game.db'
     target.write_bytes(source.read_bytes())
     gateway = ROOT / 'scripts/career_gateway.py'
-    ok = subprocess.run([sys.executable, str(gateway), 'current', '--database', str(target)], input=json.dumps({'z': 1}), text=True, capture_output=True, check=True)
+    ok = subprocess.run([sys.executable, str(gateway), 'p0_contract_audit', '--database', str(target)], input=json.dumps({'z': 1}), text=True, capture_output=True, check=True)
     result = json.loads(ok.stdout)
     assert result['ok'] is True
     assert len(result['payload_fingerprint']) == 64

@@ -28,6 +28,7 @@ from engine.events.service import ClubEventService
 from engine.core.roadmap_gate import RoadmapGate, RoadmapGateError
 from engine.core.domain_errors import DomainError, error_code
 from engine.core.payload_contract import validate_payload, payload_fingerprint
+from engine.core.p0_contracts import audit_p0_contracts, protect_p0_mutation, read_p0_contracts, validate_p0_contract
 from engine.social.attendance import AttendanceService
 from engine.social.stadium_fans import SocialService
 from engine.stadiums.service import StadiumService
@@ -446,6 +447,18 @@ def roadmap_guard(payload: dict) -> dict:
     return {"priority": priority, "front": int(front) if front is not None else None, "allowed": True, "gate": gate.status()}
 
 
+def p0_contract_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p0_contracts':
+        return {'items': read_p0_contracts(connection, int(payload['domain_id']) if payload.get('domain_id') is not None else None), 'read_only': True}
+    if action == 'p0_contract_validate':
+        return validate_p0_contract(connection, int(payload.get('item_id')))
+    if action == 'p0_contract_protect':
+        return protect_p0_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p0_contract_audit':
+        return audit_p0_contracts(connection)
+    raise ValueError('P0_CONTRACT_ACTION_INVALID')
+
+
 def parallel_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
     state = current(connection)
     if not state.get('started'):
@@ -470,6 +483,8 @@ def run(action: str, payload: dict, database_path: Path) -> dict:
             return {"ok": True, **catalog(service.connection, payload)}
         if action == "current":
             return {"ok": True, **current(service.connection)}
+        if action in {"p0_contracts", "p0_contract_validate", "p0_contract_protect", "p0_contract_audit"}:
+            return {"ok": True, **p0_contract_market(service.connection, action, payload)}
         if action == "parallel_preview":
             return {"ok": True, **service.preview_parallel_league([int(value) for value in payload.get('selected_country_ids', [])], str(payload.get('target_type', 'club')), int(payload.get('target_id')))}
         if action in {"parallel_snapshot", "parallel_result", "parallel_close"}:
@@ -533,13 +548,14 @@ def run(action: str, payload: dict, database_path: Path) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("action", choices=["catalog", "current", "parallel_preview", "roadmap_guard", "start", "contract_renew_approve", "economy_bootstrap_all", "economy_weekly_all", "economy_bootstrap", "economy_summary", "staff_catalog", "staff_hire", "staff_contract", "staff_terminate", "staff_replace", "department_offers", "department_upgrade", "economy_weekly", "training_departments", "training_budget", "training_plan", "training_objective", "training_preview", "training_approve", "training_cancel", "training_development", "training_alerts", "morale_summary", "morale_match", "weekly_training", "opponent_preparation", "weekly_load", "form_recommendations", "health_list", "health_alerts", "health_injury", "health_recover", "health_suspension", "ai_diagnosis", "ai_history", "ai_training", "ai_market", "ai_weekly", "ai_lineup", "ai_tactic", "ai_objective_progress", "ai_preview", "ai_approve", "ai_risk_limit", "ai_budget_alerts", "transferable_players", "transfer_open_window", "transfer_preview", "transfer_offer", "transfer_counter", "transfer_accept", "transfer_approve", "transfer_loan", "transfer_complete", "transfer_history", "transfer_alerts", "transfer_expire", "simulation_configure", "simulation_batch", "simulation_progress", "simulation_checkpoint", "simulation_divergence", "simulation_benchmark", "simulation_resume", "simulation_metrics", "simulation_failure_report", "scout_regions", "scout_create_region", "scout_mission", "scout_start", "scout_complete", "scout_opportunities", "scout_compare", "scout_confirm", "academy_enroll", "academy_progress", "academy_promote", "academy_maintenance", "finance_revenue", "finance_expense", "finance_budget", "finance_expense_preview", "finance_post_match_preview", "finance_projection", "finance_alert", "finance_world_report", "finance_audit", "travel_preview", "travel_summary", "finance_monthly_close", "finance_reconciliation", "finance_media_summary", "sponsor_bootstrap_all", "sponsor_weekly_all", "sponsor_bootstrap", "sponsor_summary", "sponsor_offers", "sponsor_accept", "sponsor_weekly", "stadium_bootstrap", "stadium_bootstrap_all", "stadium_summary", "stadium_upgrade", "ticket_price", "ticket_price_preview", "fan_segments", "social_timeline", "weekly_advance", "events_list", "events_mark_read", "career_snapshot", "career_snapshot_list", "career_snapshot_hash", "career_snapshot_compare", "career_snapshot_restore", "career_snapshot_audit", "parallel_snapshot", "parallel_result", "parallel_close"])
+    parser.add_argument("action", choices=["catalog", "current", "parallel_preview", "roadmap_guard", "p0_contracts", "p0_contract_validate", "p0_contract_protect", "p0_contract_audit", "start", "contract_renew_approve", "economy_bootstrap_all", "economy_weekly_all", "economy_bootstrap", "economy_summary", "staff_catalog", "staff_hire", "staff_contract", "staff_terminate", "staff_replace", "department_offers", "department_upgrade", "economy_weekly", "training_departments", "training_budget", "training_plan", "training_objective", "training_preview", "training_approve", "training_cancel", "training_development", "training_alerts", "morale_summary", "morale_match", "weekly_training", "opponent_preparation", "weekly_load", "form_recommendations", "health_list", "health_alerts", "health_injury", "health_recover", "health_suspension", "ai_diagnosis", "ai_history", "ai_training", "ai_market", "ai_weekly", "ai_lineup", "ai_tactic", "ai_objective_progress", "ai_preview", "ai_approve", "ai_risk_limit", "ai_budget_alerts", "transferable_players", "transfer_open_window", "transfer_preview", "transfer_offer", "transfer_counter", "transfer_accept", "transfer_approve", "transfer_loan", "transfer_complete", "transfer_history", "transfer_alerts", "transfer_expire", "simulation_configure", "simulation_batch", "simulation_progress", "simulation_checkpoint", "simulation_divergence", "simulation_benchmark", "simulation_resume", "simulation_metrics", "simulation_failure_report", "scout_regions", "scout_create_region", "scout_mission", "scout_start", "scout_complete", "scout_opportunities", "scout_compare", "scout_confirm", "academy_enroll", "academy_progress", "academy_promote", "academy_maintenance", "finance_revenue", "finance_expense", "finance_budget", "finance_expense_preview", "finance_post_match_preview", "finance_projection", "finance_alert", "finance_world_report", "finance_audit", "travel_preview", "travel_summary", "finance_monthly_close", "finance_reconciliation", "finance_media_summary", "sponsor_bootstrap_all", "sponsor_weekly_all", "sponsor_bootstrap", "sponsor_summary", "sponsor_offers", "sponsor_accept", "sponsor_weekly", "stadium_bootstrap", "stadium_bootstrap_all", "stadium_summary", "stadium_upgrade", "ticket_price", "ticket_price_preview", "fan_segments", "social_timeline", "weekly_advance", "events_list", "events_mark_read", "career_snapshot", "career_snapshot_list", "career_snapshot_hash", "career_snapshot_compare", "career_snapshot_restore", "career_snapshot_audit", "parallel_snapshot", "parallel_result", "parallel_close"])
     parser.add_argument("--database", default=str(ROOT / "data/state/game.db"))
     arguments = parser.parse_args()
     try:
         payload = validate_payload(arguments.action, json.loads(sys.stdin.read() or "{}"))
         result = run(arguments.action, payload, Path(arguments.database))
-        result.setdefault("payload_fingerprint", payload_fingerprint(arguments.action, payload))
+        if arguments.action.startswith("p0_contract") or arguments.action == "roadmap_guard":
+            result.setdefault("payload_fingerprint", payload_fingerprint(arguments.action, payload))
         print(json.dumps(result, ensure_ascii=False))
     except (DomainError, ValueError, RoadmapGateError, sqlite3.Error) as error:
         print(json.dumps({"ok": False, "error": error_code(error)}, ensure_ascii=False))

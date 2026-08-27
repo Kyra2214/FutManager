@@ -3,7 +3,7 @@ import { createRequire } from "node:module";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { acceptSponsorshipOffer, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, getStaffContract, getTravelSummary, hireAvailableStaff, listAvailableStaff, listCareerTargets, listClubEvents, listDepartmentOffers, markClubEventRead, previewTravelCost, previewTransferImpact, replaceStaff, runCareerGatewayAction, startCareer, terminateStaff, upgradeClubDepartment } from "./careerGateway";
+import { acceptSponsorshipOffer, auditP0Contracts, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, getStaffContract, getTravelSummary, hireAvailableStaff, listAvailableStaff, listCareerTargets, listClubEvents, listDepartmentOffers, listP0Contracts, markClubEventRead, previewTravelCost, previewTransferImpact, replaceStaff, runCareerGatewayAction, startCareer, terminateStaff, upgradeClubDepartment, validateP0Contract } from "./careerGateway";
 
 type Db = { close: () => void; exec: (sql: string) => void };
 type DbConstructor = new (path: string) => Db;
@@ -73,6 +73,14 @@ describe("careerGateway", () => {
     expect(getCurrentCareer(path)).toMatchObject({ started: true, targetType: "club", targetId: 7, managerName: "Ana" });
     expect(startCareer({ managerName: "Bia", age: 29, careerName: "Outra", targetType: "club", targetId: 7 }, path)).toMatchObject({ started: true });
     expect(getCurrentCareer(path)).toMatchObject({ started: true, targetId: 7, managerName: "Bia" });
+  });
+
+  it("expõe os 300 contratos P0 somente para leitura e auditoria", () => {
+    const path = fixture();
+    expect(listP0Contracts(undefined, path)).toHaveLength(300);
+    expect(listP0Contracts(3, path)).toHaveLength(10);
+    expect(validateP0Contract(1141, path)).toMatchObject({ status: "VALID", item_id: 1141 });
+    expect(auditP0Contracts(path)).toMatchObject({ status: "VALID", contract_count: 300, read_only: true });
   });
 
   it("executa ação tipada de leitura e preserva erro honesto do motor", () => {
