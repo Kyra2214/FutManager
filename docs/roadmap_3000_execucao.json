@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 1000,
-    "pending": 2000,
+    "done": 1010,
+    "pending": 1990,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -12105,8 +12105,12 @@
       "title": "definir contrato para clima",
       "dependency": "1900",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_climate_contract.py::test_climate_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; datetime timezone import corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1902,
@@ -12114,8 +12118,12 @@
       "title": "validar regras de clima",
       "dependency": "1901",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_climate_contract.py::test_climate_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; datetime timezone import corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1903,
@@ -12123,8 +12131,12 @@
       "title": "persistir estado de clima",
       "dependency": "1902",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_climate_contract.py::test_climate_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; datetime timezone import corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1904,
@@ -12132,8 +12144,12 @@
       "title": "expor leitura de clima",
       "dependency": "1903",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_climate_contract.py::test_climate_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; datetime timezone import corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1905,
@@ -12141,8 +12157,12 @@
       "title": "proteger mutação de clima",
       "dependency": "1904",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_climate_contract.py::test_climate_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; datetime timezone import corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1906,
@@ -12150,8 +12170,12 @@
       "title": "auditar fluxo de clima",
       "dependency": "1905",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_climate_contract.py::test_climate_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; datetime timezone import corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1907,
@@ -12159,8 +12183,12 @@
       "title": "otimizar consulta de clima",
       "dependency": "1906",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_climate_contract.py::test_climate_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; datetime timezone import corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1908,
@@ -12168,8 +12196,12 @@
       "title": "simular cenário de clima",
       "dependency": "1907",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_climate_contract.py::test_climate_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; datetime timezone import corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1909,
@@ -12177,8 +12209,12 @@
       "title": "documentar ciclo de clima",
       "dependency": "1908",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_climate_contract.py::test_climate_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; datetime timezone import corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1910,
@@ -12186,8 +12222,12 @@
       "title": "testar integração de clima",
       "dependency": "1909",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_climate_contract.py::test_climate_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; datetime timezone import corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1911,
