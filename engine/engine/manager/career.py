@@ -14,6 +14,7 @@ from engine.core.p1_procedure_contract import ensure_p1_procedure_registry
 from engine.core.p1_error_contract import ensure_p1_error_registry
 from engine.core.p1_version_contract import ensure_p1_version_registry
 from engine.core.p1_migration_contract import ensure_p1_migration_registry
+from engine.core.p1_domain_version_contract import ensure_p1_domain_version_registry
 from engine.world.first_division import FIRST_DIVISION_SOURCES, resolve_first_division_members
 
 SCHEMA = '''
@@ -80,6 +81,7 @@ class ManagerService:
         ensure_p1_error_registry(self.connection)
         ensure_p1_version_registry(self.connection)
         ensure_p1_migration_registry(self.connection)
+        ensure_p1_domain_version_registry(self.connection)
         self.connection.execute(
             'INSERT OR IGNORE INTO migration_audit(component,version,applied_at,content_hash) VALUES(?,?,?,?)',
             ('manager_career', 3, self._now(), 'manager-career-schema-v3'),
