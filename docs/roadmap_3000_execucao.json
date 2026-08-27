@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 400,
-    "pending": 2600,
+    "done": 410,
+    "pending": 2590,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -1665,8 +1665,14 @@
       "title": "definir contrato para idempotência",
       "dependency": "1080",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_migration_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_migration_contract.py",
+        "docs/p1_migration_1081_1090.md"
+      ]
     },
     {
       "item_id": 1082,
@@ -1674,8 +1680,14 @@
       "title": "validar regras de idempotência",
       "dependency": "1081",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_migration_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_migration_contract.py",
+        "docs/p1_migration_1081_1090.md"
+      ]
     },
     {
       "item_id": 1083,
@@ -1683,8 +1695,14 @@
       "title": "persistir estado de idempotência",
       "dependency": "1082",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_migration_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_migration_contract.py",
+        "docs/p1_migration_1081_1090.md"
+      ]
     },
     {
       "item_id": 1084,
@@ -1692,8 +1710,14 @@
       "title": "expor leitura de idempotência",
       "dependency": "1083",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_migration_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_migration_contract.py",
+        "docs/p1_migration_1081_1090.md"
+      ]
     },
     {
       "item_id": 1085,
@@ -1701,8 +1725,14 @@
       "title": "proteger mutação de idempotência",
       "dependency": "1084",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_migration_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_migration_contract.py",
+        "docs/p1_migration_1081_1090.md"
+      ]
     },
     {
       "item_id": 1086,
@@ -1710,8 +1740,14 @@
       "title": "auditar fluxo de idempotência",
       "dependency": "1085",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_migration_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_migration_contract.py",
+        "docs/p1_migration_1081_1090.md"
+      ]
     },
     {
       "item_id": 1087,
@@ -1719,8 +1755,14 @@
       "title": "otimizar consulta de idempotência",
       "dependency": "1086",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_migration_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_migration_contract.py",
+        "docs/p1_migration_1081_1090.md"
+      ]
     },
     {
       "item_id": 1088,
@@ -1728,8 +1770,14 @@
       "title": "simular cenário de idempotência",
       "dependency": "1087",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_migration_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_migration_contract.py",
+        "docs/p1_migration_1081_1090.md"
+      ]
     },
     {
       "item_id": 1089,
@@ -1737,8 +1785,14 @@
       "title": "documentar ciclo de idempotência",
       "dependency": "1088",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_migration_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_migration_contract.py",
+        "docs/p1_migration_1081_1090.md"
+      ]
     },
     {
       "item_id": 1090,
@@ -1746,8 +1800,14 @@
       "title": "testar integração de idempotência",
       "dependency": "1089",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_migration_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_migration_contract.py",
+        "docs/p1_migration_1081_1090.md"
+      ]
     },
     {
       "item_id": 1091,
