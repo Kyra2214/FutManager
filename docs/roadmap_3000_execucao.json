@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 830,
-    "pending": 2170,
+    "done": 840,
+    "pending": 2160,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -9255,8 +9255,12 @@
       "title": "definir contrato para divisão",
       "dependency": "1670",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_division_contract.py::test_division_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1672,
@@ -9264,8 +9268,12 @@
       "title": "validar regras de divisão",
       "dependency": "1671",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_division_contract.py::test_division_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1673,
@@ -9273,8 +9281,12 @@
       "title": "persistir estado de divisão",
       "dependency": "1672",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_division_contract.py::test_division_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1674,
@@ -9282,8 +9294,12 @@
       "title": "expor leitura de divisão",
       "dependency": "1673",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_division_contract.py::test_division_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1675,
@@ -9291,8 +9307,12 @@
       "title": "proteger mutação de divisão",
       "dependency": "1674",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_division_contract.py::test_division_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1676,
@@ -9300,8 +9320,12 @@
       "title": "auditar fluxo de divisão",
       "dependency": "1675",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_division_contract.py::test_division_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1677,
@@ -9309,8 +9333,12 @@
       "title": "otimizar consulta de divisão",
       "dependency": "1676",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_division_contract.py::test_division_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1678,
@@ -9318,8 +9346,12 @@
       "title": "simular cenário de divisão",
       "dependency": "1677",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_division_contract.py::test_division_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1679,
@@ -9327,8 +9359,12 @@
       "title": "documentar ciclo de divisão",
       "dependency": "1678",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_division_contract.py::test_division_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1680,
@@ -9336,8 +9372,12 @@
       "title": "testar integração de divisão",
       "dependency": "1679",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_division_contract.py::test_division_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1681,
