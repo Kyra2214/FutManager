@@ -634,3 +634,4 @@
 - [x] Implementar e validar o lote P1 1371–1380: contrato de potencial, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1381–1390: contrato de idade, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1391–1400: contrato de alias, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1401–1410: contrato de nacionalidade, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
