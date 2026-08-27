@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 630,
-    "pending": 2370,
+    "done": 640,
+    "pending": 2360,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -5695,8 +5695,12 @@
       "title": "definir contrato para idade",
       "dependency": "1380",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_age_contract.py::test_age_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1382,
@@ -5704,8 +5708,12 @@
       "title": "validar regras de idade",
       "dependency": "1381",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_age_contract.py::test_age_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1383,
@@ -5713,8 +5721,12 @@
       "title": "persistir estado de idade",
       "dependency": "1382",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_age_contract.py::test_age_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1384,
@@ -5722,8 +5734,12 @@
       "title": "expor leitura de idade",
       "dependency": "1383",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_age_contract.py::test_age_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1385,
@@ -5731,8 +5747,12 @@
       "title": "proteger mutação de idade",
       "dependency": "1384",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_age_contract.py::test_age_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1386,
@@ -5740,8 +5760,12 @@
       "title": "auditar fluxo de idade",
       "dependency": "1385",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_age_contract.py::test_age_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1387,
@@ -5749,8 +5773,12 @@
       "title": "otimizar consulta de idade",
       "dependency": "1386",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_age_contract.py::test_age_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1388,
@@ -5758,8 +5786,12 @@
       "title": "simular cenário de idade",
       "dependency": "1387",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_age_contract.py::test_age_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1389,
@@ -5767,8 +5799,12 @@
       "title": "documentar ciclo de idade",
       "dependency": "1388",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_age_contract.py::test_age_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1390,
@@ -5776,8 +5812,12 @@
       "title": "testar integração de idade",
       "dependency": "1389",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_age_contract.py::test_age_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1391,
