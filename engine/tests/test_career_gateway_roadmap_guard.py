@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-GATE = Path('/home/ubuntu/futmanager_frontend/roadmap_gate.json')
+GATE = Path(__file__).resolve().parents[2] / 'frontend' / 'roadmap_gate.json'
 STATE = ROOT / 'data' / 'state' / 'game.db'
 GATEWAY = ROOT / 'scripts' / 'career_gateway.py'
 

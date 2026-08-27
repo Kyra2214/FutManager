@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 
-REPORT = Path("/home/ubuntu/futmanager_frontend/docs/membership_checksums.json")
+REPORT = Path(__file__).resolve().parents[2] / "frontend" / "docs" / "membership_checksums.json"
 
 
 def _digest(payload: object) -> str:

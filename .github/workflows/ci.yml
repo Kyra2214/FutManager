@@ -25,6 +25,9 @@ jobs:
       - name: Prepare temporary GameState
         run: |
           mkdir -p engine/data/state
+          if [ -f engine/data/database/game.db.gz ]; then
+            gunzip -c engine/data/database/game.db.gz > engine/data/database/game.db
+          fi
           if [ -f engine/data/state/game.db.gz ]; then
             gunzip -c engine/data/state/game.db.gz > engine/data/state/game.db
           else
@@ -67,7 +70,9 @@ jobs:
           cache: pnpm
           cache-dependency-path: frontend/pnpm-lock.yaml
       - name: Enable pnpm
-        run: corepack enable
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.4.1 --activate
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Typecheck
