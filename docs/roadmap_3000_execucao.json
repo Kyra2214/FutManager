@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 920,
-    "pending": 2080,
+    "done": 930,
+    "pending": 2070,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -10745,8 +10745,12 @@
       "title": "definir contrato para coeficiente",
       "dependency": "1790",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_coefficient_contract.py::test_coefficient_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1792,
@@ -10754,8 +10758,12 @@
       "title": "validar regras de coeficiente",
       "dependency": "1791",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_coefficient_contract.py::test_coefficient_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1793,
@@ -10763,8 +10771,12 @@
       "title": "persistir estado de coeficiente",
       "dependency": "1792",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_coefficient_contract.py::test_coefficient_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1794,
@@ -10772,8 +10784,12 @@
       "title": "expor leitura de coeficiente",
       "dependency": "1793",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_coefficient_contract.py::test_coefficient_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1795,
@@ -10781,8 +10797,12 @@
       "title": "proteger mutação de coeficiente",
       "dependency": "1794",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_coefficient_contract.py::test_coefficient_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1796,
@@ -10790,8 +10810,12 @@
       "title": "auditar fluxo de coeficiente",
       "dependency": "1795",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_coefficient_contract.py::test_coefficient_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1797,
@@ -10799,8 +10823,12 @@
       "title": "otimizar consulta de coeficiente",
       "dependency": "1796",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_coefficient_contract.py::test_coefficient_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1798,
@@ -10808,8 +10836,12 @@
       "title": "simular cenário de coeficiente",
       "dependency": "1797",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_coefficient_contract.py::test_coefficient_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1799,
@@ -10817,8 +10849,12 @@
       "title": "documentar ciclo de coeficiente",
       "dependency": "1798",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_coefficient_contract.py::test_coefficient_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1800,
@@ -10826,8 +10862,12 @@
       "title": "testar integração de coeficiente",
       "dependency": "1799",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_coefficient_contract.py::test_coefficient_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1801,
