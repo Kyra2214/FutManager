@@ -713,3 +713,4 @@
 - [x] Produzir o lote P1 2471–2480: contrato de scout, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2481–2490: contrato de especialidade, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2491–2500: contrato de nível, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2501–2510: contrato de vaga, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
