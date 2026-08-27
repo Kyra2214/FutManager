@@ -796,3 +796,4 @@
 - [x] Produzir o lote P1 3581–3590: contrato de throughput derivado do contrato de capacidade existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3591–3600: contrato de falha derivado do contrato de erro existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3601–3610: contrato de retomada derivado do contrato de retorno existente, integração ao gateway e validação mínima.
+- [x] Corrigir aliases públicos ausentes no contrato de falha apontados pelo runtime, sem alterar as regras do contrato de erro existente.
