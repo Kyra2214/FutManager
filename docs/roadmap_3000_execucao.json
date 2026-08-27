@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 560,
-    "pending": 2440,
+    "done": 570,
+    "pending": 2430,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -4645,8 +4645,12 @@
       "title": "definir contrato para estádio",
       "dependency": "1300",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_contract.py::test_stadium_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile p1_stadium_contract.py career.py career_gateway.py",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1302,
@@ -4654,8 +4658,12 @@
       "title": "validar regras de estádio",
       "dependency": "1301",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_contract.py::test_stadium_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile p1_stadium_contract.py career.py career_gateway.py",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1303,
@@ -4663,8 +4671,12 @@
       "title": "persistir estado de estádio",
       "dependency": "1302",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_contract.py::test_stadium_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile p1_stadium_contract.py career.py career_gateway.py",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1304,
@@ -4672,8 +4684,12 @@
       "title": "expor leitura de estádio",
       "dependency": "1303",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_contract.py::test_stadium_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile p1_stadium_contract.py career.py career_gateway.py",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1305,
@@ -4681,8 +4697,12 @@
       "title": "proteger mutação de estádio",
       "dependency": "1304",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_contract.py::test_stadium_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile p1_stadium_contract.py career.py career_gateway.py",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1306,
@@ -4690,8 +4710,12 @@
       "title": "auditar fluxo de estádio",
       "dependency": "1305",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_contract.py::test_stadium_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile p1_stadium_contract.py career.py career_gateway.py",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1307,
@@ -4699,8 +4723,12 @@
       "title": "otimizar consulta de estádio",
       "dependency": "1306",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_contract.py::test_stadium_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile p1_stadium_contract.py career.py career_gateway.py",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1308,
@@ -4708,8 +4736,12 @@
       "title": "simular cenário de estádio",
       "dependency": "1307",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_contract.py::test_stadium_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile p1_stadium_contract.py career.py career_gateway.py",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1309,
@@ -4717,8 +4749,12 @@
       "title": "documentar ciclo de estádio",
       "dependency": "1308",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_contract.py::test_stadium_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile p1_stadium_contract.py career.py career_gateway.py",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1310,
@@ -4726,8 +4762,12 @@
       "title": "testar integração de estádio",
       "dependency": "1309",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_contract.py::test_stadium_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile p1_stadium_contract.py career.py career_gateway.py",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1311,
