@@ -2,13 +2,13 @@
   "status": "VALID",
   "policy": "P0_GLOBAL_GATE -> P1_GLOBAL_GATE -> P2; SQL/GameState is the source of truth",
   "gates": {
-    "P0_GLOBAL_GATE": "OPEN",
+    "P0_GLOBAL_GATE": "CLOSED",
     "P1_GLOBAL_GATE": "CLOSED"
   },
   "summary": {
     "total": 3000,
-    "done": 310,
-    "pending": 2690,
+    "done": 40,
+    "pending": 2960,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -256,8 +256,10 @@
       "title": "definir contrato para constraint",
       "dependency": "960",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:audit_constraints"
+      ]
     },
     {
       "item_id": 962,
@@ -265,8 +267,10 @@
       "title": "validar regras de constraint",
       "dependency": "961",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py:test_constraint_audit_is_read_only_and_validates_parallel_state"
+      ]
     },
     {
       "item_id": 963,
@@ -274,8 +278,10 @@
       "title": "persistir estado de constraint",
       "dependency": "962",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:PRAGMA integrity_check"
+      ]
     },
     {
       "item_id": 964,
@@ -283,8 +289,10 @@
       "title": "expor leitura de constraint",
       "dependency": "963",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:PRAGMA foreign_key_check"
+      ]
     },
     {
       "item_id": 965,
@@ -292,8 +300,11 @@
       "title": "proteger mutação de constraint",
       "dependency": "964",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:audit_constraints",
+        "server/careerGateway.ts"
+      ]
     },
     {
       "item_id": 966,
@@ -301,8 +312,10 @@
       "title": "auditar fluxo de constraint",
       "dependency": "965",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py"
+      ]
     },
     {
       "item_id": 967,
@@ -310,8 +323,10 @@
       "title": "otimizar consulta de constraint",
       "dependency": "966",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:PRIMARY KEY and UNIQUE constraints"
+      ]
     },
     {
       "item_id": 968,
@@ -319,8 +334,10 @@
       "title": "simular cenário de constraint",
       "dependency": "967",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py:read-only audit"
+      ]
     },
     {
       "item_id": 969,
@@ -328,8 +345,10 @@
       "title": "documentar ciclo de constraint",
       "dependency": "968",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "docs/regras_fluxo_liga_unica_e_catalogo_paises.md"
+      ]
     },
     {
       "item_id": 970,
@@ -337,8 +356,11 @@
       "title": "testar integração de constraint",
       "dependency": "969",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py",
+        "server/CareerStart.ui.test.tsx"
+      ]
     },
     {
       "item_id": 971,
@@ -346,8 +368,10 @@
       "title": "definir contrato para índice",
       "dependency": "970",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:idx_parallel_fixtures_lookup"
+      ]
     },
     {
       "item_id": 972,
@@ -355,8 +379,10 @@
       "title": "validar regras de índice",
       "dependency": "971",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:audit_indexes"
+      ]
     },
     {
       "item_id": 973,
@@ -364,8 +390,10 @@
       "title": "persistir estado de índice",
       "dependency": "972",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:CREATE INDEX IF NOT EXISTS"
+      ]
     },
     {
       "item_id": 974,
@@ -373,8 +401,10 @@
       "title": "expor leitura de índice",
       "dependency": "973",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:audit_indexes"
+      ]
     },
     {
       "item_id": 975,
@@ -382,8 +412,10 @@
       "title": "proteger mutação de índice",
       "dependency": "974",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:read-only index audit"
+      ]
     },
     {
       "item_id": 976,
@@ -391,8 +423,10 @@
       "title": "auditar fluxo de índice",
       "dependency": "975",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:EXPLAIN QUERY PLAN"
+      ]
     },
     {
       "item_id": 977,
@@ -400,8 +434,10 @@
       "title": "otimizar consulta de índice",
       "dependency": "976",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py:test_index_audit_confirms_calendar_and_standings_plans"
+      ]
     },
     {
       "item_id": 978,
@@ -409,8 +445,10 @@
       "title": "simular cenário de índice",
       "dependency": "977",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py"
+      ]
     },
     {
       "item_id": 979,
@@ -418,8 +456,10 @@
       "title": "documentar ciclo de índice",
       "dependency": "978",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "docs/regras_fluxo_liga_unica_e_catalogo_paises.md"
+      ]
     },
     {
       "item_id": 980,
@@ -427,8 +467,11 @@
       "title": "testar integração de índice",
       "dependency": "979",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py",
+        "server/careerGateway.test.ts"
+      ]
     },
     {
       "item_id": 981,
@@ -976,12 +1019,8 @@
       "title": "definir contrato para payload",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/careerGateway.ts",
-        "brasfoot_engine/scripts/career_gateway.py",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1042,
@@ -989,12 +1028,8 @@
       "title": "validar regras de payload",
       "dependency": "1041",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/careerGateway.ts",
-        "brasfoot_engine/scripts/career_gateway.py",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1043,
@@ -1002,12 +1037,8 @@
       "title": "persistir estado de payload",
       "dependency": "1042",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/careerGateway.ts",
-        "brasfoot_engine/scripts/career_gateway.py",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1044,
@@ -1015,12 +1046,8 @@
       "title": "expor leitura de payload",
       "dependency": "1043",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/careerGateway.ts",
-        "brasfoot_engine/scripts/career_gateway.py",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1045,
@@ -1028,12 +1055,8 @@
       "title": "proteger mutação de payload",
       "dependency": "1044",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/careerGateway.ts",
-        "brasfoot_engine/scripts/career_gateway.py",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1046,
@@ -1041,12 +1064,8 @@
       "title": "auditar fluxo de payload",
       "dependency": "1045",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/careerGateway.ts",
-        "brasfoot_engine/scripts/career_gateway.py",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1047,
@@ -1054,12 +1073,8 @@
       "title": "otimizar consulta de payload",
       "dependency": "1046",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/careerGateway.ts",
-        "brasfoot_engine/scripts/career_gateway.py",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1048,
@@ -1067,12 +1082,8 @@
       "title": "simular cenário de payload",
       "dependency": "1047",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/careerGateway.ts",
-        "brasfoot_engine/scripts/career_gateway.py",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1049,
@@ -1080,12 +1091,8 @@
       "title": "documentar ciclo de payload",
       "dependency": "1048",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/careerGateway.ts",
-        "brasfoot_engine/scripts/career_gateway.py",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1050,
@@ -1093,12 +1100,8 @@
       "title": "testar integração de payload",
       "dependency": "1049",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/careerGateway.ts",
-        "brasfoot_engine/scripts/career_gateway.py",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1051,
@@ -1916,12 +1919,8 @@
       "title": "definir contrato para login",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/_core/context.ts",
-        "server/routers/career.ts",
-        "server/auth.logout.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1142,
@@ -1929,12 +1928,8 @@
       "title": "validar regras de login",
       "dependency": "1141",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/_core/context.ts",
-        "server/routers/career.ts",
-        "server/auth.logout.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1143,
@@ -1942,12 +1937,8 @@
       "title": "persistir estado de login",
       "dependency": "1142",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/_core/context.ts",
-        "server/routers/career.ts",
-        "server/auth.logout.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1144,
@@ -1955,12 +1946,8 @@
       "title": "expor leitura de login",
       "dependency": "1143",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/_core/context.ts",
-        "server/routers/career.ts",
-        "server/auth.logout.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1145,
@@ -1968,12 +1955,8 @@
       "title": "proteger mutação de login",
       "dependency": "1144",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/_core/context.ts",
-        "server/routers/career.ts",
-        "server/auth.logout.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1146,
@@ -1981,12 +1964,8 @@
       "title": "auditar fluxo de login",
       "dependency": "1145",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/_core/context.ts",
-        "server/routers/career.ts",
-        "server/auth.logout.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1147,
@@ -1994,12 +1973,8 @@
       "title": "otimizar consulta de login",
       "dependency": "1146",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/_core/context.ts",
-        "server/routers/career.ts",
-        "server/auth.logout.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1148,
@@ -2007,12 +1982,8 @@
       "title": "simular cenário de login",
       "dependency": "1147",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/_core/context.ts",
-        "server/routers/career.ts",
-        "server/auth.logout.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1149,
@@ -2020,12 +1991,8 @@
       "title": "documentar ciclo de login",
       "dependency": "1148",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/_core/context.ts",
-        "server/routers/career.ts",
-        "server/auth.logout.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1150,
@@ -2033,12 +2000,8 @@
       "title": "testar integração de login",
       "dependency": "1149",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "server/_core/context.ts",
-        "server/routers/career.ts",
-        "server/auth.logout.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1151,
@@ -2856,11 +2819,8 @@
       "title": "definir contrato para clube",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/catalog.py",
-        "server/careerRouter.integration.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1242,
@@ -2868,11 +2828,8 @@
       "title": "validar regras de clube",
       "dependency": "1241",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/catalog.py",
-        "server/careerRouter.integration.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1243,
@@ -2880,11 +2837,8 @@
       "title": "persistir estado de clube",
       "dependency": "1242",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/catalog.py",
-        "server/careerRouter.integration.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1244,
@@ -2892,11 +2846,8 @@
       "title": "expor leitura de clube",
       "dependency": "1243",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/catalog.py",
-        "server/careerRouter.integration.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1245,
@@ -2904,11 +2855,8 @@
       "title": "proteger mutação de clube",
       "dependency": "1244",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/catalog.py",
-        "server/careerRouter.integration.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1246,
@@ -2916,11 +2864,8 @@
       "title": "auditar fluxo de clube",
       "dependency": "1245",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/catalog.py",
-        "server/careerRouter.integration.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1247,
@@ -2928,11 +2873,8 @@
       "title": "otimizar consulta de clube",
       "dependency": "1246",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/catalog.py",
-        "server/careerRouter.integration.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1248,
@@ -2940,11 +2882,8 @@
       "title": "simular cenário de clube",
       "dependency": "1247",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/catalog.py",
-        "server/careerRouter.integration.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1249,
@@ -2952,11 +2891,8 @@
       "title": "documentar ciclo de clube",
       "dependency": "1248",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/catalog.py",
-        "server/careerRouter.integration.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1250,
@@ -2964,11 +2900,8 @@
       "title": "testar integração de clube",
       "dependency": "1249",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/catalog.py",
-        "server/careerRouter.integration.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1251,
@@ -3786,11 +3719,8 @@
       "title": "definir contrato para jogador",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/players",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1342,
@@ -3798,11 +3728,8 @@
       "title": "validar regras de jogador",
       "dependency": "1341",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/players",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1343,
@@ -3810,11 +3737,8 @@
       "title": "persistir estado de jogador",
       "dependency": "1342",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/players",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1344,
@@ -3822,11 +3746,8 @@
       "title": "expor leitura de jogador",
       "dependency": "1343",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/players",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1345,
@@ -3834,11 +3755,8 @@
       "title": "proteger mutação de jogador",
       "dependency": "1344",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/players",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1346,
@@ -3846,11 +3764,8 @@
       "title": "auditar fluxo de jogador",
       "dependency": "1345",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/players",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1347,
@@ -3858,11 +3773,8 @@
       "title": "otimizar consulta de jogador",
       "dependency": "1346",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/players",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1348,
@@ -3870,11 +3782,8 @@
       "title": "simular cenário de jogador",
       "dependency": "1347",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/players",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1349,
@@ -3882,11 +3791,8 @@
       "title": "documentar ciclo de jogador",
       "dependency": "1348",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/players",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1350,
@@ -3894,11 +3800,8 @@
       "title": "testar integração de jogador",
       "dependency": "1349",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/players",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1351,
@@ -4716,11 +4619,8 @@
       "title": "definir contrato para seleção",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/selection",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1442,
@@ -4728,11 +4628,8 @@
       "title": "validar regras de seleção",
       "dependency": "1441",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/selection",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1443,
@@ -4740,11 +4637,8 @@
       "title": "persistir estado de seleção",
       "dependency": "1442",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/selection",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1444,
@@ -4752,11 +4646,8 @@
       "title": "expor leitura de seleção",
       "dependency": "1443",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/selection",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1445,
@@ -4764,11 +4655,8 @@
       "title": "proteger mutação de seleção",
       "dependency": "1444",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/selection",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1446,
@@ -4776,11 +4664,8 @@
       "title": "auditar fluxo de seleção",
       "dependency": "1445",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/selection",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1447,
@@ -4788,11 +4673,8 @@
       "title": "otimizar consulta de seleção",
       "dependency": "1446",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/selection",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1448,
@@ -4800,11 +4682,8 @@
       "title": "simular cenário de seleção",
       "dependency": "1447",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/selection",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1449,
@@ -4812,11 +4691,8 @@
       "title": "documentar ciclo de seleção",
       "dependency": "1448",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/selection",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1450,
@@ -4824,11 +4700,8 @@
       "title": "testar integração de seleção",
       "dependency": "1449",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/selection",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1451,
@@ -5646,11 +5519,8 @@
       "title": "definir contrato para divisão",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1542,
@@ -5658,11 +5528,8 @@
       "title": "validar regras de divisão",
       "dependency": "1541",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1543,
@@ -5670,11 +5537,8 @@
       "title": "persistir estado de divisão",
       "dependency": "1542",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1544,
@@ -5682,11 +5546,8 @@
       "title": "expor leitura de divisão",
       "dependency": "1543",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1545,
@@ -5694,11 +5555,8 @@
       "title": "proteger mutação de divisão",
       "dependency": "1544",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1546,
@@ -5706,11 +5564,8 @@
       "title": "auditar fluxo de divisão",
       "dependency": "1545",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1547,
@@ -5718,11 +5573,8 @@
       "title": "otimizar consulta de divisão",
       "dependency": "1546",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1548,
@@ -5730,11 +5582,8 @@
       "title": "simular cenário de divisão",
       "dependency": "1547",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1549,
@@ -5742,11 +5591,8 @@
       "title": "documentar ciclo de divisão",
       "dependency": "1548",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1550,
@@ -5754,11 +5600,8 @@
       "title": "testar integração de divisão",
       "dependency": "1549",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1551,
@@ -6576,11 +6419,8 @@
       "title": "definir contrato para universo",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1642,
@@ -6588,11 +6428,8 @@
       "title": "validar regras de universo",
       "dependency": "1641",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1643,
@@ -6600,11 +6437,8 @@
       "title": "persistir estado de universo",
       "dependency": "1642",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1644,
@@ -6612,11 +6446,8 @@
       "title": "expor leitura de universo",
       "dependency": "1643",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1645,
@@ -6624,11 +6455,8 @@
       "title": "proteger mutação de universo",
       "dependency": "1644",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1646,
@@ -6636,11 +6464,8 @@
       "title": "auditar fluxo de universo",
       "dependency": "1645",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1647,
@@ -6648,11 +6473,8 @@
       "title": "otimizar consulta de universo",
       "dependency": "1646",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1648,
@@ -6660,11 +6482,8 @@
       "title": "simular cenário de universo",
       "dependency": "1647",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1649,
@@ -6672,11 +6491,8 @@
       "title": "documentar ciclo de universo",
       "dependency": "1648",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1650,
@@ -6684,11 +6500,8 @@
       "title": "testar integração de universo",
       "dependency": "1649",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1651,
@@ -7506,11 +7319,8 @@
       "title": "definir contrato para vaga",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/manager/career.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1742,
@@ -7518,11 +7328,8 @@
       "title": "validar regras de vaga",
       "dependency": "1741",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/manager/career.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1743,
@@ -7530,11 +7337,8 @@
       "title": "persistir estado de vaga",
       "dependency": "1742",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/manager/career.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1744,
@@ -7542,11 +7346,8 @@
       "title": "expor leitura de vaga",
       "dependency": "1743",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/manager/career.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1745,
@@ -7554,11 +7355,8 @@
       "title": "proteger mutação de vaga",
       "dependency": "1744",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/manager/career.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1746,
@@ -7566,11 +7364,8 @@
       "title": "auditar fluxo de vaga",
       "dependency": "1745",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/manager/career.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1747,
@@ -7578,11 +7373,8 @@
       "title": "otimizar consulta de vaga",
       "dependency": "1746",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/manager/career.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1748,
@@ -7590,11 +7382,8 @@
       "title": "simular cenário de vaga",
       "dependency": "1747",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/manager/career.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1749,
@@ -7602,11 +7391,8 @@
       "title": "documentar ciclo de vaga",
       "dependency": "1748",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/manager/career.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1750,
@@ -7614,11 +7400,8 @@
       "title": "testar integração de vaga",
       "dependency": "1749",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/manager/career.py",
-        "tests/test_parallel_career_league.py"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1751,
@@ -8436,11 +8219,8 @@
       "title": "definir contrato para semana",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world",
-        "docs/configuracao_universo_carreira.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1842,
@@ -8448,11 +8228,8 @@
       "title": "validar regras de semana",
       "dependency": "1841",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world",
-        "docs/configuracao_universo_carreira.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1843,
@@ -8460,11 +8237,8 @@
       "title": "persistir estado de semana",
       "dependency": "1842",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world",
-        "docs/configuracao_universo_carreira.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1844,
@@ -8472,11 +8246,8 @@
       "title": "expor leitura de semana",
       "dependency": "1843",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world",
-        "docs/configuracao_universo_carreira.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1845,
@@ -8484,11 +8255,8 @@
       "title": "proteger mutação de semana",
       "dependency": "1844",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world",
-        "docs/configuracao_universo_carreira.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1846,
@@ -8496,11 +8264,8 @@
       "title": "auditar fluxo de semana",
       "dependency": "1845",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world",
-        "docs/configuracao_universo_carreira.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1847,
@@ -8508,11 +8273,8 @@
       "title": "otimizar consulta de semana",
       "dependency": "1846",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world",
-        "docs/configuracao_universo_carreira.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1848,
@@ -8520,11 +8282,8 @@
       "title": "simular cenário de semana",
       "dependency": "1847",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world",
-        "docs/configuracao_universo_carreira.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1849,
@@ -8532,11 +8291,8 @@
       "title": "documentar ciclo de semana",
       "dependency": "1848",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world",
-        "docs/configuracao_universo_carreira.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1850,
@@ -8544,11 +8300,8 @@
       "title": "testar integração de semana",
       "dependency": "1849",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world",
-        "docs/configuracao_universo_carreira.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1851,
@@ -9366,11 +9119,8 @@
       "title": "definir contrato para escalação",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1942,
@@ -9378,11 +9128,8 @@
       "title": "validar regras de escalação",
       "dependency": "1941",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1943,
@@ -9390,11 +9137,8 @@
       "title": "persistir estado de escalação",
       "dependency": "1942",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1944,
@@ -9402,11 +9146,8 @@
       "title": "expor leitura de escalação",
       "dependency": "1943",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1945,
@@ -9414,11 +9155,8 @@
       "title": "proteger mutação de escalação",
       "dependency": "1944",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1946,
@@ -9426,11 +9164,8 @@
       "title": "auditar fluxo de escalação",
       "dependency": "1945",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1947,
@@ -9438,11 +9173,8 @@
       "title": "otimizar consulta de escalação",
       "dependency": "1946",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1948,
@@ -9450,11 +9182,8 @@
       "title": "simular cenário de escalação",
       "dependency": "1947",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1949,
@@ -9462,11 +9191,8 @@
       "title": "documentar ciclo de escalação",
       "dependency": "1948",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1950,
@@ -9474,11 +9200,8 @@
       "title": "testar integração de escalação",
       "dependency": "1949",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions/match_engine.py",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 1951,
@@ -10296,11 +10019,8 @@
       "title": "definir contrato para xG",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 12, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2042,
@@ -10308,11 +10028,8 @@
       "title": "validar regras de xG",
       "dependency": "2041",
       "criterion": "teste/fixture do domínio 12, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2043,
@@ -10320,11 +10037,8 @@
       "title": "persistir estado de xG",
       "dependency": "2042",
       "criterion": "teste/fixture do domínio 12, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2044,
@@ -10332,11 +10046,8 @@
       "title": "expor leitura de xG",
       "dependency": "2043",
       "criterion": "teste/fixture do domínio 12, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2045,
@@ -10344,11 +10055,8 @@
       "title": "proteger mutação de xG",
       "dependency": "2044",
       "criterion": "teste/fixture do domínio 12, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2046,
@@ -10356,11 +10064,8 @@
       "title": "auditar fluxo de xG",
       "dependency": "2045",
       "criterion": "teste/fixture do domínio 12, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2047,
@@ -10368,11 +10073,8 @@
       "title": "otimizar consulta de xG",
       "dependency": "2046",
       "criterion": "teste/fixture do domínio 12, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2048,
@@ -10380,11 +10082,8 @@
       "title": "simular cenário de xG",
       "dependency": "2047",
       "criterion": "teste/fixture do domínio 12, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2049,
@@ -10392,11 +10091,8 @@
       "title": "documentar ciclo de xG",
       "dependency": "2048",
       "criterion": "teste/fixture do domínio 12, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2050,
@@ -10404,11 +10100,8 @@
       "title": "testar integração de xG",
       "dependency": "2049",
       "criterion": "teste/fixture do domínio 12, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/competitions",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2051,
@@ -11226,11 +10919,8 @@
       "title": "definir contrato para diagnóstico",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 13, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/match",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2142,
@@ -11238,11 +10928,8 @@
       "title": "validar regras de diagnóstico",
       "dependency": "2141",
       "criterion": "teste/fixture do domínio 13, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/match",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2143,
@@ -11250,11 +10937,8 @@
       "title": "persistir estado de diagnóstico",
       "dependency": "2142",
       "criterion": "teste/fixture do domínio 13, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/match",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2144,
@@ -11262,11 +10946,8 @@
       "title": "expor leitura de diagnóstico",
       "dependency": "2143",
       "criterion": "teste/fixture do domínio 13, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/match",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2145,
@@ -11274,11 +10955,8 @@
       "title": "proteger mutação de diagnóstico",
       "dependency": "2144",
       "criterion": "teste/fixture do domínio 13, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/match",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2146,
@@ -11286,11 +10964,8 @@
       "title": "auditar fluxo de diagnóstico",
       "dependency": "2145",
       "criterion": "teste/fixture do domínio 13, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/match",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2147,
@@ -11298,11 +10973,8 @@
       "title": "otimizar consulta de diagnóstico",
       "dependency": "2146",
       "criterion": "teste/fixture do domínio 13, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/match",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2148,
@@ -11310,11 +10982,8 @@
       "title": "simular cenário de diagnóstico",
       "dependency": "2147",
       "criterion": "teste/fixture do domínio 13, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/match",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2149,
@@ -11322,11 +10991,8 @@
       "title": "documentar ciclo de diagnóstico",
       "dependency": "2148",
       "criterion": "teste/fixture do domínio 13, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/match",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2150,
@@ -11334,11 +11000,8 @@
       "title": "testar integração de diagnóstico",
       "dependency": "2149",
       "criterion": "teste/fixture do domínio 13, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/match",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2151,
@@ -12156,11 +11819,8 @@
       "title": "definir contrato para titular",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 14, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/ai",
-        "docs/ia_explicavel_e_limites.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2242,
@@ -12168,11 +11828,8 @@
       "title": "validar regras de titular",
       "dependency": "2241",
       "criterion": "teste/fixture do domínio 14, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/ai",
-        "docs/ia_explicavel_e_limites.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2243,
@@ -12180,11 +11837,8 @@
       "title": "persistir estado de titular",
       "dependency": "2242",
       "criterion": "teste/fixture do domínio 14, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/ai",
-        "docs/ia_explicavel_e_limites.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2244,
@@ -12192,11 +11846,8 @@
       "title": "expor leitura de titular",
       "dependency": "2243",
       "criterion": "teste/fixture do domínio 14, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/ai",
-        "docs/ia_explicavel_e_limites.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2245,
@@ -12204,11 +11855,8 @@
       "title": "proteger mutação de titular",
       "dependency": "2244",
       "criterion": "teste/fixture do domínio 14, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/ai",
-        "docs/ia_explicavel_e_limites.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2246,
@@ -12216,11 +11864,8 @@
       "title": "auditar fluxo de titular",
       "dependency": "2245",
       "criterion": "teste/fixture do domínio 14, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/ai",
-        "docs/ia_explicavel_e_limites.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2247,
@@ -12228,11 +11873,8 @@
       "title": "otimizar consulta de titular",
       "dependency": "2246",
       "criterion": "teste/fixture do domínio 14, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/ai",
-        "docs/ia_explicavel_e_limites.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2248,
@@ -12240,11 +11882,8 @@
       "title": "simular cenário de titular",
       "dependency": "2247",
       "criterion": "teste/fixture do domínio 14, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/ai",
-        "docs/ia_explicavel_e_limites.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2249,
@@ -12252,11 +11891,8 @@
       "title": "documentar ciclo de titular",
       "dependency": "2248",
       "criterion": "teste/fixture do domínio 14, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/ai",
-        "docs/ia_explicavel_e_limites.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2250,
@@ -12264,11 +11900,8 @@
       "title": "testar integração de titular",
       "dependency": "2249",
       "criterion": "teste/fixture do domínio 14, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/ai",
-        "docs/ia_explicavel_e_limites.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2251,
@@ -13086,11 +12719,8 @@
       "title": "definir contrato para salário",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 15, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/squad",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2342,
@@ -13098,11 +12728,8 @@
       "title": "validar regras de salário",
       "dependency": "2341",
       "criterion": "teste/fixture do domínio 15, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/squad",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2343,
@@ -13110,11 +12737,8 @@
       "title": "persistir estado de salário",
       "dependency": "2342",
       "criterion": "teste/fixture do domínio 15, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/squad",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2344,
@@ -13122,11 +12746,8 @@
       "title": "expor leitura de salário",
       "dependency": "2343",
       "criterion": "teste/fixture do domínio 15, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/squad",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2345,
@@ -13134,11 +12755,8 @@
       "title": "proteger mutação de salário",
       "dependency": "2344",
       "criterion": "teste/fixture do domínio 15, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/squad",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2346,
@@ -13146,11 +12764,8 @@
       "title": "auditar fluxo de salário",
       "dependency": "2345",
       "criterion": "teste/fixture do domínio 15, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/squad",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2347,
@@ -13158,11 +12773,8 @@
       "title": "otimizar consulta de salário",
       "dependency": "2346",
       "criterion": "teste/fixture do domínio 15, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/squad",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2348,
@@ -13170,11 +12782,8 @@
       "title": "simular cenário de salário",
       "dependency": "2347",
       "criterion": "teste/fixture do domínio 15, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/squad",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2349,
@@ -13182,11 +12791,8 @@
       "title": "documentar ciclo de salário",
       "dependency": "2348",
       "criterion": "teste/fixture do domínio 15, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/squad",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2350,
@@ -13194,11 +12800,8 @@
       "title": "testar integração de salário",
       "dependency": "2349",
       "criterion": "teste/fixture do domínio 15, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/squad",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2351,
@@ -14016,11 +13619,8 @@
       "title": "definir contrato para treinador",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 16, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/contracts",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2442,
@@ -14028,11 +13628,8 @@
       "title": "validar regras de treinador",
       "dependency": "2441",
       "criterion": "teste/fixture do domínio 16, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/contracts",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2443,
@@ -14040,11 +13637,8 @@
       "title": "persistir estado de treinador",
       "dependency": "2442",
       "criterion": "teste/fixture do domínio 16, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/contracts",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2444,
@@ -14052,11 +13646,8 @@
       "title": "expor leitura de treinador",
       "dependency": "2443",
       "criterion": "teste/fixture do domínio 16, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/contracts",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2445,
@@ -14064,11 +13655,8 @@
       "title": "proteger mutação de treinador",
       "dependency": "2444",
       "criterion": "teste/fixture do domínio 16, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/contracts",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2446,
@@ -14076,11 +13664,8 @@
       "title": "auditar fluxo de treinador",
       "dependency": "2445",
       "criterion": "teste/fixture do domínio 16, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/contracts",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2447,
@@ -14088,11 +13673,8 @@
       "title": "otimizar consulta de treinador",
       "dependency": "2446",
       "criterion": "teste/fixture do domínio 16, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/contracts",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2448,
@@ -14100,11 +13682,8 @@
       "title": "simular cenário de treinador",
       "dependency": "2447",
       "criterion": "teste/fixture do domínio 16, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/contracts",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2449,
@@ -14112,11 +13691,8 @@
       "title": "documentar ciclo de treinador",
       "dependency": "2448",
       "criterion": "teste/fixture do domínio 16, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/contracts",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2450,
@@ -14124,11 +13700,8 @@
       "title": "testar integração de treinador",
       "dependency": "2449",
       "criterion": "teste/fixture do domínio 16, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/contracts",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2451,
@@ -14946,11 +14519,8 @@
       "title": "definir contrato para departamento",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 17, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/staff",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2542,
@@ -14958,11 +14528,8 @@
       "title": "validar regras de departamento",
       "dependency": "2541",
       "criterion": "teste/fixture do domínio 17, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/staff",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2543,
@@ -14970,11 +14537,8 @@
       "title": "persistir estado de departamento",
       "dependency": "2542",
       "criterion": "teste/fixture do domínio 17, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/staff",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2544,
@@ -14982,11 +14546,8 @@
       "title": "expor leitura de departamento",
       "dependency": "2543",
       "criterion": "teste/fixture do domínio 17, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/staff",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2545,
@@ -14994,11 +14555,8 @@
       "title": "proteger mutação de departamento",
       "dependency": "2544",
       "criterion": "teste/fixture do domínio 17, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/staff",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2546,
@@ -15006,11 +14564,8 @@
       "title": "auditar fluxo de departamento",
       "dependency": "2545",
       "criterion": "teste/fixture do domínio 17, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/staff",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2547,
@@ -15018,11 +14573,8 @@
       "title": "otimizar consulta de departamento",
       "dependency": "2546",
       "criterion": "teste/fixture do domínio 17, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/staff",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2548,
@@ -15030,11 +14582,8 @@
       "title": "simular cenário de departamento",
       "dependency": "2547",
       "criterion": "teste/fixture do domínio 17, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/staff",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2549,
@@ -15042,11 +14591,8 @@
       "title": "documentar ciclo de departamento",
       "dependency": "2548",
       "criterion": "teste/fixture do domínio 17, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/staff",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2550,
@@ -15054,11 +14600,8 @@
       "title": "testar integração de departamento",
       "dependency": "2549",
       "criterion": "teste/fixture do domínio 17, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/staff",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2551,
@@ -15876,11 +15419,8 @@
       "title": "definir contrato para academia",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 18, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2642,
@@ -15888,11 +15428,8 @@
       "title": "validar regras de academia",
       "dependency": "2641",
       "criterion": "teste/fixture do domínio 18, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2643,
@@ -15900,11 +15437,8 @@
       "title": "persistir estado de academia",
       "dependency": "2642",
       "criterion": "teste/fixture do domínio 18, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2644,
@@ -15912,11 +15446,8 @@
       "title": "expor leitura de academia",
       "dependency": "2643",
       "criterion": "teste/fixture do domínio 18, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2645,
@@ -15924,11 +15455,8 @@
       "title": "proteger mutação de academia",
       "dependency": "2644",
       "criterion": "teste/fixture do domínio 18, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2646,
@@ -15936,11 +15464,8 @@
       "title": "auditar fluxo de academia",
       "dependency": "2645",
       "criterion": "teste/fixture do domínio 18, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2647,
@@ -15948,11 +15473,8 @@
       "title": "otimizar consulta de academia",
       "dependency": "2646",
       "criterion": "teste/fixture do domínio 18, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2648,
@@ -15960,11 +15482,8 @@
       "title": "simular cenário de academia",
       "dependency": "2647",
       "criterion": "teste/fixture do domínio 18, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2649,
@@ -15972,11 +15491,8 @@
       "title": "documentar ciclo de academia",
       "dependency": "2648",
       "criterion": "teste/fixture do domínio 18, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2650,
@@ -15984,11 +15500,8 @@
       "title": "testar integração de academia",
       "dependency": "2649",
       "criterion": "teste/fixture do domínio 18, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2651,
@@ -16806,11 +16319,8 @@
       "title": "definir contrato para lesão",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 19, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/youth",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2742,
@@ -16818,11 +16328,8 @@
       "title": "validar regras de lesão",
       "dependency": "2741",
       "criterion": "teste/fixture do domínio 19, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/youth",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2743,
@@ -16830,11 +16337,8 @@
       "title": "persistir estado de lesão",
       "dependency": "2742",
       "criterion": "teste/fixture do domínio 19, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/youth",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2744,
@@ -16842,11 +16346,8 @@
       "title": "expor leitura de lesão",
       "dependency": "2743",
       "criterion": "teste/fixture do domínio 19, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/youth",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2745,
@@ -16854,11 +16355,8 @@
       "title": "proteger mutação de lesão",
       "dependency": "2744",
       "criterion": "teste/fixture do domínio 19, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/youth",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2746,
@@ -16866,11 +16364,8 @@
       "title": "auditar fluxo de lesão",
       "dependency": "2745",
       "criterion": "teste/fixture do domínio 19, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/youth",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2747,
@@ -16878,11 +16373,8 @@
       "title": "otimizar consulta de lesão",
       "dependency": "2746",
       "criterion": "teste/fixture do domínio 19, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/youth",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2748,
@@ -16890,11 +16382,8 @@
       "title": "simular cenário de lesão",
       "dependency": "2747",
       "criterion": "teste/fixture do domínio 19, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/youth",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2749,
@@ -16902,11 +16391,8 @@
       "title": "documentar ciclo de lesão",
       "dependency": "2748",
       "criterion": "teste/fixture do domínio 19, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/youth",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2750,
@@ -16914,11 +16400,8 @@
       "title": "testar integração de lesão",
       "dependency": "2749",
       "criterion": "teste/fixture do domínio 19, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/youth",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2751,
@@ -17736,11 +17219,8 @@
       "title": "definir contrato para microciclo",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 20, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/health",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2842,
@@ -17748,11 +17228,8 @@
       "title": "validar regras de microciclo",
       "dependency": "2841",
       "criterion": "teste/fixture do domínio 20, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/health",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2843,
@@ -17760,11 +17237,8 @@
       "title": "persistir estado de microciclo",
       "dependency": "2842",
       "criterion": "teste/fixture do domínio 20, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/health",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2844,
@@ -17772,11 +17246,8 @@
       "title": "expor leitura de microciclo",
       "dependency": "2843",
       "criterion": "teste/fixture do domínio 20, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/health",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2845,
@@ -17784,11 +17255,8 @@
       "title": "proteger mutação de microciclo",
       "dependency": "2844",
       "criterion": "teste/fixture do domínio 20, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/health",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2846,
@@ -17796,11 +17264,8 @@
       "title": "auditar fluxo de microciclo",
       "dependency": "2845",
       "criterion": "teste/fixture do domínio 20, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/health",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2847,
@@ -17808,11 +17273,8 @@
       "title": "otimizar consulta de microciclo",
       "dependency": "2846",
       "criterion": "teste/fixture do domínio 20, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/health",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2848,
@@ -17820,11 +17282,8 @@
       "title": "simular cenário de microciclo",
       "dependency": "2847",
       "criterion": "teste/fixture do domínio 20, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/health",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2849,
@@ -17832,11 +17291,8 @@
       "title": "documentar ciclo de microciclo",
       "dependency": "2848",
       "criterion": "teste/fixture do domínio 20, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/health",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2850,
@@ -17844,11 +17300,8 @@
       "title": "testar integração de microciclo",
       "dependency": "2849",
       "criterion": "teste/fixture do domínio 20, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/health",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2851,
@@ -18666,11 +18119,8 @@
       "title": "definir contrato para janela",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 21, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2942,
@@ -18678,11 +18128,8 @@
       "title": "validar regras de janela",
       "dependency": "2941",
       "criterion": "teste/fixture do domínio 21, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2943,
@@ -18690,11 +18137,8 @@
       "title": "persistir estado de janela",
       "dependency": "2942",
       "criterion": "teste/fixture do domínio 21, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2944,
@@ -18702,11 +18146,8 @@
       "title": "expor leitura de janela",
       "dependency": "2943",
       "criterion": "teste/fixture do domínio 21, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2945,
@@ -18714,11 +18155,8 @@
       "title": "proteger mutação de janela",
       "dependency": "2944",
       "criterion": "teste/fixture do domínio 21, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2946,
@@ -18726,11 +18164,8 @@
       "title": "auditar fluxo de janela",
       "dependency": "2945",
       "criterion": "teste/fixture do domínio 21, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2947,
@@ -18738,11 +18173,8 @@
       "title": "otimizar consulta de janela",
       "dependency": "2946",
       "criterion": "teste/fixture do domínio 21, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2948,
@@ -18750,11 +18182,8 @@
       "title": "simular cenário de janela",
       "dependency": "2947",
       "criterion": "teste/fixture do domínio 21, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2949,
@@ -18762,11 +18191,8 @@
       "title": "documentar ciclo de janela",
       "dependency": "2948",
       "criterion": "teste/fixture do domínio 21, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2950,
@@ -18774,11 +18200,8 @@
       "title": "testar integração de janela",
       "dependency": "2949",
       "criterion": "teste/fixture do domínio 21, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/training",
-        "server/careerGateway.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 2951,
@@ -19596,11 +19019,8 @@
       "title": "definir contrato para missão",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 22, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/transfers",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3042,
@@ -19608,11 +19028,8 @@
       "title": "validar regras de missão",
       "dependency": "3041",
       "criterion": "teste/fixture do domínio 22, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/transfers",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3043,
@@ -19620,11 +19037,8 @@
       "title": "persistir estado de missão",
       "dependency": "3042",
       "criterion": "teste/fixture do domínio 22, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/transfers",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3044,
@@ -19632,11 +19046,8 @@
       "title": "expor leitura de missão",
       "dependency": "3043",
       "criterion": "teste/fixture do domínio 22, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/transfers",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3045,
@@ -19644,11 +19055,8 @@
       "title": "proteger mutação de missão",
       "dependency": "3044",
       "criterion": "teste/fixture do domínio 22, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/transfers",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3046,
@@ -19656,11 +19064,8 @@
       "title": "auditar fluxo de missão",
       "dependency": "3045",
       "criterion": "teste/fixture do domínio 22, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/transfers",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3047,
@@ -19668,11 +19073,8 @@
       "title": "otimizar consulta de missão",
       "dependency": "3046",
       "criterion": "teste/fixture do domínio 22, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/transfers",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3048,
@@ -19680,11 +19082,8 @@
       "title": "simular cenário de missão",
       "dependency": "3047",
       "criterion": "teste/fixture do domínio 22, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/transfers",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3049,
@@ -19692,11 +19091,8 @@
       "title": "documentar ciclo de missão",
       "dependency": "3048",
       "criterion": "teste/fixture do domínio 22, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/transfers",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3050,
@@ -19704,11 +19100,8 @@
       "title": "testar integração de missão",
       "dependency": "3049",
       "criterion": "teste/fixture do domínio 22, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/transfers",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3051,
@@ -20526,11 +19919,8 @@
       "title": "definir contrato para caixa",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 23, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/scouting",
-        "docs/treino_e_scouting.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3142,
@@ -20538,11 +19928,8 @@
       "title": "validar regras de caixa",
       "dependency": "3141",
       "criterion": "teste/fixture do domínio 23, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/scouting",
-        "docs/treino_e_scouting.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3143,
@@ -20550,11 +19937,8 @@
       "title": "persistir estado de caixa",
       "dependency": "3142",
       "criterion": "teste/fixture do domínio 23, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/scouting",
-        "docs/treino_e_scouting.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3144,
@@ -20562,11 +19946,8 @@
       "title": "expor leitura de caixa",
       "dependency": "3143",
       "criterion": "teste/fixture do domínio 23, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/scouting",
-        "docs/treino_e_scouting.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3145,
@@ -20574,11 +19955,8 @@
       "title": "proteger mutação de caixa",
       "dependency": "3144",
       "criterion": "teste/fixture do domínio 23, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/scouting",
-        "docs/treino_e_scouting.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3146,
@@ -20586,11 +19964,8 @@
       "title": "auditar fluxo de caixa",
       "dependency": "3145",
       "criterion": "teste/fixture do domínio 23, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/scouting",
-        "docs/treino_e_scouting.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3147,
@@ -20598,11 +19973,8 @@
       "title": "otimizar consulta de caixa",
       "dependency": "3146",
       "criterion": "teste/fixture do domínio 23, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/scouting",
-        "docs/treino_e_scouting.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3148,
@@ -20610,11 +19982,8 @@
       "title": "simular cenário de caixa",
       "dependency": "3147",
       "criterion": "teste/fixture do domínio 23, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/scouting",
-        "docs/treino_e_scouting.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3149,
@@ -20622,11 +19991,8 @@
       "title": "documentar ciclo de caixa",
       "dependency": "3148",
       "criterion": "teste/fixture do domínio 23, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/scouting",
-        "docs/treino_e_scouting.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3150,
@@ -20634,11 +20000,8 @@
       "title": "testar integração de caixa",
       "dependency": "3149",
       "criterion": "teste/fixture do domínio 23, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/scouting",
-        "docs/treino_e_scouting.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3151,
@@ -21456,11 +20819,8 @@
       "title": "definir contrato para oferta",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 24, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/finance",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3242,
@@ -21468,11 +20828,8 @@
       "title": "validar regras de oferta",
       "dependency": "3241",
       "criterion": "teste/fixture do domínio 24, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/finance",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3243,
@@ -21480,11 +20837,8 @@
       "title": "persistir estado de oferta",
       "dependency": "3242",
       "criterion": "teste/fixture do domínio 24, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/finance",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3244,
@@ -21492,11 +20846,8 @@
       "title": "expor leitura de oferta",
       "dependency": "3243",
       "criterion": "teste/fixture do domínio 24, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/finance",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3245,
@@ -21504,11 +20855,8 @@
       "title": "proteger mutação de oferta",
       "dependency": "3244",
       "criterion": "teste/fixture do domínio 24, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/finance",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3246,
@@ -21516,11 +20864,8 @@
       "title": "auditar fluxo de oferta",
       "dependency": "3245",
       "criterion": "teste/fixture do domínio 24, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/finance",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3247,
@@ -21528,11 +20873,8 @@
       "title": "otimizar consulta de oferta",
       "dependency": "3246",
       "criterion": "teste/fixture do domínio 24, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/finance",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3248,
@@ -21540,11 +20882,8 @@
       "title": "simular cenário de oferta",
       "dependency": "3247",
       "criterion": "teste/fixture do domínio 24, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/finance",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3249,
@@ -21552,11 +20891,8 @@
       "title": "documentar ciclo de oferta",
       "dependency": "3248",
       "criterion": "teste/fixture do domínio 24, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/finance",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3250,
@@ -21564,11 +20900,8 @@
       "title": "testar integração de oferta",
       "dependency": "3249",
       "criterion": "teste/fixture do domínio 24, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/finance",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3251,
@@ -22386,11 +21719,8 @@
       "title": "definir contrato para capacidade",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 25, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/commercial",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3342,
@@ -22398,11 +21728,8 @@
       "title": "validar regras de capacidade",
       "dependency": "3341",
       "criterion": "teste/fixture do domínio 25, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/commercial",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3343,
@@ -22410,11 +21737,8 @@
       "title": "persistir estado de capacidade",
       "dependency": "3342",
       "criterion": "teste/fixture do domínio 25, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/commercial",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3344,
@@ -22422,11 +21746,8 @@
       "title": "expor leitura de capacidade",
       "dependency": "3343",
       "criterion": "teste/fixture do domínio 25, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/commercial",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3345,
@@ -22434,11 +21755,8 @@
       "title": "proteger mutação de capacidade",
       "dependency": "3344",
       "criterion": "teste/fixture do domínio 25, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/commercial",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3346,
@@ -22446,11 +21764,8 @@
       "title": "auditar fluxo de capacidade",
       "dependency": "3345",
       "criterion": "teste/fixture do domínio 25, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/commercial",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3347,
@@ -22458,11 +21773,8 @@
       "title": "otimizar consulta de capacidade",
       "dependency": "3346",
       "criterion": "teste/fixture do domínio 25, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/commercial",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3348,
@@ -22470,11 +21782,8 @@
       "title": "simular cenário de capacidade",
       "dependency": "3347",
       "criterion": "teste/fixture do domínio 25, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/commercial",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3349,
@@ -22482,11 +21791,8 @@
       "title": "documentar ciclo de capacidade",
       "dependency": "3348",
       "criterion": "teste/fixture do domínio 25, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/commercial",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3350,
@@ -22494,11 +21800,8 @@
       "title": "testar integração de capacidade",
       "dependency": "3349",
       "criterion": "teste/fixture do domínio 25, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/commercial",
-        "docs/protocolo_confirmacao_mercado.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3351,
@@ -23316,11 +22619,8 @@
       "title": "definir contrato para rota",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 26, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/stadium",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3442,
@@ -23328,11 +22628,8 @@
       "title": "validar regras de rota",
       "dependency": "3441",
       "criterion": "teste/fixture do domínio 26, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/stadium",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3443,
@@ -23340,11 +22637,8 @@
       "title": "persistir estado de rota",
       "dependency": "3442",
       "criterion": "teste/fixture do domínio 26, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/stadium",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3444,
@@ -23352,11 +22646,8 @@
       "title": "expor leitura de rota",
       "dependency": "3443",
       "criterion": "teste/fixture do domínio 26, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/stadium",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3445,
@@ -23364,11 +22655,8 @@
       "title": "proteger mutação de rota",
       "dependency": "3444",
       "criterion": "teste/fixture do domínio 26, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/stadium",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3446,
@@ -23376,11 +22664,8 @@
       "title": "auditar fluxo de rota",
       "dependency": "3445",
       "criterion": "teste/fixture do domínio 26, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/stadium",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3447,
@@ -23388,11 +22673,8 @@
       "title": "otimizar consulta de rota",
       "dependency": "3446",
       "criterion": "teste/fixture do domínio 26, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/stadium",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3448,
@@ -23400,11 +22682,8 @@
       "title": "simular cenário de rota",
       "dependency": "3447",
       "criterion": "teste/fixture do domínio 26, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/stadium",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3449,
@@ -23412,11 +22691,8 @@
       "title": "documentar ciclo de rota",
       "dependency": "3448",
       "criterion": "teste/fixture do domínio 26, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/stadium",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3450,
@@ -23424,11 +22700,8 @@
       "title": "testar integração de rota",
       "dependency": "3449",
       "criterion": "teste/fixture do domínio 26, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/stadium",
-        "docs/relatorio_qualidade_entrega.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3451,
@@ -24246,11 +23519,8 @@
       "title": "definir contrato para fila",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 27, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/travel",
-        "docs/README_operacao_segura.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3542,
@@ -24258,11 +23528,8 @@
       "title": "validar regras de fila",
       "dependency": "3541",
       "criterion": "teste/fixture do domínio 27, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/travel",
-        "docs/README_operacao_segura.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3543,
@@ -24270,11 +23537,8 @@
       "title": "persistir estado de fila",
       "dependency": "3542",
       "criterion": "teste/fixture do domínio 27, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/travel",
-        "docs/README_operacao_segura.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3544,
@@ -24282,11 +23546,8 @@
       "title": "expor leitura de fila",
       "dependency": "3543",
       "criterion": "teste/fixture do domínio 27, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/travel",
-        "docs/README_operacao_segura.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3545,
@@ -24294,11 +23555,8 @@
       "title": "proteger mutação de fila",
       "dependency": "3544",
       "criterion": "teste/fixture do domínio 27, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/travel",
-        "docs/README_operacao_segura.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3546,
@@ -24306,11 +23564,8 @@
       "title": "auditar fluxo de fila",
       "dependency": "3545",
       "criterion": "teste/fixture do domínio 27, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/travel",
-        "docs/README_operacao_segura.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3547,
@@ -24318,11 +23573,8 @@
       "title": "otimizar consulta de fila",
       "dependency": "3546",
       "criterion": "teste/fixture do domínio 27, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/travel",
-        "docs/README_operacao_segura.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3548,
@@ -24330,11 +23582,8 @@
       "title": "simular cenário de fila",
       "dependency": "3547",
       "criterion": "teste/fixture do domínio 27, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/travel",
-        "docs/README_operacao_segura.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3549,
@@ -24342,11 +23591,8 @@
       "title": "documentar ciclo de fila",
       "dependency": "3548",
       "criterion": "teste/fixture do domínio 27, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/travel",
-        "docs/README_operacao_segura.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3550,
@@ -24354,11 +23600,8 @@
       "title": "testar integração de fila",
       "dependency": "3549",
       "criterion": "teste/fixture do domínio 27, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/travel",
-        "docs/README_operacao_segura.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3551,
@@ -25176,11 +24419,8 @@
       "title": "definir contrato para notícia",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 28, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world/simulation.py",
-        "docs/simulacao_mundial_recuperacao.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3642,
@@ -25188,11 +24428,8 @@
       "title": "validar regras de notícia",
       "dependency": "3641",
       "criterion": "teste/fixture do domínio 28, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world/simulation.py",
-        "docs/simulacao_mundial_recuperacao.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3643,
@@ -25200,11 +24437,8 @@
       "title": "persistir estado de notícia",
       "dependency": "3642",
       "criterion": "teste/fixture do domínio 28, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world/simulation.py",
-        "docs/simulacao_mundial_recuperacao.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3644,
@@ -25212,11 +24446,8 @@
       "title": "expor leitura de notícia",
       "dependency": "3643",
       "criterion": "teste/fixture do domínio 28, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world/simulation.py",
-        "docs/simulacao_mundial_recuperacao.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3645,
@@ -25224,11 +24455,8 @@
       "title": "proteger mutação de notícia",
       "dependency": "3644",
       "criterion": "teste/fixture do domínio 28, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world/simulation.py",
-        "docs/simulacao_mundial_recuperacao.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3646,
@@ -25236,11 +24464,8 @@
       "title": "auditar fluxo de notícia",
       "dependency": "3645",
       "criterion": "teste/fixture do domínio 28, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world/simulation.py",
-        "docs/simulacao_mundial_recuperacao.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3647,
@@ -25248,11 +24473,8 @@
       "title": "otimizar consulta de notícia",
       "dependency": "3646",
       "criterion": "teste/fixture do domínio 28, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world/simulation.py",
-        "docs/simulacao_mundial_recuperacao.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3648,
@@ -25260,11 +24482,8 @@
       "title": "simular cenário de notícia",
       "dependency": "3647",
       "criterion": "teste/fixture do domínio 28, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world/simulation.py",
-        "docs/simulacao_mundial_recuperacao.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3649,
@@ -25272,11 +24491,8 @@
       "title": "documentar ciclo de notícia",
       "dependency": "3648",
       "criterion": "teste/fixture do domínio 28, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world/simulation.py",
-        "docs/simulacao_mundial_recuperacao.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3650,
@@ -25284,11 +24500,8 @@
       "title": "testar integração de notícia",
       "dependency": "3649",
       "criterion": "teste/fixture do domínio 28, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/world/simulation.py",
-        "docs/simulacao_mundial_recuperacao.md"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3651,
@@ -26106,11 +25319,8 @@
       "title": "definir contrato para save",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 29, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/news",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3742,
@@ -26118,11 +25328,8 @@
       "title": "validar regras de save",
       "dependency": "3741",
       "criterion": "teste/fixture do domínio 29, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/news",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3743,
@@ -26130,11 +25337,8 @@
       "title": "persistir estado de save",
       "dependency": "3742",
       "criterion": "teste/fixture do domínio 29, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/news",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3744,
@@ -26142,11 +25346,8 @@
       "title": "expor leitura de save",
       "dependency": "3743",
       "criterion": "teste/fixture do domínio 29, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/news",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3745,
@@ -26154,11 +25355,8 @@
       "title": "proteger mutação de save",
       "dependency": "3744",
       "criterion": "teste/fixture do domínio 29, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/news",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3746,
@@ -26166,11 +25364,8 @@
       "title": "auditar fluxo de save",
       "dependency": "3745",
       "criterion": "teste/fixture do domínio 29, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/news",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3747,
@@ -26178,11 +25373,8 @@
       "title": "otimizar consulta de save",
       "dependency": "3746",
       "criterion": "teste/fixture do domínio 29, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/news",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3748,
@@ -26190,11 +25382,8 @@
       "title": "simular cenário de save",
       "dependency": "3747",
       "criterion": "teste/fixture do domínio 29, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/news",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3749,
@@ -26202,11 +25391,8 @@
       "title": "documentar ciclo de save",
       "dependency": "3748",
       "criterion": "teste/fixture do domínio 29, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/news",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3750,
@@ -26214,11 +25400,8 @@
       "title": "testar integração de save",
       "dependency": "3749",
       "criterion": "teste/fixture do domínio 29, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "brasfoot_engine/engine/news",
-        "server/operations.test.ts"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3751,
@@ -27036,11 +26219,8 @@
       "title": "definir contrato para dashboard",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 30, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "client/src/pages/CareerStart.tsx",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3842,
@@ -27048,11 +26228,8 @@
       "title": "validar regras de dashboard",
       "dependency": "3841",
       "criterion": "teste/fixture do domínio 30, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "client/src/pages/CareerStart.tsx",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3843,
@@ -27060,11 +26237,8 @@
       "title": "persistir estado de dashboard",
       "dependency": "3842",
       "criterion": "teste/fixture do domínio 30, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "client/src/pages/CareerStart.tsx",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3844,
@@ -27072,11 +26246,8 @@
       "title": "expor leitura de dashboard",
       "dependency": "3843",
       "criterion": "teste/fixture do domínio 30, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "client/src/pages/CareerStart.tsx",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3845,
@@ -27084,11 +26255,8 @@
       "title": "proteger mutação de dashboard",
       "dependency": "3844",
       "criterion": "teste/fixture do domínio 30, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "client/src/pages/CareerStart.tsx",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3846,
@@ -27096,11 +26264,8 @@
       "title": "auditar fluxo de dashboard",
       "dependency": "3845",
       "criterion": "teste/fixture do domínio 30, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "client/src/pages/CareerStart.tsx",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3847,
@@ -27108,11 +26273,8 @@
       "title": "otimizar consulta de dashboard",
       "dependency": "3846",
       "criterion": "teste/fixture do domínio 30, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "client/src/pages/CareerStart.tsx",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3848,
@@ -27120,11 +26282,8 @@
       "title": "simular cenário de dashboard",
       "dependency": "3847",
       "criterion": "teste/fixture do domínio 30, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "client/src/pages/CareerStart.tsx",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3849,
@@ -27132,11 +26291,8 @@
       "title": "documentar ciclo de dashboard",
       "dependency": "3848",
       "criterion": "teste/fixture do domínio 30, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "client/src/pages/CareerStart.tsx",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3850,
@@ -27144,11 +26300,8 @@
       "title": "testar integração de dashboard",
       "dependency": "3849",
       "criterion": "teste/fixture do domínio 30, leitura SQLite e auditoria do contrato",
-      "status": "DONE",
-      "evidence": [
-        "client/src/pages/CareerStart.tsx",
-        "server/CareerStart.ui.test.tsx"
-      ]
+      "status": "PENDING",
+      "evidence": []
     },
     {
       "item_id": 3851,
