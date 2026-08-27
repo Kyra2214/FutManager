@@ -458,3 +458,14 @@ html, body, #root { max-width: 100%; overflow-x: hidden; }
   .career-parallel-preview-head small { max-width: none; text-align: left; }
   .career-parallel-divisions { grid-template-columns: 1fr; }
 }
+
+/* Universo nacional versus liga paralela */
+.career-world-country.unavailable { opacity: .48; cursor: not-allowed; background: #f0eee7; }
+.career-world-country.unavailable small { color: #8f8c82; }
+.career-national-preview { margin-top: 1rem; padding: 1.1rem; border: 1px solid #cfd6b5; border-left: 4px solid #9fca45; background: #f5f7e9; display: grid; gap: .4rem; }
+.career-national-preview strong { font-size: 1.15rem; color: #20241f; }
+.career-national-preview p { margin: 0; color: #6f7268; font-size: .85rem; line-height: 1.45; }
+@media (max-width: 680px) {
+  .career-national-preview { padding: .9rem; }
+  .career-world-country.unavailable { min-width: 0; }
+}

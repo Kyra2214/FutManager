@@ -569,3 +569,7 @@
 - [x] Exibir a lista completa de clubes, país de origem e divisão na confirmação da nova carreira.
 - [x] Validar temporada completa da liga paralela sem alterar fixtures ou competições nacionais originais.
 - [x] Criar lista validada de 3.000 melhorias do FutManager, numerada de 941 a 3.940, com domínios, prioridades, dependências, gates e critérios verificáveis.
+- [x] Corrigir o cenário de uma única liga para preservar a competição nacional e apenas reposicionar o clube escolhido na 4ª divisão.
+- [x] Remover países genéricos do catálogo visual e apresentar países principais com dados oficiais de primeira divisão.
+- [x] Adicionar testes para uma liga, múltiplas ligas e catálogo amplo de países.
+- [ ] Executar as 3.000 melhorias do roadmap em ordem, respeitando P0_GLOBAL_GATE e P1_GLOBAL_GATE, com evidências registradas.

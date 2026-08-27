@@ -123,3 +123,31 @@ describe("CareerStart UI", () => {
     expect(screen.getByText("Clube 4")).toBeTruthy();
     expect(screen.getByText("Sorteio persistirá no save · seed seed-teste")).toBeTruthy();
   });
+
+describe("CareerStart — modo nacional", () => {
+  afterEach(() => cleanup());
+
+  it("mostra o fluxo nacional quando apenas uma liga é selecionada", () => {
+    mocks.parallelPreview.mockReturnValue({
+      data: {
+        mode: "NATIONAL",
+        competition_name: "Campeonato Brasileiro Série A",
+        total_clubs: 20,
+        country_count: 1,
+        division_count: 4,
+        seed: null,
+        target_division: 4,
+        read_only: true,
+        preserved_national_competition: true,
+        divisions: [],
+      },
+      isLoading: false,
+      isError: false,
+    });
+    render(<CareerStart onStarted={vi.fn()} />);
+    expect(screen.getByText("FLUXO NACIONAL")).toBeTruthy();
+    expect(screen.getByText("Campeonato Brasileiro Série A")).toBeTruthy();
+    expect(screen.getByText(/O clube escolhido será reposicionado para a 4ª divisão/)).toBeTruthy();
+    expect(screen.queryByText("20 clubes · 4 divisões")).toBeNull();
+  });
+});
