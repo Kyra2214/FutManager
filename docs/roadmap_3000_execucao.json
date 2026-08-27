@@ -2585,8 +2585,14 @@
       "title": "definir contrato para sessão",
       "dependency": "P0_GLOBAL_GATE + passo anterior do domínio",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_session_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_session_1151_1160.md"
+      ]
     },
     {
       "item_id": 1152,
@@ -2594,8 +2600,14 @@
       "title": "validar regras de sessão",
       "dependency": "1151",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_session_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_session_1151_1160.md"
+      ]
     },
     {
       "item_id": 1153,
@@ -2603,8 +2615,14 @@
       "title": "persistir estado de sessão",
       "dependency": "1152",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_session_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_session_1151_1160.md"
+      ]
     },
     {
       "item_id": 1154,
@@ -2612,8 +2630,14 @@
       "title": "expor leitura de sessão",
       "dependency": "1153",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_session_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_session_1151_1160.md"
+      ]
     },
     {
       "item_id": 1155,
@@ -2621,8 +2645,14 @@
       "title": "proteger mutação de sessão",
       "dependency": "1154",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_session_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_session_1151_1160.md"
+      ]
     },
     {
       "item_id": 1156,
@@ -2630,8 +2660,14 @@
       "title": "auditar fluxo de sessão",
       "dependency": "1155",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_session_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_session_1151_1160.md"
+      ]
     },
     {
       "item_id": 1157,
@@ -2639,8 +2675,14 @@
       "title": "otimizar consulta de sessão",
       "dependency": "1156",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_session_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_session_1151_1160.md"
+      ]
     },
     {
       "item_id": 1158,
@@ -2648,8 +2690,14 @@
       "title": "simular cenário de sessão",
       "dependency": "1157",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_session_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_session_1151_1160.md"
+      ]
     },
     {
       "item_id": 1159,
@@ -2657,8 +2705,14 @@
       "title": "documentar ciclo de sessão",
       "dependency": "1158",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_session_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_session_1151_1160.md"
+      ]
     },
     {
       "item_id": 1160,
@@ -2666,8 +2720,14 @@
       "title": "testar integração de sessão",
       "dependency": "1159",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_session_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_session_1151_1160.md"
+      ]
     },
     {
       "item_id": 1161,
