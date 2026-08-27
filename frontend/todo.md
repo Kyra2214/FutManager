@@ -934,3 +934,10 @@
 - [x] Corrigir a transição do botão “Iniciar partida” para o estado ao vivo, sem bloquear por dados opcionais.
 - [x] Cobrir o clique mobile com teste de UI e validar animação, pausas e registro posterior.
 - [x] Salvar checkpoint corrigido e sincronizar a correção no GitHub.
+
+# Modo partida dedicado
+- [x] Definir uma rota/estado exclusivo para a experiência de partida, sem o dashboard de carreira.
+- [x] Abrir o modo dedicado ao iniciar a partida e oferecer retorno seguro para Nossas Partidas.
+- [x] Manter na tela exclusiva somente placar, campo, eventos, pausa e decisões táticas.
+- [x] Validar navegação desktop/mobile, acessibilidade e persistência das decisões no modo dedicado.
+- [x] Salvar checkpoint e sincronizar a alteração no GitHub.
