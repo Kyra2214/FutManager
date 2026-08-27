@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 550,
-    "pending": 2450,
+    "done": 560,
+    "pending": 2440,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -4505,8 +4505,13 @@
       "title": "definir contrato para escudo",
       "dependency": "1290",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_preferences_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_preferences_contract.py"
+      ]
     },
     {
       "item_id": 1292,
@@ -4514,8 +4519,13 @@
       "title": "validar regras de escudo",
       "dependency": "1291",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_preferences_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_preferences_contract.py"
+      ]
     },
     {
       "item_id": 1293,
@@ -4523,8 +4533,13 @@
       "title": "persistir estado de escudo",
       "dependency": "1292",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_preferences_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_preferences_contract.py"
+      ]
     },
     {
       "item_id": 1294,
@@ -4532,8 +4547,13 @@
       "title": "expor leitura de escudo",
       "dependency": "1293",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_preferences_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_preferences_contract.py"
+      ]
     },
     {
       "item_id": 1295,
@@ -4541,8 +4561,13 @@
       "title": "proteger mutação de escudo",
       "dependency": "1294",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_preferences_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_preferences_contract.py"
+      ]
     },
     {
       "item_id": 1296,
@@ -4550,8 +4575,13 @@
       "title": "auditar fluxo de escudo",
       "dependency": "1295",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_preferences_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_preferences_contract.py"
+      ]
     },
     {
       "item_id": 1297,
@@ -4559,8 +4589,13 @@
       "title": "otimizar consulta de escudo",
       "dependency": "1296",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_preferences_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_preferences_contract.py"
+      ]
     },
     {
       "item_id": 1298,
@@ -4568,8 +4603,13 @@
       "title": "simular cenário de escudo",
       "dependency": "1297",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_preferences_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_preferences_contract.py"
+      ]
     },
     {
       "item_id": 1299,
@@ -4577,8 +4617,13 @@
       "title": "documentar ciclo de escudo",
       "dependency": "1298",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_preferences_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_preferences_contract.py"
+      ]
     },
     {
       "item_id": 1300,
@@ -4586,8 +4631,13 @@
       "title": "testar integração de escudo",
       "dependency": "1299",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_preferences_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_preferences_contract.py"
+      ]
     },
     {
       "item_id": 1301,

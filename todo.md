@@ -620,3 +620,4 @@
 - [x] Registrar a abertura controlada do P1_GLOBAL_GATE após autorização explícita do usuário, mantendo P2 bloqueado.
 - [x] Implementar e validar o lote P1 1271–1280: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de identidade.
 - [x] Implementar e validar o lote P1 1281–1290: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de perfil.
+- [x] Implementar e validar o lote P1 1291–1300: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de preferências.
