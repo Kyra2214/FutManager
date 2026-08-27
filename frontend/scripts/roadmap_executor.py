@@ -40,6 +40,14 @@ def gate_status(items: list[RoadmapItem]) -> dict[str, str]:
 
 def main() -> None:
     items = load_items()
+    if MANIFEST.exists():
+        previous = json.loads(MANIFEST.read_text(encoding='utf-8'))
+        previous_items = {item['item_id']: item for item in previous.get('items', [])}
+        for item in items:
+            old = previous_items.get(item.item_id)
+            if old:
+                item.status = old.get('status', 'PENDING')
+                item.evidence = old.get('evidence', [])
     assert len(items) == 3000
     assert [item.item_id for item in items] == list(range(941, 3941))
     gates = gate_status(items)
