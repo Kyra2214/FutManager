@@ -7,6 +7,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Capacitor } from "@capacitor/core";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
+import { localDomain } from "@/lib/offline/localDomain";
 import { getEntityAssetPresentation } from "@/lib/entityAsset";
 import { EntityAsset } from "@/components/EntityAsset";
 import { TableSkeleton } from "@/components/TableSkeleton";
@@ -365,10 +366,20 @@ function SponsorshipPage() {
 
 export default function Home({ section = "inicio", onSectionChange = () => undefined }: { section?: AppSection; onSectionChange?: (section: AppSection) => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const careerQuery = trpc.career.current.useQuery(undefined, { retry: 1 });
+  const isNative = Capacitor.isNativePlatform();
+  const careerQuery = trpc.career.current.useQuery(undefined, { retry: 1, enabled: !isNative });
+  const [localCareer, setLocalCareer] = useState<Awaited<ReturnType<typeof localDomain.loadActiveCareer>> | undefined>(undefined);
+  useEffect(() => {
+    if (!isNative) return;
+    let active = true;
+    localDomain.loadActiveCareer().then((career) => active && setLocalCareer(career)).catch(() => active && setLocalCareer(null));
+    return () => { active = false; };
+  }, [isNative]);
   const main = useMemo(() => section === "clube" ? <Dashboard onSectionChange={onSectionChange} /> : section === "partidas" ? <MatchesPage onOpenMatch={() => onSectionChange("partida")} onNavigate={onSectionChange} /> : section === "partida" ? <MatchdayPage onBack={() => onSectionChange("partidas")} /> : section === "patrocinadores" ? <SponsorshipPage /> : section === "operacoes" ? <OperationsPanel /> : <StructurePage section={section} onSectionChange={onSectionChange} />, [section, onSectionChange]);
 
-  if (section === "inicio" || (!careerQuery.isLoading && careerQuery.data?.started === false)) {
+  const careerLoading = isNative ? localCareer === undefined : careerQuery.isLoading;
+  const careerStarted = isNative ? localCareer !== null && localCareer !== undefined : careerQuery.data?.started === true;
+  if (section === "inicio" || (!careerLoading && !careerStarted)) {
     return <CareerStart onStarted={() => onSectionChange("clube")} onContinue={() => onSectionChange("clube")} />;
   }
   if (section === "partida") {

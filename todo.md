@@ -1033,3 +1033,5 @@
 - [x] Confirmar NativeEnginePlugin.class, futmanager_native.py e bibliotecas Python nos artefatos Android.
 - [x] Encaminhar a criação de carreira da CareerStart para o NativeEngine no Android.
 - [x] Validar a CareerStart com NativeEngine por typecheck e 67 testes frontend.
+- [x] Fazer a Home decidir entre CareerStart e dashboard usando a carreira ativa do GameState no Android.
+- [x] Validar a Home, CareerStart e fluxo semanal com typecheck e 67 testes frontend.

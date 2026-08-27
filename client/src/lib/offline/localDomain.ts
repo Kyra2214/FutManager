@@ -26,7 +26,7 @@ export async function loadActiveCareerFromGameState() {
     LIMIT 1
   `);
   const career = rows[0];
-  if (!career || career.current_club_id === null) return null;
+  if (!career) return null;
   return {
     careerId: career.career_id,
     careerName: career.name,
