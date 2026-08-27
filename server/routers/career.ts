@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { advanceWorldWeek, getCurrentCareer, getParallelLeaguePreview, listCareerTargets, listWorldCountries, startCareer } from "../careerGateway";
+import { advanceUntilControlledMatch, advanceWorldWeek, getCurrentCareer, getParallelLeaguePreview, listCareerTargets, listWorldCountries, startCareer } from "../careerGateway";
 import { publicProcedure, router } from "../_core/trpc";
 
 function toTrpcError(error: unknown) {
@@ -49,6 +49,15 @@ export const careerRouter = router({
     .mutation(({ input }) => {
       try {
         return advanceWorldWeek(input?.seed);
+      } catch (error) {
+        throw toTrpcError(error);
+      }
+    }),
+  advanceUntilMatch: publicProcedure
+    .input(z.object({ matchId: z.number().int().positive(), seed: z.number().int().optional() }))
+    .mutation(({ input }) => {
+      try {
+        return advanceUntilControlledMatch(input.matchId, input.seed);
       } catch (error) {
         throw toTrpcError(error);
       }
