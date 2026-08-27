@@ -10,6 +10,7 @@ import { matchesRouter } from "./routers/matches";
 import { staffMarketRouter } from "./routers/staffMarket";
 import { sponsorshipRouter } from "./routers/sponsorship";
 import { stadiumRouter } from "./routers/stadium";
+import { operationsRouter } from "./routers/operations";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -32,6 +33,7 @@ export const appRouter = router({
   staffMarket: staffMarketRouter,
   sponsorship: sponsorshipRouter,
   stadium: stadiumRouter,
+  operations: operationsRouter,
 
   // TODO: add feature routers here, e.g.
   // todo: router({

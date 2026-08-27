@@ -26,8 +26,9 @@ CREATE TABLE IF NOT EXISTS migration_audit(audit_id INTEGER PRIMARY KEY AUTOINCR
 CREATE TABLE IF NOT EXISTS career_snapshot_audit(audit_id INTEGER PRIMARY KEY AUTOINCREMENT,snapshot_id INTEGER NOT NULL,career_id INTEGER NOT NULL,action TEXT NOT NULL,success INTEGER NOT NULL,details TEXT NOT NULL,created_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS manager_permission_audit(permission_audit_id INTEGER PRIMARY KEY AUTOINCREMENT,manager_id INTEGER NOT NULL,action TEXT NOT NULL,allowed INTEGER NOT NULL,reason TEXT NOT NULL,created_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS career_change_audit(change_id INTEGER PRIMARY KEY AUTOINCREMENT,career_id INTEGER NOT NULL,manager_id INTEGER NOT NULL,origin_club_id INTEGER,destination_club_id INTEGER,created_at TEXT NOT NULL,reference TEXT UNIQUE);
-CREATE TABLE IF NOT EXISTS career_world_configs(career_id INTEGER PRIMARY KEY,manager_id INTEGER NOT NULL,combined_name TEXT NOT NULL,starting_division INTEGER NOT NULL DEFAULT 4,created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS career_world_configs(career_id INTEGER PRIMARY KEY,manager_id INTEGER NOT NULL,combined_name TEXT NOT NULL,starting_division INTEGER NOT NULL DEFAULT 4,world_mode TEXT NOT NULL DEFAULT 'PARALLEL',created_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS career_world_countries(career_id INTEGER NOT NULL,country_id INTEGER NOT NULL,country_name TEXT NOT NULL,country_code TEXT,PRIMARY KEY(career_id,country_id));
+CREATE TABLE IF NOT EXISTS career_national_reassignments(career_id INTEGER PRIMARY KEY,manager_id INTEGER NOT NULL,club_id INTEGER NOT NULL,country_id INTEGER NOT NULL,original_division INTEGER NOT NULL,career_division INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',created_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS first_division_membership(country_id INTEGER NOT NULL,club_id INTEGER NOT NULL,source_name TEXT NOT NULL,source_url TEXT NOT NULL,season_label TEXT NOT NULL,imported_at TEXT NOT NULL,PRIMARY KEY(country_id,club_id));
 CREATE TABLE IF NOT EXISTS career_parallel_leagues(career_id INTEGER PRIMARY KEY,manager_id INTEGER NOT NULL,name TEXT NOT NULL,season_id INTEGER,total_clubs INTEGER NOT NULL,source_country_count INTEGER NOT NULL,seed TEXT NOT NULL,division_count INTEGER NOT NULL DEFAULT 4,created_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS career_parallel_entries(career_id INTEGER NOT NULL,club_id INTEGER NOT NULL,origin_country_id INTEGER NOT NULL,origin_division INTEGER NOT NULL DEFAULT 1,parallel_division INTEGER NOT NULL,parallel_position INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',PRIMARY KEY(career_id,club_id));
@@ -55,6 +56,9 @@ class ManagerService:
         career_columns = {row[1] for row in self.connection.execute('PRAGMA table_info(manager_careers)').fetchall()}
         if 'starting_division' not in career_columns:
             self.connection.execute('ALTER TABLE manager_careers ADD COLUMN starting_division INTEGER NOT NULL DEFAULT 4')
+        world_config_columns = {row[1] for row in self.connection.execute('PRAGMA table_info(career_world_configs)').fetchall()}
+        if 'world_mode' not in world_config_columns:
+            self.connection.execute("ALTER TABLE career_world_configs ADD COLUMN world_mode TEXT NOT NULL DEFAULT 'PARALLEL'")
         fixture_columns = {row[1] for row in self.connection.execute('PRAGMA table_info(career_parallel_fixtures)').fetchall()}
         if 'scheduled_date' not in fixture_columns:
             self.connection.execute("ALTER TABLE career_parallel_fixtures ADD COLUMN scheduled_date TEXT NOT NULL DEFAULT '1970-01-01'")
@@ -85,7 +89,7 @@ class ManagerService:
             row = self.connection.execute('SELECT nome,codigo FROM paises WHERE pais_id=?', (country_id,)).fetchone()
         except sqlite3.Error:
             row = None
-        overrides = {29: ('Brasil', 'BRA'), 65: ('Espanha', 'ESP'), 104: ('Itália', 'ITA'), 154: ('Portugal', 'POR')}
+        overrides = {29: ('Brasil', 'BRA'), 104: ('Itália', 'ITA'), 65: ('Espanha', 'ESP'), 154: ('Portugal', 'POR'), 97: ('Inglaterra', 'ENG'), 3: ('Alemanha', 'GER'), 72: ('França', 'FRA'), 11: ('Argentina', 'ARG'), 192: ('Turquia', 'TUR')}
         if row and row[0] and not str(row[0]).startswith('País ID'):
             return str(row[0]), row[1]
         return overrides.get(int(country_id), (f'País ID {country_id}', row[1] if row else None))
@@ -94,7 +98,7 @@ class ManagerService:
         search = (search or '').strip().lower()
         limit = min(max(int(limit), 1), 96)
         try:
-            rows = self.connection.execute('SELECT pais_id,nome,codigo FROM paises ORDER BY CASE pais_id WHEN 29 THEN 0 WHEN 104 THEN 1 WHEN 65 THEN 2 ELSE 3 END, pais_id').fetchall()
+            rows = self.connection.execute('SELECT pais_id,nome,codigo FROM paises ORDER BY CASE pais_id WHEN 29 THEN 0 WHEN 104 THEN 1 WHEN 65 THEN 2 WHEN 154 THEN 3 WHEN 97 THEN 4 WHEN 3 THEN 5 WHEN 72 THEN 6 WHEN 11 THEN 7 WHEN 192 THEN 8 ELSE 9 END, pais_id').fetchall()
         except sqlite3.Error:
             rows = self.connection.execute('SELECT DISTINCT pais_id AS pais_id,NULL AS nome,NULL AS codigo FROM times WHERE pais_id IS NOT NULL ORDER BY pais_id').fetchall()
         items = []
@@ -107,6 +111,9 @@ class ManagerService:
             except sqlite3.Error:
                 club_count = 0
             if club_count:
+                known_names = {29, 104, 65, 154, 97, 3, 72, 11, 192}
+                if name.startswith('País ID') and int(row[0]) not in known_names:
+                    continue
                 source = self._first_division_source(int(row[0]))
                 first_division_count = 0
                 if source is not None:
@@ -116,7 +123,7 @@ class ManagerService:
                             first_division_count = len(report['matched'])
                     except (sqlite3.Error, ValueError):
                         first_division_count = 0
-                items.append({'countryId': int(row[0]), 'name': name, 'code': code, 'clubCount': club_count, 'firstDivisionClubCount': first_division_count, 'firstDivisionName': source.competition_name if source else None})
+                items.append({'countryId': int(row[0]), 'name': name, 'code': code, 'clubCount': club_count, 'firstDivisionClubCount': first_division_count, 'firstDivisionName': source.competition_name if source else None, 'supported': bool(source and first_division_count > 0)})
             if len(items) >= limit:
                 break
         return items
@@ -244,8 +251,11 @@ class ManagerService:
     def preview_parallel_league(self, country_ids: list[int], target_type: str, target_id: int) -> dict[str, Any]:
         countries = list(dict.fromkeys(int(country_id) for country_id in country_ids))
         clubs = [{'club_id': item['teamId'], 'origin_country_id': item['countryId'], 'name': item.get('teamName')} for item in self.list_first_division_clubs(countries)]
-        if target_type == 'club' and target_id not in {item['club_id'] for item in clubs}:
+        target_in_first_division = target_type == 'club' and target_id in {item['club_id'] for item in clubs}
+        if len(countries) > 1 and target_type == 'club' and not target_in_first_division:
             raise ValueError('TARGET_CLUB_NOT_FIRST_DIVISION')
+        if len(countries) == 1:
+            return {'mode': 'NATIONAL', 'competition_name': self._first_division_source(countries[0]).competition_name if self._first_division_source(countries[0]) else self._country_details(countries[0])[0], 'total_clubs': len(clubs), 'country_count': 1, 'division_count': 4, 'seed': None, 'target_division': 4 if target_in_first_division else None, 'divisions': [], 'read_only': True, 'preserved_national_competition': True}
         seed = hashlib.sha256(f'preview:{"/".join(str(value) for value in countries)}'.encode()).hexdigest()[:16]
         import random
         randomizer = random.Random(int(seed, 16)); randomizer.shuffle(clubs)
@@ -258,9 +268,17 @@ class ManagerService:
         for division, capacity in enumerate(capacities, start=1):
             divisions.append({'division': division, 'clubs': clubs[cursor:cursor + capacity]})
             cursor += capacity
-        return {'total_clubs': len(clubs), 'country_count': len(countries), 'division_count': 4, 'seed': seed, 'target_division': 4 if target_type == 'club' else None, 'divisions': divisions, 'read_only': True}
+        return {'mode': 'PARALLEL', 'competition_name': f'Liga Mundial · {len(countries)} países', 'total_clubs': len(clubs), 'country_count': len(countries), 'division_count': 4, 'seed': seed, 'target_division': 4 if target_type == 'club' else None, 'divisions': divisions, 'read_only': True, 'preserved_national_competition': True}
 
     def _materialize_parallel_league(self, career_id: int, manager_id: int, career_name: str, season_id: int | None, country_ids: list[int], target_type: str, target_id: int) -> dict[str, Any]:
+        if len(country_ids) == 1:
+            report = self._import_first_division_membership(country_ids[0])
+            matched_ids = {item['teamId'] for item in report['matched']}
+            target_division = None
+            if target_type == 'club' and target_id in matched_ids:
+                self.connection.execute('INSERT INTO career_national_reassignments(career_id,manager_id,club_id,country_id,original_division,career_division,status,created_at) VALUES(?,?,?,?,?,?,?,?)', (career_id, manager_id, target_id, country_ids[0], 1, 4, 'ACTIVE', self._now()))
+                target_division = 4
+            return {'mode': 'NATIONAL', 'name': report['competitionName'], 'total_clubs': report['expected'], 'country_count': 1, 'division_count': 4, 'seed': None, 'target_division': target_division, 'fixture_count': 0, 'season_number': 1, 'preserved_national_competition': True}
         reports = [self._import_first_division_membership(country_id) for country_id in country_ids]
         clubs = []
         seen: set[int] = set()
@@ -340,12 +358,13 @@ class ManagerService:
             mid = int(self.connection.execute('INSERT INTO managers(name,nationality,age,created_at,current_club_id,active_career) VALUES(?,?,?,?,?,1)', (manager_name, nationality or None, age, today, club_id)).lastrowid)
             cid = int(self.connection.execute('INSERT INTO manager_careers(manager_id,name,created_at,updated_at,season_id,current_club_id,engine_version,starting_division) VALUES(?,?,?,?,?,?,?,?)', (mid, career_name, today, today, season_id, club_id, self.ENGINE_VERSION, 4)).lastrowid)
             parallel_league = self._materialize_parallel_league(cid, mid, career_name, season_id, countries, target_type, target_id)
-            self.connection.execute('INSERT INTO career_world_configs(career_id,manager_id,combined_name,starting_division,created_at) VALUES(?,?,?,?,?)', (cid, mid, ' + '.join(country_names), 4, today))
+            world_mode = 'NATIONAL' if len(countries) == 1 else 'PARALLEL'
+            self.connection.execute('INSERT INTO career_world_configs(career_id,manager_id,combined_name,starting_division,world_mode,created_at) VALUES(?,?,?,?,?,?)', (cid, mid, ' + '.join(country_names), 4, world_mode, today))
             for country_id, country_name in zip(countries, country_names):
                 self.connection.execute('INSERT INTO career_world_countries(career_id,country_id,country_name,country_code) VALUES(?,?,?,?)', (cid, country_id, country_name, self._country_details(country_id)[1]))
             if target_type == 'selection': self.connection.execute('INSERT INTO manager_selection_assignments(manager_id,career_id,selection_id,status,appointed_at) VALUES(?,?,?,?,?)', (mid, cid, target_id, 'ACTIVE', today))
             self.connection.execute('INSERT INTO manager_history(manager_id,club_id,event_type,event_date,payload) VALUES(?,?,?,?,?)', (mid, club_id, 'CAREER_STARTED', today, f'{target_type}:{target_id}'))
-        return {'manager_id': mid, 'career_id': cid, 'target_type': target_type, 'target_id': target_id, 'current_club_id': club_id, 'engine_version': self.ENGINE_VERSION, 'selected_country_ids': countries, 'combined_league_name': ' + '.join(country_names), 'starting_division': 4, 'parallel_league': parallel_league}
+        return {'manager_id': mid, 'career_id': cid, 'target_type': target_type, 'target_id': target_id, 'current_club_id': club_id, 'engine_version': self.ENGINE_VERSION, 'selected_country_ids': countries, 'combined_league_name': ' + '.join(country_names), 'starting_division': parallel_league.get('target_division') if parallel_league.get('mode') == 'NATIONAL' else 4, 'world_mode': parallel_league.get('mode'), 'parallel_league': parallel_league}
 
     def set_preference(self, manager_id: int, key: str, value: Any) -> None:
         if not key.strip(): raise ValueError('PREFERENCE_KEY_REQUIRED')

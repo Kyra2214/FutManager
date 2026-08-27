@@ -1,0 +1,14 @@
+{
+  "status": "VALID",
+  "item_count": 3000,
+  "first_id": 941,
+  "last_id": 3940,
+  "unique_id_count": 3000,
+  "priority_counts": {
+    "P0": 300,
+    "P1": 2100,
+    "P2": 600
+  },
+  "items_with_dependency": 3000,
+  "items_with_criterion": 3000
+}

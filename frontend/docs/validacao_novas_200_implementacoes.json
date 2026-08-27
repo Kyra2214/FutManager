@@ -1,0 +1,13 @@
+{
+  "file": "/home/ubuntu/futmanager_frontend/docs/novas_200_implementacoes_501_700.md",
+  "count": 200,
+  "first": 501,
+  "last": 700,
+  "priorities": {
+    "P0": 20,
+    "P1": 160,
+    "P2": 20
+  },
+  "errors": [],
+  "status": "VALID"
+}

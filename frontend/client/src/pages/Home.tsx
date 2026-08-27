@@ -3,15 +3,17 @@
  * Dashboard visual offline-first: apresenta o contrato visual do motor sem inventar
  * jogadores, caixa, resultados ou regras; dados ausentes são mostrados como estados honestos.
  */
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import { getEntityAssetPresentation } from "@/lib/entityAsset";
 import { EntityAsset } from "@/components/EntityAsset";
+import { TableSkeleton } from "@/components/TableSkeleton";
 import { StaffEconomyPanel } from "@/components/StaffEconomyPanel";
 import { SponsorshipPanel } from "@/components/SponsorshipPanel";
 import { StadiumOperationsPanel } from "@/components/StadiumOperationsPanel";
 import { TravelCostsPanel } from "@/components/TravelCostsPanel";
+import { OperationsPanel } from "@/components/OperationsPanel";
 import CareerStart from "@/pages/CareerStart";
 import {
   Activity,
@@ -58,6 +60,7 @@ const navItems: { id: AppSection; label: string; short: string; icon: typeof Lay
   { id: "patrocinadores", label: "Patrocinadores", short: "07", icon: Trophy },
   { id: "transferencias", label: "Transferências", short: "08", icon: ClipboardList },
   { id: "financas", label: "Finanças", short: "09", icon: CircleDollarSign },
+  { id: "operacoes", label: "Operações", short: "10", icon: SlidersHorizontal },
 ];
 
 function formatSection(section: AppSection) {
@@ -228,8 +231,10 @@ export function StructurePage({ section, onSectionChange }: { section: AppSectio
   const financeLedgerQuery = isFinance ? trpc.club.financeLedger.useQuery(financeLedgerInput, { retry: 1 }) : undefined;
   const financeAlertQuery = isFinance ? trpc.club.financeAlert.useQuery({ thresholdWeeks: 4 }, { retry: 1 }) : undefined;
   const financeHistoryQuery = isFinance ? trpc.club.financeHistory.useQuery({ season: financeSeason ? Number(financeSeason) : 2026 }, { retry: 1 }) : undefined;
-  const [playerFilter, setPlayerFilter] = useState("");
-  const [competitionFilter, setCompetitionFilter] = useState("");
+  const [playerFilter, setPlayerFilter] = useState(() => sessionStorage.getItem("futmanager:filter:player") ?? "");
+  const [competitionFilter, setCompetitionFilter] = useState(() => sessionStorage.getItem("futmanager:filter:competition") ?? "");
+  useEffect(() => { sessionStorage.setItem("futmanager:filter:player", playerFilter); }, [playerFilter]);
+  useEffect(() => { sessionStorage.setItem("futmanager:filter:competition", competitionFilter); }, [competitionFilter]);
   const competitionsQuery = isTeam ? trpc.matches.dashboard.useQuery(undefined, { retry: 1 }) : undefined;
   const statsFilterInput = useMemo(() => competitionFilter ? { competitionId: Number(competitionFilter) } : undefined, [competitionFilter]);
   const playerStatsQuery = isTeam ? trpc.matches.playerStats.useQuery(statsFilterInput, { retry: 1 }) : undefined;
@@ -263,20 +268,20 @@ export function StructurePage({ section, onSectionChange }: { section: AppSectio
       <article className="detail-panel"><div className="section-heading compact"><div><span className="eyebrow">{isTeam ? "ELENCO PERSISTIDO" : isStadium ? "ESTÁDIO PERSISTIDO" : isCt ? "COMISSÃO PERSISTIDA" : "SCOUTING PERSISTIDO"}</span><h2>{isTeam ? `${workspace?.club?.name ?? "Clube"} · elenco` : isStadium ? "Estrutura do estádio" : isCt ? "Comissão e saúde" : "Missões e oportunidades"}</h2></div>{isTeam ? <label className="table-legend">COMPETIÇÃO <select aria-label="Filtrar estatísticas por competição" value={competitionFilter} onChange={(event) => setCompetitionFilter(event.target.value)}><option value="">TODAS</option>{(competitionsQuery?.data?.competitions ?? []).map((competition) => <option key={competition.competitionId} value={String(competition.competitionId)}>{competition.name}</option>)}</select> · ATLETA <select aria-label="Filtrar estatísticas por atleta" value={playerFilter} onChange={(event) => setPlayerFilter(event.target.value)}><option value="">TODOS</option>{(workspace?.squad.players ?? []).map((player) => <option key={player.playerId} value={String(player.playerId)}>{player.name}</option>)}</select></label> : <Gauge size={18} />}</div>{isTeam ? workspaceQuery.isLoading ? <div className="entity-lookup-empty">Lendo elenco persistido…</div> : workspace?.squad.players.length ? workspace.squad.players.map((player, index) => <div className="roster-row" key={player.playerId}><span className="roster-number">{String(index + 1).padStart(2, "0")}</span><div><b>{player.name}{player.star ? " ★" : ""}{player.topWorld ? " · topo mundial" : ""}</b><small>{player.position} · {player.age} anos · CR {player.cr1}/{player.cr2}{player.side ? ` · ${player.side}` : ""} · {player.category}</small></div><span className={player.status === "Titular" ? "muted-status active" : "muted-status"}>{player.status}</span><ChevronRight size={15} /></div>) : <div className="entity-lookup-empty">Nenhum jogador foi persistido para o clube controlado.</div> : <div className="layer-list">{structureRows.map((item, index) => isCt ? <button type="button" className="layer-row layer-row-button" key={`${item.label}-${index}`} onClick={() => { if ("missing" in item && item.missing) { toast(`${item.label} ainda não possui registros. Vá ao Mercado para contratar.`); onSectionChange("mercado"); return; } toast(`${item.label} já possui dados persistidos no SQL.`); }}><span>{String(index + 1).padStart(2, "0")}</span><b>{item.label}</b><em>{item.value}</em><ChevronRight size={15} /></button> : <div className="layer-row" key={`${item.label}-${index}`}><span>{String(index + 1).padStart(2, "0")}</span><b>{item.label}</b><em>{item.value}</em><ChevronRight size={15} /></div>)}</div>}<button className="outline-action" onClick={() => toast(workspace?.source.message ?? "Consultando o estado do motor.")}>Consultar estado <ArrowUpRight size={15} /></button></article>
       <aside className="detail-side"><div className="empty-panel"><span className="empty-mark">{isTeam ? workspace?.squad.total ?? "—" : isStadium ? workspace?.stadium.capacity?.toLocaleString("pt-BR") ?? "—" : isCt ? workspace?.staff.members.length ?? "—" : workspace?.scouting.missions.length ?? "—"}</span><span className="eyebrow">{workspace?.source.available ? "ESTADO CONECTADO" : "ESTADO INDISPONÍVEL"}</span><h3>{isTeam ? `${workspace?.squad.starters ?? 0} titulares · ${workspace?.squad.reserves ?? 0} reservas` : isStadium ? workspace?.stadium.name ?? "Estádio sem registro" : isCt ? workspace?.staff.members.length ? `${workspace.staff.members.length} profissional(is) ativo(s)` : "Ainda não há comissão persistida." : workspace?.scouting.missions.length ? `${workspace.scouting.missions.length} missão(ões) de scouting` : "Ainda não há scouting persistido."}</h3><p>{isTeam ? `${workspace?.squad.injured ?? 0} lesão(ões) ativa(s) no estado do motor.` : isCt ? `${workspace?.health.count ?? 0} lesão(ões) ativa(s) · ${workspace?.staff.roleCounts.medico ?? 0} médico(s) registrado(s).` : `${workspace?.scouting.opportunities ?? 0} oportunidade(s) · ${workspace?.scouting.reports ?? 0} relatório(s).`}</p><button className="primary-action dark" onClick={() => onSectionChange("clube")}>Voltar ao clube <ArrowUpRight size={16} /></button></div></aside>
         </div>
-    {isTeam && <section className="standings-panel team-stats-panel"><div className="section-heading compact"><div><span className="eyebrow">ESTATÍSTICAS PERSISTIDAS</span><h2>Produção por atleta</h2></div><span className="table-legend">G · A · MIN</span></div>{playerStatsQuery?.isLoading ? <div className="fixture-empty">Lendo estatísticas individuais…</div> : playerStatsQuery?.error ? <div className="fixture-empty">As estatísticas não puderam ser consultadas.</div> : visiblePlayerStats.length ? <div className="layer-list">{visiblePlayerStats.slice(0, 12).map((stat) => { const player = playerById.get(stat.playerId); return <div className="layer-row" key={stat.playerId}><span>#{stat.playerId}</span><b>{player?.name ?? "Atleta não localizado"} · {player?.position ?? "posição não informada"}</b><em>{stat.goals} G · {stat.assists} A · {stat.minutes} min · {stat.cards} cartões</em></div>; })}</div> : <div className="fixture-empty">Nenhuma estatística individual foi persistida para os filtros atuais.</div>}</section>}
+    {isTeam && <section className="standings-panel team-stats-panel"><div className="section-heading compact"><div><span className="eyebrow">ESTATÍSTICAS PERSISTIDAS</span><h2>Produção por atleta</h2></div><span className="table-legend">G · A · MIN</span></div>{playerStatsQuery?.isLoading ? <TableSkeleton rows={4} columns={4} /> : playerStatsQuery?.error ? <div className="fixture-empty">As estatísticas não puderam ser consultadas.</div> : visiblePlayerStats.length ? <div className="layer-list">{visiblePlayerStats.slice(0, 12).map((stat) => { const player = playerById.get(stat.playerId); return <div className="layer-row" key={stat.playerId}><span>#{stat.playerId}</span><b>{player?.name ?? "Atleta não localizado"} · {player?.position ?? "posição não informada"}</b><em>{stat.goals} G · {stat.assists} A · {stat.minutes} min · {stat.cards} cartões</em></div>; })}</div> : <div className="fixture-empty">Nenhuma estatística individual foi persistida para os filtros atuais.</div>}</section>}
   </>;
 }
 function SponsorshipPage() {
   return <><section className="page-intro sponsorship-intro"><div><span className="eyebrow">SEU CLUBE / VALOR DE MARCA</span><h1>Patrocinadores</h1><p>O elenco, o CT e o estádio definem o overall institucional. Esse valor abre propostas melhores, mas cada janela exige decisão antes de expirar.</p></div><span className="page-code">SP-01</span></section><SponsorshipPanel /></>;
 }
 
-export default function Home({ section = "clube", onSectionChange = () => undefined }: { section?: AppSection; onSectionChange?: (section: AppSection) => void }) {
+export default function Home({ section = "inicio", onSectionChange = () => undefined }: { section?: AppSection; onSectionChange?: (section: AppSection) => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const careerQuery = trpc.career.current.useQuery(undefined, { retry: 1 });
-  const main = useMemo(() => section === "clube" ? <Dashboard onSectionChange={onSectionChange} /> : section === "partidas" ? <MatchesPage /> : section === "patrocinadores" ? <SponsorshipPage /> : <StructurePage section={section} onSectionChange={onSectionChange} />, [section, onSectionChange]);
+  const main = useMemo(() => section === "clube" ? <Dashboard onSectionChange={onSectionChange} /> : section === "partidas" ? <MatchesPage /> : section === "patrocinadores" ? <SponsorshipPage /> : section === "operacoes" ? <OperationsPanel /> : <StructurePage section={section} onSectionChange={onSectionChange} />, [section, onSectionChange]);
 
-  if (!careerQuery.isLoading && careerQuery.data?.started === false) {
-    return <CareerStart onStarted={() => onSectionChange("clube")} />;
+  if (section === "inicio" || (!careerQuery.isLoading && careerQuery.data?.started === false)) {
+    return <CareerStart onStarted={() => onSectionChange("clube")} onContinue={() => onSectionChange("clube")} />;
   }
   return <div className="app-shell"><Sidebar section={section} onSectionChange={onSectionChange} open={menuOpen} onClose={() => setMenuOpen(false)} /><main className="app-main"><Header section={section} onMenu={() => setMenuOpen(true)} /><div className="page-wrap">{main}</div><footer className="page-footer"><span>FUTMANAGER / EDITORIAL DE ARQUIBANCADA</span><span>SQL · STATE · SERVICES</span></footer></main></div>;
 }

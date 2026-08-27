@@ -1,0 +1,12 @@
+{
+  "status": "VALID",
+  "total": 240,
+  "first": 701,
+  "last": 940,
+  "priorities": {
+    "P0": 36,
+    "P1": 180,
+    "P2": 24
+  },
+  "domains": 12
+}

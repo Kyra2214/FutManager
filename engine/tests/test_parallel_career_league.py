@@ -23,15 +23,24 @@ def test_parallel_league_uses_all_official_first_division_clubs(tmp_path, countr
     career_id = result['career_id']
     league = service.connection.execute('SELECT total_clubs,source_country_count,division_count,seed FROM career_parallel_leagues WHERE career_id=?', (career_id,)).fetchone()
     entries = service.connection.execute('SELECT club_id,parallel_division FROM career_parallel_entries WHERE career_id=?', (career_id,)).fetchall()
-    after = service.connection.execute('SELECT COUNT(*) FROM times').fetchone()[0]
-    target_division = service.connection.execute('SELECT parallel_division FROM career_parallel_entries WHERE career_id=? AND club_id=2009', (career_id,)).fetchone()[0]
+    after = sqlite3.connect(db_path).execute('SELECT COUNT(*) FROM times').fetchone()[0]
 
-    assert tuple(league[:3]) == (expected_total, len(countries), 4)
-    assert league[3]
-    assert len(entries) == expected_total
-    assert len({row[0] for row in entries}) == expected_total
-    assert target_division == 4
-    assert sum(1 for row in entries if row[1] == 1) + sum(1 for row in entries if row[1] == 2) + sum(1 for row in entries if row[1] == 3) + sum(1 for row in entries if row[1] == 4) == expected_total
+    if len(countries) == 1:
+        reassignment = service.connection.execute('SELECT club_id,country_id,original_division,career_division FROM career_national_reassignments WHERE career_id=?', (career_id,)).fetchone()
+        world_mode = service.connection.execute('SELECT world_mode FROM career_world_configs WHERE career_id=?', (career_id,)).fetchone()[0]
+        assert league is None
+        assert entries == []
+        assert tuple(reassignment) == (2009, 29, 1, 4)
+        assert world_mode == 'NATIONAL'
+        assert result['parallel_league']['preserved_national_competition'] is True
+    else:
+        target_division = service.connection.execute('SELECT parallel_division FROM career_parallel_entries WHERE career_id=? AND club_id=2009', (career_id,)).fetchone()[0]
+        assert tuple(league[:3]) == (expected_total, len(countries), 4)
+        assert league[3]
+        assert len(entries) == expected_total
+        assert len({row[0] for row in entries}) == expected_total
+        assert target_division == 4
+        assert sum(1 for row in entries if row[1] == 1) + sum(1 for row in entries if row[1] == 2) + sum(1 for row in entries if row[1] == 3) + sum(1 for row in entries if row[1] == 4) == expected_total
     assert before == after
 
 
@@ -56,3 +65,18 @@ def test_parallel_league_generates_round_trip_calendar_and_closes_idempotently(t
     assert closed['next_fixtures'] == 1444
     assert repeated['status'] == 'ALREADY_CLOSED'
     assert service.parallel_league_snapshot(career_id, 2)['fixture_count'] == 1444
+
+
+def test_single_country_uses_national_flow_and_main_country_names(tmp_path):
+    db_path = tmp_path / 'game.db'
+    shutil.copyfile(STATE, db_path)
+    service = ManagerService(str(db_path))
+    countries = service.list_world_countries(limit=48)
+    names = {item['name'] for item in countries}
+    assert {'Brasil', 'Itália', 'Espanha', 'Portugal', 'Inglaterra', 'Alemanha', 'França', 'Argentina', 'Turquia'} <= names
+    result = service.start_career('Manager Nacional', 'BR', 30, 'Carreira Nacional', 'club', 2009, selected_country_ids=[29])
+    career_id = result['career_id']
+    assert result['world_mode'] == 'NATIONAL'
+    assert result['parallel_league']['fixture_count'] == 0
+    assert service.connection.execute('SELECT COUNT(*) FROM career_parallel_leagues WHERE career_id=?', (career_id,)).fetchone()[0] == 0
+    assert service.connection.execute('SELECT career_division FROM career_national_reassignments WHERE career_id=?', (career_id,)).fetchone()[0] == 4

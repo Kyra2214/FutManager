@@ -1,0 +1,350 @@
+{
+  "scope": "471-500",
+  "item_count": 29,
+  "items_valid": 29,
+  "items": [
+    {
+      "step": 471,
+      "references": [
+        "client/src/components/DashboardLayout.tsx",
+        "client/src/components/DashboardLayoutSkeleton.tsx",
+        "client/src/pages/Home.tsx",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 472,
+      "references": [
+        "client/src/components/DashboardLayout.tsx",
+        "client/src/components/DashboardLayoutSkeleton.tsx",
+        "client/src/pages/Home.tsx",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 473,
+      "references": [
+        "client/src/components/DashboardLayout.tsx",
+        "client/src/components/DashboardLayoutSkeleton.tsx",
+        "client/src/pages/Home.tsx",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 474,
+      "references": [
+        "client/src/components/DashboardLayout.tsx",
+        "client/src/components/DashboardLayoutSkeleton.tsx",
+        "client/src/pages/Home.tsx",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 475,
+      "references": [
+        "client/src/components/DashboardLayout.tsx",
+        "client/src/components/DashboardLayoutSkeleton.tsx",
+        "client/src/pages/Home.tsx",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 476,
+      "references": [
+        "client/src/components/DashboardLayout.tsx",
+        "client/src/components/DashboardLayoutSkeleton.tsx",
+        "client/src/pages/Home.tsx",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 477,
+      "references": [
+        "client/src/components/DashboardLayout.tsx",
+        "client/src/components/DashboardLayoutSkeleton.tsx",
+        "client/src/pages/Home.tsx",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 478,
+      "references": [
+        "client/src/components/DashboardLayout.tsx",
+        "client/src/components/DashboardLayoutSkeleton.tsx",
+        "client/src/pages/Home.tsx",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 479,
+      "references": [
+        "client/src/components/DashboardLayout.tsx",
+        "client/src/components/DashboardLayoutSkeleton.tsx",
+        "client/src/pages/Home.tsx",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 480,
+      "references": [
+        "client/src/components/DashboardLayout.tsx",
+        "client/src/components/DashboardLayoutSkeleton.tsx",
+        "client/src/pages/Home.tsx",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 481,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 482,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 483,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 484,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 485,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 486,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 487,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 488,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 489,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 490,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 491,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 492,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 493,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 494,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 495,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 496,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 497,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 498,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    },
+    {
+      "step": 499,
+      "references": [
+        "tests/test_safe_undo.py",
+        "tests/test_final_roadmap_evidence.py",
+        "scripts/benchmark_final_roadmap.py",
+        "docs/evidencia_passos_471_499.md"
+      ],
+      "missing": [],
+      "status": "VALID"
+    }
+  ],
+  "checkpoint_chain": [
+    {
+      "version": "3fc90838",
+      "scope": "391-403"
+    },
+    {
+      "version": "0bc6f206",
+      "scope": "411-420"
+    },
+    {
+      "version": "5e214169",
+      "scope": "421-430"
+    },
+    {
+      "version": "54cecc23",
+      "scope": "371-500-evidencias"
+    },
+    {
+      "version": "17b8cabd",
+      "scope": "471-499-gaps-resolvidos"
+    }
+  ],
+  "checkpoint_before_publication": true,
+  "status": "VALID"
+}

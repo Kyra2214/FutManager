@@ -3,7 +3,7 @@ import { createRequire } from "node:module";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { acceptSponsorshipOffer, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, getStaffContract, getTravelSummary, hireAvailableStaff, listAvailableStaff, listCareerTargets, listClubEvents, listDepartmentOffers, markClubEventRead, previewTravelCost, previewTransferImpact, replaceStaff, startCareer, terminateStaff, upgradeClubDepartment } from "./careerGateway";
+import { acceptSponsorshipOffer, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, getStaffContract, getTravelSummary, hireAvailableStaff, listAvailableStaff, listCareerTargets, listClubEvents, listDepartmentOffers, markClubEventRead, previewTravelCost, previewTransferImpact, replaceStaff, runCareerGatewayAction, startCareer, terminateStaff, upgradeClubDepartment } from "./careerGateway";
 
 type Db = { close: () => void; exec: (sql: string) => void };
 type DbConstructor = new (path: string) => Db;
@@ -31,7 +31,27 @@ function fixture() {
     CREATE TABLE asset_catalog(asset_id INTEGER PRIMARY KEY, relative_path TEXT NOT NULL);
     CREATE TABLE team_asset_links(time_id INTEGER PRIMARY KEY, mapping_status TEXT NOT NULL, crest_asset_id INTEGER, crest_mini_asset_id INTEGER);
     CREATE TABLE selection_asset_links(selecao_id INTEGER PRIMARY KEY, crest_status TEXT NOT NULL, crest_asset_id INTEGER, primary_kit_asset_id INTEGER);
-    INSERT INTO times VALUES(7,'clube_exemplo.ban','Clube Exemplo',29);
+    INSERT INTO times VALUES
+      (7,'palmeiras.ban','Palmeiras',29),
+      (8,'flamengo.ban','Flamengo',29),
+      (9,'athletico.ban','Athletico Paranaense',29),
+      (10,'fluminense.ban','Fluminense',29),
+      (11,'cruzeiro.ban','Cruzeiro',29),
+      (12,'bahia.ban','Bahia',29),
+      (13,'bragantino.ban','RB Bragantino',29),
+      (14,'coritiba.ban','Coritiba SAF',29),
+      (15,'atletico.ban','Atlético Mineiro',29),
+      (16,'corinthians.ban','Corinthians',29),
+      (17,'botafogo.ban','Botafogo',29),
+      (18,'vitoria.ban','Vitória',29),
+      (19,'sao-paulo.ban','São Paulo',29),
+      (20,'santos.ban','Santos FC',29),
+      (21,'gremio.ban','Grêmio',29),
+      (22,'internacional.ban','Internacional',29),
+      (23,'mirassol.ban','Mirassol',29),
+      (24,'remo.ban','Remo',29),
+      (25,'vasco.ban','Vasco da Gama Saf',29),
+      (26,'chapecoense.ban','Chapecoense',29);
     INSERT INTO jogadores VALUES(701,8,7,0,0,25,'Meia');
     INSERT INTO jogador_time VALUES(701,7,'Titular');
     INSERT INTO selecoes VALUES(4,'ARG','Argentina');
@@ -47,11 +67,18 @@ describe("careerGateway", () => {
   it("lista os destinos oficiais e inicia uma carreira sem criar estado paralelo", () => {
     const path = fixture();
     expect(getCurrentCareer(path)).toMatchObject({ started: false });
-    expect(listCareerTargets("club", "Exemplo", 8, path)[0]).toMatchObject({ entityId: 7, assetUrl: "/engine-assets/escudos/clubes/exemplo.png" });
+    expect(listCareerTargets("club", "Palmeiras", 8, path)[0]).toMatchObject({ entityId: 7, assetUrl: "/engine-assets/escudos/clubes/exemplo.png" });
     expect(listCareerTargets("selection", "ARG", 8, path)[0]).toMatchObject({ entityId: 4, assetKind: "kit" });
     expect(startCareer({ managerName: "Ana", nationality: "BR", age: 31, careerName: "Carreira Ana", targetType: "club", targetId: 7 }, path)).toMatchObject({ started: true, target_id: 7 });
     expect(getCurrentCareer(path)).toMatchObject({ started: true, targetType: "club", targetId: 7, managerName: "Ana" });
-    expect(() => startCareer({ managerName: "Bia", age: 29, careerName: "Outra", targetType: "club", targetId: 7 }, path)).toThrow("ACTIVE_CAREER_EXISTS");
+    expect(startCareer({ managerName: "Bia", age: 29, careerName: "Outra", targetType: "club", targetId: 7 }, path)).toMatchObject({ started: true });
+    expect(getCurrentCareer(path)).toMatchObject({ started: true, targetId: 7, managerName: "Bia" });
+  });
+
+  it("executa ação tipada de leitura e preserva erro honesto do motor", () => {
+    const path = fixture();
+    expect(runCareerGatewayAction('current', {}, path)).toMatchObject({ ok: true, started: false });
+    expect(() => runCareerGatewayAction('simulation_progress', { tick_id: 'missing' }, path)).toThrow();
   });
 
   it("recusa uma entidade inexistente sem criar manager", () => {
