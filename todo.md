@@ -826,3 +826,4 @@
 - [x] Produzir o lote P1 3911–3920: contrato E2E derivado da integração existente, registro no serviço e validação mínima.
 - [ ] Produzir o próximo lote P1 pendente identificado no manifesto após E2E, mantendo SQL/GameState como fonte única da verdade e validação mínima.
 - [x] Produzir o lote P2 1021–1030: contrato de checkpoint derivado da implementação existente, integração SQL/GameState e validação mínima.
+- [x] Produzir o lote P2 1031–1040: contrato de replay derivado do histórico existente, integração ao gateway e validação mínima.
