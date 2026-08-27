@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 980,
-    "pending": 2020,
+    "done": 990,
+    "pending": 2010,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -11845,8 +11845,12 @@
       "title": "definir contrato para reagendamento",
       "dependency": "1880",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_reschedule_contract.py::test_reschedule_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; ON CONFLICT upsert corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1882,
@@ -11854,8 +11858,12 @@
       "title": "validar regras de reagendamento",
       "dependency": "1881",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_reschedule_contract.py::test_reschedule_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; ON CONFLICT upsert corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1883,
@@ -11863,8 +11871,12 @@
       "title": "persistir estado de reagendamento",
       "dependency": "1882",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_reschedule_contract.py::test_reschedule_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; ON CONFLICT upsert corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1884,
@@ -11872,8 +11884,12 @@
       "title": "expor leitura de reagendamento",
       "dependency": "1883",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_reschedule_contract.py::test_reschedule_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; ON CONFLICT upsert corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1885,
@@ -11881,8 +11897,12 @@
       "title": "proteger mutação de reagendamento",
       "dependency": "1884",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_reschedule_contract.py::test_reschedule_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; ON CONFLICT upsert corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1886,
@@ -11890,8 +11910,12 @@
       "title": "auditar fluxo de reagendamento",
       "dependency": "1885",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_reschedule_contract.py::test_reschedule_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; ON CONFLICT upsert corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1887,
@@ -11899,8 +11923,12 @@
       "title": "otimizar consulta de reagendamento",
       "dependency": "1886",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_reschedule_contract.py::test_reschedule_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; ON CONFLICT upsert corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1888,
@@ -11908,8 +11936,12 @@
       "title": "simular cenário de reagendamento",
       "dependency": "1887",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_reschedule_contract.py::test_reschedule_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; ON CONFLICT upsert corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1889,
@@ -11917,8 +11949,12 @@
       "title": "documentar ciclo de reagendamento",
       "dependency": "1888",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_reschedule_contract.py::test_reschedule_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; ON CONFLICT upsert corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1890,
@@ -11926,8 +11962,12 @@
       "title": "testar integração de reagendamento",
       "dependency": "1889",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_reschedule_contract.py::test_reschedule_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; ON CONFLICT upsert corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1891,
