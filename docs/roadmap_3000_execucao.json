@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 540,
-    "pending": 2460,
+    "done": 550,
+    "pending": 2450,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -4365,8 +4365,13 @@
       "title": "definir contrato para alias",
       "dependency": "1280",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_profile_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_profile_contract.py"
+      ]
     },
     {
       "item_id": 1282,
@@ -4374,8 +4379,13 @@
       "title": "validar regras de alias",
       "dependency": "1281",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_profile_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_profile_contract.py"
+      ]
     },
     {
       "item_id": 1283,
@@ -4383,8 +4393,13 @@
       "title": "persistir estado de alias",
       "dependency": "1282",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_profile_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_profile_contract.py"
+      ]
     },
     {
       "item_id": 1284,
@@ -4392,8 +4407,13 @@
       "title": "expor leitura de alias",
       "dependency": "1283",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_profile_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_profile_contract.py"
+      ]
     },
     {
       "item_id": 1285,
@@ -4401,8 +4421,13 @@
       "title": "proteger mutação de alias",
       "dependency": "1284",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_profile_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_profile_contract.py"
+      ]
     },
     {
       "item_id": 1286,
@@ -4410,8 +4435,13 @@
       "title": "auditar fluxo de alias",
       "dependency": "1285",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_profile_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_profile_contract.py"
+      ]
     },
     {
       "item_id": 1287,
@@ -4419,8 +4449,13 @@
       "title": "otimizar consulta de alias",
       "dependency": "1286",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_profile_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_profile_contract.py"
+      ]
     },
     {
       "item_id": 1288,
@@ -4428,8 +4463,13 @@
       "title": "simular cenário de alias",
       "dependency": "1287",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_profile_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_profile_contract.py"
+      ]
     },
     {
       "item_id": 1289,
@@ -4437,8 +4477,13 @@
       "title": "documentar ciclo de alias",
       "dependency": "1288",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_profile_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_profile_contract.py"
+      ]
     },
     {
       "item_id": 1290,
@@ -4446,8 +4491,13 @@
       "title": "testar integração de alias",
       "dependency": "1289",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_profile_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_profile_contract.py"
+      ]
     },
     {
       "item_id": 1291,
