@@ -832,3 +832,4 @@
 - [ ] Produzir o próximo lote P2 1131–1140 de auditoria, mantendo SQL/GameState como fonte única da verdade e validação mínima.
 - [x] Produzir o lote P2 1221–1230: contrato de auditoria do domínio 30 derivado da auditoria existente, integração ao serviço e validação mínima.
 - [x] Corrigir referência legada p1_auditoria_contract usada pelo gateway após a migração da auditoria para P2.
+- [x] Produzir o lote P2 1231–1240: contrato de privacidade derivado do consentimento existente, integração ao serviço e validação mínima.
