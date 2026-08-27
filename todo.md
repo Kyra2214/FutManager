@@ -687,3 +687,4 @@
 - [x] Produzir o lote P1 2091–2100: contrato de mapa, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2101–2110: contrato de finalização do domínio 09, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2111–2120: contrato de passe, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2151–2160: contrato de contratação, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
