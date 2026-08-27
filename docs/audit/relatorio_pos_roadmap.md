@@ -13,6 +13,7 @@ A regra arquitetural foi preservada: **SQL/GameState permanece como fonte única
 | Manifesto | 3.000 itens `DONE`, 0 pendentes | `frontend/docs/roadmap_3000_execucao.json` |
 | Auditor estrutural | 2.389 aprovados, 611 em revisão | `docs/audit/roadmap_3000_final.json` |
 | Simulação de temporada | `PASS`, 16 etapas, 4 invariantes | `docs/audit/season_simulation_final.json` |
+| Temporada competitiva | `PASS`, 1.520/1.520 fixtures, 80 clubes, 6 invariantes | `docs/audit/competitive_season_simulation_final.json` |
 | Backend e contratos | 365 testes aprovados | Job `Backend and engine` |
 | Frontend e full-stack | 63 testes aprovados | Job `Frontend` |
 | TypeScript | Aprovado | `pnpm check` |
@@ -27,9 +28,9 @@ O resultado de 611 itens em revisão não significa que o manifesto tenha itens 
 
 ## Simulação persistente
 
-A simulação criou uma carreira em banco temporário e percorreu operações reais do gateway. O fluxo validado incluiu criação da carreira, leitura de economia, leitura de elenco/estado, bootstrap do estádio, bootstrap de patrocínio, leitura de ofertas, treino, moral, saúde, resumo financeiro e avanço semanal.
+A simulação criou uma carreira em banco temporário e percorreu operações reais do gateway. A extensão competitiva também materializou 80 clubes em quatro divisões, criou a competição temporária pelo `CompetitionService`, gerou resultados pelo `MatchEngine` e registrou todos os 1.520 fixtures na classificação da liga paralela. O fluxo validado incluiu criação da carreira, leitura de economia, leitura de elenco/estado, bootstrap do estádio, bootstrap de patrocínio, leitura de ofertas, treino, moral, saúde, resumo financeiro e avanço semanal.
 
-As invariantes verificadas incluíram persistência da carreira, consistência do GameState temporário, não negatividade de valores econômicos e preservação da leitura canônica após mutações. A simulação não inventa placares nem cria resultados esportivos artificiais; ela falha explicitamente quando uma operação de temporada não está conectada.
+As invariantes verificadas incluíram persistência da carreira, consistência do GameState temporário, não negatividade de valores econômicos e preservação da leitura canônica após mutações. Na temporada competitiva foram aprovadas as invariantes de 80 clubes/quatro divisões, volume de ida e volta, 1.520 resultados, 80 linhas de classificação, integridade SQLite e chaves estrangeiras. A simulação não inventa placares nem cria resultados esportivos artificiais; ela falha explicitamente quando uma operação de temporada não está conectada.
 
 ## Correções aplicadas
 
@@ -47,7 +48,7 @@ O banco original não é alterado pelo CI: cada job usa cópia descompactada no 
 
 A auditoria estrutural ainda registra 611 itens em revisão por insuficiência ou heterogeneidade de evidência histórica. O próximo endurecimento recomendado é substituir heurísticas textuais por um registro explícito de contrato, módulo, método do `ManagerService`, ação do gateway e teste associado para cada item.
 
-A simulação validada cobre 16 etapas reais, mas não constitui ainda uma temporada competitiva completa com todos os calendários, resultados e transições esportivas. Essa expansão deve ser feita somente após confirmar quais operações de calendário e resultados estão disponíveis no GameState, sem fabricar partidas.
+A simulação base cobre 16 etapas reais. A extensão competitiva cobre uma temporada completa da liga paralela com 1.520 fixtures e resultados gerados pelo motor canônico; ela ainda não substitui a validação de todas as competições nacionais do mundo persistido. Essa expansão deve ser feita somente após confirmar quais operações de calendário e resultados estão disponíveis no GameState, sem fabricar partidas.
 
 ## Próximos passos recomendados
 

@@ -41,6 +41,14 @@ jobs:
         env:
           PYTHONPATH: .:engine:engine/tests
         run: python engine/scripts/season_simulation.py
+      - name: Run complete competitive season simulation
+        env:
+          PYTHONPATH: .:engine:engine/tests
+        run: python engine/scripts/competitive_season_simulation.py > docs/audit/competitive_season_simulation_ci.json
+      - name: Build traceability matrix
+        env:
+          PYTHONPATH: .:engine:engine/tests
+        run: python engine/scripts/build_traceability_matrix.py
       - name: Validate delivery and state guards
         env:
           PYTHONPATH: .:engine:engine/tests
