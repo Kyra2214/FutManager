@@ -45,6 +45,7 @@ const editorialAssets = [
 const databaseTarget = join(targetRoot, "databases");
 const shieldsTarget = join(targetRoot, "escudos");
 const assetIndexTarget = join(targetRoot, "offline-asset-index.json");
+const countryIndexTarget = join(targetRoot, "offline-countries.json");
 mkdirSync(databaseTarget, { recursive: true });
 mkdirSync(shieldsTarget, { recursive: true });
 mkdirSync(appAssetsTarget, { recursive: true });
@@ -71,6 +72,20 @@ if (index.status !== 0) {
   throw new Error(index.stderr || "Falha ao gerar índice local de assets.");
 }
 console.log(index.stdout.trim());
+
+const countries = spawnSync(
+  "python3",
+  [
+    join(projectRoot, "scripts/build-offline-country-index.py"),
+    engineRoot,
+    countryIndexTarget,
+  ],
+  { encoding: "utf8" },
+);
+if (countries.status !== 0) {
+  throw new Error(countries.stderr || "Falha ao gerar catálogo local de países.");
+}
+console.log(countries.stdout.trim());
 
 writeFileSync(
   join(targetRoot, "offline-manifest.json"),

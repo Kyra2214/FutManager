@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { ArrowRight, Check, Search, Shield, UserRound } from "lucide-react";
 import { Capacitor } from "@capacitor/core";
 import { localDomain } from "@/lib/offline/localDomain";
+import { loadLocalCountries, type OfflineCountry } from "@/lib/offline/localCatalog";
 import { trpc } from "@/lib/trpc";
 import { getCareerStartErrorMessage } from "@/lib/careerErrors";
 
@@ -22,6 +23,8 @@ export default function CareerStart({ onStarted, onContinue }: { onStarted: () =
   const isNative = Capacitor.isNativePlatform();
   const [localCatalog, setLocalCatalog] = useState<Array<{ entityId: number; name: string; countryId?: number | null; assetUrl: string | null; assetKind: "crest" | "kit" | null }>>([]);
   const [localCatalogLoading, setLocalCatalogLoading] = useState(false);
+  const [localCountries, setLocalCountries] = useState<OfflineCountry[]>([]);
+  const [localCountriesLoading, setLocalCountriesLoading] = useState(false);
   const utils = trpc.useUtils();
   const currentCareer = trpc.career.current.useQuery(undefined, { retry: 1, enabled: !isNative });
   const catalogInput = useMemo(() => ({ targetType, search, limit: 48 }), [targetType, search]);
@@ -35,6 +38,13 @@ export default function CareerStart({ onStarted, onContinue }: { onStarted: () =
     return () => { active = false; };
   }, [isNative, search, targetType]);
   const worldCountriesQuery = trpc.career.worldCountries.useQuery({ search: worldSearch, limit: 48 }, { retry: 1, enabled: !isNative });
+  useEffect(() => {
+    if (!isNative) return;
+    let active = true;
+    setLocalCountriesLoading(true);
+    loadLocalCountries(worldSearch).then((items) => active && setLocalCountries(items)).catch(() => active && setLocalCountries([])).finally(() => active && setLocalCountriesLoading(false));
+    return () => { active = false; };
+  }, [isNative, worldSearch]);
   const startMutation = trpc.career.start.useMutation({
     onSuccess: async () => {
       await utils.career.current.invalidate();
@@ -43,7 +53,7 @@ export default function CareerStart({ onStarted, onContinue }: { onStarted: () =
   });
   const catalogItems = isNative ? localCatalog : catalogQuery.data ?? [];
   const selectedTarget = catalogItems.find((item) => item.entityId === selectedId) ?? null;
-  const selectedCountries = (worldCountriesQuery.data?.items ?? []) as WorldCountry[];
+  const selectedCountries = (isNative ? localCountries : worldCountriesQuery.data?.items ?? []) as WorldCountry[];
   const parallelPreviewInput = useMemo(() => ({ selectedCountryIds, targetType, targetId: selectedId ?? 0 }), [selectedCountryIds, targetType, selectedId]);
   const parallelPreview = trpc.career.parallelPreview.useQuery(parallelPreviewInput, { enabled: !isNative && selectedCountryIds.length > 0 && selectedId !== null, retry: 0 });
   const parallelPreviewData = parallelPreview.data as { mode?: "NATIONAL" | "PARALLEL"; competition_name?: string; total_clubs?: number; seed?: string | null; target_division?: number | null; divisions?: Array<{ division: number; clubs: Array<{ club_id: number; name?: string }> }> } | undefined;
@@ -78,7 +88,7 @@ export default function CareerStart({ onStarted, onContinue }: { onStarted: () =
         <div className="career-target-head"><div><span className="eyebrow">O MUNDO DO JOGO</span><h3 id="world-config-title">Escolha as ligas participantes</h3></div><strong className="career-division-badge">{selectedCountryIds.length === 1 ? "FLUXO NACIONAL" : "4ª DIVISÃO"}</strong></div>
         <p className="career-world-note">{selectedCountryIds.length === 1 ? <>A liga escolhida mantém o calendário e a estrutura nacional. Se o clube estiver na 1ª divisão, ele será reposicionado para a <b>4ª divisão</b> sem criar uma liga paralela.</> : <>As ligas escolhidas formam uma competição paralela. O time que você selecionar começará sempre na <b>4ª divisão</b>.</>}</p>
         <label className="career-search career-world-search"><Search size={17} /><input value={worldSearch} onChange={(event) => setWorldSearch(event.target.value)} placeholder="Buscar país ou código" /></label>
-        {worldCountriesQuery.isLoading ? <div className="career-target-loading">Carregando ligas…</div> : worldCountriesQuery.isError ? <div className="career-target-loading error">Não foi possível carregar os países agora.</div> : <div className="career-world-countries">{selectedCountries.map((country) => <button type="button" key={country.countryId} className={`career-world-country ${selectedCountryIds.includes(country.countryId) ? "selected" : ""} ${country.supported === false ? "unavailable" : ""}`} disabled={country.supported === false} onClick={() => toggleCountry(country.countryId)}><span><b>{country.name}</b><small>Disponível para sua carreira
+        {(isNative ? localCountriesLoading : worldCountriesQuery.isLoading) ? <div className="career-target-loading">Carregando ligas…</div> : !isNative && worldCountriesQuery.isError ? <div className="career-target-loading error">Não foi possível carregar os países agora.</div> : <div className="career-world-countries">{selectedCountries.map((country) => <button type="button" key={country.countryId} className={`career-world-country ${selectedCountryIds.includes(country.countryId) ? "selected" : ""} ${country.supported === false ? "unavailable" : ""}`} disabled={country.supported === false} onClick={() => toggleCountry(country.countryId)}><span><b>{country.name}</b><small>Disponível para sua carreira
 </small></span>{selectedCountryIds.includes(country.countryId) && <Check size={15} />}</button>)}</div>}
         <div className="career-world-summary" aria-live="polite"><span>{selectedCountryIds.length} liga(s) selecionada(s)</span><b>{selectedCountryIds.length ? selectedCountries.filter((country) => selectedCountryIds.includes(country.countryId)).map((country) => country.name).join(" + ") : "Escolha pelo menos uma liga"}</b><small>{selectedCountryIds.length === 1 ? "A competição nacional permanece intacta." : selectedCountryIds.length > 1 ? "As ligas escolhidas formarão o universo da sua carreira." : "Escolha os países que farão parte da sua carreira."}
 </small></div>

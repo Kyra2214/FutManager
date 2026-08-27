@@ -1,6 +1,29 @@
 import { queryLocal } from "./localStore";
 import type { OfflineAssetReference, OfflineEntityId } from "./contracts";
 
+export type OfflineCountry = {
+  countryId: number;
+  name: string;
+  code: string | null;
+  clubCount: number;
+  firstDivisionClubCount: number;
+  firstDivisionName: string | null;
+  supported: boolean;
+};
+
+let offlineCountriesPromise: Promise<OfflineCountry[]> | undefined;
+
+export function loadLocalCountries(search = "") {
+  offlineCountriesPromise ??= fetch("/assets/offline-countries.json").then((response) => {
+    if (!response.ok) throw new Error("Catálogo de países offline indisponível.");
+    return response.json() as Promise<OfflineCountry[]>;
+  });
+  const normalized = search.trim().toLocaleLowerCase();
+  return offlineCountriesPromise.then((countries) => normalized
+    ? countries.filter((country) => `${country.name} ${country.code ?? ""}`.toLocaleLowerCase().includes(normalized))
+    : countries);
+}
+
 type ClubRow = {
   entityId: number;
   name: string;
