@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 910,
-    "pending": 2090,
+    "done": 920,
+    "pending": 2080,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -10615,8 +10615,12 @@
       "title": "definir contrato para sorteio",
       "dependency": "1780",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_draw_domain08_contract.py::test_draw_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1782,
@@ -10624,8 +10628,12 @@
       "title": "validar regras de sorteio",
       "dependency": "1781",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_draw_domain08_contract.py::test_draw_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1783,
@@ -10633,8 +10641,12 @@
       "title": "persistir estado de sorteio",
       "dependency": "1782",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_draw_domain08_contract.py::test_draw_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1784,
@@ -10642,8 +10654,12 @@
       "title": "expor leitura de sorteio",
       "dependency": "1783",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_draw_domain08_contract.py::test_draw_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1785,
@@ -10651,8 +10667,12 @@
       "title": "proteger mutação de sorteio",
       "dependency": "1784",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_draw_domain08_contract.py::test_draw_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1786,
@@ -10660,8 +10680,12 @@
       "title": "auditar fluxo de sorteio",
       "dependency": "1785",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_draw_domain08_contract.py::test_draw_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1787,
@@ -10669,8 +10693,12 @@
       "title": "otimizar consulta de sorteio",
       "dependency": "1786",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_draw_domain08_contract.py::test_draw_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1788,
@@ -10678,8 +10706,12 @@
       "title": "simular cenário de sorteio",
       "dependency": "1787",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_draw_domain08_contract.py::test_draw_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1789,
@@ -10687,8 +10719,12 @@
       "title": "documentar ciclo de sorteio",
       "dependency": "1788",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_draw_domain08_contract.py::test_draw_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1790,
@@ -10696,8 +10732,12 @@
       "title": "testar integração de sorteio",
       "dependency": "1789",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_draw_domain08_contract.py::test_draw_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1791,
