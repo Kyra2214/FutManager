@@ -1003,3 +1003,7 @@
 - [x] Verificar no APK a presença do GameState/escudos e a ausência da permissão INTERNET.
 - [x] Embarcar escudos, banco-base e assets editoriais locais no pacote Android.
 - [x] Verificar no APK final o GameState, imagens editoriais, metadados Android e ausência de INTERNET.
+- [x] Portar resolução de assets de clubes e seleções para o índice SQL embarcado no APK.
+- [x] Desativar a consulta tRPC de assets no runtime nativo e validar o typecheck.
+- [x] Portar a resolução local de escudos por ID para o primeiro grupo P0.
+- [x] Verificar o índice local com 8.485 referências, GameState embarcado e APK sem INTERNET.

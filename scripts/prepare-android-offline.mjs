@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, cpSync, statSync, writeFileSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
@@ -43,6 +44,7 @@ const editorialAssets = [
 ];
 const databaseTarget = join(targetRoot, "databases");
 const shieldsTarget = join(targetRoot, "escudos");
+const assetIndexTarget = join(targetRoot, "offline-asset-index.json");
 mkdirSync(databaseTarget, { recursive: true });
 mkdirSync(shieldsTarget, { recursive: true });
 mkdirSync(appAssetsTarget, { recursive: true });
@@ -56,6 +58,20 @@ for (const assetName of editorialAssets) {
 
 const hash = createHash("sha256");
 hash.update(await readFile(join(databaseTarget, "game.db")));
+const index = spawnSync(
+  "python3",
+  [
+    join(projectRoot, "scripts/build-offline-asset-index.py"),
+    database,
+    assetIndexTarget,
+  ],
+  { encoding: "utf8" },
+);
+if (index.status !== 0) {
+  throw new Error(index.stderr || "Falha ao gerar índice local de assets.");
+}
+console.log(index.stdout.trim());
+
 writeFileSync(
   join(targetRoot, "offline-manifest.json"),
   JSON.stringify(

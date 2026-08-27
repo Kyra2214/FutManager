@@ -56,3 +56,10 @@ O APK será considerado preparado quando iniciar sem rede, criar uma carreira, l
 ## Limitação atual do ambiente
 
 A auditoria encontrou Node e Java, mas não encontrou `adb`, Gradle ou projeto Expo/Capacitor no repositório. Portanto, a configuração de código pode ser preparada agora, mas a instalação em aparelho e a geração final assinada do APK exigirão a toolchain Android disponível ou um ambiente de build equivalente.
+
+## Referências técnicas
+
+[1]: https://developer.android.com/tools — Android Developers, “Command-line tools”.
+[2]: https://developer.android.com/tools/sdkmanager — Android Developers, “sdkmanager”.
+
+A documentação oficial confirma que o SDK é composto por pacotes instaláveis via `sdkmanager`, que o `platform-tools` fornece o `adb` e que plataformas/build-tools específicos podem ser instalados por caminhos como `platforms;android-36` e `build-tools;36.0.0` [1] [2].
