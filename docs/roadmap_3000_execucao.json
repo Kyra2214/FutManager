@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 880,
-    "pending": 2120,
+    "done": 890,
+    "pending": 2110,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -10225,8 +10225,12 @@
       "title": "definir contrato para pote",
       "dependency": "P0_GLOBAL_GATE + passo anterior do domínio",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_pot_contract.py::test_pot_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1752,
@@ -10234,8 +10238,12 @@
       "title": "validar regras de pote",
       "dependency": "1751",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_pot_contract.py::test_pot_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1753,
@@ -10243,8 +10251,12 @@
       "title": "persistir estado de pote",
       "dependency": "1752",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_pot_contract.py::test_pot_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1754,
@@ -10252,8 +10264,12 @@
       "title": "expor leitura de pote",
       "dependency": "1753",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_pot_contract.py::test_pot_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1755,
@@ -10261,8 +10277,12 @@
       "title": "proteger mutação de pote",
       "dependency": "1754",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_pot_contract.py::test_pot_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1756,
@@ -10270,8 +10290,12 @@
       "title": "auditar fluxo de pote",
       "dependency": "1755",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_pot_contract.py::test_pot_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1757,
@@ -10279,8 +10303,12 @@
       "title": "otimizar consulta de pote",
       "dependency": "1756",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_pot_contract.py::test_pot_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1758,
@@ -10288,8 +10316,12 @@
       "title": "simular cenário de pote",
       "dependency": "1757",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_pot_contract.py::test_pot_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1759,
@@ -10297,8 +10329,12 @@
       "title": "documentar ciclo de pote",
       "dependency": "1758",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_pot_contract.py::test_pot_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1760,
@@ -10306,8 +10342,12 @@
       "title": "testar integração de pote",
       "dependency": "1759",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_pot_contract.py::test_pot_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1761,
