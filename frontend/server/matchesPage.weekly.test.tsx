@@ -53,8 +53,10 @@ describe("MatchesPage — avanço da carreira", () => {
     fireEvent.click(screen.getByRole("button", { name: "Avançar semana" }));
 
     expect(mocks.advance).toHaveBeenCalledWith({});
-    fireEvent.click(screen.getByRole("button", { name: "Iniciar partida" }));
+    fireEvent.pointerDown(screen.getByRole("button", { name: "Iniciar partida" }));
     expect(mocks.play).not.toHaveBeenCalled();
+    expect(screen.getByText("AO VIVO")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Pausar jogo" })).toBeTruthy();
     expect(screen.queryByRole("button", { name: /simula/i })).toBeNull();
   });
 });
