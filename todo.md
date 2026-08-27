@@ -872,3 +872,4 @@
 - [x] Produzir o lote P2 3121–3130: contrato de expiração do domínio 180 derivado da implementação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 3131–3140: contrato de aprovação do domínio 180 derivado do consentimento existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 3221–3230: contrato de déficit do domínio 190 derivado da despesa existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 3231–3240: contrato de fechamento do domínio 190 derivado da finalização existente, integração ao serviço e validação mínima.
