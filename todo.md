@@ -740,3 +740,4 @@
 - [x] Produzir o lote P1 2861–2870: contrato de objetivo operacional, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2871–2880: contrato de intensidade, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2881–2890: contrato de descanso, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2891–2900: contrato de tática, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
