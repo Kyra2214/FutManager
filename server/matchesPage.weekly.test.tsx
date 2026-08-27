@@ -15,6 +15,9 @@ vi.mock("@/lib/trpc", () => ({
       matches: { dashboard: { invalidate: vi.fn() } },
       events: { list: { invalidate: vi.fn() } },
     }),
+    club: {
+      workspace: { useQuery: () => ({ data: { squad: { players: [{ playerId: 1, name: "Atacante A", position: "Atacante", status: "Titular", category: "profissional" }, { playerId: 2, name: "Reserva B", position: "Meia", status: "Reserva", category: "profissional" }] } } }) },
+    },
     matches: {
       dashboard: { useQuery: () => ({ data: {
         selectedCompetitionId: 12,
@@ -50,8 +53,8 @@ describe("MatchesPage — avanço da carreira", () => {
     fireEvent.click(screen.getByRole("button", { name: "Avançar semana" }));
 
     expect(mocks.advance).toHaveBeenCalledWith({});
-    fireEvent.click(screen.getByRole("button", { name: "Jogar partida" }));
-    expect(mocks.play).toHaveBeenCalledWith({ matchId: 101 });
+    fireEvent.click(screen.getByRole("button", { name: "Iniciar partida" }));
+    expect(mocks.play).not.toHaveBeenCalled();
     expect(screen.queryByRole("button", { name: /simula/i })).toBeNull();
   });
 });

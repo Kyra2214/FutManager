@@ -374,8 +374,15 @@ export function advanceWorldWeek(seed?: number, databasePath?: string) {
   return staffMarketAction<GatewayResult & { status: string; season: number; week: number; matches: number; controlled_club_id: number | null; skipped_controlled_matches: number; match_details: Array<Record<string, unknown>> }>("weekly_advance", { seed }, databasePath);
 }
 
-export function playControlledMatch(matchId: number, seed?: number, databasePath?: string) {
-  return staffMarketAction<GatewayResult & { status: string; match_id: number; controlled_club_id: number; home_club_id: number; away_club_id: number; home_goals: number; away_goals: number; seed: number | null }>("play_controlled_match", { match_id: matchId, seed }, databasePath);
+export type MatchControlDecisions = {
+  tactics?: { mentality: string; attackLane: string; passing: string; pressure: string; crossing: boolean };
+  substitutions?: Array<{ playerOutId: number; playerInId: number }>;
+  penalty_taker_id?: number;
+  red_card_response?: { formation: string; mentality: string };
+};
+
+export function playControlledMatch(matchId: number, seed?: number, decisions?: MatchControlDecisions, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { status: string; match_id: number; controlled_club_id: number; home_club_id: number; away_club_id: number; home_goals: number; away_goals: number; seed: number | null; control_events: Array<{ minute: number; type: string; payload: unknown }> }>("play_controlled_match", { match_id: matchId, seed, decisions }, databasePath);
 }
 
 export type ClubEvent = {

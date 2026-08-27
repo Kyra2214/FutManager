@@ -20,6 +20,15 @@ export const matchesRouter = router({
     .input(z.object({ season: z.number().int().positive().optional() }).optional())
     .query(({ input }) => getTravelSummary(input?.season)),
   playControlled: publicProcedure
-    .input(z.object({ matchId: z.number().int().positive(), seed: z.number().int().optional() }))
-    .mutation(({ input }) => playControlledMatch(input.matchId, input.seed)),
+    .input(z.object({
+      matchId: z.number().int().positive(),
+      seed: z.number().int().optional(),
+      decisions: z.object({
+        tactics: z.object({ mentality: z.string(), attackLane: z.string(), passing: z.string(), pressure: z.string(), crossing: z.boolean() }).optional(),
+        substitutions: z.array(z.object({ playerOutId: z.number().int().positive(), playerInId: z.number().int().positive() })).max(5).optional(),
+        penalty_taker_id: z.number().int().positive().optional(),
+        red_card_response: z.object({ formation: z.string(), mentality: z.string() }).optional(),
+      }).optional(),
+    }))
+    .mutation(({ input }) => playControlledMatch(input.matchId, input.seed, input.decisions)),
 });
