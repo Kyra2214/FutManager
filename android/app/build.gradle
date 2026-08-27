@@ -1,3 +1,8 @@
+def signingProperties = new Properties()
+def signingPropertiesFile = rootProject.file("keystore.properties")
+def hasReleaseSigning = signingPropertiesFile.exists()
+if (hasReleaseSigning) signingProperties.load(new FileInputStream(signingPropertiesFile))
+
 apply plugin: 'com.android.application'
 apply plugin: 'com.chaquo.python'
 
@@ -20,9 +25,20 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    signingConfigs {
+        release {
+            if (hasReleaseSigning) {
+                storeFile file(signingProperties['storeFile'])
+                storePassword signingProperties['storePassword']
+                keyAlias signingProperties['keyAlias']
+                keyPassword signingProperties['keyPassword']
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig hasReleaseSigning ? signingConfigs.release : signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

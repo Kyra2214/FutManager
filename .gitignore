@@ -119,3 +119,8 @@ android/app/src/main/assets/public/assets/escudos/
 android/app/src/main/assets/public/assets/app/
 android/app/src/main/assets/public/assets/offline-manifest.json
 
+
+# Android signing secrets and generated keystores
+android/keystore.properties
+android/*.jks
+android/*.keystore

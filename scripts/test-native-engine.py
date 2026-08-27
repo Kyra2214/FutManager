@@ -16,7 +16,8 @@ with tempfile.TemporaryDirectory(prefix="futmanager-native-test-") as directory:
     database = Path(directory) / "game.db"
     shutil.copy2(source, database)
     dashboard = json.loads(execute("getDashboard", "{}", str(database)))
-    assert dashboard["ok"] is True
+    if dashboard.get("ok") is not True:
+        raise AssertionError(f"getDashboard failed: {dashboard}")
     assert "competitions" in dashboard and "upcomingFixtures" in dashboard
     if dashboard["upcomingFixtures"]:
         target_match = dashboard["upcomingFixtures"][0].get("matchId")
