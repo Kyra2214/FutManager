@@ -33,6 +33,11 @@ export const operationsRouter = router({
     batch: protectedProcedure.input(z.object({ tickId: z.string().min(1).max(120), level: z.enum(["FULL", "STANDARD", "FAST", "ABSTRACT"]).default("ABSTRACT"), batchSize: z.number().int().min(1).max(1000).default(100), seed: z.number().int().default(0) })).mutation(({ input }) => action("simulation_batch", { tick_id: input.tickId, level: input.level, batch_size: input.batchSize, seed: input.seed })),
     resume: protectedProcedure.input(z.object({ tickId: z.string().min(1).max(120), level: z.enum(["FULL", "STANDARD", "FAST", "ABSTRACT"]).default("ABSTRACT"), batchSize: z.number().int().min(1).max(1000).default(100), seed: z.number().int().default(0) })).mutation(({ input }) => action("simulation_resume", { tick_id: input.tickId, level: input.level, batch_size: input.batchSize, seed: input.seed })),
   }),
+  parallelLeague: router({
+    snapshot: protectedProcedure.input(z.object({ seasonNumber: z.number().int().min(1).max(100).default(1) })).query(({ input }) => action("parallel_snapshot", { season_number: input.seasonNumber })),
+    recordResult: protectedProcedure.input(z.object({ fixtureId: z.number().int().positive(), homeGoals: z.number().int().min(0).max(30), awayGoals: z.number().int().min(0).max(30) })).mutation(({ input }) => action("parallel_result", { fixture_id: input.fixtureId, home_goals: input.homeGoals, away_goals: input.awayGoals })),
+    closeSeason: protectedProcedure.input(z.object({ seasonNumber: z.number().int().min(1).max(100).default(1) })).mutation(({ input }) => action("parallel_close", { season_number: input.seasonNumber })),
+  }),
   finance: router({
     monthlyClose: protectedProcedure.input(z.object({ season: z.number().int().min(1900).max(2200), month: z.number().int().min(1).max(12) })).query(({ input }) => action("finance_monthly_close", input)),
     reconciliation: protectedProcedure.input(z.object({ season: z.number().int().min(1900).max(2200), sourceTypes: z.array(z.string().min(1).max(40)).max(20).optional() })).query(({ input }) => action("finance_reconciliation", { season: input.season, source_types: input.sourceTypes })),

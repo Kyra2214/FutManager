@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
   catalog: vi.fn(),
+  parallelPreview: vi.fn(),
   mutate: vi.fn(),
   invalidate: vi.fn(),
   mutationOptions: undefined as { onSuccess?: () => void } | undefined,
@@ -20,6 +21,7 @@ vi.mock("@/lib/trpc", () => ({
       catalog: { useQuery: mocks.catalog },
       worldCountries: { useQuery: () => ({ data: { items: [{ countryId: 29, name: "Brasil", code: "BRA", clubCount: 10 }] }, isLoading: false, isError: false }) },
       current: { useQuery: () => ({ data: mocks.current, isLoading: false }) },
+      parallelPreview: { useQuery: mocks.parallelPreview },
       start: { useMutation: (options: { onSuccess?: () => void }) => {
         mocks.mutationOptions = options;
         return { mutate: mocks.mutate, isPending: false, error: mocks.mutationError };
@@ -45,6 +47,7 @@ describe("CareerStart UI", () => {
     mocks.current = { started: false };
     mocks.invalidate.mockReset();
     mocks.mutate.mockReset();
+    mocks.parallelPreview.mockReturnValue({ data: null, isLoading: false, isError: false });
     mocks.catalog.mockImplementation(({ targetType }: { targetType: "club" | "selection" }) => ({
       data: targetType === "club" ? [club] : [selection],
       isLoading: false,
@@ -99,3 +102,24 @@ describe("CareerStart UI", () => {
     expect(mocks.mutate).toHaveBeenCalledWith(expect.objectContaining({ managerName: "Novo Manager", targetId: 7, selectedCountryIds: [29] }));
   });
 });
+
+  it("renderiza a prévia oficial dos clubes distribuídos nas quatro divisões", () => {
+    mocks.parallelPreview.mockReturnValue({
+      data: {
+        total_clubs: 4,
+        country_count: 1,
+        division_count: 4,
+        seed: "seed-teste",
+        target_division: 4,
+        read_only: true,
+        divisions: [1, 2, 3, 4].map((division) => ({ division, clubs: [{ club_id: division, origin_country_id: 29, name: `Clube ${division}` }] })),
+      },
+      isLoading: false,
+      isError: false,
+    });
+    render(<CareerStart onStarted={vi.fn()} />);
+    expect(screen.getByText("4 clubes · 4 divisões")).toBeTruthy();
+    expect(screen.getByText("Clube 1")).toBeTruthy();
+    expect(screen.getByText("Clube 4")).toBeTruthy();
+    expect(screen.getByText("Sorteio persistirá no save · seed seed-teste")).toBeTruthy();
+  });

@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { getCurrentCareer, listCareerTargets, listWorldCountries, startCareer } from "../careerGateway";
+import { getCurrentCareer, getParallelLeaguePreview, listCareerTargets, listWorldCountries, startCareer } from "../careerGateway";
 import { publicProcedure, router } from "../_core/trpc";
 
 function toTrpcError(error: unknown) {
@@ -31,6 +31,15 @@ export const careerRouter = router({
     .query(({ input }) => {
       try {
         return listCareerTargets(input.targetType, input.search.trim(), input.limit);
+      } catch (error) {
+        throw toTrpcError(error);
+      }
+    }),
+  parallelPreview: publicProcedure
+    .input(z.object({ selectedCountryIds: z.array(z.number().int().positive()).min(1).max(12), targetType: z.enum(["club", "selection"]), targetId: z.number().int().positive() }))
+    .query(({ input }) => {
+      try {
+        return getParallelLeaguePreview(input.selectedCountryIds, input.targetType, input.targetId);
       } catch (error) {
         throw toTrpcError(error);
       }

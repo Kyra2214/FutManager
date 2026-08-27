@@ -564,3 +564,7 @@
 - [x] Registrar Portugal com 18 clubes e permitir totais variáveis na liga paralela, como 78 clubes para Brasil + Itália + Espanha + Portugal.
 - [x] Usar listas reais de primeira divisão como entrada de importação, sem expor essa fonte diretamente ao frontend.
 - [x] Normalizar cada clube externo para um único time_id canônico do GameState e gerar relatório de correspondências não encontradas.
+- [x] Gerar fixtures e calendário persistidos para as quatro divisões da liga paralela.
+- [x] Conectar promoção e rebaixamento da liga paralela ao fechamento idempotente da temporada.
+- [x] Exibir a lista completa de clubes, país de origem e divisão na confirmação da nova carreira.
+- [x] Validar temporada completa da liga paralela sem alterar fixtures ou competições nacionais originais.

@@ -437,3 +437,24 @@ html, body, #root { max-width: 100%; overflow-x: hidden; }
   .career-division-badge { align-self: flex-start; }
   .career-world-countries { grid-template-columns: 1fr; }
 }
+
+.career-parallel-preview { margin-top: 12px; padding: 12px; border: 1px solid rgba(79,126,176,.28); background: rgba(244,241,233,.72); }
+.career-parallel-preview-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.career-parallel-preview-head > div { display: grid; gap: 4px; }
+.career-parallel-preview-head strong { color: var(--ink); font: 700 15px "Space Grotesk", sans-serif; }
+.career-parallel-preview-head small { max-width: 260px; color: #777970; font-size: 8px; line-height: 1.35; text-align: right; word-break: break-word; }
+.career-parallel-divisions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; margin-top: 10px; }
+.career-parallel-divisions details { min-width: 0; border: 1px solid var(--line); background: rgba(255,255,255,.66); }
+.career-parallel-divisions summary { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 10px; color: var(--ink); font: 700 10px "Space Grotesk", sans-serif; cursor: pointer; list-style: none; }
+.career-parallel-divisions summary::-webkit-details-marker { display: none; }
+.career-parallel-divisions summary b { color: #777970; font-size: 8px; }
+.career-parallel-club-list { display: grid; gap: 4px; padding: 0 10px 10px; border-top: 1px solid var(--line); }
+.career-parallel-club-list span { overflow: hidden; padding-top: 5px; color: #60645e; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.career-parallel-club-list span.manager-club { color: var(--cobalt); font-weight: 700; }
+.career-parallel-preview-loading, .career-parallel-preview-error { margin-top: 10px; padding: 9px 10px; color: #777970; font-size: 9px; background: rgba(255,255,255,.62); }
+.career-parallel-preview-error { color: #9e4234; }
+@media (max-width: 620px) {
+  .career-parallel-preview-head { align-items: flex-start; flex-direction: column; gap: 5px; }
+  .career-parallel-preview-head small { max-width: none; text-align: left; }
+  .career-parallel-divisions { grid-template-columns: 1fr; }
+}
