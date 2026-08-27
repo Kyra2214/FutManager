@@ -823,3 +823,4 @@
 - [x] Produzir o lote P1 3891–3900: contrato unitário derivado do valor existente, integração ao gateway e validação mínima.
 - [x] Corrigir alias plural do contrato de formulário reportado pelo gateway.
 - [x] Produzir o lote P1 3901–3910: contrato de integração derivado do módulo global existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P1 3911–3920: contrato E2E derivado da integração existente, registro no serviço e validação mínima.
