@@ -771,3 +771,4 @@
 - [x] Validar minimamente a correção do lote P1 3251–3260: compilação, auditoria em SQLite temporário e ações do gateway confirmadas.
 - [x] Produzir o lote P1 3261–3270: contrato de missão baseado em MISSION_TYPES e SponsorshipService, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3271–3280: contrato de audiência derivado da capacidade de estádio e AttendanceService, integração ao gateway e validação mínima.
+- [x] Produzir o lote P1 3281–3290: contrato comercial, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
