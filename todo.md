@@ -818,3 +818,4 @@
 - [x] Produzir o lote P1 3861–3870: contrato de tabela derivado do contrato existente, integração ao gateway e validação mínima.
 - [x] Corrigir aliases plurais do contrato de navegação reportados no carregamento do gateway.
 - [x] Produzir o lote P1 3871–3880: contrato de filtro do domínio 30 derivado do filtro existente, integração ao gateway e validação mínima.
+- [x] Corrigir alias plural de leitura do contrato de navegação reportado pelo gateway.
