@@ -606,7 +606,7 @@
 - [x] Corrigir a governança do roadmap: reabrir 1181–1190 até a dependência 1171–1180 ser concluída, evitando avanço fora de ordem.
 - [x] Implementar e validar o lote P1 1171–1180: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de escopo.
 - [x] Implementar e validar o lote P1 1211–1220: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de consentimento.
-- [ ] Implementar e validar o lote P1 1251–1260: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de país.
+- [x] Implementar e validar o lote P1 1251–1260: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de país.
 - [x] Reproduzir e corrigir o erro `Cannot read properties of undefined (reading 'length')` ao abrir a seção Time em mobile.
 - [x] Auditar e exibir a quantidade real de partidas por temporada da liga principal, separando partidas por clube, por divisão e total da competição.
 - [x] Atualizar o teste de integração de início de carreira que ainda espera 78 clubes, alinhando-o à regra validada de 80 clubes em 4 divisões.

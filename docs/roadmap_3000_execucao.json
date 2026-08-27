@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 430,
-    "pending": 2570,
+    "done": 520,
+    "pending": 2480,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -3955,8 +3955,13 @@
       "title": "definir contrato para país",
       "dependency": "P0_GLOBAL_GATE + passo anterior do domínio",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_country_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_country_contract.py"
+      ]
     },
     {
       "item_id": 1252,
@@ -3964,8 +3969,13 @@
       "title": "validar regras de país",
       "dependency": "1251",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_country_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_country_contract.py"
+      ]
     },
     {
       "item_id": 1253,
@@ -3973,8 +3983,13 @@
       "title": "persistir estado de país",
       "dependency": "1252",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_country_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_country_contract.py"
+      ]
     },
     {
       "item_id": 1254,
@@ -3982,8 +3997,13 @@
       "title": "expor leitura de país",
       "dependency": "1253",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_country_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_country_contract.py"
+      ]
     },
     {
       "item_id": 1255,
@@ -3991,8 +4011,13 @@
       "title": "proteger mutação de país",
       "dependency": "1254",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_country_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_country_contract.py"
+      ]
     },
     {
       "item_id": 1256,
@@ -4000,8 +4025,13 @@
       "title": "auditar fluxo de país",
       "dependency": "1255",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_country_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_country_contract.py"
+      ]
     },
     {
       "item_id": 1257,
@@ -4009,8 +4039,13 @@
       "title": "otimizar consulta de país",
       "dependency": "1256",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_country_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_country_contract.py"
+      ]
     },
     {
       "item_id": 1258,
@@ -4018,8 +4053,13 @@
       "title": "simular cenário de país",
       "dependency": "1257",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_country_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_country_contract.py"
+      ]
     },
     {
       "item_id": 1259,
@@ -4027,8 +4067,13 @@
       "title": "documentar ciclo de país",
       "dependency": "1258",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_country_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_country_contract.py"
+      ]
     },
     {
       "item_id": 1260,
@@ -4036,8 +4081,13 @@
       "title": "testar integração de país",
       "dependency": "1259",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_country_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_country_contract.py"
+      ]
     },
     {
       "item_id": 1261,
