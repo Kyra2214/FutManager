@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 950,
-    "pending": 2050,
+    "done": 960,
+    "pending": 2040,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -11455,8 +11455,12 @@
       "title": "definir contrato para feriado",
       "dependency": "P0_GLOBAL_GATE + passo anterior do domínio",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_holiday_contract.py::test_holiday_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1852,
@@ -11464,8 +11468,12 @@
       "title": "validar regras de feriado",
       "dependency": "1851",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_holiday_contract.py::test_holiday_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1853,
@@ -11473,8 +11481,12 @@
       "title": "persistir estado de feriado",
       "dependency": "1852",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_holiday_contract.py::test_holiday_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1854,
@@ -11482,8 +11494,12 @@
       "title": "expor leitura de feriado",
       "dependency": "1853",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_holiday_contract.py::test_holiday_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1855,
@@ -11491,8 +11507,12 @@
       "title": "proteger mutação de feriado",
       "dependency": "1854",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_holiday_contract.py::test_holiday_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1856,
@@ -11500,8 +11520,12 @@
       "title": "auditar fluxo de feriado",
       "dependency": "1855",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_holiday_contract.py::test_holiday_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1857,
@@ -11509,8 +11533,12 @@
       "title": "otimizar consulta de feriado",
       "dependency": "1856",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_holiday_contract.py::test_holiday_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1858,
@@ -11518,8 +11546,12 @@
       "title": "simular cenário de feriado",
       "dependency": "1857",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_holiday_contract.py::test_holiday_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1859,
@@ -11527,8 +11559,12 @@
       "title": "documentar ciclo de feriado",
       "dependency": "1858",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_holiday_contract.py::test_holiday_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1860,
@@ -11536,8 +11572,12 @@
       "title": "testar integração de feriado",
       "dependency": "1859",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_holiday_contract.py::test_holiday_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1861,
