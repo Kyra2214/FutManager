@@ -2975,8 +2975,14 @@
       "title": "definir contrato para convite",
       "dependency": "1180",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_invite_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_invite_contract.py",
+        "docs/p1_invite_1181_1190.md"
+      ]
     },
     {
       "item_id": 1182,
@@ -2984,8 +2990,14 @@
       "title": "validar regras de convite",
       "dependency": "1181",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_invite_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_invite_contract.py",
+        "docs/p1_invite_1181_1190.md"
+      ]
     },
     {
       "item_id": 1183,
@@ -2993,8 +3005,14 @@
       "title": "persistir estado de convite",
       "dependency": "1182",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_invite_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_invite_contract.py",
+        "docs/p1_invite_1181_1190.md"
+      ]
     },
     {
       "item_id": 1184,
@@ -3002,8 +3020,14 @@
       "title": "expor leitura de convite",
       "dependency": "1183",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_invite_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_invite_contract.py",
+        "docs/p1_invite_1181_1190.md"
+      ]
     },
     {
       "item_id": 1185,
@@ -3011,8 +3035,14 @@
       "title": "proteger mutação de convite",
       "dependency": "1184",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_invite_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_invite_contract.py",
+        "docs/p1_invite_1181_1190.md"
+      ]
     },
     {
       "item_id": 1186,
@@ -3020,8 +3050,14 @@
       "title": "auditar fluxo de convite",
       "dependency": "1185",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_invite_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_invite_contract.py",
+        "docs/p1_invite_1181_1190.md"
+      ]
     },
     {
       "item_id": 1187,
@@ -3029,8 +3065,14 @@
       "title": "otimizar consulta de convite",
       "dependency": "1186",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_invite_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_invite_contract.py",
+        "docs/p1_invite_1181_1190.md"
+      ]
     },
     {
       "item_id": 1188,
@@ -3038,8 +3080,14 @@
       "title": "simular cenário de convite",
       "dependency": "1187",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_invite_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_invite_contract.py",
+        "docs/p1_invite_1181_1190.md"
+      ]
     },
     {
       "item_id": 1189,
@@ -3047,8 +3095,14 @@
       "title": "documentar ciclo de convite",
       "dependency": "1188",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_invite_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_invite_contract.py",
+        "docs/p1_invite_1181_1190.md"
+      ]
     },
     {
       "item_id": 1190,
@@ -3056,8 +3110,14 @@
       "title": "testar integração de convite",
       "dependency": "1189",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_invite_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_invite_contract.py",
+        "docs/p1_invite_1181_1190.md"
+      ]
     },
     {
       "item_id": 1191,
