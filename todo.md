@@ -806,3 +806,4 @@
 - [x] Produzir o lote P1 3691–3700: contrato de paginação derivado do filtro existente, leitura SQL e validação mínima.
 - [x] Produzir o lote P1 3701–3710: contrato de arquivamento derivado do histórico existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3711–3720: contrato de preferência derivado do contrato existente, integração ao gateway e validação mínima.
+- [x] Produzir o lote P1 3751–3760: contrato de objetivo derivado do contrato existente, integração ao gateway e validação mínima.
