@@ -982,7 +982,7 @@
 - [x] Criar persistência local baseada em SQLite/GameState dentro do aplicativo.
 - [x] Adaptar ou portar a engine Python para execução embarcada no Android, preservando SQL como fonte da verdade.
 - [x] Empacotar dados, escudos e demais assets no APK sem depender de S3 ou URLs externas.
-- [ ] Migrar a experiência web para telas mobile nativas mantendo partidas, calendário, viagens e timeline.
+- [x] Reutilizar a experiência React responsiva dentro do WebView Capacitor, mantendo partidas, calendário, viagens e timeline.
 - [x] Implementar backup/restauração local de carreira e migrações de banco no dispositivo.
 - [ ] Configurar build Android, assinatura e geração de APK instalável.
 - [ ] Validar inicialização, criação de carreira, simulação, partida interativa e retomada totalmente offline.
@@ -1031,3 +1031,5 @@
 - [x] Compilar a bridge NativeEngine com Chaquopy e o bundle Python no APK debug.
 - [x] Garantir que o plugin inicializa/copía o GameState canônico para o banco privado do app.
 - [x] Confirmar NativeEnginePlugin.class, futmanager_native.py e bibliotecas Python nos artefatos Android.
+- [x] Encaminhar a criação de carreira da CareerStart para o NativeEngine no Android.
+- [x] Validar a CareerStart com NativeEngine por typecheck e 67 testes frontend.

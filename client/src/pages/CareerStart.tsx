@@ -26,6 +26,7 @@ export default function CareerStart({ onStarted, onContinue }: { onStarted: () =
   const [localCountries, setLocalCountries] = useState<OfflineCountry[]>([]);
   const [localCountriesLoading, setLocalCountriesLoading] = useState(false);
   const [localStartError, setLocalStartError] = useState("");
+  const [localStartPending, setLocalStartPending] = useState(false);
   const utils = trpc.useUtils();
   const currentCareer = trpc.career.current.useQuery(undefined, { retry: 1, enabled: !isNative });
   const catalogInput = useMemo(() => ({ targetType, search, limit: 48 }), [targetType, search]);
@@ -58,7 +59,7 @@ export default function CareerStart({ onStarted, onContinue }: { onStarted: () =
   const parallelPreviewInput = useMemo(() => ({ selectedCountryIds, targetType, targetId: selectedId ?? 0 }), [selectedCountryIds, targetType, selectedId]);
   const parallelPreview = trpc.career.parallelPreview.useQuery(parallelPreviewInput, { enabled: !isNative && selectedCountryIds.length > 0 && selectedId !== null, retry: 0 });
   const parallelPreviewData = parallelPreview.data as { mode?: "NATIONAL" | "PARALLEL"; competition_name?: string; total_clubs?: number; seed?: string | null; target_division?: number | null; divisions?: Array<{ division: number; clubs: Array<{ club_id: number; name?: string }> }> } | undefined;
-  const canStart = Boolean(selectedTarget && selectedCountryIds.length > 0 && managerName.trim() && careerName.trim() && Number(age) >= 18 && !startMutation.isPending);
+  const canStart = Boolean(selectedTarget && selectedCountryIds.length > 0 && managerName.trim() && careerName.trim() && Number(age) >= 18 && !startMutation.isPending && !localStartPending);
 
   const selectTargetType = (nextType: TargetType) => {
     setTargetType(nextType);
@@ -107,12 +108,16 @@ export default function CareerStart({ onStarted, onContinue }: { onStarted: () =
       {startMutation.error && <p className="career-error">{getCareerStartErrorMessage(startMutation.error.message)}</p>}
       {localStartError && <p className="career-error" role="alert">{localStartError}</p>}
       <button className="career-start-action" disabled={!canStart} onClick={() => {
+        if (!selectedTarget) return;
+        setLocalStartError("");
+        const input = { managerName: managerName.trim(), nationality: nationality.trim() || undefined, age: Number(age), careerName: careerName.trim(), targetType, targetId: selectedTarget.entityId, selectedCountryIds };
         if (isNative) {
-          setLocalStartError("A criação da carreira local ainda está sendo integrada ao motor embarcado. Nenhum dado foi enviado pela internet.");
+          setLocalStartPending(true);
+          localDomain.startCareer(input).then(() => onStarted()).catch((error: unknown) => setLocalStartError(getCareerStartErrorMessage(error instanceof Error ? error.message : String(error)))).finally(() => setLocalStartPending(false));
           return;
         }
-        if (selectedTarget) startMutation.mutate({ managerName: managerName.trim(), nationality: nationality.trim() || undefined, age: Number(age), careerName: careerName.trim(), targetType, targetId: selectedTarget.entityId, selectedCountryIds });
-      }}>{startMutation.isPending ? "Iniciando carreira…" : "Começar carreira"}<ArrowRight size={18} /></button>
+        startMutation.mutate(input);
+      }}>{startMutation.isPending || localStartPending ? "Iniciando carreira…" : "Começar carreira"}<ArrowRight size={18} /></button>
     </section>
   </main>;
 }
