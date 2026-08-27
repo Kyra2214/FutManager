@@ -789,3 +789,4 @@
 - [x] Produzir o lote P1 3491–3500: adaptador de ônibus baseado no TravelCostService existente, sem nova tarifa, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3501–3510: contrato operacional de descanso derivado do contrato existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3511–3520: contrato de segurança derivado do contrato existente, integração ao gateway e validação mínima.
+- [x] Corrigir aliases públicos ausentes no contrato operacional de descanso apontados pelo runtime, sem alterar a lógica existente.
