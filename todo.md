@@ -840,3 +840,4 @@
 - [x] Corrigir referência legada p1_origem_contract usada pelo gateway após a migração da origem para P2.
 - [x] Produzir o lote P2 1531–1540: contrato de histórico derivado da implementação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 1621–1630: contrato de calendário derivado da implementação existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 1631–1640: contrato de premiação derivado da implementação existente, integração ao serviço e validação mínima.
