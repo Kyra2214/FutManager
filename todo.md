@@ -804,3 +804,4 @@
 - [x] Produzir o lote P1 3671–3680: contrato de severidade derivado do contrato de risco existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3681–3690: contrato de filtro derivado do contrato existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3691–3700: contrato de paginação derivado do filtro existente, leitura SQL e validação mínima.
+- [x] Produzir o lote P1 3701–3710: contrato de arquivamento derivado do histórico existente, integração ao gateway e validação mínima.
