@@ -21,6 +21,7 @@ from engine.core.p1_session_contract import ensure_p1_session_registry
 from engine.core.p1_role_contract import ensure_p1_role_registry
 from engine.core.p1_invite_contract import ensure_p1_invite_registry
 from engine.core.p1_scope_contract import ensure_p1_scope_registry
+from engine.core.p1_revocation_contract import ensure_p1_revocation_registry
 from engine.world.first_division import FIRST_DIVISION_SOURCES, resolve_first_division_members
 from engine.economy.institutional_power import InstitutionalPowerService
 
@@ -95,6 +96,7 @@ class ManagerService:
         ensure_p1_role_registry(self.connection)
         ensure_p1_invite_registry(self.connection)
         ensure_p1_scope_registry(self.connection)
+        ensure_p1_revocation_registry(self.connection)
         self.connection.execute(
             'INSERT OR IGNORE INTO migration_audit(component,version,applied_at,content_hash) VALUES(?,?,?,?)',
             ('manager_career', 3, self._now(), 'manager-career-schema-v3'),
