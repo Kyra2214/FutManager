@@ -835,3 +835,4 @@
 - [x] Produzir o lote P2 1231–1240: contrato de privacidade derivado do consentimento existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 1421–1430: contrato de unicidade derivado da identidade existente, integração ao serviço e validação mínima.
 - [x] Corrigir referência legada p1_privacidade_contract usada pelo gateway após a migração da privacidade para P2.
+- [x] Produzir o lote P2 1431–1440: contrato de origem derivado da identidade existente, integração ao serviço e validação mínima.
