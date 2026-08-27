@@ -708,3 +708,4 @@
 - [x] Produzir o lote P1 2391–2400: contrato de rescisão, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2401–2410: contrato de empréstimo, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2411–2420: contrato de opção, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2451–2460: contrato de auxiliar, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
