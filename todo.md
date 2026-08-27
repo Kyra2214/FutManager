@@ -778,3 +778,4 @@
 - [x] Produzir o lote P1 3351–3360: contrato de setor derivado do contrato de divisão existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3361–3370: contrato de ingresso derivado do serviço StadiumFansService existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3371–3380: contrato de ocupação derivado de `occupancy_rate` do AttendanceService, integração ao gateway e validação mínima.
+- [x] Produzir o lote P1 3381–3390: contrato de torcida derivado do serviço StadiumFansService existente, integração ao gateway e validação mínima.
