@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 370,
-    "pending": 2630,
+    "done": 380,
+    "pending": 2620,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -1215,8 +1215,14 @@
       "title": "definir contrato para procedure",
       "dependency": "P0_GLOBAL_GATE + passo anterior do domínio",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_procedure_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_procedure_contract.py",
+        "docs/p1_procedure_1051_1060.md"
+      ]
     },
     {
       "item_id": 1052,
@@ -1224,8 +1230,14 @@
       "title": "validar regras de procedure",
       "dependency": "1051",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_procedure_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_procedure_contract.py",
+        "docs/p1_procedure_1051_1060.md"
+      ]
     },
     {
       "item_id": 1053,
@@ -1233,8 +1245,14 @@
       "title": "persistir estado de procedure",
       "dependency": "1052",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_procedure_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_procedure_contract.py",
+        "docs/p1_procedure_1051_1060.md"
+      ]
     },
     {
       "item_id": 1054,
@@ -1242,8 +1260,14 @@
       "title": "expor leitura de procedure",
       "dependency": "1053",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_procedure_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_procedure_contract.py",
+        "docs/p1_procedure_1051_1060.md"
+      ]
     },
     {
       "item_id": 1055,
@@ -1251,8 +1275,14 @@
       "title": "proteger mutação de procedure",
       "dependency": "1054",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_procedure_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_procedure_contract.py",
+        "docs/p1_procedure_1051_1060.md"
+      ]
     },
     {
       "item_id": 1056,
@@ -1260,8 +1290,14 @@
       "title": "auditar fluxo de procedure",
       "dependency": "1055",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_procedure_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_procedure_contract.py",
+        "docs/p1_procedure_1051_1060.md"
+      ]
     },
     {
       "item_id": 1057,
@@ -1269,8 +1305,14 @@
       "title": "otimizar consulta de procedure",
       "dependency": "1056",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_procedure_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_procedure_contract.py",
+        "docs/p1_procedure_1051_1060.md"
+      ]
     },
     {
       "item_id": 1058,
@@ -1278,8 +1320,14 @@
       "title": "simular cenário de procedure",
       "dependency": "1057",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_procedure_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_procedure_contract.py",
+        "docs/p1_procedure_1051_1060.md"
+      ]
     },
     {
       "item_id": 1059,
@@ -1287,8 +1335,14 @@
       "title": "documentar ciclo de procedure",
       "dependency": "1058",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_procedure_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_procedure_contract.py",
+        "docs/p1_procedure_1051_1060.md"
+      ]
     },
     {
       "item_id": 1060,
@@ -1296,8 +1350,14 @@
       "title": "testar integração de procedure",
       "dependency": "1059",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_procedure_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_procedure_contract.py",
+        "docs/p1_procedure_1051_1060.md"
+      ]
     },
     {
       "item_id": 1061,

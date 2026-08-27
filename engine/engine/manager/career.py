@@ -10,6 +10,7 @@ from typing import Any
 from engine.core.schema import ensure_schema_version
 from engine.core.state_store import assert_mutable_state_path, configure_state_connection
 from engine.core.p0_contracts import ensure_p0_contract_registry
+from engine.core.p1_procedure_contract import ensure_p1_procedure_registry
 from engine.world.first_division import FIRST_DIVISION_SOURCES, resolve_first_division_members
 
 SCHEMA = '''
@@ -72,6 +73,7 @@ class ManagerService:
             self.connection.execute("ALTER TABLE career_parallel_fixtures ADD COLUMN scheduled_date TEXT NOT NULL DEFAULT '1970-01-01'")
         ensure_schema_version(self.connection)
         ensure_p0_contract_registry(self.connection)
+        ensure_p1_procedure_registry(self.connection)
         self.connection.execute(
             'INSERT OR IGNORE INTO migration_audit(component,version,applied_at,content_hash) VALUES(?,?,?,?)',
             ('manager_career', 3, self._now(), 'manager-career-schema-v3'),
