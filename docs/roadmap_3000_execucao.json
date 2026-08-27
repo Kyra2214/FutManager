@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 840,
-    "pending": 2160,
+    "done": 850,
+    "pending": 2150,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -9385,8 +9385,12 @@
       "title": "definir contrato para fixture",
       "dependency": "1680",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fixture_contract.py::test_fixture_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1682,
@@ -9394,8 +9398,12 @@
       "title": "validar regras de fixture",
       "dependency": "1681",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fixture_contract.py::test_fixture_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1683,
@@ -9403,8 +9411,12 @@
       "title": "persistir estado de fixture",
       "dependency": "1682",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fixture_contract.py::test_fixture_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1684,
@@ -9412,8 +9424,12 @@
       "title": "expor leitura de fixture",
       "dependency": "1683",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fixture_contract.py::test_fixture_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1685,
@@ -9421,8 +9437,12 @@
       "title": "proteger mutação de fixture",
       "dependency": "1684",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fixture_contract.py::test_fixture_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1686,
@@ -9430,8 +9450,12 @@
       "title": "auditar fluxo de fixture",
       "dependency": "1685",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fixture_contract.py::test_fixture_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1687,
@@ -9439,8 +9463,12 @@
       "title": "otimizar consulta de fixture",
       "dependency": "1686",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fixture_contract.py::test_fixture_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1688,
@@ -9448,8 +9476,12 @@
       "title": "simular cenário de fixture",
       "dependency": "1687",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fixture_contract.py::test_fixture_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1689,
@@ -9457,8 +9489,12 @@
       "title": "documentar ciclo de fixture",
       "dependency": "1688",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fixture_contract.py::test_fixture_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1690,
@@ -9466,8 +9502,12 @@
       "title": "testar integração de fixture",
       "dependency": "1689",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_fixture_contract.py::test_fixture_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1691,
