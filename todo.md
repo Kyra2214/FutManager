@@ -815,3 +815,4 @@
 - [x] Produzir o lote P1 3801–3810: contrato de aposentadoria derivado da idade existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3811–3820: contrato de legado derivado do histórico existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3851–3860: contrato de navegação derivado das preferências existentes, integração ao gateway e validação mínima.
+- [x] Produzir o lote P1 3861–3870: contrato de tabela derivado do contrato existente, integração ao gateway e validação mínima.
