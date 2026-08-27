@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 720,
-    "pending": 2280,
+    "done": 730,
+    "pending": 2270,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -7185,8 +7185,12 @@
       "title": "definir contrato para elegibilidade",
       "dependency": "1500",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_eligibility_contract.py::test_eligibility_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1502,
@@ -7194,8 +7198,12 @@
       "title": "validar regras de elegibilidade",
       "dependency": "1501",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_eligibility_contract.py::test_eligibility_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1503,
@@ -7203,8 +7211,12 @@
       "title": "persistir estado de elegibilidade",
       "dependency": "1502",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_eligibility_contract.py::test_eligibility_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1504,
@@ -7212,8 +7224,12 @@
       "title": "expor leitura de elegibilidade",
       "dependency": "1503",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_eligibility_contract.py::test_eligibility_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1505,
@@ -7221,8 +7237,12 @@
       "title": "proteger mutação de elegibilidade",
       "dependency": "1504",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_eligibility_contract.py::test_eligibility_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1506,
@@ -7230,8 +7250,12 @@
       "title": "auditar fluxo de elegibilidade",
       "dependency": "1505",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_eligibility_contract.py::test_eligibility_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1507,
@@ -7239,8 +7263,12 @@
       "title": "otimizar consulta de elegibilidade",
       "dependency": "1506",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_eligibility_contract.py::test_eligibility_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1508,
@@ -7248,8 +7276,12 @@
       "title": "simular cenário de elegibilidade",
       "dependency": "1507",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_eligibility_contract.py::test_eligibility_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1509,
@@ -7257,8 +7289,12 @@
       "title": "documentar ciclo de elegibilidade",
       "dependency": "1508",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_eligibility_contract.py::test_eligibility_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1510,
@@ -7266,8 +7302,12 @@
       "title": "testar integração de elegibilidade",
       "dependency": "1509",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_eligibility_contract.py::test_eligibility_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1511,
