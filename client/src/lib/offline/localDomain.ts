@@ -5,6 +5,7 @@ import {
   writeLocalGameState,
 } from "./localStore";
 import { listLocalClubs, listLocalSelections, resolveLocalAsset } from "./localCatalog";
+import { NativeEngine, type NativeCareerStartInput } from "./nativeEngine";
 
 export type LocalCareerState = Record<string, unknown>;
 
@@ -70,6 +71,21 @@ export const localDomain = {
 
   async resolveAsset(entityType: "team" | "selection", entityId: number) {
     return resolveLocalAsset(entityType, entityId);
+  },
+
+  async startCareer(input: NativeCareerStartInput) {
+    if (!isOfflineNativeRuntime()) return Promise.reject(new Error("A criação local só está disponível no aplicativo instalado."));
+    return NativeEngine.startCareer(input);
+  },
+
+  async advanceWeek(seed?: string) {
+    if (!isOfflineNativeRuntime()) return Promise.reject(new Error("O avanço local só está disponível no aplicativo instalado."));
+    return NativeEngine.advanceWeek(seed ? { seed } : undefined);
+  },
+
+  async playControlledMatch(matchId: number, decision?: Record<string, unknown>) {
+    if (!isOfflineNativeRuntime()) return Promise.reject(new Error("A partida local só está disponível no aplicativo instalado."));
+    return NativeEngine.playControlledMatch({ matchId, decision });
   },
 
   async saveCareer(state: LocalCareerState) {

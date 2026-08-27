@@ -1021,3 +1021,6 @@
 - [x] Validar a CareerStart com catálogo local por typecheck.
 - [x] Bloquear a mutação remota de início de carreira no Android até existir bridge local, com mensagem clara ao usuário.
 - [x] Validar a proteção da CareerStart com typecheck e 67 testes frontend.
+- [x] Definir contrato TypeScript da bridge NativeEngine para criação de carreira, avanço semanal e partida.
+- [x] Expor a bridge pelo localDomain com bloqueio seguro fora do runtime Android.
+- [x] Validar o contrato NativeEngine com typecheck.
