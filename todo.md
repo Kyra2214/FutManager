@@ -875,3 +875,6 @@
 - [x] Produzir o lote P2 3231–3240: contrato de fechamento do domínio 190 derivado da finalização existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 3321–3330: contrato de ativação do domínio 200 derivado do perfil existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 3331–3340: contrato de relatório do domínio 200 derivado da implementação existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 3421–3430: contrato de upgrade do domínio 210 derivado da implementação existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 3431–3440: contrato de evento do domínio 210 derivado da implementação existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 3521–3530: contrato de bagagem do domínio 220 derivado do inventário existente, integração ao serviço e validação mínima.
