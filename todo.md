@@ -787,3 +787,4 @@
 - [x] Produzir o lote P1 3471–3480: adaptador de hotel baseado no TravelCostService existente, sem nova tarifa, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3481–3490: adaptador de voo baseado no TravelCostService existente, sem nova tarifa, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3491–3500: adaptador de ônibus baseado no TravelCostService existente, sem nova tarifa, integração ao gateway e validação mínima.
+- [x] Produzir o lote P1 3501–3510: contrato operacional de descanso derivado do contrato existente, integração ao gateway e validação mínima.
