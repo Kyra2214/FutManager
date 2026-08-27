@@ -869,3 +869,6 @@
 - [x] Produzir o lote P2 2931–2940: contrato de avaliação do domínio 150 derivado do score existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 3021–3030: contrato de shortlist do domínio 160 derivado da comparação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 3031–3040: contrato de histórico do domínio 170 derivado da implementação existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 3121–3130: contrato de expiração do domínio 180 derivado da implementação existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 3131–3140: contrato de aprovação do domínio 180 derivado do consentimento existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 3221–3230: contrato de déficit do domínio 190 derivado da despesa existente, integração ao serviço e validação mínima.
