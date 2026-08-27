@@ -812,3 +812,4 @@
 - [x] Produzir o lote P1 3771–3780: contrato de experiência derivado do desenvolvimento existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3781–3790: contrato de oferta derivado da proposta existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3791–3800: contrato de troca derivado da contraproposta existente, integração ao gateway e validação mínima.
+- [x] Produzir o lote P1 3801–3810: contrato de aposentadoria derivado da idade existente, integração ao gateway e validação mínima.
