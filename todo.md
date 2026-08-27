@@ -603,3 +603,5 @@
 - [x] Validar a cadeia completa início da carreira → calendário SQL → gateway/tRPC → interface, sem dados estáticos ou fictícios.
 - [x] Corrigir o registro da ação `stadium_preview` no argparse do gateway e validar a prévia com componentes de estádio válidos.
 - [x] Implementar e validar o lote P1 1181–1190: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de convite.
+- [x] Corrigir a governança do roadmap: reabrir 1181–1190 até a dependência 1171–1180 ser concluída, evitando avanço fora de ordem.
+- [x] Implementar e validar o lote P1 1171–1180: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de escopo.
