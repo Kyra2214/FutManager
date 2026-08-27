@@ -933,4 +933,4 @@
 - [x] Reproduzir o clique que não inicia a transmissão em viewport móvel e identificar a causa.
 - [x] Corrigir a transição do botão “Iniciar partida” para o estado ao vivo, sem bloquear por dados opcionais.
 - [x] Cobrir o clique mobile com teste de UI e validar animação, pausas e registro posterior.
-- [ ] Salvar checkpoint corrigido e sincronizar a correção no GitHub.
+- [x] Salvar checkpoint corrigido e sincronizar a correção no GitHub.
