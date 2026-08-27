@@ -866,3 +866,4 @@
 - [x] Produzir o lote P2 2821–2830: contrato de disponibilidade do domínio 130 derivado da escalação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 2831–2840: contrato de auditoria do domínio 130 derivado da implementação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 2921–2930: contrato de overtraining do domínio 140 derivado da carga existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 2931–2940: contrato de avaliação do domínio 150 derivado do score existente, integração ao serviço e validação mínima.
