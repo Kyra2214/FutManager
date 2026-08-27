@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 520,
-    "pending": 2480,
+    "done": 530,
+    "pending": 2470,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -4095,8 +4095,12 @@
       "title": "definir contrato para cidade",
       "dependency": "1260",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_city_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py"
+      ]
     },
     {
       "item_id": 1262,
@@ -4104,8 +4108,12 @@
       "title": "validar regras de cidade",
       "dependency": "1261",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_city_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py"
+      ]
     },
     {
       "item_id": 1263,
@@ -4113,8 +4121,12 @@
       "title": "persistir estado de cidade",
       "dependency": "1262",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_city_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py"
+      ]
     },
     {
       "item_id": 1264,
@@ -4122,8 +4134,12 @@
       "title": "expor leitura de cidade",
       "dependency": "1263",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_city_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py"
+      ]
     },
     {
       "item_id": 1265,
@@ -4131,8 +4147,12 @@
       "title": "proteger mutação de cidade",
       "dependency": "1264",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_city_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py"
+      ]
     },
     {
       "item_id": 1266,
@@ -4140,8 +4160,12 @@
       "title": "auditar fluxo de cidade",
       "dependency": "1265",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_city_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py"
+      ]
     },
     {
       "item_id": 1267,
@@ -4149,8 +4173,12 @@
       "title": "otimizar consulta de cidade",
       "dependency": "1266",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_city_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py"
+      ]
     },
     {
       "item_id": 1268,
@@ -4158,8 +4186,12 @@
       "title": "simular cenário de cidade",
       "dependency": "1267",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_city_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py"
+      ]
     },
     {
       "item_id": 1269,
@@ -4167,8 +4199,12 @@
       "title": "documentar ciclo de cidade",
       "dependency": "1268",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_city_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py"
+      ]
     },
     {
       "item_id": 1270,
@@ -4176,8 +4212,12 @@
       "title": "testar integração de cidade",
       "dependency": "1269",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_city_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py"
+      ]
     },
     {
       "item_id": 1271,

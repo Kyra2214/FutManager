@@ -616,3 +616,4 @@
 - [x] Integrar a simulação do Dia do Jogo ao calendário e aos clubes reais, sem placares ou eventos fictícios persistidos.
 - [x] Validar a nova experiência em desktop e mobile com testes de interface, typecheck e build.
 - [x] Atualizar testes de interface afetados pela nova linguagem editorial do Dia do Jogo e da prévia de ligas, mantendo cobertura funcional.
+- [x] Implementar e validar o lote P1 1261–1270: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de cidade.
