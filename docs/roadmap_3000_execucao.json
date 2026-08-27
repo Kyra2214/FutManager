@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 990,
-    "pending": 2010,
+    "done": 1000,
+    "pending": 2000,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -11975,8 +11975,12 @@
       "title": "definir contrato para fuso",
       "dependency": "1890",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_timezone_contract.py::test_timezone_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1892,
@@ -11984,8 +11988,12 @@
       "title": "validar regras de fuso",
       "dependency": "1891",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_timezone_contract.py::test_timezone_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1893,
@@ -11993,8 +12001,12 @@
       "title": "persistir estado de fuso",
       "dependency": "1892",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_timezone_contract.py::test_timezone_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1894,
@@ -12002,8 +12014,12 @@
       "title": "expor leitura de fuso",
       "dependency": "1893",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_timezone_contract.py::test_timezone_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1895,
@@ -12011,8 +12027,12 @@
       "title": "proteger mutação de fuso",
       "dependency": "1894",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_timezone_contract.py::test_timezone_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1896,
@@ -12020,8 +12040,12 @@
       "title": "auditar fluxo de fuso",
       "dependency": "1895",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_timezone_contract.py::test_timezone_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1897,
@@ -12029,8 +12053,12 @@
       "title": "otimizar consulta de fuso",
       "dependency": "1896",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_timezone_contract.py::test_timezone_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1898,
@@ -12038,8 +12066,12 @@
       "title": "simular cenário de fuso",
       "dependency": "1897",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_timezone_contract.py::test_timezone_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1899,
@@ -12047,8 +12079,12 @@
       "title": "documentar ciclo de fuso",
       "dependency": "1898",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_timezone_contract.py::test_timezone_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1900,
@@ -12056,8 +12092,12 @@
       "title": "testar integração de fuso",
       "dependency": "1899",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_timezone_contract.py::test_timezone_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1901,
