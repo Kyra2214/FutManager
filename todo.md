@@ -842,3 +842,4 @@
 - [x] Produzir o lote P2 1621–1630: contrato de calendário derivado da implementação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 1631–1640: contrato de premiação derivado da implementação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 1721–1730: contrato de rebaixamento derivado da implementação existente, integração ao serviço e validação mínima.
+- [ ] Produzir o próximo lote P2 pendente identificado após rebaixamento, mantendo SQL/GameState como fonte única da verdade e validação mínima.
