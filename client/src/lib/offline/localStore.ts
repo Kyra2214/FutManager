@@ -77,6 +77,12 @@ async function migrate(db: SQLiteDBConnection) {
   }
 }
 
+export async function queryLocal<T extends Record<string, unknown>>(statement: string, values: unknown[] = []) {
+  const db = await getDatabase();
+  const result = await db.query(statement, values);
+  return (result.values ?? []) as T[];
+}
+
 export async function readLocalGameState<T>() {
   const db = await getDatabase();
   const result = await db.query("SELECT payload FROM local_game_state WHERE id = 1");

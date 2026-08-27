@@ -1007,3 +1007,5 @@
 - [x] Desativar a consulta tRPC de assets no runtime nativo e validar o typecheck.
 - [x] Portar a resolução local de escudos por ID para o primeiro grupo P0.
 - [x] Verificar o índice local com 8.485 referências, GameState embarcado e APK sem INTERNET.
+- [x] Criar consulta local da carreira ativa diretamente da tabela `manager_careers`.
+- [x] Validar a fronteira localStore/localDomain com typecheck e 67 testes frontend.
