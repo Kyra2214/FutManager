@@ -980,10 +980,10 @@
 - [x] Definir arquitetura mobile nativa/Expo sem servidor remoto.
 - [x] Mapear e remover dependências do frontend em tRPC, OAuth, banco remoto e gateway HTTP.
 - [x] Criar persistência local baseada em SQLite/GameState dentro do aplicativo.
-- [ ] Adaptar ou portar a engine Python para execução embarcada no Android, preservando SQL como fonte da verdade.
+- [x] Adaptar ou portar a engine Python para execução embarcada no Android, preservando SQL como fonte da verdade.
 - [x] Empacotar dados, escudos e demais assets no APK sem depender de S3 ou URLs externas.
 - [ ] Migrar a experiência web para telas mobile nativas mantendo partidas, calendário, viagens e timeline.
-- [ ] Implementar backup/restauração local de carreira e migrações de banco no dispositivo.
+- [x] Implementar backup/restauração local de carreira e migrações de banco no dispositivo.
 - [ ] Configurar build Android, assinatura e geração de APK instalável.
 - [ ] Validar inicialização, criação de carreira, simulação, partida interativa e retomada totalmente offline.
 - [x] Documentar limitações, tamanho do APK e procedimento de atualização.
@@ -991,7 +991,7 @@
 - [x] Adicionar plugin SQLite nativo, Filesystem e Share ao contêiner Android.
 - [x] Remover a permissão INTERNET do manifesto do APK.
 - [x] Instalar/configurar Android SDK para gerar o APK debug neste ambiente.
-- [ ] Portar os contratos do gateway Python para a camada local TypeScript.
+- [x] Portar o contrato inicial do gateway Python para a camada local TypeScript via NativeEngine; operações restantes seguem pendentes.
 - [x] Instalar/configurar Android SDK para gerar o APK debug neste ambiente.
 - [x] Gerar APK debug com o shell Capacitor e assets offline preparados.
 - [ ] Assinar o APK release e definir keystore seguro para distribuição.
@@ -1024,3 +1024,10 @@
 - [x] Definir contrato TypeScript da bridge NativeEngine para criação de carreira, avanço semanal e partida.
 - [x] Expor a bridge pelo localDomain com bloqueio seguro fora do runtime Android.
 - [x] Validar o contrato NativeEngine com typecheck.
+- [x] Embutir os 341 módulos Python da engine no source set Android.
+- [x] Configurar Chaquopy 17.0 com Python 3.11, minSdk 24 e ABIs arm64/x86_64.
+- [x] Registrar o plugin Capacitor NativeEngine e inicializar o PyApplication.
+- [x] Validar a bridge Python com teste de fumaça sem alterar o GameState canônico.
+- [x] Compilar a bridge NativeEngine com Chaquopy e o bundle Python no APK debug.
+- [x] Garantir que o plugin inicializa/copía o GameState canônico para o banco privado do app.
+- [x] Confirmar NativeEnginePlugin.class, futmanager_native.py e bibliotecas Python nos artefatos Android.

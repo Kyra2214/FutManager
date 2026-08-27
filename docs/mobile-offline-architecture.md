@@ -67,3 +67,7 @@ A documentação oficial confirma que o SDK é composto por pacotes instaláveis
 ## Estratégia da engine
 
 A auditoria do repositório encontrou **341 módulos Python** e um gateway de **3.038 linhas**, sem manifesto de dependências externas; os imports observados são majoritariamente biblioteca padrão, SQLite e módulos internos. Copiar os `.py` para o APK não os torna executáveis pelo WebView. Há duas estratégias tecnicamente válidas: portar os casos de uso gradualmente para TypeScript/SQLite, ou incorporar um runtime Python por bridge nativa Android. A implementação atual segue o port gradual, porque preserva o GameState como fonte única e evita introduzir um runtime nativo adicional antes de medir o escopo de cada contrato.
+
+A documentação do Chaquopy 17.0 confirma que o plugin pode ser aplicado ao módulo Android, exige `minSdk` 24, configura o Python em `src/main/python` e requer `abiFilters`; também informa que cada ABI acrescenta alguns megabytes ao aplicativo e que o Python precisa estar disponível na máquina de build [3]. Como a engine atual possui 341 módulos e um gateway de 3.038 linhas, essa opção é viável em princípio, mas aumentará o tamanho e a complexidade do APK.
+
+[3]: https://chaquo.com/chaquopy/doc/current/android.html — Chaquopy 17.0, “Gradle plugin”.
