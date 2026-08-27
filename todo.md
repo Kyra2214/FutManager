@@ -601,3 +601,5 @@
 - [x] Implementar e validar o lote P1 1161–1170: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de papel.
 - [x] Reproduzir o início de uma liga e corrigir a ausência de partidas materializadas no motor e na aba Nossas Partidas.
 - [x] Validar a cadeia completa início da carreira → calendário SQL → gateway/tRPC → interface, sem dados estáticos ou fictícios.
+- [x] Corrigir o registro da ação `stadium_preview` no argparse do gateway e validar a prévia com componentes de estádio válidos.
+- [x] Implementar e validar o lote P1 1181–1190: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de convite.
