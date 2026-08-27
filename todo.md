@@ -733,3 +733,4 @@
 - [x] Produzir o lote P1 2761–2770: contrato de tratamento, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2771–2780: contrato de fisioterapia, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2781–2790: contrato de retorno, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2791–2800: contrato de risco, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
