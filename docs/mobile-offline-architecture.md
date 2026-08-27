@@ -63,3 +63,7 @@ A auditoria encontrou Node e Java, mas não encontrou `adb`, Gradle ou projeto E
 [2]: https://developer.android.com/tools/sdkmanager — Android Developers, “sdkmanager”.
 
 A documentação oficial confirma que o SDK é composto por pacotes instaláveis via `sdkmanager`, que o `platform-tools` fornece o `adb` e que plataformas/build-tools específicos podem ser instalados por caminhos como `platforms;android-36` e `build-tools;36.0.0` [1] [2].
+
+## Estratégia da engine
+
+A auditoria do repositório encontrou **341 módulos Python** e um gateway de **3.038 linhas**, sem manifesto de dependências externas; os imports observados são majoritariamente biblioteca padrão, SQLite e módulos internos. Copiar os `.py` para o APK não os torna executáveis pelo WebView. Há duas estratégias tecnicamente válidas: portar os casos de uso gradualmente para TypeScript/SQLite, ou incorporar um runtime Python por bridge nativa Android. A implementação atual segue o port gradual, porque preserva o GameState como fonte única e evita introduzir um runtime nativo adicional antes de medir o escopo de cada contrato.

@@ -1014,3 +1014,5 @@
 - [x] Validar o catálogo local sem regressões nos 67 testes frontend.
 - [x] Ligar a CareerStart ao catálogo local de clubes e seleções no runtime Android.
 - [x] Desativar consultas remotas de carreira/catálogo/prévia no runtime nativo e validar o typecheck.
+- [x] Auditar a engine Python e documentar a decisão entre bridge nativa e portabilidade gradual.
+- [x] Implementar o primeiro comando de carreira local preservando as regras do motor, sem duplicar lógica no frontend: leitura da carreira ativa via GameState.
