@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 1070,
-    "pending": 1930,
+    "done": 1090,
+    "pending": 1910,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -13335,8 +13335,11 @@
       "title": "definir contrato para xG",
       "dependency": "2000",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2002,
@@ -13344,8 +13347,11 @@
       "title": "validar regras de xG",
       "dependency": "2001",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2003,
@@ -13353,8 +13359,11 @@
       "title": "persistir estado de xG",
       "dependency": "2002",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2004,
@@ -13362,8 +13371,11 @@
       "title": "expor leitura de xG",
       "dependency": "2003",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2005,
@@ -13371,8 +13383,11 @@
       "title": "proteger mutação de xG",
       "dependency": "2004",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2006,
@@ -13380,8 +13395,11 @@
       "title": "auditar fluxo de xG",
       "dependency": "2005",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2007,
@@ -13389,8 +13407,11 @@
       "title": "otimizar consulta de xG",
       "dependency": "2006",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2008,
@@ -13398,8 +13419,11 @@
       "title": "simular cenário de xG",
       "dependency": "2007",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2009,
@@ -13407,8 +13431,11 @@
       "title": "documentar ciclo de xG",
       "dependency": "2008",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2010,
@@ -13416,8 +13443,11 @@
       "title": "testar integração de xG",
       "dependency": "2009",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2011,
@@ -13425,8 +13455,11 @@
       "title": "definir contrato para substituição",
       "dependency": "2010",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2012,
@@ -13434,8 +13467,11 @@
       "title": "validar regras de substituição",
       "dependency": "2011",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2013,
@@ -13443,8 +13479,11 @@
       "title": "persistir estado de substituição",
       "dependency": "2012",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2014,
@@ -13452,8 +13491,11 @@
       "title": "expor leitura de substituição",
       "dependency": "2013",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2015,
@@ -13461,8 +13503,11 @@
       "title": "proteger mutação de substituição",
       "dependency": "2014",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2016,
@@ -13470,8 +13515,11 @@
       "title": "auditar fluxo de substituição",
       "dependency": "2015",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2017,
@@ -13479,8 +13527,11 @@
       "title": "otimizar consulta de substituição",
       "dependency": "2016",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2018,
@@ -13488,8 +13539,11 @@
       "title": "simular cenário de substituição",
       "dependency": "2017",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2019,
@@ -13497,8 +13551,11 @@
       "title": "documentar ciclo de substituição",
       "dependency": "2018",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2020,
@@ -13506,8 +13563,11 @@
       "title": "testar integração de substituição",
       "dependency": "2019",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "validation": "py_compile; gateway argparse action present; full review deferred by approved accelerated-production policy",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 2021,

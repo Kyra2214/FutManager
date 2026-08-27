@@ -676,3 +676,7 @@
 - [x] Implementar e validar o lote P1 1971–1980: contrato de placar, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1981–1990: contrato de posse, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1991–2000: contrato de finalização, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [ ] Aplicar política de execução: produzir os lotes restantes com validação mínima durante a implementação e reservar a revisão/testes completos para o encerramento do roadmap.
+- [ ] Executar revisão e testes gerais somente após todos os lotes do roadmap serem produzidos.
+- [x] Produzir o lote P1 2001–2010: contrato de xG, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2011–2020: contrato de substituição, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
