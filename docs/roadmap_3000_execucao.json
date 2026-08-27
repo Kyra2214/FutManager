@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 1040,
-    "pending": 1960,
+    "done": 1050,
+    "pending": 1950,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -12945,8 +12945,12 @@
       "title": "definir contrato para placar",
       "dependency": "1970",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_score_contract.py::test_score_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1972,
@@ -12954,8 +12958,12 @@
       "title": "validar regras de placar",
       "dependency": "1971",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_score_contract.py::test_score_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1973,
@@ -12963,8 +12971,12 @@
       "title": "persistir estado de placar",
       "dependency": "1972",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_score_contract.py::test_score_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1974,
@@ -12972,8 +12984,12 @@
       "title": "expor leitura de placar",
       "dependency": "1973",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_score_contract.py::test_score_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1975,
@@ -12981,8 +12997,12 @@
       "title": "proteger mutação de placar",
       "dependency": "1974",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_score_contract.py::test_score_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1976,
@@ -12990,8 +13010,12 @@
       "title": "auditar fluxo de placar",
       "dependency": "1975",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_score_contract.py::test_score_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1977,
@@ -12999,8 +13023,12 @@
       "title": "otimizar consulta de placar",
       "dependency": "1976",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_score_contract.py::test_score_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1978,
@@ -13008,8 +13036,12 @@
       "title": "simular cenário de placar",
       "dependency": "1977",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_score_contract.py::test_score_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1979,
@@ -13017,8 +13049,12 @@
       "title": "documentar ciclo de placar",
       "dependency": "1978",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_score_contract.py::test_score_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1980,
@@ -13026,8 +13062,12 @@
       "title": "testar integração de placar",
       "dependency": "1979",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_score_contract.py::test_score_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1981,
