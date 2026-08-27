@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 760,
-    "pending": 2240,
+    "done": 770,
+    "pending": 2230,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -8025,8 +8025,12 @@
       "title": "definir contrato para rodada",
       "dependency": "1570",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_round_contract.py::test_round_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1572,
@@ -8034,8 +8038,12 @@
       "title": "validar regras de rodada",
       "dependency": "1571",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_round_contract.py::test_round_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1573,
@@ -8043,8 +8051,12 @@
       "title": "persistir estado de rodada",
       "dependency": "1572",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_round_contract.py::test_round_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1574,
@@ -8052,8 +8064,12 @@
       "title": "expor leitura de rodada",
       "dependency": "1573",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_round_contract.py::test_round_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1575,
@@ -8061,8 +8077,12 @@
       "title": "proteger mutação de rodada",
       "dependency": "1574",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_round_contract.py::test_round_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1576,
@@ -8070,8 +8090,12 @@
       "title": "auditar fluxo de rodada",
       "dependency": "1575",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_round_contract.py::test_round_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1577,
@@ -8079,8 +8103,12 @@
       "title": "otimizar consulta de rodada",
       "dependency": "1576",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_round_contract.py::test_round_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1578,
@@ -8088,8 +8116,12 @@
       "title": "simular cenário de rodada",
       "dependency": "1577",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_round_contract.py::test_round_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1579,
@@ -8097,8 +8129,12 @@
       "title": "documentar ciclo de rodada",
       "dependency": "1578",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_round_contract.py::test_round_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1580,
@@ -8106,8 +8142,12 @@
       "title": "testar integração de rodada",
       "dependency": "1579",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_round_contract.py::test_round_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1581,
