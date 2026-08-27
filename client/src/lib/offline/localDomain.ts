@@ -5,7 +5,7 @@ import {
   writeLocalGameState,
 } from "./localStore";
 import { listLocalClubs, listLocalSelections, resolveLocalAsset } from "./localCatalog";
-import { NativeEngine, type NativeCareerStartInput } from "./nativeEngine";
+import { NativeEngine, type NativeCareerStartInput, type NativeDashboard } from "./nativeEngine";
 
 export type LocalCareerState = Record<string, unknown>;
 
@@ -59,6 +59,16 @@ export const localDomain = {
 
   async loadActiveCareer() {
     return loadActiveCareerFromGameState();
+  },
+
+  async loadMatchesDashboard(competitionId?: number): Promise<NativeDashboard> {
+    if (!isOfflineNativeRuntime()) return Promise.reject(new Error("O dashboard local só está disponível no aplicativo instalado."));
+    return NativeEngine.getDashboard(competitionId ? { competitionId } : undefined);
+  },
+
+  async advanceUntilMatch(matchId: number, seed?: number) {
+    if (!isOfflineNativeRuntime()) return Promise.reject(new Error("A viagem local só está disponível no aplicativo instalado."));
+    return NativeEngine.advanceUntilMatch({ matchId, ...(seed === undefined ? {} : { seed }) });
   },
 
   async listClubs(search = "", limit = 48) {

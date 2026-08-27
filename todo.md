@@ -998,7 +998,7 @@
 - [x] Criar API local de exportação, compartilhamento e restauração de carreira via SQLite/Filesystem.
 - [x] Validar os tipos do backup e a compilação TypeScript no preview web.
 - [x] Inventariar e agrupar os 47 contratos tRPC usados pelo frontend para a migração offline.
-- [ ] Portar o primeiro grupo P0: catálogo, carreira, avanço semanal, viagem, partidas, eventos e assets.
+- [x] Portar o primeiro grupo P0: catálogo, carreira, avanço semanal, viagem, partidas, eventos e assets pela bridge local Android; áreas administrativas restantes seguem em portabilidade posterior.
 - [x] Corrigir a ordem do pipeline para preservar os assets offline após o Capacitor sync.
 - [x] Verificar no APK a presença do GameState/escudos e a ausência da permissão INTERNET.
 - [x] Embarcar escudos, banco-base e assets editoriais locais no pacote Android.
@@ -1035,3 +1035,12 @@
 - [x] Validar a CareerStart com NativeEngine por typecheck e 67 testes frontend.
 - [x] Fazer a Home decidir entre CareerStart e dashboard usando a carreira ativa do GameState no Android.
 - [x] Validar a Home, CareerStart e fluxo semanal com typecheck e 67 testes frontend.
+- [x] Criar projeção local de competições, tabela, calendário e resultados no GameState.
+- [x] Ligar MatchesPage ao dashboard SQLite no Android.
+- [x] Ligar avanço semanal e auto-travel da MatchesPage ao NativeEngine.
+- [x] Preservar a timeline de semanas/eventos no retorno do auto-travel local.
+- [x] Validar dashboard/auto-travel/partida controlada com smoke test Python, typecheck e 67 testes frontend.
+- [x] Ligar MatchdayPage ao dashboard local no Android.
+- [x] Ligar a simulação interativa e decisões táticas ao NativeEngine no Android.
+- [x] Persistir partida controlada via gateway Python canônico, sem tRPC no runtime nativo.
+- [x] Validar o centro interativo com typecheck, smoke test Python e 67 testes frontend.

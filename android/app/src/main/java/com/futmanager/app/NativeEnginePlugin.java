@@ -54,6 +54,12 @@ public class NativeEnginePlugin extends Plugin {
     }
 
     @PluginMethod
+    public void getDashboard(PluginCall call) { runAction(call, "getDashboard"); }
+
+    @PluginMethod
+    public void advanceUntilMatch(PluginCall call) { runAction(call, "advanceUntilMatch"); }
+
+    @PluginMethod
     public void startCareer(PluginCall call) { runAction(call, "startCareer"); }
 
     @PluginMethod

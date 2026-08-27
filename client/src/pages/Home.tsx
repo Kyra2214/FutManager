@@ -209,9 +209,13 @@ function eventGlyph(type: string) {
 }
 
 export function MatchesPage({ initialView = "competicoes", onOpenMatch, onNavigate }: { initialView?: "competicoes" | "tabela" | "calendario" | "resultados"; onOpenMatch?: () => void; onNavigate?: (section: AppSection) => void }) {
+  const isNative = Capacitor.isNativePlatform();
   const [view, setView] = useState<"competicoes" | "tabela" | "calendario" | "resultados">(initialView);
+  const [localAdvancePending, setLocalAdvancePending] = useState(false);
+  const [localTravelPending, setLocalTravelPending] = useState(false);
   const [competitionId, setCompetitionId] = useState<number | undefined>();
   const [weekSummary, setWeekSummary] = useState<AutoAdvanceSummary | null>(null);
+  const [localDashboard, setLocalDashboard] = useState<import("@/lib/offline/nativeEngine").NativeDashboard | null | undefined>(undefined);
   const goToMatch = trpc.career.advanceUntilMatch.useMutation({
     onSuccess: async (result) => {
       await Promise.all([utils.career.current.invalidate(), utils.matches.dashboard.invalidate(), utils.events.list.invalidate()]);
@@ -220,10 +224,17 @@ export function MatchesPage({ initialView = "competicoes", onOpenMatch, onNaviga
     onError: () => toast.error("Não foi possível chegar à partida pelo calendário atual."),
   });
   const queryInput = useMemo(() => (competitionId ? { competitionId } : undefined), [competitionId]);
-  const dashboardQuery = trpc.matches.dashboard.useQuery(queryInput, { retry: 1 });
-  const workspaceQuery = trpc.club.workspace.useQuery(undefined, { retry: 1 });
+  const dashboardQuery = trpc.matches.dashboard.useQuery(queryInput, { retry: 1, enabled: !isNative });
+  const workspaceQuery = trpc.club.workspace.useQuery(undefined, { retry: 1, enabled: !isNative });
+  useEffect(() => {
+    if (!isNative) return;
+    let active = true;
+    setLocalDashboard(undefined);
+    localDomain.loadMatchesDashboard(competitionId).then((result) => active && setLocalDashboard(result)).catch(() => active && setLocalDashboard(null));
+    return () => { active = false; };
+  }, [competitionId, isNative]);
   const matchdayEventsInput = useMemo(() => ({ limit: 6, unreadOnly: false }), []);
-  const matchdayEventsQuery = trpc.events.list.useQuery(matchdayEventsInput, { retry: 1 });
+  const matchdayEventsQuery = trpc.events.list.useQuery(matchdayEventsInput, { retry: 1, enabled: !isNative });
   const utils = trpc.useUtils();
   const advanceWeek = trpc.career.advanceWeek.useMutation({
     onSuccess: async (result) => {
@@ -232,7 +243,16 @@ export function MatchesPage({ initialView = "competicoes", onOpenMatch, onNaviga
     },
     onError: () => toast.error("Não foi possível avançar a semana da carreira.")
   });
-  const dashboard = dashboardQuery.data;
+  const handleAdvanceWeek = () => {
+    if (!isNative) {
+      advanceWeek.mutate({});
+      return;
+    }
+    setLocalAdvancePending(true);
+    localDomain.advanceWeek().then((result) => toast.success(`Semana ${result.week} concluída no dispositivo.`)).catch(() => toast.error("Não foi possível avançar a semana local da carreira.")).finally(() => setLocalAdvancePending(false));
+  };
+  const dashboard = isNative ? localDashboard : dashboardQuery.data;
+  const dashboardLoading = isNative ? localDashboard === undefined : dashboardQuery.isLoading;
   const matchdayEvents = matchdayEventsQuery.data?.items ?? [];
   const selectedCompetition = dashboard?.selectedCompetition ?? null;
   const controlledClub = dashboard?.controlledClub ?? null;
@@ -248,6 +268,11 @@ export function MatchesPage({ initialView = "competicoes", onOpenMatch, onNaviga
       toast.info("Esta partida ainda está sendo confirmada pelo calendário. Tente novamente em instantes.");
       return;
     }
+    if (isNative) {
+      setLocalTravelPending(true);
+      localDomain.advanceUntilMatch(nextMatch.matchId).then((result) => setWeekSummary(result as AutoAdvanceSummary)).catch(() => toast.error("Não foi possível chegar à partida local pelo calendário.")).finally(() => setLocalTravelPending(false));
+      return;
+    }
     goToMatch.mutate({ matchId: nextMatch.matchId });
   };
   const totalMatches = (dashboard?.upcomingFixtures.length ?? 0) + (dashboard?.recentResults.length ?? 0);
@@ -257,17 +282,17 @@ export function MatchesPage({ initialView = "competicoes", onOpenMatch, onNaviga
     ["calendario", "Calendário"],
     ["resultados", "Resultados"],
   ] as const;
-  const waitingMessage = dashboardQuery.isLoading
+  const waitingMessage = dashboardLoading
     ? "Atualizando a temporada…"
-    : dashboardQuery.error
-      ? "Não foi possível atualizar a temporada neste momento."
-      : dashboard?.source.message ?? "Aguardando a atualização da temporada.";
+    : (!dashboard || dashboardQuery.error)
+      ? "O calendário local ainda não está disponível."
+      : dashboard.source.message ?? "Aguardando a atualização da temporada.";
 
   return <>
-    <section className="page-intro match-intro"><div><span className="eyebrow">SEU CLUBE / CICLO ESPORTIVO</span><h1>Dia do jogo</h1><p>Prepare a rodada, acompanhe o calendário e assuma o controle do próximo compromisso.</p></div><div className="match-score-mark"><span>JOGOS NA TEMPORADA</span><strong>{dashboardQuery.isLoading ? "—" : totalMatches}</strong><small>{selectedCompetition?.seasonYear ? `temporada ${selectedCompetition.seasonYear}` : "calendário atual"}</small></div></section>
-    <section className="matches-command"><div className="matches-heading"><div><span className="eyebrow">PAINEL DE COMPETIÇÃO</span><h2>{selectedCompetition ? selectedCompetition.name : "Leia o jogo antes da rodada."}</h2></div><span className="match-state"><span className="status-pip" /> {dashboard?.source.available ? "calendário atualizado" : dashboardQuery.isLoading ? "atualizando calendário" : "calendário indisponível"}</span></div><div className="match-tabs" role="tablist" aria-label="Visões de partidas">{tabs.map(([id, label]) => <button key={id} className={view === id ? "selected" : ""} onClick={() => setView(id)} role="tab" aria-selected={view === id}>{label}</button>)}</div></section>
-    {view === "competicoes" && <section className="competition-layout"><article className="competition-main"><div className="section-heading compact"><div><span className="eyebrow">COMPETIÇÕES DA TEMPORADA</span><h2>{selectedCompetition ? `${dashboard?.competitions.length ?? 0} competição(ões) disponível(is)` : "Nenhuma competição disponível"}</h2></div><Flag size={18} /></div>{dashboard?.competitions.length ? <div className="competition-select-list">{dashboard.competitions.map((competition) => <button key={competition.competitionId} className={`competition-select ${competition.competitionId === dashboard.selectedCompetitionId ? "is-selected" : ""}`} onClick={() => setCompetitionId(competition.competitionId)}><span className="competition-badge">{competition.seasonYear ?? "—"}</span><span><b>{competition.name}</b><small>{competition.type} · {competition.format} · {competition.status}</small></span><em>{competition.playedMatches} realizados · {competition.scheduledFixtures} agendados</em></button>)}</div> : <div className="competition-empty"><span className="competition-badge">—</span><div><b>{dashboardQuery.isLoading ? "Atualizando a temporada" : "Nenhuma competição foi criada na carreira."}</b><p>{waitingMessage}</p></div></div>}</article><aside className="competition-side"><span className="eyebrow">PRÓXIMO JOGO</span>{nextMatch ? <><h3>{nextMatch.homeClub.name}<br />× {nextMatch.awayClub.name}</h3><p>{selectedCompetition?.name} · rodada {nextMatch.round ?? "—"}</p><div className="side-rule" /><span className="mini-label">AGENDA</span><b>{formatMatchDate(nextMatch.scheduledAt)}</b>{controlledClub && nextMatch.matchId && <TravelCostsPanel matchId={nextMatch.matchId} clubId={controlledClub.clubId} season={selectedCompetition?.seasonYear ?? undefined} />}</> : <><h3>Sem compromisso<br />confirmado.</h3><p>{controlledClub ? "Não há partida futura para o clube controlado nesta competição." : "A carreira ainda não possui clube controlado ou partida registrada."}</p><div className="side-rule" /><span className="mini-label">CONTEXTO</span><b>—</b></>}</aside></section>}
-    <section className="matchday-command" aria-labelledby="matchday-title"><div className="matchday-simulation-head"><div><span className="eyebrow">CENTRAL DO DIA</span><h2 id="matchday-title">A próxima partida está pronta.</h2><p>{nextMatch ? `${nextMatch.homeClub.name} × ${nextMatch.awayClub.name} · rodada ${nextMatch.round ?? "—"}` : "Aguardando uma partida real no calendário."}</p></div><div className="matchday-actions"><button className="outline-action compact" type="button" onClick={() => advanceWeek.mutate({})} disabled={advanceWeek.isPending}>{advanceWeek.isPending ? "Avançando…" : "Avançar semana"}</button>{nextMatch && <button className="primary-action compact" type="button" onClick={handleGoToMatch} disabled={goToMatch.isPending}>{goToMatch.isPending ? "Indo para a partida…" : "Ir para partida"} <ArrowUpRight size={15} /></button>}</div></div>{nextMatch ? <div className="matchday-launch-body"><span className="launch-kicker">MODO PARTIDA</span><strong>Campo, placar e decisões. Só isso.</strong><p>Entre na transmissão exclusiva para acompanhar os lances e comandar sua equipe sem distrações.</p><button className="primary-action" type="button" onClick={handleGoToMatch} disabled={goToMatch.isPending}><Sparkles size={15} /> {goToMatch.isPending ? "Preparando partida…" : "Ir para partida"}</button></div> : <div className="matchday-empty">Nenhuma partida controlada está disponível para iniciar.</div>}</section>
+    <section className="page-intro match-intro"><div><span className="eyebrow">SEU CLUBE / CICLO ESPORTIVO</span><h1>Dia do jogo</h1><p>Prepare a rodada, acompanhe o calendário e assuma o controle do próximo compromisso.</p></div><div className="match-score-mark"><span>JOGOS NA TEMPORADA</span><strong>{dashboardLoading ? "—" : totalMatches}</strong><small>{selectedCompetition?.seasonYear ? `temporada ${selectedCompetition.seasonYear}` : "calendário atual"}</small></div></section>
+    <section className="matches-command"><div className="matches-heading"><div><span className="eyebrow">PAINEL DE COMPETIÇÃO</span><h2>{selectedCompetition ? selectedCompetition.name : "Leia o jogo antes da rodada."}</h2></div><span className="match-state"><span className="status-pip" /> {dashboard?.source.available ? "calendário atualizado" : dashboardLoading ? "atualizando calendário" : "calendário indisponível"}</span></div><div className="match-tabs" role="tablist" aria-label="Visões de partidas">{tabs.map(([id, label]) => <button key={id} className={view === id ? "selected" : ""} onClick={() => setView(id)} role="tab" aria-selected={view === id}>{label}</button>)}</div></section>
+    {view === "competicoes" && <section className="competition-layout"><article className="competition-main"><div className="section-heading compact"><div><span className="eyebrow">COMPETIÇÕES DA TEMPORADA</span><h2>{selectedCompetition ? `${dashboard?.competitions.length ?? 0} competição(ões) disponível(is)` : "Nenhuma competição disponível"}</h2></div><Flag size={18} /></div>{dashboard?.competitions.length ? <div className="competition-select-list">{dashboard.competitions.map((competition) => <button key={competition.competitionId} className={`competition-select ${competition.competitionId === dashboard.selectedCompetitionId ? "is-selected" : ""}`} onClick={() => setCompetitionId(competition.competitionId)}><span className="competition-badge">{competition.seasonYear ?? "—"}</span><span><b>{competition.name}</b><small>{competition.type} · {competition.format} · {competition.status}</small></span><em>{competition.playedMatches} realizados · {competition.scheduledFixtures} agendados</em></button>)}</div> : <div className="competition-empty"><span className="competition-badge">—</span><div><b>{dashboardLoading ? "Atualizando a temporada" : "Nenhuma competição foi criada na carreira."}</b><p>{waitingMessage}</p></div></div>}</article><aside className="competition-side"><span className="eyebrow">PRÓXIMO JOGO</span>{nextMatch ? <><h3>{nextMatch.homeClub.name}<br />× {nextMatch.awayClub.name}</h3><p>{selectedCompetition?.name} · rodada {nextMatch.round ?? "—"}</p><div className="side-rule" /><span className="mini-label">AGENDA</span><b>{formatMatchDate(nextMatch.scheduledAt)}</b>{controlledClub && nextMatch.matchId && <TravelCostsPanel matchId={nextMatch.matchId} clubId={controlledClub.clubId} season={selectedCompetition?.seasonYear ?? undefined} />}</> : <><h3>Sem compromisso<br />confirmado.</h3><p>{controlledClub ? "Não há partida futura para o clube controlado nesta competição." : "A carreira ainda não possui clube controlado ou partida registrada."}</p><div className="side-rule" /><span className="mini-label">CONTEXTO</span><b>—</b></>}</aside></section>}
+    <section className="matchday-command" aria-labelledby="matchday-title"><div className="matchday-simulation-head"><div><span className="eyebrow">CENTRAL DO DIA</span><h2 id="matchday-title">A próxima partida está pronta.</h2><p>{nextMatch ? `${nextMatch.homeClub.name} × ${nextMatch.awayClub.name} · rodada ${nextMatch.round ?? "—"}` : "Aguardando uma partida real no calendário."}</p></div><div className="matchday-actions"><button className="outline-action compact" type="button" onClick={handleAdvanceWeek} disabled={isNative ? localAdvancePending : advanceWeek.isPending}>{isNative ? localAdvancePending ? "Avançando…" : "Avançar semana" : advanceWeek.isPending ? "Avançando…" : "Avançar semana"}</button>{nextMatch && <button className="primary-action compact" type="button" onClick={handleGoToMatch} disabled={isNative ? localTravelPending : goToMatch.isPending}>{isNative ? localTravelPending ? "Indo para a partida…" : "Ir para partida" : goToMatch.isPending ? "Indo para a partida…" : "Ir para partida"} <ArrowUpRight size={15} /></button>}</div></div>{nextMatch ? <div className="matchday-launch-body"><span className="launch-kicker">MODO PARTIDA</span><strong>Campo, placar e decisões. Só isso.</strong><p>Entre na transmissão exclusiva para acompanhar os lances e comandar sua equipe sem distrações.</p><button className="primary-action" type="button" onClick={handleGoToMatch} disabled={isNative ? localTravelPending : goToMatch.isPending}><Sparkles size={15} /> {isNative ? localTravelPending ? "Preparando partida…" : "Ir para partida" : goToMatch.isPending ? "Preparando partida…" : "Ir para partida"}</button></div> : <div className="matchday-empty">Nenhuma partida controlada está disponível para iniciar.</div>}</section>
     {view === "tabela" && <section className="standings-panel"><div className="section-heading compact"><div><span className="eyebrow">CLASSIFICAÇÃO</span><h2>{selectedCompetition ? selectedCompetition.name : "Tabela da competição"}</h2></div><span className="table-legend">P · J · V · E · D · SG</span></div><div className="table-scroll"><table><thead><tr><th>#</th><th>CLUBE</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead><tbody>{dashboard?.standings.length ? dashboard.standings.map((row) => <tr key={row.clubId} className={row.isControlledClub ? "controlled-row" : ""}><td>{row.position}</td><td>{row.clubName}</td><td>{row.points}</td><td>{row.played}</td><td>{row.wins}</td><td>{row.draws}</td><td>{row.losses}</td><td>{row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference}</td></tr>) : <tr className="waiting-row"><td>—</td><td colSpan={7}>{waitingMessage}</td></tr>}</tbody></table></div></section>}
     {view === "calendario" && <section className="calendar-layout"><article className="calendar-main"><span className="eyebrow">{controlledClub ? `CALENDÁRIO DE ${controlledClub.name.toUpperCase()}` : "CALENDÁRIO DA COMPETIÇÃO"}</span><h2>{selectedCompetition ? "Próximos compromissos" : "Agenda esportiva"}</h2><div className="calendar-list">{filteredFixtures.length ? filteredFixtures.map((match) => <div key={match.key}><span>{formatMatchDate(match.scheduledAt).split(" ")[0]}</span><b>{match.homeClub.name} × {match.awayClub.name}</b><small>{selectedCompetition?.name ?? "Competição"} · rodada {match.round ?? "—"} · {formatMatchTime(match.scheduledAt)}</small></div>) : <div><span>—</span><b>Nenhuma partida agendada</b><small>{waitingMessage}</small></div>}</div></article><aside className="calendar-aside"><CalendarDays size={26} /><h3>O calendário<br />decide o ritmo.</h3><p>{controlledClub ? "Os compromissos exibidos pertencem ao clube controlado no estado da carreira." : "Sem clube controlado, a agenda mostra a competição selecionada assim que houver fixtures."}</p></aside></section>}
     {view === "resultados" && <section className="results-layout"><article className="results-main"><div className="section-heading compact"><div><span className="eyebrow">ÚLTIMOS RESULTADOS</span><h2>{selectedCompetition ? selectedCompetition.name : "Histórico de partidas"}</h2></div><Goal size={18} /></div>{filteredResults.length ? <div className="result-list">{filteredResults.map((match) => <div className="result-row" key={match.key}><span>{formatMatchDate(match.scheduledAt)}</span><b>{match.homeClub.name}</b><strong>{match.homeGoals} — {match.awayGoals}</strong><b>{match.awayClub.name}</b><small>rodada {match.round ?? "—"}</small></div>)}</div> : <div className="result-empty"><span>—</span><h3>Ainda não há resultado registrado.</h3><p>{waitingMessage}</p></div>}</article><aside className="form-aside"><span className="eyebrow">PLACARES RECENTES</span><div className="form-slots">{filteredResults.slice(0, 5).map((match) => <i key={match.key}>{match.homeGoals}-{match.awayGoals}</i>)}{Array.from({ length: Math.max(0, 5 - filteredResults.slice(0, 5).length) }).map((_, index) => <i key={`empty-${index}`}>—</i>)}</div><p>Resultados confirmados aparecem nesta sequência.</p></aside></section>}
@@ -343,13 +368,22 @@ export function StructurePage({ section, onSectionChange }: { section: AppSectio
   </>;
 }
 function MatchdayPage({ onBack }: { onBack: () => void }) {
-  const dashboardQuery = trpc.matches.dashboard.useQuery(undefined, { retry: 1 });
-  const workspaceQuery = trpc.club.workspace.useQuery(undefined, { retry: 1 });
-  const dashboard = dashboardQuery.data;
+  const isNative = Capacitor.isNativePlatform();
+  const dashboardQuery = trpc.matches.dashboard.useQuery(undefined, { retry: 1, enabled: !isNative });
+  const workspaceQuery = trpc.club.workspace.useQuery(undefined, { retry: 1, enabled: !isNative });
+  const [localDashboard, setLocalDashboard] = useState<import("@/lib/offline/nativeEngine").NativeDashboard | null | undefined>(undefined);
+  useEffect(() => {
+    if (!isNative) return;
+    let active = true;
+    localDomain.loadMatchesDashboard().then((result) => active && setLocalDashboard(result)).catch(() => active && setLocalDashboard(null));
+    return () => { active = false; };
+  }, [isNative]);
+  const dashboard = isNative ? localDashboard : dashboardQuery.data;
+  const dashboardLoading = isNative ? localDashboard === undefined : dashboardQuery.isLoading;
   const controlledClub = dashboard?.controlledClub ?? null;
   const nextMatch = dashboard?.upcomingFixtures.find((match) => controlledClub && (match.homeClub.clubId === controlledClub.clubId || match.awayClub.clubId === controlledClub.clubId)) ?? null;
 
-  if (dashboardQuery.isLoading) {
+  if (dashboardLoading) {
     return <section className="match-only-page"><div className="match-only-loading">Preparando o campo…</div></section>;
   }
 

@@ -15,7 +15,16 @@ source = Path(sys.argv[1])
 with tempfile.TemporaryDirectory(prefix="futmanager-native-test-") as directory:
     database = Path(directory) / "game.db"
     shutil.copy2(source, database)
-    result = json.loads(execute("startCareer", json.dumps({
+    dashboard = json.loads(execute("getDashboard", "{}", str(database)))
+    assert dashboard["ok"] is True
+    assert "competitions" in dashboard and "upcomingFixtures" in dashboard
+    if dashboard["upcomingFixtures"]:
+        target_match = dashboard["upcomingFixtures"][0].get("matchId")
+        if target_match:
+            travel = json.loads(execute("advanceUntilMatch", json.dumps({"matchId": target_match}), str(database)))
+            assert travel["ok"] is True
+            assert travel["status"] == "READY_FOR_CONTROLLED_MATCH"
+    invalid_start = json.loads(execute("startCareer", json.dumps({
         "managerName": "Teste",
         "careerName": "Teste",
         "age": 30,
@@ -23,6 +32,9 @@ with tempfile.TemporaryDirectory(prefix="futmanager-native-test-") as directory:
         "targetId": 0,
         "selectedCountryIds": [1],
     }), str(database)))
-    assert result["ok"] is False
-    assert result["error"] in {"CLUB_NOT_FOUND", "WORLD_COUNTRY_NOT_FOUND"}
+    assert invalid_start["ok"] is False
+    assert invalid_start["error"] in {"CLUB_NOT_FOUND", "WORLD_COUNTRY_NOT_FOUND"}
+    invalid_match = json.loads(execute("playControlledMatch", json.dumps({"matchId": 0}), str(database)))
+    assert invalid_match["ok"] is False
+    assert invalid_match["error"] == "MATCH_ID_REQUIRED"
 print("native_engine_smoke=ok")
