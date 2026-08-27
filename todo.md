@@ -858,3 +858,4 @@
 - [x] Produzir o lote P2 2421–2430: contrato de histórico do domínio 70 derivado da implementação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 2431–2440: contrato de auditoria do domínio 80 derivado da implementação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 2521–2530: contrato de salário do domínio 90 derivado da implementação existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 2531–2540: contrato de organograma derivado da comissão operacional existente, integração ao serviço e validação mínima.
