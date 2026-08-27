@@ -675,3 +675,4 @@
 - [x] Implementar e validar o lote P1 1961–1970: contrato de evento, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1971–1980: contrato de placar, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1981–1990: contrato de posse, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1991–2000: contrato de finalização, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
