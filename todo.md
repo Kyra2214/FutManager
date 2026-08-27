@@ -1009,3 +1009,4 @@
 - [x] Verificar o índice local com 8.485 referências, GameState embarcado e APK sem INTERNET.
 - [x] Criar consulta local da carreira ativa diretamente da tabela `manager_careers`.
 - [x] Validar a fronteira localStore/localDomain com typecheck e 67 testes frontend.
+- [x] Mapear as tabelas reais do GameState para carreira, clubes, seleções, temporadas e partidas.

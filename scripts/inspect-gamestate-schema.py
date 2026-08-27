@@ -9,5 +9,5 @@ if len(sys.argv) != 2:
 connection = sqlite3.connect(Path(sys.argv[1]))
 for (table,) in connection.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"):
     columns = [row[1] for row in connection.execute(f"PRAGMA table_info(\"{table}\")")]
-    if any(token in table.lower() for token in ("career", "club", "match", "event", "competition", "season", "week", "asset")):
+    if any(token in table.lower() for token in ("career", "club", "match", "event", "competition", "season", "week", "asset", "time", "selec", "pais", "country")):
         print(f"{table}: {', '.join(columns)}")
