@@ -891,9 +891,9 @@
 
 # Missão pós-roadmap — auditoria, simulação e CI
 
-- [ ] Auditar os 3.000 itens quanto a implementação, integração, persistência, contratos, idempotência, segurança e ausência de mocks indevidos.
-- [ ] Criar simulação automatizada de temporada completa com invariantes e relatório persistido.
-- [ ] Criar E2E backend, frontend, full-stack e isolamento de escopos.
-- [ ] Criar workflow GitHub Actions obrigatório para push e pull_request sem continue-on-error.
-- [ ] Executar CI real no GitHub, corrigir falhas e registrar evidências.
-- [ ] Consolidar relatório final com resultados, problemas e arquivos alterados.
+- [x] Auditar os 3.000 itens quanto a implementação, integração, persistência, contratos, idempotência, segurança e ausência de mocks indevidos.
+- [x] Criar simulação automatizada de temporada completa com invariantes e relatório persistido.
+- [x] Criar E2E backend, frontend, full-stack e isolamento de escopos.
+- [x] Criar workflow GitHub Actions obrigatório para push e pull_request sem continue-on-error.
+- [x] Executar CI real no GitHub, corrigir falhas e registrar evidências.
+- [x] Consolidar relatório final com resultados, problemas e arquivos alterados.
