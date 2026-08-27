@@ -12,7 +12,7 @@
     "test": "vitest run",
     "db:push": "drizzle-kit generate && drizzle-kit migrate",
     "android:build:web": "vite build",
-    "android:sync": "pnpm android:build:web && node scripts/prepare-android-offline.mjs && npx cap sync android",
+    "android:sync": "pnpm android:build:web && npx cap sync android && node scripts/prepare-android-offline.mjs",
     "android:open": "npx cap open android",
     "android:run": "npx cap run android"
   },

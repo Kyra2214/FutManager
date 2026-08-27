@@ -997,3 +997,7 @@
 - [ ] Assinar o APK release e definir keystore seguro para distribuição.
 - [x] Criar API local de exportação, compartilhamento e restauração de carreira via SQLite/Filesystem.
 - [x] Validar os tipos do backup e a compilação TypeScript no preview web.
+- [x] Inventariar e agrupar os 47 contratos tRPC usados pelo frontend para a migração offline.
+- [ ] Portar o primeiro grupo P0: catálogo, carreira, avanço semanal, viagem, partidas, eventos e assets.
+- [x] Corrigir a ordem do pipeline para preservar os assets offline após o Capacitor sync.
+- [x] Verificar no APK a presença do GameState/escudos e a ausência da permissão INTERNET.
