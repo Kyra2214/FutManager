@@ -168,14 +168,26 @@ function formatMatchTime(value: string) {
   return new Intl.DateTimeFormat("pt-BR", { hour: "2-digit", minute: "2-digit" }).format(date);
 }
 
+type AutoAdvanceSummary = { weeks_advanced: number; target_season: number | null; target_round: number | null; notice: string | null; cycles: Array<{ season: number; week: number; matches: number; world_events: Array<{ event_id: number; type: string; severity: number; title: string; description: string | null }> }> };
+
+function eventGlyph(type: string) {
+  if (type === "ESTADIO") return <Building2 size={16} />;
+  if (type === "FINANCEIRO") return <CircleDollarSign size={16} />;
+  if (type === "COMPETICAO") return <Trophy size={16} />;
+  if (type === "PATROCINIO") return <Landmark size={16} />;
+  if (type === "LESAO" || type === "NOTICIA_SAUDE") return <Activity size={16} />;
+  if (type.includes("SCOUT") || type.includes("CONTRAT")) return <ClipboardList size={16} />;
+  return <Bell size={16} />;
+}
+
 export function MatchesPage({ initialView = "competicoes", onOpenMatch }: { initialView?: "competicoes" | "tabela" | "calendario" | "resultados"; onOpenMatch?: () => void }) {
   const [view, setView] = useState<"competicoes" | "tabela" | "calendario" | "resultados">(initialView);
   const [competitionId, setCompetitionId] = useState<number | undefined>();
+  const [weekSummary, setWeekSummary] = useState<AutoAdvanceSummary | null>(null);
   const goToMatch = trpc.career.advanceUntilMatch.useMutation({
     onSuccess: async (result) => {
       await Promise.all([utils.career.current.invalidate(), utils.matches.dashboard.invalidate(), utils.events.list.invalidate()]);
-      if (result.notice) toast.info(result.notice);
-      onOpenMatch?.();
+      setWeekSummary(result as AutoAdvanceSummary);
     },
     onError: () => toast.error("Não foi possível chegar à partida pelo calendário atual."),
   });
@@ -231,6 +243,7 @@ export function MatchesPage({ initialView = "competicoes", onOpenMatch }: { init
     {view === "tabela" && <section className="standings-panel"><div className="section-heading compact"><div><span className="eyebrow">CLASSIFICAÇÃO</span><h2>{selectedCompetition ? selectedCompetition.name : "Tabela da competição"}</h2></div><span className="table-legend">P · J · V · E · D · SG</span></div><div className="table-scroll"><table><thead><tr><th>#</th><th>CLUBE</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead><tbody>{dashboard?.standings.length ? dashboard.standings.map((row) => <tr key={row.clubId} className={row.isControlledClub ? "controlled-row" : ""}><td>{row.position}</td><td>{row.clubName}</td><td>{row.points}</td><td>{row.played}</td><td>{row.wins}</td><td>{row.draws}</td><td>{row.losses}</td><td>{row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference}</td></tr>) : <tr className="waiting-row"><td>—</td><td colSpan={7}>{waitingMessage}</td></tr>}</tbody></table></div></section>}
     {view === "calendario" && <section className="calendar-layout"><article className="calendar-main"><span className="eyebrow">{controlledClub ? `CALENDÁRIO DE ${controlledClub.name.toUpperCase()}` : "CALENDÁRIO DA COMPETIÇÃO"}</span><h2>{selectedCompetition ? "Próximos compromissos" : "Agenda esportiva"}</h2><div className="calendar-list">{filteredFixtures.length ? filteredFixtures.map((match) => <div key={match.key}><span>{formatMatchDate(match.scheduledAt).split(" ")[0]}</span><b>{match.homeClub.name} × {match.awayClub.name}</b><small>{selectedCompetition?.name ?? "Competição"} · rodada {match.round ?? "—"} · {formatMatchTime(match.scheduledAt)}</small></div>) : <div><span>—</span><b>Nenhuma partida agendada</b><small>{waitingMessage}</small></div>}</div></article><aside className="calendar-aside"><CalendarDays size={26} /><h3>O calendário<br />decide o ritmo.</h3><p>{controlledClub ? "Os compromissos exibidos pertencem ao clube controlado no estado da carreira." : "Sem clube controlado, a agenda mostra a competição selecionada assim que houver fixtures."}</p></aside></section>}
     {view === "resultados" && <section className="results-layout"><article className="results-main"><div className="section-heading compact"><div><span className="eyebrow">ÚLTIMOS RESULTADOS</span><h2>{selectedCompetition ? selectedCompetition.name : "Histórico de partidas"}</h2></div><Goal size={18} /></div>{filteredResults.length ? <div className="result-list">{filteredResults.map((match) => <div className="result-row" key={match.key}><span>{formatMatchDate(match.scheduledAt)}</span><b>{match.homeClub.name}</b><strong>{match.homeGoals} — {match.awayGoals}</strong><b>{match.awayClub.name}</b><small>rodada {match.round ?? "—"}</small></div>)}</div> : <div className="result-empty"><span>—</span><h3>Ainda não há resultado registrado.</h3><p>{waitingMessage}</p></div>}</article><aside className="form-aside"><span className="eyebrow">PLACARES RECENTES</span><div className="form-slots">{filteredResults.slice(0, 5).map((match) => <i key={match.key}>{match.homeGoals}-{match.awayGoals}</i>)}{Array.from({ length: Math.max(0, 5 - filteredResults.slice(0, 5).length) }).map((_, index) => <i key={`empty-${index}`}>—</i>)}</div><p>Resultados confirmados aparecem nesta sequência.</p></aside></section>}
+    {weekSummary && <div className="week-summary-backdrop" role="presentation"><section className="week-summary-modal" role="dialog" aria-modal="true" aria-labelledby="week-summary-title"><button className="week-summary-close" type="button" aria-label="Fechar resumo" onClick={() => setWeekSummary(null)}><X size={17} /></button><span className="eyebrow">RESUMO DA VIAGEM</span><h2 id="week-summary-title">A caminho da partida.</h2><p className="week-summary-lead">{weekSummary.weeks_advanced === 0 ? "O jogo já está na semana atual." : `${weekSummary.weeks_advanced} semana(s) foram concluídas até o compromisso.`}</p>{weekSummary.notice && <div className="week-summary-notice"><Bell size={16} /><span>{weekSummary.notice}</span></div>}<div className="week-summary-timeline">{weekSummary.cycles.length ? weekSummary.cycles.map((cycle) => <article className="week-summary-week" key={`${cycle.season}-${cycle.week}`}><div className="week-summary-marker"><span>SEMANA {cycle.week}</span><b>TEMPORADA {cycle.season}</b></div><div className="week-summary-events">{cycle.world_events.length ? cycle.world_events.map((event) => <div className="week-summary-event" key={event.event_id}><span className={`summary-event-icon severity-${event.severity}`}>{eventGlyph(event.type)}</span><div><strong>{event.title}</strong><p>{event.description || "Um acontecimento da carreira foi registrado."}</p></div></div>) : <div className="week-summary-empty">Nenhum alerta importante nesta semana.</div>}</div></article>) : <div className="week-summary-empty large">Nenhuma semana precisou ser percorrida.</div>}</div><button className="primary-action week-summary-continue" type="button" onClick={() => { setWeekSummary(null); onOpenMatch?.(); }}>Continuar para a partida <ArrowUpRight size={15} /></button></section></div>}
   </>;
 }
 

@@ -956,3 +956,13 @@
 - [x] Mostrar alerta informativo com opção de continuar mesmo com pendências.
 - [x] Integrar o comando ao modo partida e validar limites, persistência e mobile.
 - [x] Salvar checkpoint e sincronizar a alteração no GitHub.
+
+# Resumo visual das semanas percorridas
+- [x] Reutilizar os eventos oficiais persistidos pelo GameState durante cada avanço semanal.
+- [x] Agrupar os acontecimentos por temporada e semana, sem inventar alertas no frontend.
+- [x] Classificar eventos relevantes como reforma concluída, CT, scout, saúde, patrocínio, finanças e competição.
+- [x] Retornar a timeline junto da ação de ida até a partida.
+- [x] Exibir modal/timeline visual antes de abrir automaticamente o modo partida.
+- [x] Permitir fechar o resumo e continuar para o jogo sem bloquear a carreira.
+- [x] Testar persistência, duplicidade, estados vazios, mobile e navegação.
+- [x] Salvar checkpoint e sincronizar a alteração no GitHub.

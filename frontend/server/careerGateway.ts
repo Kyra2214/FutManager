@@ -372,15 +372,19 @@ export function configureClubTicketPrice(basePrice: number, databasePath?: strin
   return staffMarketAction<GatewayResult & { club_id: number; base_price: number }>("ticket_price", { base_price: basePrice }, databasePath);
 }
 
+export type WorldCareerEvent = { event_id: number; club_id: number; type: string; origin: string | null; severity: number; event_date: string; title: string; description: string | null; impact: string | null; status: string; reference: string | null };
+
+type WeeklyAdvanceResult = GatewayResult & { status: string; season: number; week: number; matches: number; controlled_club_id: number | null; skipped_controlled_matches: number; match_details: Array<Record<string, unknown>>; world_events?: WorldCareerEvent[] };
+
 export function advanceWorldWeek(seed?: number, databasePath?: string) {
-  return staffMarketAction<GatewayResult & { status: string; season: number; week: number; matches: number; controlled_club_id: number | null; skipped_controlled_matches: number; match_details: Array<Record<string, unknown>> }>("weekly_advance", { seed }, databasePath);
+  return staffMarketAction<WeeklyAdvanceResult>("weekly_advance", { seed }, databasePath);
 }
 
 export function advanceUntilControlledMatch(matchId: number, seed?: number, databasePath?: string) {
   if (!Number.isInteger(matchId) || matchId <= 0) throw new Error("MATCH_NOT_FOUND");
   const maxWeeks = 52;
   let weeksAdvanced = 0;
-  const cycles: Array<{ season: number; week: number; matches: number }> = [];
+  const cycles: Array<{ season: number; week: number; matches: number; world_events: WorldCareerEvent[] }> = [];
   for (let attempt = 0; attempt <= maxWeeks; attempt += 1) {
     const dashboard = getMatchesDashboard(undefined, databasePath);
     const fixture = dashboard.upcomingFixtures.find((item) => item.matchId === matchId);
@@ -390,7 +394,7 @@ export function advanceUntilControlledMatch(matchId: number, seed?: number, data
     if (attempt === maxWeeks) break;
     const cycle = advanceWorldWeek(seed === undefined ? undefined : seed + attempt, databasePath);
     weeksAdvanced += 1;
-    cycles.push({ season: cycle.season, week: cycle.week, matches: cycle.matches });
+    cycles.push({ season: cycle.season, week: cycle.week, matches: cycle.matches, world_events: cycle.world_events ?? [] });
   }
   throw new Error("MATCH_NOT_FOUND");
 }

@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import React from "react";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
@@ -36,7 +36,7 @@ vi.mock("@/lib/trpc", () => ({
       playControlled: { useMutation: () => ({ mutate: mocks.play, isPending: false }) },
     },
     events: { list: { useQuery: () => ({ data: { items: [] }, isLoading: false, error: null }) } },
-    career: { advanceWeek: { useMutation: () => ({ mutate: mocks.advance, isPending: false }) }, advanceUntilMatch: { useMutation: () => ({ mutate: mocks.goToMatch, isPending: false }) } },
+    career: { advanceWeek: { useMutation: () => ({ mutate: mocks.advance, isPending: false }) }, advanceUntilMatch: { useMutation: (options: { onSuccess?: (result: unknown) => void }) => ({ mutate: (input: unknown) => { mocks.goToMatch(input); options.onSuccess?.({ weeks_advanced: 2, target_season: 2026, target_round: 3, notice: "Há atividades pendentes, mas a viagem não foi bloqueada.", cycles: [{ season: 2026, week: 2, matches: 12, world_events: [{ event_id: 1, club_id: 7, type: "ESTADIO", severity: 3, title: "Reforma do estádio concluída", description: "A nova arquibancada está disponível." }] }, { season: 2026, week: 3, matches: 10, world_events: [] }] }); }, isPending: false }) } },
   },
 }));
 
@@ -49,6 +49,16 @@ describe("MatchesPage — avanço da carreira", () => {
     mocks.advance.mockReset();
     mocks.play.mockReset();
     mocks.openMatch.mockReset();
+    mocks.goToMatch.mockReset();
+  });
+
+  it("exibe o resumo das semanas e eventos antes de abrir a partida", async () => {
+    render(<MatchesPage onOpenMatch={mocks.openMatch} />);
+    fireEvent.click(screen.getAllByRole("button", { name: "Ir para partida" })[0]);
+    await waitFor(() => expect(screen.getByRole("dialog")).toBeTruthy());
+    expect(screen.getByText("Reforma do estádio concluída")).toBeTruthy();
+    expect(screen.getByText("2 semana(s) foram concluídas até o compromisso.")).toBeTruthy();
+    expect(mocks.openMatch).not.toHaveBeenCalled();
   });
 
   it("envia o avanço semanal pelo contrato da carreira", () => {

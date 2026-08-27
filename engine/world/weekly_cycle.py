@@ -106,6 +106,7 @@ class WeeklyWorldCycleService:
             self.clock.commit_tick(context)
             construction_result = self.staff.complete_department_constructions(context.current_date, managed_transaction=False)
             controlled_club_id = self._controlled_club_id()
+            events_before_id = int(self.connection.execute("SELECT COALESCE(MAX(event_id), 0) FROM club_events WHERE club_id=?", (controlled_club_id,)).fetchone()[0]) if controlled_club_id is not None else 0
             due_query = "SELECT * FROM matches WHERE status='SCHEDULED' AND match_date<=?"
             due_params: tuple[object, ...] = (context.current_date.isoformat(),)
             if controlled_club_id is not None:
@@ -195,7 +196,10 @@ class WeeklyWorldCycleService:
                     managed_transaction=False,
                 )
             ledger_close = self.ledger.close_week(context)
-            result = {"matches": len(processed_matches), "match_details": processed_matches, "controlled_club_id": controlled_club_id, "skipped_controlled_matches": skipped_controlled_matches, "prizes": prizes, "sponsorship": sponsor_result, "payroll": payroll_result, "constructions": construction_result, "ledger_close": ledger_close}
+            new_events = []
+            if controlled_club_id is not None:
+                new_events = [dict(row) for row in self.connection.execute("SELECT event_id,club_id,type,origin,severity,event_date,title,description,impact,status,reference FROM club_events WHERE club_id=? AND event_id>? ORDER BY event_id", (controlled_club_id, events_before_id)).fetchall()]
+            result = {"matches": len(processed_matches), "match_details": processed_matches, "controlled_club_id": controlled_club_id, "skipped_controlled_matches": skipped_controlled_matches, "prizes": prizes, "sponsorship": sponsor_result, "payroll": payroll_result, "constructions": construction_result, "ledger_close": ledger_close, "world_events": new_events}
             self._audit(context, "MATCHES", {"processed": len(processed_matches), "controlled_club_id": controlled_club_id, "skipped_controlled_matches": skipped_controlled_matches})
             self._audit(context, "PRIZES", {"competitions": len(prizes)})
             self._audit(context, "SPONSORSHIPS", sponsor_result)
