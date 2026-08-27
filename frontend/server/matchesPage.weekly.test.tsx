@@ -5,8 +5,9 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
   advance: vi.fn(),
+  goToMatch: vi.fn(),
   play: vi.fn(),
-  openMatch: vi.fn(),
+    openMatch: vi.fn(),
 }));
 
 vi.mock("@/lib/trpc", () => ({
@@ -35,7 +36,7 @@ vi.mock("@/lib/trpc", () => ({
       playControlled: { useMutation: () => ({ mutate: mocks.play, isPending: false }) },
     },
     events: { list: { useQuery: () => ({ data: { items: [] }, isLoading: false, error: null }) } },
-    career: { advanceWeek: { useMutation: () => ({ mutate: mocks.advance, isPending: false }) } },
+    career: { advanceWeek: { useMutation: () => ({ mutate: mocks.advance, isPending: false }) }, advanceUntilMatch: { useMutation: () => ({ mutate: mocks.goToMatch, isPending: false }) } },
   },
 }));
 
@@ -53,8 +54,9 @@ describe("MatchesPage — avanço da carreira", () => {
   it("envia o avanço semanal pelo contrato da carreira", () => {
     render(<MatchesPage onOpenMatch={mocks.openMatch} />);
 
-    fireEvent.click(screen.getByRole("button", { name: "Jogar partida" }));
-    expect(mocks.openMatch).toHaveBeenCalledTimes(1);
+    fireEvent.click(screen.getAllByRole("button", { name: "Ir para partida" })[0]);
+    expect(mocks.goToMatch).toHaveBeenCalledWith({ matchId: 101 });
+    expect(mocks.openMatch).not.toHaveBeenCalled();
     expect(screen.getByText("Campo, placar e decisões. Só isso.")).toBeTruthy();
     expect(screen.queryByText("TRANSMISSÃO INTERATIVA")).toBeNull();
 

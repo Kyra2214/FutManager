@@ -1,5 +1,7 @@
 import { execFileSync } from "node:child_process";
 
+import { getMatchesDashboard } from "./engineState";
+
 const ENGINE_ROOT = process.env.FUTMANAGER_ENGINE_ROOT || "/home/ubuntu/brasfoot_engine";
 const GATEWAY_PATH = `${ENGINE_ROOT}/scripts/career_gateway.py`;
 const DEFAULT_ENGINE_STATE_PATH = `${ENGINE_ROOT}/data/state/game.db`;
@@ -372,6 +374,25 @@ export function configureClubTicketPrice(basePrice: number, databasePath?: strin
 
 export function advanceWorldWeek(seed?: number, databasePath?: string) {
   return staffMarketAction<GatewayResult & { status: string; season: number; week: number; matches: number; controlled_club_id: number | null; skipped_controlled_matches: number; match_details: Array<Record<string, unknown>> }>("weekly_advance", { seed }, databasePath);
+}
+
+export function advanceUntilControlledMatch(matchId: number, seed?: number, databasePath?: string) {
+  if (!Number.isInteger(matchId) || matchId <= 0) throw new Error("MATCH_NOT_FOUND");
+  const maxWeeks = 52;
+  let weeksAdvanced = 0;
+  const cycles: Array<{ season: number; week: number; matches: number }> = [];
+  for (let attempt = 0; attempt <= maxWeeks; attempt += 1) {
+    const dashboard = getMatchesDashboard(undefined, databasePath);
+    const fixture = dashboard.upcomingFixtures.find((item) => item.matchId === matchId);
+    if (fixture) {
+      return { ok: true, status: "READY_FOR_CONTROLLED_MATCH", match_id: matchId, weeks_advanced: weeksAdvanced, target_season: dashboard.selectedCompetition?.seasonYear ?? null, target_round: fixture.round, cycles, notice: weeksAdvanced > 0 ? "Há atividades da carreira que podem permanecer pendentes, mas isso não impede a ida para a partida." : null };
+    }
+    if (attempt === maxWeeks) break;
+    const cycle = advanceWorldWeek(seed === undefined ? undefined : seed + attempt, databasePath);
+    weeksAdvanced += 1;
+    cycles.push({ season: cycle.season, week: cycle.week, matches: cycle.matches });
+  }
+  throw new Error("MATCH_NOT_FOUND");
 }
 
 export type MatchControlDecisions = {

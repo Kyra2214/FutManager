@@ -948,3 +948,11 @@
 - [x] Ampliar o campo da partida e dar prioridade visual ao placar e aos eventos.
 - [x] Remover o alerta de identificador quando a partida exibida já possui uma partida válida selecionada.
 - [x] Validar o novo layout em 375px e desktop, com testes de interação e checkpoint.
+
+# Viagem automática até a partida
+- [x] Adicionar comando para ir diretamente ao próximo jogo selecionado.
+- [x] Avançar semanas automaticamente até a semana do compromisso, usando o ciclo oficial da carreira.
+- [x] Detectar treino pendente, construção em andamento e outras pendências sem impedir o avanço.
+- [x] Mostrar alerta informativo com opção de continuar mesmo com pendências.
+- [x] Integrar o comando ao modo partida e validar limites, persistência e mobile.
+- [x] Salvar checkpoint e sincronizar a alteração no GitHub.
