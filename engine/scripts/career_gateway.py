@@ -17,8 +17,9 @@ from engine.sports.form_morale import FormMoraleService
 from engine.sports.health import HealthService
 from engine.ai.club_ai import ClubAI, Personality
 from engine.transfers.market import TransferMarketService
+from engine.world.simulation import WorldSimulationService, SimulationLevel
 from engine.scouting.service import ScoutService
-from engine.world.time_and_finance import WorldTickContext
+from engine.world.time_and_finance import WorldTickContext, FinanceLedger
 from engine.players.contracts import PlayerContractService
 from engine.economy.sponsorships import SponsorshipService
 from engine.economy.travel_costs import TravelCostService
@@ -42,10 +43,12 @@ def catalog(connection: sqlite3.Connection, payload: dict) -> dict:
     entity_type = payload.get("entity_type", "club")
     search = str(payload.get("search", "")).strip()
     limit = min(max(int(payload.get("limit", 48)), 1), 96)
+    if entity_type == "world_country":
+        return {"items": ManagerService(connection).list_world_countries(search, limit)}
     if entity_type == "club":
         rows = connection.execute(
             """
-            SELECT team.time_id AS entity_id, team.nome AS entity_name,
+            SELECT team.time_id AS entity_id, team.nome AS entity_name, team.pais_id AS country_id,
                    link.mapping_status, crest.relative_path AS crest_path,
                    mini.relative_path AS mini_crest_path, NULL AS kit_path
             FROM times team
@@ -82,6 +85,7 @@ def catalog(connection: sqlite3.Connection, payload: dict) -> dict:
             {
                 "entityId": int(row["entity_id"]),
                 "name": row["entity_name"],
+                "countryId": int(row["country_id"]) if "country_id" in row.keys() and row["country_id"] is not None else None,
                 "mappingStatus": row["mapping_status"] or ("SOURCE_NOT_PROVIDED" if entity_type == "selection" else "NO_SOURCE_ASSET"),
                 "assetUrl": asset_url(row["crest_path"] or row["mini_crest_path"] or row["kit_path"]),
                 "assetKind": "crest" if row["crest_path"] or row["mini_crest_path"] else "kit" if row["kit_path"] else None,
@@ -94,7 +98,8 @@ def catalog(connection: sqlite3.Connection, payload: dict) -> dict:
 def current(connection: sqlite3.Connection) -> dict:
     row = connection.execute(
         """
-        SELECT career.career_id, career.name AS career_name, manager.manager_id, manager.name AS manager_name,
+        SELECT career.career_id, career.name AS career_name, career.starting_division,
+               manager.manager_id, manager.name AS manager_name,
                career.current_club_id, team.nome AS club_name,
                assignment.selection_id, selection.nome AS selection_name
         FROM manager_careers career
@@ -109,27 +114,20 @@ def current(connection: sqlite3.Connection) -> dict:
     ).fetchone()
     if row is None:
         return {"started": False}
-    if row["selection_id"] is not None:
-        return {
-            "started": True,
-            "careerId": int(row["career_id"]),
-            "managerId": int(row["manager_id"]),
-            "managerName": row["manager_name"],
-            "careerName": row["career_name"],
-            "targetType": "selection",
-            "targetId": int(row["selection_id"]),
-            "targetName": row["selection_name"],
-        }
-    return {
-        "started": True,
-        "careerId": int(row["career_id"]),
-        "managerId": int(row["manager_id"]),
-        "managerName": row["manager_name"],
-        "careerName": row["career_name"],
-        "targetType": "club",
-        "targetId": int(row["current_club_id"]),
-        "targetName": row["club_name"],
+    career_id = int(row["career_id"])
+    config = connection.execute('SELECT combined_name,starting_division FROM career_world_configs WHERE career_id=?', (career_id,)).fetchone()
+    countries = connection.execute('SELECT country_id,country_name,country_code FROM career_world_countries WHERE career_id=? ORDER BY country_id', (career_id,)).fetchall()
+    parallel = connection.execute('SELECT name,total_clubs,source_country_count,seed,division_count FROM career_parallel_leagues WHERE career_id=?', (career_id,)).fetchone()
+    world = {
+        "combinedLeagueName": config["combined_name"] if config else None,
+        "selectedCountryIds": [int(country["country_id"]) for country in countries],
+        "selectedCountries": [{"countryId": int(country["country_id"]), "name": country["country_name"], "code": country["country_code"]} for country in countries],
+        "startingDivision": int(config["starting_division"] if config else row["starting_division"] or 4),
+        "parallelLeague": {"name": parallel["name"], "totalClubs": int(parallel["total_clubs"]), "sourceCountryCount": int(parallel["source_country_count"]), "seed": parallel["seed"], "divisionCount": int(parallel["division_count"])} if parallel else None,
     }
+    if row["selection_id"] is not None:
+        return {"started": True, "careerId": career_id, "managerId": int(row["manager_id"]), "managerName": row["manager_name"], "careerName": row["career_name"], "targetType": "selection", "targetId": int(row["selection_id"]), "targetName": row["selection_name"], **world}
+    return {"started": True, "careerId": career_id, "managerId": int(row["manager_id"]), "managerName": row["manager_name"], "careerName": row["career_name"], "targetType": "club", "targetId": int(row["current_club_id"]), "targetName": row["club_name"], **world}
 
 
 def current_club_id(connection: sqlite3.Connection) -> int:
@@ -204,6 +202,9 @@ def finance_market(connection: sqlite3.Connection, action: str, payload: dict) -
     if action=='finance_audit': return economy.audit_season(int(payload.get('season')))
     if action=='travel_preview': return travel.preview(int(payload.get('match_id')), payload.get('club_id'))
     if action=='travel_summary': return travel.club_summary(club_id, payload.get('season'))
+    if action=='finance_monthly_close': return FinanceLedger(connection).monthly_close(club_id, int(payload.get('season')), int(payload.get('month')))
+    if action=='finance_reconciliation': return FinanceLedger(connection).cross_domain_reconciliation(club_id, int(payload.get('season')), payload.get('source_types'))
+    if action=='finance_media_summary': return FinanceLedger(connection).media_revenue_summary(club_id, int(payload.get('season')))
     raise ValueError('FINANCE_ACTION_INVALID')
 
 
@@ -224,12 +225,29 @@ def scouting_market(connection: sqlite3.Connection, action: str, payload: dict) 
     raise ValueError('SCOUTING_ACTION_INVALID')
 
 
+def simulation_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    service = WorldSimulationService(connection)
+    if action == 'simulation_configure': return service.configure(int(payload.get('season')), str(payload.get('level', 'ABSTRACT')), int(payload.get('seed', 0)))
+    if action == 'simulation_batch': return service.simulate_batch(str(payload.get('tick_id')), str(payload.get('level', 'ABSTRACT')), int(payload.get('batch_size', 100)), int(payload.get('seed', 0)))
+    if action == 'simulation_progress': return service.progress(str(payload.get('tick_id')))
+    if action == 'simulation_checkpoint': return service.checkpoint(str(payload.get('tick_id')), int(payload.get('processed')), payload.get('last_match_id'), payload.get('state_hash'))
+    if action == 'simulation_divergence': return service.divergence_report(str(payload.get('expected_tick_id')), str(payload.get('actual_tick_id')))
+    if action == 'simulation_benchmark': return service.benchmark(int(payload.get('season')), str(payload.get('level', 'ABSTRACT')), int(payload.get('sample_size', 0)))
+    if action == 'simulation_resume': return service.resume(str(payload.get('tick_id')), str(payload.get('level', 'ABSTRACT')), int(payload.get('batch_size', 100)), int(payload.get('seed', 0)))
+    if action == 'simulation_metrics': return service.batch_metrics(str(payload.get('tick_id')))
+    if action == 'simulation_failure_report': return service.failure_report(str(payload.get('tick_id')))
+    raise ValueError('SIMULATION_ACTION_INVALID')
+
+
 def transfer_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
     club_id = current_club_id(connection); market = TransferMarketService(connection)
-    if action == 'transferable_players': return {'items': [dict(row) for row in market.transferable_players(club_id)]}
-    if action == 'transfer_open_window': return {'window_id': market.open_window(int(payload.get('season')), int(payload.get('number')), str(payload.get('start_date')), str(payload.get('end_date')))}
+    if action == 'transferable_players': return {'items': [dict(row) for row in market.transferable_players(club_id, payload.get('age_min'), payload.get('age_max'), payload.get('position_code'), payload.get('min_strength'), payload.get('max_budget'))]}
+    if action == 'transfer_history': return {'items': [dict(row) for row in market.negotiation_history(int(payload.get('offer_id')))]}
+    if action == 'transfer_alerts': return {'items': [dict(row) for row in market.negotiation_alerts(club_id)]}
+    if action == 'transfer_expire': return {'expired': market.expire_offers(str(payload.get('as_of')))}
+    if action == 'transfer_open_window': return {'window_id': market.open_window(int(payload.get('season')), int(payload.get('number')), str(payload.get('start_date')), str(payload.get('end_date')), payload.get('rules'))}
     if action == 'transfer_preview': return market.preview_offer(club_id, int(payload.get('value',0)), int(payload.get('salary',0)), int(payload.get('commission',0)), int(payload.get('accessory_cost',0)))
-    if action == 'transfer_offer': return {'offer_id': market.create_offer(int(payload.get('player_id')), club_id, int(payload.get('seller_club_id')), int(payload.get('value')), int(payload.get('window_id')), payload.get('asking_price'), payload.get('valid_until'), int(payload.get('salary',0)), int(payload.get('commission',0)), int(payload.get('accessory_cost',0)))}
+    if action == 'transfer_offer': return {'offer_id': market.create_offer(int(payload.get('player_id')), club_id, int(payload.get('seller_club_id')), int(payload.get('value')), int(payload.get('window_id')), payload.get('asking_price'), payload.get('valid_until'), int(payload.get('salary',0)), int(payload.get('commission',0)), int(payload.get('accessory_cost',0)), bool(payload.get('international', False)))}
     if action == 'transfer_counter': return {'status': market.counter(int(payload.get('offer_id')), int(payload.get('value')))}
     if action == 'transfer_accept': return {'status': market.accept(int(payload.get('offer_id')))}
     if action == 'transfer_approve': return {'status': market.approve_offer(int(payload.get('offer_id')), str(payload.get('approved_by','manager')))}
@@ -250,6 +268,10 @@ def club_ai_market(connection: sqlite3.Connection, action: str, payload: dict) -
     if action == "ai_lineup": return ai.auto_lineup(club_id, payload.get("seed"))
     if action == "ai_tactic": return {"decision": ai.choose_tactic(club_id, payload.get("seed"))}
     if action == "ai_objective_progress": return ai.update_objective(int(payload.get("objective_id")), float(payload.get("progress")))
+    if action == "ai_preview": return ai.preview_decision(club_id, str(payload.get('type')), str(payload.get('decision')), payload.get('target'), int(payload.get('cost', 0)), int(payload.get('season', 2026)))
+    if action == "ai_approve": return ai.approve_decision(int(payload.get('decision_id')), str(payload.get('approved_by', 'manager')))
+    if action == "ai_risk_limit": return ai.set_risk_limit(club_id, int(payload.get('season', 2026)), int(payload.get('max_cost')), int(payload.get('max_aggressiveness', 50)))
+    if action == "ai_budget_alerts": return {'items': [dict(row) for row in ai.budget_alerts(club_id, int(payload.get('season', 2026)))]}
     raise ValueError("AI_ACTION_INVALID")
 
 
@@ -290,6 +312,14 @@ def training_market(connection: sqlite3.Connection, action: str, payload: dict) 
         return {"items": service.budget(club_id)}
     if action == "training_plan":
         return service.create_weekly_plan(club_id, int(payload.get("season")), int(payload.get("week")), str(payload.get("plan_type", "GENERAL")), int(payload.get("load", 50)))
+    if action == "training_objective":
+        return service.create_objective(club_id, int(payload.get("player_id")), int(payload.get("season")), str(payload.get("metric")), float(payload.get("target")))
+    if action == "training_preview":
+        return service.preview_plan(int(payload.get("plan_id")))
+    if action == "training_approve":
+        return service.approve_plan(int(payload.get("plan_id")), int(payload.get("version", 1)))
+    if action == "training_cancel":
+        return service.cancel_plan(int(payload.get("plan_id")), int(payload.get("version", 1)))
     if action == "training_development":
         return {"items": service.individual_development(club_id)}
     if action == "training_alerts":
@@ -353,6 +383,30 @@ def club_events(connection: sqlite3.Connection, action: str, payload: dict) -> d
     raise ValueError("CLUB_EVENTS_ACTION_INVALID")
 
 
+def career_operations(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    state = current(connection)
+    if not state.get('started'):
+        raise ValueError('CAREER_NOT_STARTED')
+    service = ManagerService(connection)
+    manager_id = int(state['managerId'])
+    career_id = int(state['careerId'])
+    if action == 'career_snapshot':
+        return {'snapshot_id': service.snapshot(career_id)}
+    if action == 'career_snapshot_list':
+        rows = connection.execute('SELECT snapshot_id, career_id, created_at, engine_version FROM career_snapshots WHERE career_id=? ORDER BY snapshot_id DESC LIMIT 20', (career_id,)).fetchall()
+        return {'items': [dict(row) for row in rows]}
+    if action == 'career_snapshot_hash':
+        snapshot_id = int(payload.get('snapshot_id'))
+        return {'snapshot_id': snapshot_id, 'hash': service.snapshot_hash(snapshot_id)}
+    if action == 'career_snapshot_compare':
+        return service.compare_snapshots(int(payload.get('left_id')), int(payload.get('right_id')))
+    if action == 'career_snapshot_restore':
+        return service.restore_selective(manager_id, int(payload.get('snapshot_id')), list(payload.get('fields') or []))
+    if action == 'career_snapshot_audit':
+        return {'items': service.recovery_audit(career_id)}
+    raise ValueError('CAREER_OPERATION_INVALID')
+
+
 def roadmap_guard(payload: dict) -> dict:
     priority = str(payload.get("priority", "")).upper()
     if priority not in {"P0", "P1", "P2"}:
@@ -385,6 +439,7 @@ def run(action: str, payload: dict, database_path: Path) -> dict:
                 career_name=payload.get("career_name"),
                 target_type=payload.get("target_type"),
                 target_id=payload.get("target_id"),
+                selected_country_ids=payload.get("selected_country_ids"),
             )
             return {"ok": True, "started": True, **result}
         if action == "economy_bootstrap_all":
@@ -402,26 +457,30 @@ def run(action: str, payload: dict, database_path: Path) -> dict:
             return {"ok": True, **WeeklyWorldCycleService(service.connection).advance_week(payload.get("seed"))}
         if action in {"economy_bootstrap", "economy_summary", "staff_catalog", "staff_hire", "staff_contract", "staff_terminate", "staff_replace", "department_offers", "department_upgrade", "economy_weekly"}:
             return {"ok": True, **staff_market(service.connection, action, payload)}
-        if action in {"ai_diagnosis", "ai_history", "ai_training", "ai_market", "ai_weekly", "ai_lineup", "ai_tactic", "ai_objective_progress"}:
+        if action in {"ai_diagnosis", "ai_history", "ai_training", "ai_market", "ai_weekly", "ai_lineup", "ai_tactic", "ai_objective_progress", "ai_preview", "ai_approve", "ai_risk_limit", "ai_budget_alerts"}:
             return {"ok": True, **club_ai_market(service.connection, action, payload)}
         if action in {"contract_renew_approve"}:
             return {"ok": True, **contract_market(service.connection, action, payload)}
-        if action in {"finance_revenue", "finance_expense", "finance_budget", "finance_expense_preview", "finance_post_match_preview", "finance_projection", "finance_alert", "finance_world_report", "finance_audit", "travel_preview", "travel_summary"}:
+        if action in {"finance_revenue", "finance_expense", "finance_budget", "finance_expense_preview", "finance_post_match_preview", "finance_projection", "finance_alert", "finance_world_report", "finance_audit", "travel_preview", "travel_summary", "finance_monthly_close", "finance_reconciliation", "finance_media_summary"}:
             return {"ok": True, **finance_market(service.connection, action, payload)}
         if action in {"scout_regions", "scout_create_region", "scout_mission", "scout_start", "scout_complete", "scout_opportunities", "scout_compare", "scout_confirm", "academy_enroll", "academy_progress", "academy_promote", "academy_maintenance"}:
             return {"ok": True, **scouting_market(service.connection, action, payload)}
-        if action in {"transferable_players", "transfer_open_window", "transfer_preview", "transfer_offer", "transfer_counter", "transfer_accept", "transfer_approve", "transfer_loan", "transfer_complete"}:
+        if action in {"simulation_configure", "simulation_batch", "simulation_progress", "simulation_checkpoint", "simulation_divergence", "simulation_benchmark", "simulation_resume", "simulation_metrics", "simulation_failure_report"}:
+            return {"ok": True, **simulation_market(service.connection, action, payload)}
+        if action in {"transferable_players", "transfer_open_window", "transfer_preview", "transfer_offer", "transfer_counter", "transfer_accept", "transfer_approve", "transfer_loan", "transfer_complete", "transfer_history", "transfer_alerts", "transfer_expire"}:
             return {"ok": True, **transfer_market(service.connection, action, payload)}
         if action in {"health_list", "health_alerts", "health_injury", "health_recover", "health_suspension"}:
             return {"ok": True, **health_market(service.connection, action, payload)}
         if action in {"morale_summary", "morale_match", "weekly_training", "opponent_preparation", "weekly_load", "form_recommendations"}:
             return {"ok": True, **form_morale_market(service.connection, action, payload)}
-        if action in {"training_departments", "training_budget", "training_plan", "training_development", "training_alerts"}:
+        if action in {"training_departments", "training_budget", "training_plan", "training_objective", "training_preview", "training_approve", "training_cancel", "training_development", "training_alerts"}:
             return {"ok": True, **training_market(service.connection, action, payload)}
         if action in {"sponsor_bootstrap", "sponsor_summary", "sponsor_offers", "sponsor_accept", "sponsor_weekly"}:
             return {"ok": True, **sponsorship_market(service.connection, action, payload)}
         if action in {"stadium_bootstrap", "stadium_summary", "stadium_preview", "stadium_upgrade", "ticket_price", "ticket_price_preview", "fan_segments", "social_timeline"}:
             return {"ok": True, **stadium_market(service.connection, action, payload)}
+        if action in {"career_snapshot", "career_snapshot_list", "career_snapshot_hash", "career_snapshot_compare", "career_snapshot_restore", "career_snapshot_audit"}:
+            return {"ok": True, **career_operations(service.connection, action, payload)}
         if action in {"events_list", "events_mark_read"}:
             return {"ok": True, **club_events(service.connection, action, payload)}
         raise ValueError("CAREER_ACTION_INVALID")
@@ -431,7 +490,7 @@ def run(action: str, payload: dict, database_path: Path) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("action", choices=["catalog", "current", "roadmap_guard", "start", "contract_renew_approve", "economy_bootstrap_all", "economy_weekly_all", "economy_bootstrap", "economy_summary", "staff_catalog", "staff_hire", "staff_contract", "staff_terminate", "staff_replace", "department_offers", "department_upgrade", "economy_weekly", "training_departments", "training_budget", "training_plan", "training_development", "training_alerts", "morale_summary", "morale_match", "weekly_training", "opponent_preparation", "weekly_load", "form_recommendations", "health_list", "health_alerts", "health_injury", "health_recover", "health_suspension", "ai_diagnosis", "ai_history", "ai_training", "ai_market", "ai_weekly", "ai_lineup", "ai_tactic", "ai_objective_progress", "transferable_players", "transfer_open_window", "transfer_preview", "transfer_offer", "transfer_counter", "transfer_accept", "transfer_approve", "transfer_loan", "transfer_complete", "scout_regions", "scout_create_region", "scout_mission", "scout_start", "scout_complete", "scout_opportunities", "scout_compare", "scout_confirm", "academy_enroll", "academy_progress", "academy_promote", "academy_maintenance", "finance_revenue", "finance_expense", "finance_budget", "finance_expense_preview", "finance_post_match_preview", "finance_projection", "finance_alert", "finance_world_report", "finance_audit", "travel_preview", "travel_summary", "sponsor_bootstrap_all", "sponsor_weekly_all", "sponsor_bootstrap", "sponsor_summary", "sponsor_offers", "sponsor_accept", "sponsor_weekly", "stadium_bootstrap", "stadium_bootstrap_all", "stadium_summary", "stadium_upgrade", "ticket_price", "ticket_price_preview", "fan_segments", "social_timeline", "weekly_advance", "events_list", "events_mark_read"])
+    parser.add_argument("action", choices=["catalog", "current", "roadmap_guard", "start", "contract_renew_approve", "economy_bootstrap_all", "economy_weekly_all", "economy_bootstrap", "economy_summary", "staff_catalog", "staff_hire", "staff_contract", "staff_terminate", "staff_replace", "department_offers", "department_upgrade", "economy_weekly", "training_departments", "training_budget", "training_plan", "training_objective", "training_preview", "training_approve", "training_cancel", "training_development", "training_alerts", "morale_summary", "morale_match", "weekly_training", "opponent_preparation", "weekly_load", "form_recommendations", "health_list", "health_alerts", "health_injury", "health_recover", "health_suspension", "ai_diagnosis", "ai_history", "ai_training", "ai_market", "ai_weekly", "ai_lineup", "ai_tactic", "ai_objective_progress", "ai_preview", "ai_approve", "ai_risk_limit", "ai_budget_alerts", "transferable_players", "transfer_open_window", "transfer_preview", "transfer_offer", "transfer_counter", "transfer_accept", "transfer_approve", "transfer_loan", "transfer_complete", "transfer_history", "transfer_alerts", "transfer_expire", "simulation_configure", "simulation_batch", "simulation_progress", "simulation_checkpoint", "simulation_divergence", "simulation_benchmark", "simulation_resume", "simulation_metrics", "simulation_failure_report", "scout_regions", "scout_create_region", "scout_mission", "scout_start", "scout_complete", "scout_opportunities", "scout_compare", "scout_confirm", "academy_enroll", "academy_progress", "academy_promote", "academy_maintenance", "finance_revenue", "finance_expense", "finance_budget", "finance_expense_preview", "finance_post_match_preview", "finance_projection", "finance_alert", "finance_world_report", "finance_audit", "travel_preview", "travel_summary", "finance_monthly_close", "finance_reconciliation", "finance_media_summary", "sponsor_bootstrap_all", "sponsor_weekly_all", "sponsor_bootstrap", "sponsor_summary", "sponsor_offers", "sponsor_accept", "sponsor_weekly", "stadium_bootstrap", "stadium_bootstrap_all", "stadium_summary", "stadium_upgrade", "ticket_price", "ticket_price_preview", "fan_segments", "social_timeline", "weekly_advance", "events_list", "events_mark_read", "career_snapshot", "career_snapshot_list", "career_snapshot_hash", "career_snapshot_compare", "career_snapshot_restore", "career_snapshot_audit"])
     parser.add_argument("--database", default=str(ROOT / "data/state/game.db"))
     arguments = parser.parse_args()
     payload = json.loads(sys.stdin.read() or "{}")

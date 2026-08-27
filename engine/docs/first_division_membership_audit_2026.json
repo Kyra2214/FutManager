@@ -1,0 +1,518 @@
+[
+  {
+    "countryId": 29,
+    "countryCode": "BRA",
+    "competitionName": "Campeonato Brasileiro Série A",
+    "seasonLabel": "2026",
+    "sourceUrl": "https://www.cbf.com.br/futebol-brasileiro/tabelas/campeonato-brasileiro/serie-a",
+    "expected": 20,
+    "matched": [
+      {
+        "sourceName": "Palmeiras",
+        "teamId": 5789,
+        "name": "Palmeiras",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Flamengo",
+        "teamId": 3280,
+        "name": "Flamengo",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Athletico Paranaense",
+        "teamId": 1529,
+        "name": "Athletico Paranaense",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Fluminense",
+        "teamId": 3296,
+        "name": "Fluminense",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Cruzeiro",
+        "teamId": 2594,
+        "name": "Cruzeiro",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Bahia",
+        "teamId": 1646,
+        "name": "Bahia",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Red Bull Bragantino",
+        "teamId": 2009,
+        "name": "RB Bragantino",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Coritiba SAF",
+        "teamId": 2539,
+        "name": "Coritiba",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Atlético Mineiro",
+        "teamId": 1518,
+        "name": "Atlético Mineiro",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Corinthians",
+        "teamId": 2535,
+        "name": "Corinthians",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Botafogo",
+        "teamId": 1982,
+        "name": "Botafogo",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Vitória",
+        "teamId": 8074,
+        "name": "Vitória",
+        "countryId": 29
+      },
+      {
+        "sourceName": "São Paulo",
+        "teamId": 6776,
+        "name": "São Paulo",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Santos FC",
+        "teamId": 6746,
+        "name": "Santos",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Grêmio",
+        "teamId": 3558,
+        "name": "Grêmio",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Internacional",
+        "teamId": 3973,
+        "name": "Internacional",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Mirassol",
+        "teamId": 5072,
+        "name": "Mirassol",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Remo",
+        "teamId": 6415,
+        "name": "Remo",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Vasco da Gama Saf",
+        "teamId": 7957,
+        "name": "Vasco da Gama",
+        "countryId": 29
+      },
+      {
+        "sourceName": "Chapecoense",
+        "teamId": 2352,
+        "name": "Chapecoense",
+        "countryId": 29
+      }
+    ],
+    "unmatched": [],
+    "ambiguous": []
+  },
+  {
+    "countryId": 104,
+    "countryCode": "ITA",
+    "competitionName": "Serie A",
+    "seasonLabel": "2026/27",
+    "sourceUrl": "https://en.legaseriea.it/serie-a/standings",
+    "expected": 20,
+    "matched": [
+      {
+        "sourceName": "Roma",
+        "teamId": 6522,
+        "name": "Roma",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Inter",
+        "teamId": 3963,
+        "name": "Internazionale ",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Napoli",
+        "teamId": 5329,
+        "name": "Napoli",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Lecce",
+        "teamId": 4576,
+        "name": "Lecce",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Milan",
+        "teamId": 5076,
+        "name": "Milan",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Atalanta",
+        "teamId": 1467,
+        "name": "Atalanta",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Cagliari",
+        "teamId": 2156,
+        "name": "Cagliari",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Juventus",
+        "teamId": 4191,
+        "name": "Juventus",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Lazio",
+        "teamId": 4571,
+        "name": "Lazio",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Como",
+        "teamId": 2509,
+        "name": "Como 1907",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Udinese",
+        "teamId": 7755,
+        "name": "Udinese Calcio",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Sassuolo",
+        "teamId": 6810,
+        "name": "Sassuolo",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Torino",
+        "teamId": 7627,
+        "name": "Torino",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Frosinone",
+        "teamId": 3355,
+        "name": "Frosinone",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Parma",
+        "teamId": 5838,
+        "name": "Parma Calcio",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Bologna",
+        "teamId": 1952,
+        "name": "Bologna",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Genoa",
+        "teamId": 3453,
+        "name": "Genoa",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Venezia",
+        "teamId": 7985,
+        "name": "Venezia",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Monza",
+        "teamId": 5177,
+        "name": "Monza",
+        "countryId": 104
+      },
+      {
+        "sourceName": "Fiorentina",
+        "teamId": 3234,
+        "name": "Fiorentina",
+        "countryId": 104
+      }
+    ],
+    "unmatched": [],
+    "ambiguous": []
+  },
+  {
+    "countryId": 65,
+    "countryCode": "ESP",
+    "competitionName": "LALIGA EA SPORTS",
+    "seasonLabel": "2026/27",
+    "sourceUrl": "https://www.laliga.com/en-GB/laliga-easports/clubs",
+    "expected": 20,
+    "matched": [
+      {
+        "sourceName": "Athletic Club",
+        "teamId": 1502,
+        "name": "Athletic Bilbao",
+        "countryId": 65
+      },
+      {
+        "sourceName": "Atlético de Madrid",
+        "teamId": 1516,
+        "name": "Atlético de Madrid",
+        "countryId": 65
+      },
+      {
+        "sourceName": "CA Osasuna",
+        "teamId": 5722,
+        "name": "Osasuna",
+        "countryId": 65
+      },
+      {
+        "sourceName": "Celta",
+        "teamId": 2291,
+        "name": "Celta de Vigo",
+        "countryId": 65
+      },
+      {
+        "sourceName": "Deportivo Alavés",
+        "teamId": 1055,
+        "name": "Alavés",
+        "countryId": 65
+      },
+      {
+        "sourceName": "Elche CF",
+        "teamId": 2942,
+        "name": "Elche",
+        "countryId": 65
+      },
+      {
+        "sourceName": "FC Barcelona",
+        "teamId": 1718,
+        "name": "Barcelona",
+        "countryId": 65
+      },
+      {
+        "sourceName": "Getafe CF",
+        "teamId": 3463,
+        "name": "Getafe",
+        "countryId": 65
+      },
+      {
+        "sourceName": "Levante UD",
+        "teamId": 4630,
+        "name": "Levante",
+        "countryId": 65
+      },
+      {
+        "sourceName": "Málaga CF",
+        "teamId": 4839,
+        "name": "Málaga",
+        "countryId": 65
+      },
+      {
+        "sourceName": "R. Racing Club",
+        "teamId": 6251,
+        "name": "Racing Santander",
+        "countryId": 65
+      },
+      {
+        "sourceName": "Rayo Vallecano",
+        "teamId": 6333,
+        "name": "Rayo Vallecano",
+        "countryId": 65
+      },
+      {
+        "sourceName": "RC Deportivo",
+        "teamId": 2705,
+        "name": "Deportivo La Coruña",
+        "countryId": 65
+      },
+      {
+        "sourceName": "RCD Espanyol de Barcelona",
+        "teamId": 3025,
+        "name": "Espanyol",
+        "countryId": 65
+      },
+      {
+        "sourceName": "Real Betis",
+        "teamId": 1855,
+        "name": "Real Bétis",
+        "countryId": 65
+      },
+      {
+        "sourceName": "Real Madrid",
+        "teamId": 6368,
+        "name": "Real Madrid",
+        "countryId": 65
+      },
+      {
+        "sourceName": "Real Sociedad",
+        "teamId": 6384,
+        "name": "Real Sociedad",
+        "countryId": 65
+      },
+      {
+        "sourceName": "Sevilla FC",
+        "teamId": 6914,
+        "name": "Sevilla",
+        "countryId": 65
+      },
+      {
+        "sourceName": "Valencia CF",
+        "teamId": 7920,
+        "name": "Valencia",
+        "countryId": 65
+      },
+      {
+        "sourceName": "Villarreal CF",
+        "teamId": 8052,
+        "name": "Villareal",
+        "countryId": 65
+      }
+    ],
+    "unmatched": [],
+    "ambiguous": []
+  },
+  {
+    "countryId": 154,
+    "countryCode": "POR",
+    "competitionName": "Liga Portugal Betclic",
+    "seasonLabel": "2025/26",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Primeira_Liga_de_2025%E2%80%9326",
+    "expected": 18,
+    "matched": [
+      {
+        "sourceName": "Porto",
+        "teamId": 6082,
+        "name": "Porto",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Sporting CP",
+        "teamId": 7196,
+        "name": "Sporting",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Benfica",
+        "teamId": 1826,
+        "name": "Benfica",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Braga",
+        "teamId": 7199,
+        "name": "Sporting Braga",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Famalicão",
+        "teamId": 3117,
+        "name": "Famalicão",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Gil Vicente",
+        "teamId": 3476,
+        "name": "Gil Vicente",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Moreirense",
+        "teamId": 5184,
+        "name": "Moreirense",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Arouca",
+        "teamId": 1375,
+        "name": "Arouca",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Vitória de Guimarães",
+        "teamId": 8079,
+        "name": "Vitória Guimarães",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Estoril Praia",
+        "teamId": 3044,
+        "name": "Estoril",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Alverca",
+        "teamId": 3155,
+        "name": "Alverca",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Rio Ave",
+        "teamId": 6476,
+        "name": "Rio Ave",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Santa Clara",
+        "teamId": 6711,
+        "name": "Santa Clara",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Nacional",
+        "teamId": 5285,
+        "name": "CD Nacional",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Estrela da Amadora",
+        "teamId": 3046,
+        "name": "Estrela Amadora",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Casa Pia",
+        "teamId": 2245,
+        "name": "Casa Pia",
+        "countryId": 154
+      },
+      {
+        "sourceName": "Tondela",
+        "teamId": 7618,
+        "name": "Tondela",
+        "countryId": 154
+      },
+      {
+        "sourceName": "AVS",
+        "teamId": 2828,
+        "name": "Desportivo Aves",
+        "countryId": 154
+      }
+    ],
+    "unmatched": [],
+    "ambiguous": []
+  }
+]

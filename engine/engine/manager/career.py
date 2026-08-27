@@ -1,61 +1,335 @@
 from __future__ import annotations
-from datetime import date
+
+from datetime import date, datetime, timezone
 from enum import StrEnum
-import sqlite3,json
+import json
+import sqlite3
+import hashlib
+from typing import Any
+
 from engine.core.schema import ensure_schema_version
 from engine.core.state_store import assert_mutable_state_path, configure_state_connection
-SCHEMA='''
+from engine.world.first_division import FIRST_DIVISION_SOURCES, resolve_first_division_members
+
+SCHEMA = '''
 CREATE TABLE IF NOT EXISTS managers(manager_id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,nationality TEXT,age INTEGER NOT NULL,reputation INTEGER NOT NULL DEFAULT 0,experience INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'ACTIVE',created_at TEXT NOT NULL,current_club_id INTEGER,active_career INTEGER NOT NULL DEFAULT 1);
-CREATE TABLE IF NOT EXISTS manager_careers(career_id INTEGER PRIMARY KEY AUTOINCREMENT,manager_id INTEGER NOT NULL UNIQUE,name TEXT NOT NULL,created_at TEXT NOT NULL,updated_at TEXT NOT NULL,season_id INTEGER,current_club_id INTEGER,status TEXT NOT NULL DEFAULT 'ACTIVE',engine_version TEXT NOT NULL DEFAULT '1.0');
+CREATE TABLE IF NOT EXISTS manager_careers(career_id INTEGER PRIMARY KEY AUTOINCREMENT,manager_id INTEGER NOT NULL UNIQUE,name TEXT NOT NULL,created_at TEXT NOT NULL,updated_at TEXT NOT NULL,season_id INTEGER,current_club_id INTEGER,status TEXT NOT NULL DEFAULT 'ACTIVE',engine_version TEXT NOT NULL DEFAULT '1.0',starting_division INTEGER NOT NULL DEFAULT 4);
 CREATE TABLE IF NOT EXISTS manager_contracts(manager_contract_id INTEGER PRIMARY KEY AUTOINCREMENT,manager_id INTEGER NOT NULL,club_id INTEGER NOT NULL,start_date TEXT NOT NULL,end_date TEXT NOT NULL,salary INTEGER NOT NULL,bonus INTEGER NOT NULL DEFAULT 0,objective TEXT,status TEXT NOT NULL DEFAULT 'ACTIVE');
 CREATE TABLE IF NOT EXISTS manager_objectives(objective_id INTEGER PRIMARY KEY AUTOINCREMENT,career_id INTEGER NOT NULL,type TEXT NOT NULL,priority INTEGER NOT NULL,deadline TEXT,status TEXT NOT NULL DEFAULT 'ACTIVE',progress REAL NOT NULL DEFAULT 0);
 CREATE TABLE IF NOT EXISTS manager_history(history_id INTEGER PRIMARY KEY AUTOINCREMENT,manager_id INTEGER NOT NULL,club_id INTEGER,event_type TEXT NOT NULL,event_date TEXT NOT NULL,payload TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS manager_inbox(message_id INTEGER PRIMARY KEY AUTOINCREMENT,manager_id INTEGER NOT NULL,type TEXT NOT NULL,title TEXT NOT NULL,body TEXT,reference TEXT UNIQUE,read INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS manager_job_offers(offer_id INTEGER PRIMARY KEY AUTOINCREMENT,manager_id INTEGER NOT NULL,club_id INTEGER NOT NULL,salary INTEGER NOT NULL,duration INTEGER NOT NULL,objective TEXT,reputation_min INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'OFFERED');
 CREATE TABLE IF NOT EXISTS manager_selection_assignments(selection_assignment_id INTEGER PRIMARY KEY AUTOINCREMENT,manager_id INTEGER NOT NULL UNIQUE,career_id INTEGER NOT NULL UNIQUE,selection_id INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',appointed_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS manager_preferences(preference_id INTEGER PRIMARY KEY AUTOINCREMENT,manager_id INTEGER NOT NULL,preference_key TEXT NOT NULL,preference_value TEXT NOT NULL,updated_at TEXT NOT NULL,UNIQUE(manager_id,preference_key));
+CREATE TABLE IF NOT EXISTS career_snapshots(snapshot_id INTEGER PRIMARY KEY AUTOINCREMENT,career_id INTEGER NOT NULL,manager_id INTEGER NOT NULL,created_at TEXT NOT NULL,engine_version TEXT NOT NULL,payload TEXT NOT NULL,UNIQUE(career_id,created_at));
+CREATE TABLE IF NOT EXISTS migration_audit(audit_id INTEGER PRIMARY KEY AUTOINCREMENT,component TEXT NOT NULL,version INTEGER NOT NULL,applied_at TEXT NOT NULL,content_hash TEXT NOT NULL,UNIQUE(component,version));
+CREATE TABLE IF NOT EXISTS career_snapshot_audit(audit_id INTEGER PRIMARY KEY AUTOINCREMENT,snapshot_id INTEGER NOT NULL,career_id INTEGER NOT NULL,action TEXT NOT NULL,success INTEGER NOT NULL,details TEXT NOT NULL,created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS manager_permission_audit(permission_audit_id INTEGER PRIMARY KEY AUTOINCREMENT,manager_id INTEGER NOT NULL,action TEXT NOT NULL,allowed INTEGER NOT NULL,reason TEXT NOT NULL,created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS career_change_audit(change_id INTEGER PRIMARY KEY AUTOINCREMENT,career_id INTEGER NOT NULL,manager_id INTEGER NOT NULL,origin_club_id INTEGER,destination_club_id INTEGER,created_at TEXT NOT NULL,reference TEXT UNIQUE);
+CREATE TABLE IF NOT EXISTS career_world_configs(career_id INTEGER PRIMARY KEY,manager_id INTEGER NOT NULL,combined_name TEXT NOT NULL,starting_division INTEGER NOT NULL DEFAULT 4,created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS career_world_countries(career_id INTEGER NOT NULL,country_id INTEGER NOT NULL,country_name TEXT NOT NULL,country_code TEXT,PRIMARY KEY(career_id,country_id));
+CREATE TABLE IF NOT EXISTS first_division_membership(country_id INTEGER NOT NULL,club_id INTEGER NOT NULL,source_name TEXT NOT NULL,source_url TEXT NOT NULL,season_label TEXT NOT NULL,imported_at TEXT NOT NULL,PRIMARY KEY(country_id,club_id));
+CREATE TABLE IF NOT EXISTS career_parallel_leagues(career_id INTEGER PRIMARY KEY,manager_id INTEGER NOT NULL,name TEXT NOT NULL,season_id INTEGER,total_clubs INTEGER NOT NULL,source_country_count INTEGER NOT NULL,seed TEXT NOT NULL,division_count INTEGER NOT NULL DEFAULT 4,created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS career_parallel_entries(career_id INTEGER NOT NULL,club_id INTEGER NOT NULL,origin_country_id INTEGER NOT NULL,origin_division INTEGER NOT NULL DEFAULT 1,parallel_division INTEGER NOT NULL,parallel_position INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',PRIMARY KEY(career_id,club_id));
 '''
-class ManagerStatus(StrEnum): ACTIVE='ACTIVE'; RESIGNED='RESIGNED'; TERMINATED='TERMINATED'
+
+
+class ManagerStatus(StrEnum):
+    ACTIVE = 'ACTIVE'
+    RESIGNED = 'RESIGNED'
+    TERMINATED = 'TERMINATED'
+
+
 class ManagerService:
- def __init__(self,db):
-  if not isinstance(db,sqlite3.Connection): assert_mutable_state_path(db)
-  self.connection=sqlite3.connect(str(db)) if not isinstance(db,sqlite3.Connection) else db;configure_state_connection(self.connection);self.connection.executescript(SCHEMA);ensure_schema_version(self.connection);self.connection.commit()
- def create_manager(self,name,nationality,age):
-  cur=self.connection.execute('insert into managers(name,nationality,age,created_at) values(?,?,?,?)',(name,nationality,age,date.today().isoformat()));self.connection.commit();return int(cur.lastrowid)
- def create_career(self,manager_id,name='Carreira',club_id=None,season_id=None):
-  if self.connection.execute("select 1 from manager_careers where manager_id=? and status='ACTIVE'",(manager_id,)).fetchone():raise ValueError('ACTIVE_CAREER_EXISTS')
-  cur=self.connection.execute('insert into manager_careers(manager_id,name,created_at,updated_at,season_id,current_club_id) values(?,?,?,?,?,?)',(manager_id,name,date.today().isoformat(),date.today().isoformat(),season_id,club_id));cid=int(cur.lastrowid);self.connection.execute('update managers set current_club_id=?,active_career=1 where manager_id=?',(club_id,manager_id));self.connection.commit();return cid
- def start_career(self,manager_name,nationality,age,career_name='Carreira',target_type='club',target_id=None,season_id=None):
-  manager_name=(manager_name or '').strip();career_name=(career_name or 'Carreira').strip() or 'Carreira';age=int(age)
-  if not manager_name:raise ValueError('MANAGER_NAME_REQUIRED')
-  if age<18:raise ValueError('MANAGER_AGE_INVALID')
-  if target_type not in ('club','selection'):raise ValueError('CAREER_TARGET_INVALID')
-  if target_id is None:raise ValueError('CAREER_TARGET_REQUIRED')
-  target_id=int(target_id)
-  if self.connection.execute("select 1 from manager_careers where status='ACTIVE'").fetchone():raise ValueError('ACTIVE_CAREER_EXISTS')
-  if target_type=='club' and not self.connection.execute('select 1 from times where time_id=?',(target_id,)).fetchone():raise ValueError('CLUB_NOT_FOUND')
-  if target_type=='selection' and not self.connection.execute('select 1 from selecoes where selecao_id=?',(target_id,)).fetchone():raise ValueError('SELECTION_NOT_FOUND')
-  today=date.today().isoformat();club_id=target_id if target_type=='club' else None
-  if club_id is not None:
-   from engine.economy.staff_market import StaffMarketService
-   from engine.economy.sponsorships import SponsorshipService
-   StaffMarketService(self.connection).bootstrap_club(club_id)
-   SponsorshipService(self.connection).bootstrap_club(club_id)
-  with self.connection:
-   mid=int(self.connection.execute('insert into managers(name,nationality,age,created_at,current_club_id,active_career) values(?,?,?,?,?,1)',(manager_name,nationality or None,age,today,club_id)).lastrowid)
-   cid=int(self.connection.execute('insert into manager_careers(manager_id,name,created_at,updated_at,season_id,current_club_id,status) values(?,?,?,?,?,?,?)',(mid,career_name,today,today,season_id,club_id,'ACTIVE')).lastrowid)
-   if target_type=='selection':self.connection.execute('insert into manager_selection_assignments(manager_id,career_id,selection_id,status,appointed_at) values(?,?,?,?,?)',(mid,cid,target_id,'ACTIVE',today))
-   self.connection.execute('insert into manager_history(manager_id,club_id,event_type,event_date,payload) values(?,?,?,?,?)',(mid,club_id,'CAREER_STARTED',today,f'{target_type}:{target_id}'))
-  return {'manager_id':mid,'career_id':cid,'target_type':target_type,'target_id':target_id,'current_club_id':club_id}
- def sign(self,manager_id,club_id,start,end,salary,objective=None,bonus=0):
-  c=self.connection.execute("select career_id from manager_careers where manager_id=? and status='ACTIVE'",(manager_id,)).fetchone()
-  if not c:raise ValueError('NO_ACTIVE_CAREER')
-  self.connection.execute("update manager_contracts set status='TERMINATED',end_date=? where manager_id=? and status='ACTIVE'",(start,manager_id));self.connection.execute('insert into manager_contracts(manager_id,club_id,start_date,end_date,salary,bonus,objective) values(?,?,?,?,?,?,?)',(manager_id,club_id,start,end,salary,bonus,objective));self.connection.execute('update managers set current_club_id=? where manager_id=?',(club_id,manager_id));self.connection.execute('update manager_careers set current_club_id=?,updated_at=? where career_id=?',(club_id,date.today().isoformat(),c[0]));self.connection.execute('insert into manager_history(manager_id,club_id,event_type,event_date,payload) values(?,?,?,?,?)',(manager_id,club_id,'CLUB_SIGNED',date.today().isoformat(),objective or ''));self.connection.commit()
- def objective(self,career_id,type_,priority=50,deadline=None):
-  cur=self.connection.execute('insert into manager_objectives(career_id,type,priority,deadline) values(?,?,?,?)',(career_id,type_,priority,deadline));self.connection.commit();return int(cur.lastrowid)
- def inbox(self,manager_id,type_,title,body='',reference=None):
-  self.connection.execute('insert or ignore into manager_inbox(manager_id,type,title,body,reference,created_at) values(?,?,?,?,?,?)',(manager_id,type_,title,body,reference,date.today().isoformat()));self.connection.commit()
- def resign(self,manager_id,reason='manager decision'):
-  with self.connection:
-   r=self.connection.execute('select current_club_id from managers where manager_id=?',(manager_id,)).fetchone();self.connection.execute("update managers set status='RESIGNED',active_career=0 where manager_id=?",(manager_id,));self.connection.execute("update manager_contracts set status='RESIGNED' where manager_id=? and status='ACTIVE'",(manager_id,));self.connection.execute('insert into manager_history(manager_id,club_id,event_type,event_date,payload) values(?,?,?,?,?)',(manager_id,r[0] if r else None,'RESIGNED',date.today().isoformat(),reason))
- def load(self,manager_id):return self.connection.execute('select * from managers where manager_id=?',(manager_id,)).fetchone()
- def close(self):self.connection.close()
+    ENGINE_VERSION = '1.1'
+
+    def __init__(self, db: str | sqlite3.Connection):
+        if not isinstance(db, sqlite3.Connection):
+            assert_mutable_state_path(db)
+        self.connection = sqlite3.connect(str(db)) if not isinstance(db, sqlite3.Connection) else db
+        configure_state_connection(self.connection)
+        self.connection.executescript(SCHEMA)
+        career_columns = {row[1] for row in self.connection.execute('PRAGMA table_info(manager_careers)').fetchall()}
+        if 'starting_division' not in career_columns:
+            self.connection.execute('ALTER TABLE manager_careers ADD COLUMN starting_division INTEGER NOT NULL DEFAULT 4')
+        ensure_schema_version(self.connection)
+        self.connection.execute(
+            'INSERT OR IGNORE INTO migration_audit(component,version,applied_at,content_hash) VALUES(?,?,?,?)',
+            ('manager_career', 3, self._now(), 'manager-career-schema-v3'),
+        )
+        self.connection.commit()
+
+    @staticmethod
+    def _now() -> str:
+        return datetime.now(timezone.utc).isoformat()
+
+    def _audit_permission(self, manager_id: int, action: str, allowed: bool, reason: str) -> None:
+        self.connection.execute(
+            'INSERT INTO manager_permission_audit(manager_id,action,allowed,reason,created_at) VALUES(?,?,?,?,?)',
+            (manager_id, action, int(allowed), reason, self._now()),
+        )
+
+    def create_manager(self, name: str, nationality: str | None, age: int) -> int:
+        cur = self.connection.execute('INSERT INTO managers(name,nationality,age,created_at) VALUES(?,?,?,?)', (name, nationality, age, date.today().isoformat()))
+        self.connection.commit()
+        return int(cur.lastrowid)
+
+    def _country_details(self, country_id: int) -> tuple[str, str | None]:
+        try:
+            row = self.connection.execute('SELECT nome,codigo FROM paises WHERE pais_id=?', (country_id,)).fetchone()
+        except sqlite3.Error:
+            row = None
+        overrides = {29: ('Brasil', 'BRA'), 65: ('Espanha', 'ESP'), 104: ('Itália', 'ITA'), 154: ('Portugal', 'POR')}
+        if row and row[0] and not str(row[0]).startswith('País ID'):
+            return str(row[0]), row[1]
+        return overrides.get(int(country_id), (f'País ID {country_id}', row[1] if row else None))
+
+    def list_world_countries(self, search: str = '', limit: int = 48) -> list[dict[str, Any]]:
+        search = (search or '').strip().lower()
+        limit = min(max(int(limit), 1), 96)
+        try:
+            rows = self.connection.execute('SELECT pais_id,nome,codigo FROM paises ORDER BY CASE pais_id WHEN 29 THEN 0 WHEN 104 THEN 1 WHEN 65 THEN 2 ELSE 3 END, pais_id').fetchall()
+        except sqlite3.Error:
+            rows = self.connection.execute('SELECT DISTINCT pais_id AS pais_id,NULL AS nome,NULL AS codigo FROM times WHERE pais_id IS NOT NULL ORDER BY pais_id').fetchall()
+        items = []
+        for row in rows:
+            name, code = self._country_details(int(row[0]))
+            if search and search not in name.lower() and search not in str(code or '').lower():
+                continue
+            try:
+                club_count = int(self.connection.execute('SELECT COUNT(*) FROM times WHERE pais_id=?', (int(row[0]),)).fetchone()[0])
+            except sqlite3.Error:
+                club_count = 0
+            if club_count:
+                source = self._first_division_source(int(row[0]))
+                first_division_count = 0
+                if source is not None:
+                    try:
+                        report = resolve_first_division_members(self.connection, int(row[0]))
+                        if not report['unmatched'] and not report['ambiguous']:
+                            first_division_count = len(report['matched'])
+                    except (sqlite3.Error, ValueError):
+                        first_division_count = 0
+                items.append({'countryId': int(row[0]), 'name': name, 'code': code, 'clubCount': club_count, 'firstDivisionClubCount': first_division_count, 'firstDivisionName': source.competition_name if source else None})
+            if len(items) >= limit:
+                break
+        return items
+
+    def _first_division_source(self, country_id: int):
+        return next((source for source in FIRST_DIVISION_SOURCES if source.country_id == int(country_id)), None)
+
+    def _import_first_division_membership(self, country_id: int) -> dict[str, Any]:
+        report = resolve_first_division_members(self.connection, int(country_id))
+        if report['unmatched'] or report['ambiguous']:
+            raise ValueError('FIRST_DIVISION_MEMBERSHIP_INVALID')
+        source = self._first_division_source(int(country_id))
+        assert source is not None
+        imported_at = self._now()
+        for item in report['matched']:
+            self.connection.execute('INSERT OR REPLACE INTO first_division_membership(country_id,club_id,source_name,source_url,season_label,imported_at) VALUES(?,?,?,?,?,?)', (source.country_id, item['teamId'], item['sourceName'], source.source_url, source.season_label, imported_at))
+        return report
+
+    def list_first_division_clubs(self, country_ids: list[int]) -> list[dict[str, Any]]:
+        clubs = []
+        seen: set[int] = set()
+        for country_id in country_ids:
+            report = resolve_first_division_members(self.connection, int(country_id))
+            if report['unmatched'] or report['ambiguous']:
+                raise ValueError('FIRST_DIVISION_MEMBERSHIP_INVALID')
+            for item in report['matched']:
+                if item['teamId'] not in seen:
+                    clubs.append(item)
+                    seen.add(item['teamId'])
+        return clubs
+
+    def _materialize_parallel_league(self, career_id: int, manager_id: int, career_name: str, season_id: int | None, country_ids: list[int], target_type: str, target_id: int) -> dict[str, Any]:
+        reports = [self._import_first_division_membership(country_id) for country_id in country_ids]
+        clubs = []
+        seen: set[int] = set()
+        for report in reports:
+            for item in report['matched']:
+                if item['teamId'] in seen:
+                    raise ValueError('FIRST_DIVISION_CLUB_DUPLICATED')
+                seen.add(item['teamId'])
+                clubs.append({'club_id': item['teamId'], 'origin_country_id': report['countryId']})
+        if not clubs:
+            raise ValueError('PARALLEL_LEAGUE_EMPTY')
+        if target_type == 'club' and target_id not in seen:
+            raise ValueError('TARGET_CLUB_NOT_FIRST_DIVISION')
+        seed = hashlib.sha256(f'{career_id}:{"/".join(str(value) for value in country_ids)}'.encode()).hexdigest()[:16]
+        import random
+        randomizer = random.Random(int(seed, 16))
+        randomizer.shuffle(clubs)
+        if target_type == 'club':
+            target_index = next(index for index, item in enumerate(clubs) if item['club_id'] == target_id)
+            d4_start = len(clubs) - max(1, len(clubs) // 4)
+            clubs[target_index], clubs[d4_start] = clubs[d4_start], clubs[target_index]
+        base, remainder = divmod(len(clubs), 4)
+        capacities = [base + (1 if division <= remainder else 0) for division in range(1, 5)]
+        self.connection.execute('INSERT INTO career_parallel_leagues(career_id,manager_id,name,season_id,total_clubs,source_country_count,seed,division_count,created_at) VALUES(?,?,?,?,?,?,?,?,?)', (career_id, manager_id, f'{career_name} · Liga Mundial', season_id, len(clubs), len(country_ids), seed, 4, self._now()))
+        cursor = 0
+        for division, capacity in enumerate(capacities, start=1):
+            for position, item in enumerate(clubs[cursor:cursor + capacity], start=1):
+                self.connection.execute('INSERT INTO career_parallel_entries(career_id,club_id,origin_country_id,origin_division,parallel_division,parallel_position) VALUES(?,?,?,?,?,?)', (career_id, item['club_id'], item['origin_country_id'], 1, division, position))
+            cursor += capacity
+        return {'name': f'{career_name} · Liga Mundial', 'total_clubs': len(clubs), 'country_count': len(country_ids), 'division_count': 4, 'seed': seed, 'target_division': 4 if target_type == 'club' else None}
+
+    def create_career(self, manager_id: int, name: str = 'Carreira', club_id: int | None = None, season_id: int | None = None):
+        if self.connection.execute("SELECT 1 FROM manager_careers WHERE manager_id=? AND status='ACTIVE'", (manager_id,)).fetchone():
+            raise ValueError('ACTIVE_CAREER_EXISTS')
+        now = self._now()
+        cur = self.connection.execute('INSERT INTO manager_careers(manager_id,name,created_at,updated_at,season_id,current_club_id,engine_version) VALUES(?,?,?,?,?,?,?)', (manager_id, name, now, now, season_id, club_id, self.ENGINE_VERSION))
+        career_id = int(cur.lastrowid)
+        self.connection.execute('UPDATE managers SET current_club_id=?,active_career=1,status=? WHERE manager_id=?', (club_id, ManagerStatus.ACTIVE, manager_id))
+        self.connection.commit()
+        return career_id
+
+    def start_career(self, manager_name: str, nationality: str | None, age: int, career_name: str = 'Carreira', target_type: str = 'club', target_id: int | None = None, season_id: int | None = None, selected_country_ids: list[int] | None = None) -> dict[str, Any]:
+        manager_name = (manager_name or '').strip()
+        career_name = (career_name or 'Carreira').strip() or 'Carreira'
+        age = int(age)
+        if not manager_name: raise ValueError('MANAGER_NAME_REQUIRED')
+        if age < 18: raise ValueError('MANAGER_AGE_INVALID')
+        if target_type not in ('club', 'selection'): raise ValueError('CAREER_TARGET_INVALID')
+        if target_id is None: raise ValueError('CAREER_TARGET_REQUIRED')
+        target_id = int(target_id)
+        if target_type == 'club' and not self.connection.execute('SELECT 1 FROM times WHERE time_id=?', (target_id,)).fetchone(): raise ValueError('CLUB_NOT_FOUND')
+        if target_type == 'selection' and not self.connection.execute('SELECT 1 FROM selecoes WHERE selecao_id=?', (target_id,)).fetchone(): raise ValueError('SELECTION_NOT_FOUND')
+        target_country_id = None
+        if target_type == 'club':
+            target_country_id = self.connection.execute('SELECT pais_id FROM times WHERE time_id=?', (target_id,)).fetchone()[0]
+        countries = []
+        for country_id in selected_country_ids or ([] if target_country_id is None else [target_country_id]):
+            country_id = int(country_id)
+            if country_id not in countries:
+                countries.append(country_id)
+        if not countries:
+            raise ValueError('WORLD_COUNTRIES_REQUIRED')
+        for country_id in countries:
+            try:
+                exists = self.connection.execute('SELECT 1 FROM paises WHERE pais_id=?', (country_id,)).fetchone()
+            except sqlite3.Error:
+                exists = self.connection.execute('SELECT 1 FROM times WHERE pais_id=?', (country_id,)).fetchone()
+            if not exists:
+                raise ValueError('WORLD_COUNTRY_NOT_FOUND')
+        if target_country_id is not None and target_country_id not in countries:
+            raise ValueError('TARGET_COUNTRY_NOT_SELECTED')
+        country_names = [self._country_details(country_id)[0] for country_id in countries]
+        today = date.today().isoformat(); club_id = target_id if target_type == 'club' else None
+        with self.connection:
+            self.connection.execute("UPDATE manager_careers SET status='PAUSED', updated_at=? WHERE status='ACTIVE'", (today,))
+            mid = int(self.connection.execute('INSERT INTO managers(name,nationality,age,created_at,current_club_id,active_career) VALUES(?,?,?,?,?,1)', (manager_name, nationality or None, age, today, club_id)).lastrowid)
+            cid = int(self.connection.execute('INSERT INTO manager_careers(manager_id,name,created_at,updated_at,season_id,current_club_id,engine_version,starting_division) VALUES(?,?,?,?,?,?,?,?)', (mid, career_name, today, today, season_id, club_id, self.ENGINE_VERSION, 4)).lastrowid)
+            parallel_league = self._materialize_parallel_league(cid, mid, career_name, season_id, countries, target_type, target_id)
+            self.connection.execute('INSERT INTO career_world_configs(career_id,manager_id,combined_name,starting_division,created_at) VALUES(?,?,?,?,?)', (cid, mid, ' + '.join(country_names), 4, today))
+            for country_id, country_name in zip(countries, country_names):
+                self.connection.execute('INSERT INTO career_world_countries(career_id,country_id,country_name,country_code) VALUES(?,?,?,?)', (cid, country_id, country_name, self._country_details(country_id)[1]))
+            if target_type == 'selection': self.connection.execute('INSERT INTO manager_selection_assignments(manager_id,career_id,selection_id,status,appointed_at) VALUES(?,?,?,?,?)', (mid, cid, target_id, 'ACTIVE', today))
+            self.connection.execute('INSERT INTO manager_history(manager_id,club_id,event_type,event_date,payload) VALUES(?,?,?,?,?)', (mid, club_id, 'CAREER_STARTED', today, f'{target_type}:{target_id}'))
+        return {'manager_id': mid, 'career_id': cid, 'target_type': target_type, 'target_id': target_id, 'current_club_id': club_id, 'engine_version': self.ENGINE_VERSION, 'selected_country_ids': countries, 'combined_league_name': ' + '.join(country_names), 'starting_division': 4, 'parallel_league': parallel_league}
+
+    def set_preference(self, manager_id: int, key: str, value: Any) -> None:
+        if not key.strip(): raise ValueError('PREFERENCE_KEY_REQUIRED')
+        self.connection.execute('INSERT INTO manager_preferences(manager_id,preference_key,preference_value,updated_at) VALUES(?,?,?,?) ON CONFLICT(manager_id,preference_key) DO UPDATE SET preference_value=excluded.preference_value,updated_at=excluded.updated_at', (manager_id, key, json.dumps(value, ensure_ascii=False), self._now()))
+        self.connection.commit()
+
+    def get_preferences(self, manager_id: int) -> dict[str, Any]:
+        rows = self.connection.execute('SELECT preference_key,preference_value FROM manager_preferences WHERE manager_id=?', (manager_id,)).fetchall()
+        return {row['preference_key']: json.loads(row['preference_value']) for row in rows}
+
+    def snapshot_hash(self, snapshot_id: int) -> str:
+        row=self.connection.execute('SELECT payload FROM career_snapshots WHERE snapshot_id=?',(snapshot_id,)).fetchone()
+        if not row: raise ValueError('SNAPSHOT_NOT_FOUND')
+        return hashlib.sha256(str(row['payload']).encode()).hexdigest()
+
+    def compare_snapshots(self, left_id: int, right_id: int) -> dict:
+        left=self.connection.execute('SELECT career_id,payload FROM career_snapshots WHERE snapshot_id=?',(left_id,)).fetchone(); right=self.connection.execute('SELECT career_id,payload FROM career_snapshots WHERE snapshot_id=?',(right_id,)).fetchone()
+        if not left or not right: raise ValueError('SNAPSHOT_NOT_FOUND')
+        return {'left_id':int(left_id),'right_id':int(right_id),'same_career':int(left['career_id'])==int(right['career_id']),'left_hash':hashlib.sha256(str(left['payload']).encode()).hexdigest(),'right_hash':hashlib.sha256(str(right['payload']).encode()).hexdigest(),'identical':str(left['payload'])==str(right['payload']),'read_only':True}
+
+    def retain_snapshots(self, career_id: int, keep: int = 10) -> int:
+        if int(keep)<1: raise ValueError('SNAPSHOT_RETENTION_INVALID')
+        rows=self.connection.execute('SELECT snapshot_id FROM career_snapshots WHERE career_id=? ORDER BY snapshot_id DESC',(career_id,)).fetchall(); removed=rows[int(keep):]
+        with self.connection:
+            for row in removed: self.connection.execute('DELETE FROM career_snapshots WHERE snapshot_id=?',(row['snapshot_id'],))
+        return len(removed)
+
+    def restore_selective(self, manager_id: int, snapshot_id: int, fields: list[str]) -> dict:
+        allowed={'current_club_id','season_id','status','name'}
+        if not fields or not set(fields)<=allowed: raise ValueError('SNAPSHOT_FIELDS_INVALID')
+        row=self.connection.execute('SELECT * FROM career_snapshots WHERE snapshot_id=? AND manager_id=?',(snapshot_id,manager_id)).fetchone()
+        if not row: raise ValueError('SNAPSHOT_NOT_FOUND')
+        payload=json.loads(row['payload']); career=payload['career']; career_id=int(career['career_id'])
+        assignments=[]; values=[]
+        for field in fields: assignments.append(field+'=?'); values.append(career.get(field))
+        values.append(career_id)
+        with self.connection:
+            self.connection.execute('UPDATE manager_careers SET '+','.join(assignments)+' WHERE career_id=?',values)
+            if 'current_club_id' in fields: self.connection.execute('UPDATE managers SET current_club_id=? WHERE manager_id=?',(career.get('current_club_id'),manager_id))
+            self.connection.execute('INSERT INTO career_snapshot_audit(snapshot_id,career_id,action,success,details,created_at) VALUES(?,?,?,?,?,?)',(snapshot_id,career_id,'RESTORE_SELECTIVE',1,json.dumps({'fields':fields},sort_keys=True),self._now()))
+        return {'snapshot_id':int(snapshot_id),'career_id':career_id,'fields':fields,'restored':True,'hash':self.snapshot_hash(snapshot_id)}
+
+    def recovery_audit(self, career_id: int) -> list[dict]:
+        return [dict(row) for row in self.connection.execute('SELECT * FROM career_snapshot_audit WHERE career_id=? ORDER BY audit_id',(career_id,)).fetchall()]
+
+    def snapshot(self, career_id: int) -> int:
+        row = self.connection.execute('SELECT manager_id FROM manager_careers WHERE career_id=?', (career_id,)).fetchone()
+        if not row: raise ValueError('CAREER_NOT_FOUND')
+        manager = self.connection.execute('SELECT * FROM managers WHERE manager_id=?', (row['manager_id'],)).fetchone()
+        career = self.connection.execute('SELECT * FROM manager_careers WHERE career_id=?', (career_id,)).fetchone()
+        payload = json.dumps({'manager': dict(manager), 'career': dict(career)}, ensure_ascii=False, sort_keys=True)
+        cur = self.connection.execute('INSERT INTO career_snapshots(career_id,manager_id,created_at,engine_version,payload) VALUES(?,?,?,?,?)', (career_id, row['manager_id'], self._now(), self.ENGINE_VERSION, payload))
+        self.connection.commit()
+        return int(cur.lastrowid)
+
+    def switch_club(self, manager_id: int, destination_club_id: int, reference: str) -> None:
+        with self.connection:
+            row = self.connection.execute("SELECT career_id,current_club_id FROM manager_careers WHERE manager_id=? AND status='ACTIVE'", (manager_id,)).fetchone()
+            if not row: self._audit_permission(manager_id, 'switch_club', False, 'NO_ACTIVE_CAREER'); raise ValueError('NO_ACTIVE_CAREER')
+            if not self.connection.execute('SELECT 1 FROM times WHERE time_id=?', (destination_club_id,)).fetchone(): self._audit_permission(manager_id, 'switch_club', False, 'CLUB_NOT_FOUND'); raise ValueError('CLUB_NOT_FOUND')
+            if self.connection.execute('SELECT 1 FROM career_change_audit WHERE reference=?', (reference,)).fetchone(): return
+            self.connection.execute('UPDATE manager_careers SET current_club_id=?,updated_at=? WHERE career_id=?', (destination_club_id, self._now(), row['career_id']))
+            self.connection.execute('UPDATE managers SET current_club_id=? WHERE manager_id=?', (destination_club_id, manager_id))
+            self.connection.execute('INSERT INTO career_change_audit(career_id,manager_id,origin_club_id,destination_club_id,created_at,reference) VALUES(?,?,?,?,?,?)', (row['career_id'], manager_id, row['current_club_id'], destination_club_id, self._now(), reference))
+            self.connection.execute('INSERT INTO manager_history(manager_id,club_id,event_type,event_date,payload) VALUES(?,?,?,?,?)', (manager_id, destination_club_id, 'CLUB_CHANGED', date.today().isoformat(), reference))
+            self._audit_permission(manager_id, 'switch_club', True, 'ALLOWED')
+
+    def close_career(self, manager_id: int, reason: str = 'manager decision') -> int:
+        with self.connection:
+            row = self.connection.execute("SELECT career_id,current_club_id FROM manager_careers WHERE manager_id=? AND status='ACTIVE'", (manager_id,)).fetchone()
+            if not row: raise ValueError('NO_ACTIVE_CAREER')
+            snapshot_id = self.snapshot(row['career_id'])
+            self.connection.execute("UPDATE manager_careers SET status='CLOSED',updated_at=? WHERE career_id=?", (self._now(), row['career_id']))
+            self.connection.execute("UPDATE managers SET status='RESIGNED',active_career=0 WHERE manager_id=?", (manager_id,))
+            self.connection.execute('INSERT INTO manager_history(manager_id,club_id,event_type,event_date,payload) VALUES(?,?,?,?,?)', (manager_id, row['current_club_id'], 'CAREER_CLOSED', date.today().isoformat(), json.dumps({'reason': reason, 'snapshot_id': snapshot_id})))
+            return snapshot_id
+
+    def resume_career(self, manager_id: int, snapshot_id: int) -> dict[str, Any]:
+        row = self.connection.execute('SELECT * FROM career_snapshots WHERE snapshot_id=? AND manager_id=?', (snapshot_id, manager_id)).fetchone()
+        if not row: raise ValueError('SNAPSHOT_NOT_FOUND')
+        payload = json.loads(row['payload']); career_id = int(payload['career']['career_id'])
+        with self.connection:
+            self.connection.execute("UPDATE manager_careers SET status='ACTIVE',updated_at=? WHERE career_id=?", (self._now(), career_id))
+            self.connection.execute("UPDATE managers SET status='ACTIVE',active_career=1,current_club_id=? WHERE manager_id=?", (payload['career']['current_club_id'], manager_id))
+        return {'manager_id': manager_id, 'career_id': career_id, 'current_club_id': payload['career']['current_club_id'], 'snapshot_id': snapshot_id}
+
+    def sign(self, manager_id: int, club_id: int, start: str, end: str, salary: int, objective: str | None = None, bonus: int = 0) -> None:
+        c = self.connection.execute("SELECT career_id FROM manager_careers WHERE manager_id=? AND status='ACTIVE'", (manager_id,)).fetchone()
+        if not c: raise ValueError('NO_ACTIVE_CAREER')
+        self.connection.execute("UPDATE manager_contracts SET status='TERMINATED',end_date=? WHERE manager_id=? AND status='ACTIVE'", (start, manager_id))
+        self.connection.execute('INSERT INTO manager_contracts(manager_id,club_id,start_date,end_date,salary,bonus,objective) VALUES(?,?,?,?,?,?,?)', (manager_id, club_id, start, end, salary, bonus, objective))
+        self.connection.execute('UPDATE managers SET current_club_id=? WHERE manager_id=?', (club_id, manager_id)); self.connection.execute('UPDATE manager_careers SET current_club_id=?,updated_at=? WHERE career_id=?', (club_id, self._now(), c['career_id']))
+        self.connection.execute('INSERT INTO manager_history(manager_id,club_id,event_type,event_date,payload) VALUES(?,?,?,?,?)', (manager_id, club_id, 'CLUB_SIGNED', date.today().isoformat(), objective or '')); self.connection.commit()
+
+    def objective(self, career_id: int, type_: str, priority: int = 50, deadline: str | None = None) -> int:
+        cur = self.connection.execute('INSERT INTO manager_objectives(career_id,type,priority,deadline) VALUES(?,?,?,?)', (career_id, type_, priority, deadline)); self.connection.commit(); return int(cur.lastrowid)
+
+    def inbox(self, manager_id: int, type_: str, title: str, body: str = '', reference: str | None = None) -> None:
+        self.connection.execute('INSERT OR IGNORE INTO manager_inbox(manager_id,type,title,body,reference,created_at) VALUES(?,?,?,?,?,?)', (manager_id, type_, title, body, reference, date.today().isoformat())); self.connection.commit()
+
+    def resign(self, manager_id: int, reason: str = 'manager decision') -> None:
+        with self.connection:
+            r = self.connection.execute('SELECT current_club_id FROM managers WHERE manager_id=?', (manager_id,)).fetchone(); self.connection.execute("UPDATE managers SET status='RESIGNED',active_career=0 WHERE manager_id=?", (manager_id,)); self.connection.execute("UPDATE manager_contracts SET status='RESIGNED' WHERE manager_id=? AND status='ACTIVE'", (manager_id,)); self.connection.execute('INSERT INTO manager_history(manager_id,club_id,event_type,event_date,payload) VALUES(?,?,?,?,?)', (manager_id, r['current_club_id'] if r else None, 'RESIGNED', date.today().isoformat(), reason))
+
+    def load(self, manager_id: int): return self.connection.execute('SELECT * FROM managers WHERE manager_id=?', (manager_id,)).fetchone()
+    def close(self): self.connection.close()
