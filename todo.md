@@ -568,3 +568,4 @@
 - [x] Conectar promoção e rebaixamento da liga paralela ao fechamento idempotente da temporada.
 - [x] Exibir a lista completa de clubes, país de origem e divisão na confirmação da nova carreira.
 - [x] Validar temporada completa da liga paralela sem alterar fixtures ou competições nacionais originais.
+- [x] Criar lista validada de 3.000 melhorias do FutManager, numerada de 941 a 3.940, com domínios, prioridades, dependências, gates e critérios verificáveis.
