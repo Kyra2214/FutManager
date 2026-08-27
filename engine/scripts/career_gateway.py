@@ -236,6 +236,18 @@ from engine.competitions.match_engine import CompetitionService
 from engine.world.weekly_cycle import WeeklyWorldCycleService
 
 
+CONTROL_SESSION_SCHEMA = """
+CREATE TABLE IF NOT EXISTS match_control_decisions(
+    decision_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    match_id INTEGER NOT NULL,
+    minute INTEGER NOT NULL,
+    decision_type TEXT NOT NULL,
+    payload TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+"""
+
+
 def asset_url(relative_path: str | None) -> str | None:
     if not relative_path or not relative_path.startswith("assets/") or ".." in relative_path:
         return None
@@ -2505,6 +2517,23 @@ def play_controlled_match(connection: sqlite3.Connection, payload: dict) -> dict
     if match["status"] != "SCHEDULED":
         raise ValueError("MATCH_NOT_SCHEDULED")
     seed = payload.get("seed")
+    decisions = payload.get("decisions") if isinstance(payload.get("decisions"), dict) else {}
+    connection.executescript(CONTROL_SESSION_SCHEMA)
+    control_events = []
+    for minute, decision_type, decision_payload in (
+        (1, "TACTIC", decisions.get("tactics")),
+        (45, "SUBSTITUTION", decisions.get("substitutions")),
+        (67, "PENALTY_TAKER", decisions.get("penalty_taker_id")),
+        (74, "RED_CARD_RESPONSE", decisions.get("red_card_response")),
+    ):
+        if decision_payload in (None, "", [], {}):
+            continue
+        serialized = json.dumps(decision_payload, sort_keys=True)
+        connection.execute(
+            "INSERT INTO match_control_decisions(match_id,minute,decision_type,payload) VALUES(?,?,?,?)",
+            (match_id, minute, decision_type, serialized),
+        )
+        control_events.append({"minute": minute, "type": decision_type, "payload": decision_payload})
     result = CompetitionService(connection).play(match_id, seed=int(seed) if seed is not None else None, managed_transaction=False)
     connection.commit()
     return {
@@ -2516,6 +2545,7 @@ def play_controlled_match(connection: sqlite3.Connection, payload: dict) -> dict
         "home_goals": result.home_goals,
         "away_goals": result.away_goals,
         "seed": result.seed,
+        "control_events": control_events,
     }
 
 

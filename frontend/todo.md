@@ -917,3 +917,14 @@
 - [x] Corrigir o erro ENOBUFS do gateway e impedir vazamento de detalhes técnicos no frontend.
 - [x] Corrigir sobreposição e textos técnicos na interface mobile, incluindo a tela de início de carreira.
 - [x] Validar o fluxo ponta a ponta: avançar semana, consultar resultados externos e jogar partida do clube controlado.
+
+# Central interativa de partida — decisões em tempo real
+- [x] Definir contrato persistido para sessão, eventos, pausas e decisões da partida controlada.
+- [x] Implementar feed de eventos oficiais e checkpoints de pausa na engine.
+- [x] Implementar substituições e alterações de formação durante pausas autorizadas.
+- [x] Implementar decisão de cobrador de pênalti e tratamento de expulsão com pausa.
+- [x] Implementar comandos táticos de mentalidade, corredor de ataque, cruzamentos, passes, marcação e pressão.
+- [x] Adicionar gateway/tRPC para iniciar, consultar, pausar, decidir e concluir a partida controlada.
+- [x] Construir central visual com animações elaboradas, balões de informação e feed sincronizado.
+- [x] Adicionar testes de domínio, integração, UI, acessibilidade e responsividade mobile para o fluxo interativo.
+- [ ] Validar o fluxo completo e salvar checkpoint publicado.
