@@ -975,3 +975,20 @@
 - [x] Preservar a timeline e permitir retorno ao resumo ou à partida.
 - [x] Testar destinos, eventos desconhecidos, mobile e navegação sem perda de contexto.
 - [x] Salvar checkpoint e sincronizar a alteração no GitHub.
+
+# Conversão para APK offline-first
+- [x] Definir arquitetura mobile nativa/Expo sem servidor remoto.
+- [x] Mapear e remover dependências do frontend em tRPC, OAuth, banco remoto e gateway HTTP.
+- [x] Criar persistência local baseada em SQLite/GameState dentro do aplicativo.
+- [ ] Adaptar ou portar a engine Python para execução embarcada no Android, preservando SQL como fonte da verdade.
+- [ ] Empacotar dados, escudos e demais assets no APK sem depender de S3 ou URLs externas.
+- [ ] Migrar a experiência web para telas mobile nativas mantendo partidas, calendário, viagens e timeline.
+- [ ] Implementar backup/restauração local de carreira e migrações de banco no dispositivo.
+- [ ] Configurar build Android, assinatura e geração de APK instalável.
+- [ ] Validar inicialização, criação de carreira, simulação, partida interativa e retomada totalmente offline.
+- [ ] Documentar limitações, tamanho do APK e procedimento de atualização.
+- [x] Criar shell Capacitor Android e configuração de sincronização do build estático.
+- [x] Adicionar plugin SQLite nativo, Filesystem e Share ao contêiner Android.
+- [x] Remover a permissão INTERNET do manifesto do APK.
+- [ ] Instalar/configurar Android SDK para gerar o APK debug neste ambiente.
+- [ ] Portar os contratos do gateway Python para a camada local TypeScript.
