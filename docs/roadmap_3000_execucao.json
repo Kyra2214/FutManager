@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 0,
-    "pending": 3000,
+    "done": 10,
+    "pending": 2990,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -20,8 +20,10 @@
       "title": "definir contrato para schema",
       "dependency": "P0_GLOBAL_GATE",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:SCHEMA"
+      ]
     },
     {
       "item_id": 942,
@@ -29,8 +31,11 @@
       "title": "validar regras de schema",
       "dependency": "941",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py",
+        "server/CareerStart.ui.test.tsx"
+      ]
     },
     {
       "item_id": 943,
@@ -38,8 +43,10 @@
       "title": "persistir estado de schema",
       "dependency": "942",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:ManagerService.__init__"
+      ]
     },
     {
       "item_id": 944,
@@ -47,8 +54,11 @@
       "title": "expor leitura de schema",
       "dependency": "943",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "server/careerGateway.ts",
+        "server/routers/career.ts"
+      ]
     },
     {
       "item_id": 945,
@@ -56,8 +66,10 @@
       "title": "proteger mutação de schema",
       "dependency": "944",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:_audit_permission"
+      ]
     },
     {
       "item_id": 946,
@@ -65,8 +77,10 @@
       "title": "auditar fluxo de schema",
       "dependency": "945",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "docs/regras_fluxo_liga_unica_e_catalogo_paises.md"
+      ]
     },
     {
       "item_id": 947,
@@ -74,8 +88,10 @@
       "title": "otimizar consulta de schema",
       "dependency": "946",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/manager/career.py:career_parallel_standings indexes"
+      ]
     },
     {
       "item_id": 948,
@@ -83,8 +99,10 @@
       "title": "simular cenário de schema",
       "dependency": "947",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/tests/test_parallel_career_league.py"
+      ]
     },
     {
       "item_id": 949,
@@ -92,8 +110,10 @@
       "title": "documentar ciclo de schema",
       "dependency": "948",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "docs/regras_fluxo_liga_unica_e_catalogo_paises.md"
+      ]
     },
     {
       "item_id": 950,
@@ -101,8 +121,11 @@
       "title": "testar integração de schema",
       "dependency": "949",
       "criterion": "teste/fixture do domínio 01, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "server/CareerStart.ui.test.tsx",
+        "server/careerRouter.integration.test.ts"
+      ]
     },
     {
       "item_id": 951,
