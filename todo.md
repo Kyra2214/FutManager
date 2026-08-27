@@ -927,4 +927,4 @@
 - [x] Adicionar gateway/tRPC para iniciar, consultar, pausar, decidir e concluir a partida controlada.
 - [x] Construir central visual com animações elaboradas, balões de informação e feed sincronizado.
 - [x] Adicionar testes de domínio, integração, UI, acessibilidade e responsividade mobile para o fluxo interativo.
-- [ ] Validar o fluxo completo e salvar checkpoint publicado.
+- [x] Validar o fluxo completo e salvar checkpoint publicado.
