@@ -6,6 +6,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 const mocks = vi.hoisted(() => ({
   advance: vi.fn(),
   play: vi.fn(),
+  openMatch: vi.fn(),
 }));
 
 vi.mock("@/lib/trpc", () => ({
@@ -39,24 +40,37 @@ vi.mock("@/lib/trpc", () => ({
 }));
 
 import { MatchesPage } from "../client/src/pages/Home";
+import { InteractiveMatchCenter } from "../client/src/components/InteractiveMatchCenter";
 
 describe("MatchesPage — avanço da carreira", () => {
   afterEach(() => {
     cleanup();
     mocks.advance.mockReset();
     mocks.play.mockReset();
+    mocks.openMatch.mockReset();
   });
 
   it("envia o avanço semanal pelo contrato da carreira", () => {
-    render(<MatchesPage />);
+    render(<MatchesPage onOpenMatch={mocks.openMatch} />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Jogar partida" }));
+    expect(mocks.openMatch).toHaveBeenCalledTimes(1);
+    expect(screen.getByText("Campo, placar e decisões. Só isso.")).toBeTruthy();
+    expect(screen.queryByText("TRANSMISSÃO INTERATIVA")).toBeNull();
 
     fireEvent.click(screen.getByRole("button", { name: "Avançar semana" }));
 
     expect(mocks.advance).toHaveBeenCalledWith({});
-    fireEvent.pointerDown(screen.getByRole("button", { name: "Iniciar partida" }));
-    expect(mocks.play).not.toHaveBeenCalled();
+    expect(screen.queryByRole("button", { name: /simula/i })).toBeNull();
+  });
+});
+
+
+describe("InteractiveMatchCenter — modo dedicado", () => {
+  it("inicia a transmissão dentro da tela exclusiva", () => {
+    render(<InteractiveMatchCenter match={{ matchId: 101, round: 1, scheduledAt: "2026-08-30T12:00:00Z", homeClub: { clubId: 7, name: "Clube Exemplo" }, awayClub: { clubId: 8, name: "Clube Visitante" } }} players={[{ playerId: 1, name: "Atacante A", position: "Atacante", status: "Titular", category: "profissional" }]} />);
+    fireEvent.pointerDown(screen.getByTestId("start-match-button"));
     expect(screen.getByText("AO VIVO")).toBeTruthy();
     expect(screen.getByRole("button", { name: "Pausar jogo" })).toBeTruthy();
-    expect(screen.queryByRole("button", { name: /simula/i })).toBeNull();
   });
 });

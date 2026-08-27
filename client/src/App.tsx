@@ -9,12 +9,12 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 
-export type AppSection = "inicio" | "clube" | "partidas" | "estadio" | "time" | "ct" | "mercado" | "patrocinadores" | "transferencias" | "financas" | "operacoes";
+export type AppSection = "inicio" | "clube" | "partidas" | "partida" | "estadio" | "time" | "ct" | "mercado" | "patrocinadores" | "transferencias" | "financas" | "operacoes";
 
 function App() {
   const [section, setSection] = useState<AppSection>(() => {
     const requested = new URLSearchParams(window.location.search).get("section");
-    const allowed: AppSection[] = ["inicio", "clube", "partidas", "estadio", "time", "ct", "mercado", "patrocinadores", "transferencias", "financas", "operacoes"];
+    const allowed: AppSection[] = ["inicio", "clube", "partidas", "partida", "estadio", "time", "ct", "mercado", "patrocinadores", "transferencias", "financas", "operacoes"];
     return allowed.includes(requested as AppSection) ? (requested as AppSection) : "inicio";
   });
   const navigate = (next: AppSection) => {
