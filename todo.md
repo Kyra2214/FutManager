@@ -1010,3 +1010,5 @@
 - [x] Criar consulta local da carreira ativa diretamente da tabela `manager_careers`.
 - [x] Validar a fronteira localStore/localDomain com typecheck e 67 testes frontend.
 - [x] Mapear as tabelas reais do GameState para carreira, clubes, seleções, temporadas e partidas.
+- [x] Expor catálogo local de clubes, seleções e assets pelo localDomain.
+- [x] Validar o catálogo local sem regressões nos 67 testes frontend.

@@ -4,6 +4,7 @@ import {
   readLocalGameState,
   writeLocalGameState,
 } from "./localStore";
+import { listLocalClubs, listLocalSelections, resolveLocalAsset } from "./localCatalog";
 
 export type LocalCareerState = Record<string, unknown>;
 
@@ -57,6 +58,18 @@ export const localDomain = {
 
   async loadActiveCareer() {
     return loadActiveCareerFromGameState();
+  },
+
+  async listClubs(search = "", limit = 48) {
+    return listLocalClubs(search, limit);
+  },
+
+  async listSelections(search = "", limit = 48) {
+    return listLocalSelections(search, limit);
+  },
+
+  async resolveAsset(entityType: "team" | "selection", entityId: number) {
+    return resolveLocalAsset(entityType, entityId);
   },
 
   async saveCareer(state: LocalCareerState) {
