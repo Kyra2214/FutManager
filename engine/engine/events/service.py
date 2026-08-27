@@ -105,9 +105,21 @@ class ClubEventService:
     def news_catalog(self) -> list[dict]:
         return [{'type':'NOTICIA_PARTIDA','label':'Partida oficial','origin_required':True},{'type':'NOTICIA_CONTRATACAO','label':'Contratação ou renovação','origin_required':True},{'type':'NOTICIA_SAUDE','label':'Lesão ou retorno','origin_required':True}]
 
+    def generate_match_news(self, club_id, match_id, title, description, severity='NORMAL'):
+        return self.record(club_id,'NOTICIA_PARTIDA',severity,title,description,f'match:{match_id}',origin=f'fixture:{match_id}')
+
+    def generate_contract_news(self, club_id, contract_id, title, description, severity='NORMAL'):
+        return self.record(club_id,'NOTICIA_CONTRATACAO',severity,title,description,f'contract:{contract_id}',origin=f'contract:{contract_id}')
+
+    def generate_health_news(self, club_id, health_event_id, title, description, severity='NORMAL'):
+        return self.record(club_id,'NOTICIA_SAUDE',severity,title,description,f'health:{health_event_id}',origin=f'health:{health_event_id}')
+
     def news_feed(self, club_id: int, limit: int = 20, cursor: int | None = None, type_: str | None = None, severity: str | None = None) -> dict:
         safe_limit=min(max(int(limit),1),100); query='SELECT * FROM club_events WHERE club_id=? AND type LIKE \'NOTICIA_%\''; params=[int(club_id)]
         if cursor is not None: query+=' AND event_id<?'; params.append(int(cursor))
+        disabled=self.connection.execute('SELECT event_type FROM notification_preferences WHERE club_id=? AND enabled=0',(int(club_id),)).fetchall()
+        if disabled:
+            blocked=[str(row['event_type']) for row in disabled]; query+=' AND type NOT IN ('+','.join('?' for _ in blocked)+')'; params.extend(blocked)
         if type_: query+=' AND type=?'; params.append(str(type_).upper())
         if severity: query+=' AND severity=?'; params.append(SEVERITIES.get(str(severity).upper(),-1))
         rows=self.connection.execute(query+' ORDER BY event_id DESC LIMIT ?',params+[safe_limit]).fetchall()

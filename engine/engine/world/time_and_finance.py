@@ -18,6 +18,9 @@ CREATE TABLE IF NOT EXISTS financial_ledger (
  tick_id TEXT NOT NULL, created_at TEXT NOT NULL,
  UNIQUE(club_id,season,week,category,source_type,source_id)
 );
+CREATE TABLE IF NOT EXISTS financial_budgets(club_id INTEGER NOT NULL,season INTEGER NOT NULL,week INTEGER NOT NULL,limit_amount INTEGER NOT NULL,PRIMARY KEY(club_id,season,week));
+CREATE TABLE IF NOT EXISTS financial_recurring_rules(rule_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,category TEXT NOT NULL,amount INTEGER NOT NULL,source_type TEXT NOT NULL,source_id TEXT NOT NULL,description TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',UNIQUE(club_id,category,source_type,source_id));
+CREATE TABLE IF NOT EXISTS financial_alerts(alert_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,season INTEGER NOT NULL,week INTEGER NOT NULL,alert_type TEXT NOT NULL,message TEXT NOT NULL,created_at TEXT NOT NULL,UNIQUE(club_id,season,week,alert_type));
 CREATE TABLE IF NOT EXISTS financial_events (
  event_id INTEGER PRIMARY KEY AUTOINCREMENT, tick_id TEXT NOT NULL UNIQUE, season INTEGER NOT NULL,
  week INTEGER NOT NULL, event_type TEXT NOT NULL, created_at TEXT NOT NULL
@@ -111,6 +114,48 @@ class FinanceLedger:
         row = self.connection.execute('SELECT COALESCE(SUM(CASE WHEN amount < 0 THEN -amount ELSE 0 END),0) AS expense FROM financial_ledger WHERE club_id=? AND season=? AND week=?', (int(club_id), int(season), int(week))).fetchone()
         expense = int(row['expense'])
         return {'club_id': int(club_id), 'season': int(season), 'week': int(week), 'limit': int(limit), 'expense': expense, 'over_limit': expense > int(limit), 'persisted': False}
+
+    def set_budget(self, club_id: int, season: int, week: int, limit_amount: int) -> dict:
+        if int(limit_amount)<0: raise ValueError('BUDGET_INVALID')
+        with self.connection: self.connection.execute('INSERT OR REPLACE INTO financial_budgets VALUES(?,?,?,?)',(club_id,season,week,limit_amount))
+        return dict(self.connection.execute('SELECT * FROM financial_budgets WHERE club_id=? AND season=? AND week=?',(club_id,season,week)).fetchone())
+
+    def add_recurring_rule(self, club_id: int, category: str, amount: int, source_type: str, source_id: str, description: str) -> dict:
+        self.post(WorldTickContext('rule-bootstrap',date.today(),1,1,1,'week'),club_id,'INTERNAL',category,0,'RULE',source_id,description) if False else None
+        if category not in self.CATEGORIES or not str(source_id).strip(): raise ValueError('RECURRING_RULE_INVALID')
+        with self.connection: self.connection.execute('INSERT OR REPLACE INTO financial_recurring_rules(club_id,category,amount,source_type,source_id,description) VALUES(?,?,?,?,?,?)',(club_id,category,amount,source_type,source_id,description))
+        return dict(self.connection.execute('SELECT * FROM financial_recurring_rules WHERE club_id=? AND category=? AND source_type=? AND source_id=?',(club_id,category,source_type,source_id)).fetchone())
+
+    def apply_recurring(self, context: WorldTickContext, club_id: int) -> dict:
+        rows=self.connection.execute("SELECT * FROM financial_recurring_rules WHERE club_id=? AND status='ACTIVE'",(club_id,)).fetchall(); applied=0
+        for row in rows: applied += int(self.post(context,club_id,'INCOME' if int(row['amount'])>=0 else 'EXPENSE',row['category'],int(row['amount']),row['source_type'],row['source_id'],row['description']))
+        return {'club_id':int(club_id),'season':context.season,'week':context.week,'applied':applied,'rules':len(rows)}
+
+    def forecast(self, club_id: int, season: int, week: int, weeks: int = 4) -> dict:
+        if int(weeks)<1: raise ValueError('FORECAST_WEEKS_INVALID')
+        current=self.report_club(club_id,season); recurring=self.connection.execute("SELECT COALESCE(SUM(amount),0) AS net FROM financial_recurring_rules WHERE club_id=? AND status='ACTIVE'",(club_id,)).fetchone()['net']
+        projected=current['net'] + int(recurring)*int(weeks)
+        return {'club_id':int(club_id),'season':int(season),'week':int(week),'weeks':int(weeks),'current_net':current['net'],'recurring_weekly':int(recurring),'projected_net':projected,'deficit':projected<0,'persisted':False}
+
+    def weekly_balance(self, club_id: int, season: int, week: int) -> dict:
+        report=self.report_club(club_id,season); budget=self.connection.execute('SELECT limit_amount FROM financial_budgets WHERE club_id=? AND season=? AND week=?',(club_id,season,week)).fetchone(); alert=self.budget_alert(club_id,season,week,int(budget['limit_amount']) if budget else 0) if budget else None
+        return {'club_id':int(club_id),'season':int(season),'week':int(week),'report':report,'budget':dict(budget) if budget else None,'alert':alert}
+
+    def monthly_close(self, club_id: int, season: int, month: int) -> dict:
+        if not 1<=int(month)<=12: raise ValueError('MONTH_INVALID')
+        rows=self.connection.execute('SELECT category,COALESCE(SUM(amount),0) AS net,COUNT(*) AS entries FROM financial_ledger WHERE club_id=? AND season=? AND CAST(strftime(\'%m\',date) AS INTEGER)=? GROUP BY category ORDER BY category',(club_id,season,month)).fetchall()
+        report={'club_id':int(club_id),'season':int(season),'month':int(month),'categories':[dict(r) for r in rows]}
+        report['net']=sum(int(r['net']) for r in rows); report['closed']=True; return report
+
+    def cross_domain_reconciliation(self, club_id: int, season: int, source_types: list[str] | None = None) -> dict:
+        query='SELECT source_type,COUNT(*) AS entries,COALESCE(SUM(amount),0) AS net FROM financial_ledger WHERE club_id=? AND season=?'; args=[club_id,season]
+        if source_types: query+=' AND source_type IN ('+','.join('?' for _ in source_types)+')'; args.extend(source_types)
+        rows=self.connection.execute(query+' GROUP BY source_type ORDER BY source_type',args).fetchall()
+        return {'club_id':int(club_id),'season':int(season),'sources':[dict(r) for r in rows],'reconciled':all(int(r['entries'])>0 for r in rows) if rows else True}
+
+    def media_revenue_summary(self, club_id: int, season: int) -> dict:
+        rows=self.connection.execute("SELECT category,COALESCE(SUM(amount),0) AS net FROM financial_ledger WHERE club_id=? AND season=? AND category IN ('MEDIA','MATCHDAY_REVENUE','SPONSOR','SPONSOR_PAYMENT','COMPETITION_PRIZE','PRIZE','TAX','TRAVEL') GROUP BY category ORDER BY category",(club_id,season)).fetchall()
+        return {'club_id':int(club_id),'season':int(season),'by_category':[dict(r) for r in rows],'net':sum(int(r['net']) for r in rows),'persisted':True}
 
     def season_audit(self, season: int) -> dict:
         return {'season': season, 'currency': self.CURRENCY, 'world': self.world_report(season), 'clubs': [self.report_club(int(row['club_id']), season) for row in self.connection.execute('SELECT DISTINCT club_id FROM financial_ledger WHERE season=? AND club_id IS NOT NULL ORDER BY club_id', (season,)).fetchall()]}

@@ -45,7 +45,7 @@ class LicensingInventoryService:
             cur = self.connection.execute('INSERT INTO product_lots(product_id,quantity,unit_cost,created_at) VALUES(?,?,?,?)', (product_id, quantity, unit_cost, date.today().isoformat()))
         return int(cur.lastrowid)
 
-    def sell_lot(self, club_id, product_id, quantity, segment, reference, unit_price=None):
+    def sell_lot(self, club_id, product_id, quantity, segment, reference, unit_price=None, context: WorldTickContext | None = None):
         product = self.connection.execute('SELECT * FROM licensed_products WHERE product_id=? AND club_id=?', (product_id, club_id)).fetchone()
         if not product or int(quantity) <= 0: raise ValueError('PRODUCT_NOT_AVAILABLE')
         lot = self.connection.execute('SELECT * FROM product_lots WHERE product_id=? AND quantity>=? ORDER BY lot_id LIMIT 1', (product_id, quantity)).fetchone()
@@ -54,9 +54,11 @@ class LicensingInventoryService:
         with self.connection:
             self.connection.execute('UPDATE product_lots SET quantity=quantity-? WHERE lot_id=?', (quantity, lot['lot_id']))
             cur = self.connection.execute('INSERT INTO product_sales(club_id,product_id,lot_id,quantity,unit_price,segment,reference,created_at) VALUES(?,?,?,?,?,?,?,?)', (club_id, product_id, lot['lot_id'], quantity, price, segment, str(reference), date.today().isoformat()))
-        return {'sale_id': int(cur.lastrowid), 'quantity': int(quantity), 'revenue': int(quantity) * price, 'persisted': True}
+        revenue=int(quantity) * price
+        if context is not None: self.ledger.post(context, int(club_id), 'INCOME', 'MEDIA', revenue, 'product_sale', str(reference), 'Venda de produto licenciado')
+        return {'sale_id': int(cur.lastrowid), 'quantity': int(quantity), 'revenue': revenue, 'persisted': True}
 
-    def refund_sale(self, sale_id, reason):
+    def refund_sale(self, sale_id, reason, context: WorldTickContext | None = None):
         sale = self.connection.execute("SELECT * FROM product_sales WHERE sale_id=? AND status='SOLD'", (sale_id,)).fetchone()
         if not sale: raise KeyError(sale_id)
         amount = int(sale['quantity']) * int(sale['unit_price'])
@@ -64,6 +66,7 @@ class LicensingInventoryService:
             self.connection.execute("UPDATE product_sales SET status='REFUNDED' WHERE sale_id=?", (sale_id,))
             self.connection.execute('UPDATE product_lots SET quantity=quantity+? WHERE lot_id=?', (sale['quantity'], sale['lot_id']))
             self.connection.execute('INSERT INTO product_refunds(sale_id,amount,reason,created_at) VALUES(?,?,?,?)', (sale_id, amount, reason, date.today().isoformat()))
+        if context is not None: self.ledger.post(context, int(sale['club_id']), 'EXPENSE', 'MEDIA', -amount, 'product_refund', str(sale_id), 'Estorno de produto licenciado')
         return {'sale_id': int(sale_id), 'refund': amount, 'persisted': True}
 
     def stock_alerts(self, club_id):

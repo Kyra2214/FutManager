@@ -79,6 +79,12 @@ CREATE TABLE IF NOT EXISTS match_stats(
     home_substitutions INTEGER NOT NULL DEFAULT 0,
     away_substitutions INTEGER NOT NULL DEFAULT 0
 );
+CREATE TABLE IF NOT EXISTS match_advanced_stats(match_id INTEGER PRIMARY KEY,home_duels INTEGER NOT NULL DEFAULT 0,away_duels INTEGER NOT NULL DEFAULT 0,home_set_pieces INTEGER NOT NULL DEFAULT 0,away_set_pieces INTEGER NOT NULL DEFAULT 0,home_corners INTEGER NOT NULL DEFAULT 0,away_corners INTEGER NOT NULL DEFAULT 0,home_tactical_fouls INTEGER NOT NULL DEFAULT 0,away_tactical_fouls INTEGER NOT NULL DEFAULT 0,home_conditional_subs INTEGER NOT NULL DEFAULT 0,away_conditional_subs INTEGER NOT NULL DEFAULT 0,interval_plan TEXT NOT NULL DEFAULT '{}');
+CREATE TABLE IF NOT EXISTS match_conditions(match_id INTEGER PRIMARY KEY,crowd_effect INTEGER NOT NULL DEFAULT 0,weather_effect INTEGER NOT NULL DEFAULT 0,referee_profile TEXT NOT NULL DEFAULT 'STANDARD',var_enabled INTEGER NOT NULL DEFAULT 0,updated_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS disciplinary_accumulation(player_id INTEGER PRIMARY KEY,yellow_cards INTEGER NOT NULL DEFAULT 0,red_cards INTEGER NOT NULL DEFAULT 0,suspension_matches INTEGER NOT NULL DEFAULT 0);
+CREATE TABLE IF NOT EXISTS match_event_reviews(review_id INTEGER PRIMARY KEY AUTOINCREMENT,match_id INTEGER NOT NULL,event_id INTEGER NOT NULL,action TEXT NOT NULL,reason TEXT NOT NULL,created_at TEXT NOT NULL,UNIQUE(match_id,event_id));
+CREATE TABLE IF NOT EXISTS post_match_reports(report_id INTEGER PRIMARY KEY AUTOINCREMENT,match_id INTEGER NOT NULL UNIQUE,recovery_days INTEGER NOT NULL,staff_notes TEXT NOT NULL,created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS match_reprocess_audit(request_id INTEGER PRIMARY KEY AUTOINCREMENT,match_id INTEGER NOT NULL,reason TEXT NOT NULL,seed INTEGER,created_at TEXT NOT NULL,UNIQUE(match_id,reason));
 CREATE TABLE IF NOT EXISTS team_competition_stats(
     competition_id INTEGER NOT NULL,
     club_id INTEGER NOT NULL,
@@ -143,6 +149,13 @@ class CompetitionService:
             'away_morale': 'INTEGER NOT NULL DEFAULT 0',
             'home_tactic': 'INTEGER NOT NULL DEFAULT 0',
             'away_tactic': 'INTEGER NOT NULL DEFAULT 0',
+            'referee_id': 'INTEGER',
+            'venue_id': 'INTEGER',
+            'venue_type': "TEXT NOT NULL DEFAULT 'HOME'",
+            'weather': "TEXT NOT NULL DEFAULT 'UNKNOWN'",
+            'security_level': "TEXT NOT NULL DEFAULT 'STANDARD'",
+            'cancel_reason': 'TEXT',
+            'closed_at': 'TEXT',
         }
         for name, definition in definitions.items():
             if name not in existing:
@@ -202,6 +215,33 @@ class CompetitionService:
     def _bounded(value: int, low: int = -20, high: int = 20) -> int:
         return max(low, min(high, int(value)))
 
+    def configure_fixture(self, match_id: int, referee_id: int, venue_type: str = 'HOME', venue_id: int | None = None, weather: str = 'UNKNOWN', security_level: str = 'STANDARD') -> dict:
+        match = self._require_match(match_id)
+        if venue_type not in {'HOME', 'NEUTRAL'}: raise ValueError('VENUE_TYPE_INVALID')
+        if security_level not in {'LOW', 'STANDARD', 'HIGH'}: raise ValueError('SECURITY_LEVEL_INVALID')
+        with self.connection:
+            self.connection.execute('UPDATE matches SET referee_id=?,venue_id=?,venue_type=?,weather=?,security_level=? WHERE match_id=?', (int(referee_id), venue_id, venue_type, str(weather).strip() or 'UNKNOWN', security_level, int(match_id)))
+        return dict(self.connection.execute('SELECT * FROM matches WHERE match_id=?', (int(match_id),)).fetchone())
+
+    def preview_fixture(self, match_id: int) -> dict:
+        match = self._require_match(match_id)
+        return {'match_id': int(match_id), 'home_club_id': int(match['home_club_id']), 'away_club_id': int(match['away_club_id']), 'match_date': match['match_date'], 'referee_id': match['referee_id'], 'venue_type': match['venue_type'], 'weather': match['weather'], 'security_level': match['security_level'], 'persisted': False, 'operationally_ready': bool(match['referee_id'] and match['venue_id'] or match['venue_type'] == 'NEUTRAL')}
+
+    def cancel_fixture(self, match_id: int, reason: str) -> dict:
+        match = self._require_match(match_id)
+        if not str(reason).strip(): raise ValueError('CANCEL_REASON_REQUIRED')
+        with self.connection:
+            self.connection.execute("UPDATE matches SET status='CANCELLED',cancel_reason=? WHERE match_id=?", (str(reason).strip(), int(match_id)))
+        return dict(self.connection.execute('SELECT * FROM matches WHERE match_id=?', (int(match_id),)).fetchone())
+
+    def close_fixture(self, match_id: int) -> dict:
+        match = self.connection.execute('SELECT * FROM matches WHERE match_id=?', (int(match_id),)).fetchone()
+        if match is None: raise KeyError(f'MATCH_NOT_FOUND:{match_id}')
+        if match['status'] != 'PLAYED': raise ValueError('FIXTURE_NOT_PLAYED')
+        with self.connection:
+            self.connection.execute('UPDATE matches SET closed_at=? WHERE match_id=?', (date.today().isoformat(), int(match_id)))
+        return dict(self.connection.execute('SELECT * FROM matches WHERE match_id=?', (int(match_id),)).fetchone())
+
     def generate_result(
         self,
         match_id: int,
@@ -214,6 +254,7 @@ class CompetitionService:
         away_morale: int = 0,
         home_tactic: int = 0,
         away_tactic: int = 0,
+        persist: bool = True,
     ) -> MatchResult:
         match = self._require_match(match_id)
         chosen_seed = seed if seed is not None else match['seed']
@@ -234,7 +275,8 @@ class CompetitionService:
         possession_away = 100 - possession_home
         xg_home = round(min(8.0, home_shots * 0.09 + home_goals * 0.18), 2)
         xg_away = round(min(8.0, away_shots * 0.09 + away_goals * 0.18), 2)
-        self.connection.execute('''UPDATE matches SET seed=?,home_form=?,away_form=?,home_morale=?,away_morale=?,home_tactic=?,away_tactic=? WHERE match_id=?''', (chosen_seed, home_form, away_form, home_morale, away_morale, home_tactic, away_tactic, match_id))
+        if persist:
+            self.connection.execute('''UPDATE matches SET seed=?,home_form=?,away_form=?,home_morale=?,away_morale=?,home_tactic=?,away_tactic=? WHERE match_id=?''', (chosen_seed, home_form, away_form, home_morale, away_morale, home_tactic, away_tactic, match_id))
         return MatchResult(match_id, home_goals, away_goals, chosen_seed, home_shots, away_shots, possession_home, possession_away, xg_home, xg_away)
 
     def apply_result(self, result: MatchResult, home_lineup_id: int | None = None, away_lineup_id: int | None = None, managed_transaction: bool = True, max_events: int = MAX_MATCH_EVENTS) -> MatchResult:
@@ -253,6 +295,7 @@ class CompetitionService:
                 self._record_lineup_player_stats(result.match_id, home_lineup_id, result.home_goals)
                 self._record_lineup_player_stats(result.match_id, away_lineup_id, result.away_goals)
                 self._stats(match['competition_id'], match['home_club_id'], match['away_club_id'], result.home_goals, result.away_goals)
+                self.persist_advanced_stats(result.match_id, result.seed)
         except Exception:
             if managed_transaction:
                 self.connection.rollback()
@@ -279,6 +322,92 @@ class CompetitionService:
             raise ValueError('ALREADY_PLAYED')
         with self.transaction(managed_transaction):
             self.connection.execute('UPDATE matches SET match_date=?,status=? WHERE match_id=?', (new_match_date, 'SCHEDULED', match_id))
+
+    def record_event(self, match_id: int, event_type: str, minute: int, player_id: int | None = None, payload: dict | None = None) -> dict:
+        match = self._require_match(match_id)
+        if not str(event_type).strip() or not 0 <= int(minute) <= 130: raise ValueError('MATCH_EVENT_INVALID')
+        previous = self.connection.execute('SELECT minute,event_id FROM match_events WHERE match_id=? ORDER BY event_id DESC LIMIT 1', (int(match_id),)).fetchone()
+        if previous is not None and int(minute) < int(previous['minute'] or 0): raise ValueError('MATCH_EVENT_OUT_OF_ORDER')
+        cur = self.connection.execute('INSERT INTO match_events(match_id,event_type,minute,player_id,payload) VALUES(?,?,?,?,?)', (int(match_id), str(event_type).strip(), int(minute), player_id, json.dumps(payload or {}, sort_keys=True, separators=(',', ':'))))
+        self.connection.commit()
+        return dict(self.connection.execute('SELECT * FROM match_events WHERE event_id=?', (cur.lastrowid,)).fetchone())
+
+    def match_events(self, match_id: int) -> list[dict]:
+        rows = self.connection.execute('SELECT * FROM match_events WHERE match_id=? ORDER BY minute,event_id', (int(match_id),)).fetchall()
+        return [dict(row) for row in rows]
+
+    def persist_advanced_stats(self, match_id: int, seed: int | None = None) -> dict:
+        match=self.connection.execute('SELECT * FROM matches WHERE match_id=?',(int(match_id),)).fetchone()
+        if not match: raise KeyError(f'MATCH_NOT_FOUND:{match_id}')
+        rng=random.Random(seed if seed is not None else match['seed'] or match_id)
+        values={'home_duels':rng.randint(25,70),'away_duels':rng.randint(25,70),'home_set_pieces':rng.randint(1,12),'away_set_pieces':rng.randint(1,12),'home_corners':rng.randint(0,12),'away_corners':rng.randint(0,12),'home_tactical_fouls':rng.randint(0,10),'away_tactical_fouls':rng.randint(0,10),'home_conditional_subs':rng.randint(0,5),'away_conditional_subs':rng.randint(0,5),'interval_plan':json.dumps({'home':'PRESS_AFTER_LOSS','away':'LOW_BLOCK'},sort_keys=True)}
+        with self.connection: self.connection.execute('INSERT OR REPLACE INTO match_advanced_stats(match_id,home_duels,away_duels,home_set_pieces,away_set_pieces,home_corners,away_corners,home_tactical_fouls,away_tactical_fouls,home_conditional_subs,away_conditional_subs,interval_plan) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',(match_id,*values.values()))
+        return {'match_id':int(match_id),**values,'persisted':True}
+
+    def advanced_preview(self, match_id: int, seed: int | None = None) -> dict:
+        row=self.connection.execute('SELECT * FROM match_advanced_stats WHERE match_id=?',(int(match_id),)).fetchone()
+        if row: return {**dict(row),'persisted':False}
+        rng=random.Random(seed if seed is not None else match_id)
+        return {'match_id':int(match_id),'home_duels':rng.randint(25,70),'away_duels':rng.randint(25,70),'home_set_pieces':rng.randint(1,12),'away_set_pieces':rng.randint(1,12),'persisted':False}
+
+    def preview_result(self, match_id: int, home_strength: int = 70, away_strength: int = 65, seed: int | None = None) -> dict:
+        match = self._require_match(match_id)
+        result = self.generate_result(match_id, home_strength, away_strength, seed, persist=False)
+        self.connection.rollback()
+        return {'match_id': int(match['match_id']), 'home_goals': result.home_goals, 'away_goals': result.away_goals, 'seed': result.seed, 'persisted': False}
+
+    def configure_match_conditions(self, match_id: int, crowd_effect: int = 0, weather_effect: int = 0, referee_profile: str = 'STANDARD', var_enabled: bool = False) -> dict:
+        if not -20 <= int(crowd_effect) <= 20 or not -20 <= int(weather_effect) <= 20: raise ValueError('MATCH_CONDITION_INVALID')
+        with self.connection: self.connection.execute('INSERT OR REPLACE INTO match_conditions(match_id,crowd_effect,weather_effect,referee_profile,var_enabled,updated_at) VALUES(?,?,?,?,?,?)',(match_id,crowd_effect,weather_effect,referee_profile,int(var_enabled),date.today().isoformat()))
+        return dict(self.connection.execute('SELECT * FROM match_conditions WHERE match_id=?',(match_id,)).fetchone())
+
+    def register_discipline(self, player_id: int, yellow: int = 0, red: int = 0) -> dict:
+        if int(yellow)<0 or int(red)<0: raise ValueError('DISCIPLINE_INVALID')
+        with self.connection: self.connection.execute('INSERT INTO disciplinary_accumulation(player_id,yellow_cards,red_cards,suspension_matches) VALUES(?,?,?,?) ON CONFLICT(player_id) DO UPDATE SET yellow_cards=yellow_cards+excluded.yellow_cards,red_cards=red_cards+excluded.red_cards,suspension_matches=suspension_matches+CASE WHEN excluded.red_cards>0 THEN 1 ELSE 0 END',(player_id,yellow,red,1 if int(red)>0 else 0))
+        return dict(self.connection.execute('SELECT * FROM disciplinary_accumulation WHERE player_id=?',(player_id,)).fetchone())
+
+    def review_event(self, match_id: int, event_id: int, action: str, reason: str) -> dict:
+        if action not in ('ANNUL','CONFIRM') or not str(reason).strip(): raise ValueError('EVENT_REVIEW_INVALID')
+        with self.connection: self.connection.execute('INSERT OR IGNORE INTO match_event_reviews(match_id,event_id,action,reason,created_at) VALUES(?,?,?,?,?)',(match_id,event_id,action,reason,date.today().isoformat()))
+        row=self.connection.execute('SELECT * FROM match_event_reviews WHERE match_id=? AND event_id=?',(match_id,event_id)).fetchone(); return dict(row)
+
+    def fatigue_by_minute(self, match_id: int, minute: int) -> dict:
+        if int(minute)<0 or int(minute)>130: raise ValueError('MINUTE_INVALID')
+        return {'match_id':int(match_id),'minute':int(minute),'home_fatigue':min(100,int(minute*.55)),'away_fatigue':min(100,int(minute*.6)),'persisted':False}
+
+    def post_match_report(self, match_id: int, recovery_days: int = 2, staff_notes: str = '') -> dict:
+        match=self.connection.execute("SELECT status FROM matches WHERE match_id=?",(match_id,)).fetchone()
+        if not match or match['status']!='PLAYED': raise ValueError('RESULT_NOT_OFFICIAL')
+        if int(recovery_days)<0: raise ValueError('RECOVERY_DAYS_INVALID')
+        with self.connection: self.connection.execute('INSERT OR REPLACE INTO post_match_reports(match_id,recovery_days,staff_notes,created_at) VALUES(?,?,?,?)',(match_id,recovery_days,staff_notes,date.today().isoformat()))
+        return dict(self.connection.execute('SELECT * FROM post_match_reports WHERE match_id=?',(match_id,)).fetchone())
+
+    def result_audit(self, match_id: int) -> dict:
+        match=self.connection.execute('SELECT match_id,status,home_goals,away_goals,seed FROM matches WHERE match_id=?',(match_id,)).fetchone()
+        if not match: raise KeyError(match_id)
+        stats=self.connection.execute('SELECT * FROM match_stats WHERE match_id=?',(match_id,)).fetchone()
+        advanced=self.connection.execute('SELECT * FROM match_advanced_stats WHERE match_id=?',(match_id,)).fetchone()
+        individual=self.connection.execute('SELECT * FROM player_match_stats WHERE match_id=? ORDER BY player_id',(match_id,)).fetchall()
+        return {'match':dict(match),'stats':dict(stats) if stats else None,'advanced':dict(advanced) if advanced else None,'individual':[dict(row) for row in individual],'persisted':True}
+
+    def official_summary(self, match_id: int) -> dict:
+        match = self.connection.execute('SELECT * FROM matches WHERE match_id=?', (int(match_id),)).fetchone()
+        if match is None: raise KeyError(f'MATCH_NOT_FOUND:{match_id}')
+        if match['status'] != 'PLAYED': raise ValueError('RESULT_NOT_OFFICIAL')
+        stats = self.connection.execute('SELECT * FROM match_stats WHERE match_id=?', (int(match_id),)).fetchone()
+        return {'match': dict(match), 'stats': dict(stats) if stats else None, 'events': self.match_events(match_id), 'official': True}
+
+    def reprocess_result(self, match_id: int, reason: str, seed: int | None = None) -> dict:
+        match = self.connection.execute('SELECT * FROM matches WHERE match_id=?', (int(match_id),)).fetchone()
+        if match is None: raise KeyError(f'MATCH_NOT_FOUND:{match_id}')
+        if match['status'] != 'PLAYED': raise ValueError('RESULT_NOT_OFFICIAL')
+        if not str(reason).strip(): raise ValueError('REPROCESS_REASON_REQUIRED')
+        result = MatchResult(int(match_id), int(match['home_goals'] or 0), int(match['away_goals'] or 0), seed if seed is not None else match['seed'])
+        with self.connection:
+            cur=self.connection.execute('INSERT OR IGNORE INTO match_reprocess_audit(match_id,reason,seed,created_at) VALUES(?,?,?,?)',(int(match_id),str(reason).strip(),result.seed,date.today().isoformat()))
+            if cur.rowcount:
+                self.connection.execute('INSERT INTO match_events(match_id,event_type,minute,player_id,payload) VALUES(?,?,?,?,?)', (int(match_id), 'REPROCESS_AUDIT', 0, None, json.dumps({'reason': str(reason).strip(), 'seed': result.seed}, sort_keys=True)))
+        return {'match_id': int(match_id), 'status': 'REPROCESS_REQUESTED' if cur.rowcount else 'ALREADY_REQUESTED', 'reason': str(reason).strip(), 'result': result}
 
     def score_distribution(self, season_id: int) -> list[dict[str, int]]:
         rows = self.connection.execute('''SELECT home_goals,away_goals,COUNT(*) AS matches FROM matches WHERE season_id=? AND status='PLAYED' GROUP BY home_goals,away_goals ORDER BY home_goals,away_goals''', (season_id,)).fetchall()

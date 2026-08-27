@@ -1,0 +1,13 @@
+from pathlib import Path
+p=Path('/home/ubuntu/brasfoot_engine/scripts/career_gateway.py')
+s=p.read_text()
+needle='from engine.core.p1_commission_contract import audit_p1_commissions, protect_p1_commission_mutation, read_p1_commissions, read_p1_commission_state, persist_p1_commission, validate_p1_commission\n'
+s=s.replace(needle, needle+'from engine.core.p1_holiday_contract import audit_p1_holidays, protect_p1_holiday_mutation, read_p1_holidays, read_p1_holiday_state, persist_p1_holiday, validate_p1_holiday\n',1)
+needle='def p1_commission_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n'
+fn="""def p1_holiday_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n    if action == 'p1_holiday_contracts': return {'items': read_p1_holidays(connection), 'read_only': True}\n    if action == 'p1_holiday_state': return {'items': read_p1_holiday_state(connection, payload.get('holiday_key')), 'read_only': True}\n    if action == 'p1_holiday_validate': return validate_p1_holiday(connection, int(payload.get('item_id')))\n    if action == 'p1_holiday_persist': return persist_p1_holiday(connection, str(payload.get('holiday_key', '')), int(payload.get('holiday_id', 0)), str(payload.get('holiday_name', '')), dict(payload.get('holiday_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))\n    if action == 'p1_holiday_protect': return protect_p1_holiday_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))\n    if action == 'p1_holiday_audit': return audit_p1_holidays(connection)\n    raise ValueError('P1_HOLIDAY_ACTION_INVALID')\n\n"""
+s=s.replace(needle,fn+needle,1)
+marker='        if action in {"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit"}:\n            return {"ok": True, **p1_commission_market(service.connection, action, payload)}\n'
+s=s.replace(marker,marker+'        if action in {"p1_holiday_contracts", "p1_holiday_state", "p1_holiday_validate", "p1_holiday_persist", "p1_holiday_protect", "p1_holiday_audit"}:\n            return {"ok": True, **p1_holiday_market(service.connection, action, payload)}\n',1)
+choices='"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit", '
+s=s.replace(choices,choices+'"p1_holiday_contracts", "p1_holiday_state", "p1_holiday_validate", "p1_holiday_persist", "p1_holiday_protect", "p1_holiday_audit", ',1)
+p.write_text(s)

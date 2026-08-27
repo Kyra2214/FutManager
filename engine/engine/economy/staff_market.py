@@ -65,6 +65,13 @@ CREATE TABLE IF NOT EXISTS staff_contracts(
 CREATE TABLE IF NOT EXISTS training_history(
   history_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,event_type TEXT NOT NULL,event_date TEXT NOT NULL,payload TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS department_constructions(
+  construction_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,department TEXT NOT NULL,target_level INTEGER NOT NULL,
+  cost INTEGER NOT NULL,capacity INTEGER NOT NULL,maintenance INTEGER NOT NULL,efficiency REAL NOT NULL,
+  started_at TEXT NOT NULL,completion_at TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'IN_PROGRESS',completed_at TEXT,
+  UNIQUE(club_id,department,status)
+);
+CREATE INDEX IF NOT EXISTS idx_department_constructions_due ON department_constructions(status,completion_at,club_id);
 CREATE TABLE IF NOT EXISTS staff_market_catalog(
   catalog_key TEXT PRIMARY KEY,staff_id INTEGER NOT NULL UNIQUE,generation_version TEXT NOT NULL,created_at TEXT NOT NULL
 );
@@ -76,6 +83,23 @@ CREATE TABLE IF NOT EXISTS club_player_payrolls(
   club_id INTEGER NOT NULL,player_id INTEGER NOT NULL,formula_version TEXT NOT NULL,
   player_strength INTEGER NOT NULL,weekly_salary INTEGER NOT NULL,updated_at TEXT NOT NULL,
   PRIMARY KEY(club_id,player_id)
+);
+CREATE TABLE IF NOT EXISTS staff_role_history(
+  role_history_id INTEGER PRIMARY KEY AUTOINCREMENT,staff_id INTEGER NOT NULL,club_id INTEGER,previous_role TEXT,new_role TEXT NOT NULL,changed_at TEXT NOT NULL,reference TEXT UNIQUE
+);
+CREATE TABLE IF NOT EXISTS staff_evaluations(
+  evaluation_id INTEGER PRIMARY KEY AUTOINCREMENT,staff_id INTEGER NOT NULL,club_id INTEGER NOT NULL,score REAL NOT NULL CHECK(score>=0 AND score<=100),notes TEXT NOT NULL,created_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS staff_absences(
+  absence_id INTEGER PRIMARY KEY AUTOINCREMENT,staff_id INTEGER NOT NULL,club_id INTEGER NOT NULL,start_date TEXT NOT NULL,end_date TEXT NOT NULL,reason TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'SCHEDULED',UNIQUE(staff_id,start_date,end_date)
+);
+CREATE TABLE IF NOT EXISTS staff_replacements(
+  replacement_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,outgoing_staff_id INTEGER NOT NULL,incoming_staff_id INTEGER NOT NULL,start_date TEXT NOT NULL,end_date TEXT,reference TEXT UNIQUE
+);
+CREATE TABLE IF NOT EXISTS staff_performance_bonuses(bonus_id INTEGER PRIMARY KEY AUTOINCREMENT,staff_id INTEGER NOT NULL,club_id INTEGER NOT NULL,bonus_type TEXT NOT NULL,amount INTEGER NOT NULL,threshold INTEGER NOT NULL DEFAULT 0,progress INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'ACTIVE',UNIQUE(staff_id,club_id,bonus_type));
+CREATE TABLE IF NOT EXISTS staff_organization_roles(staff_id INTEGER PRIMARY KEY,club_id INTEGER NOT NULL,department TEXT NOT NULL,rank INTEGER NOT NULL DEFAULT 1,leadership INTEGER NOT NULL DEFAULT 0,updated_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS staff_hire_proposals(
+  proposal_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,staff_id INTEGER NOT NULL,weekly_salary INTEGER NOT NULL,termination_fee INTEGER NOT NULL,created_at TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',reference TEXT UNIQUE
 );
 """
 
@@ -105,6 +129,27 @@ class StaffMarketService:
         self._country_factor_cache: dict[int, float] = {}
         self._global_player_average: float | None = None
         self.connection.commit()
+
+    def staff_vacancies(self, club_id: int, required_roles: list[str] | None = None) -> list[str]:
+        roles=set(required_roles or ROLE_MULTIPLIER.keys())
+        active={row['role'] for row in self.connection.execute("SELECT role FROM staff_members WHERE club_id=? AND status='ativo'",(club_id,)).fetchall()}
+        return sorted(roles-active)
+
+    def set_organization_role(self, staff_id: int, club_id: int, department: str, rank: int = 1, leadership: bool = False) -> dict:
+        if int(rank)<1 or not str(department).strip(): raise ValueError('ORG_ROLE_INVALID')
+        with self.connection: self.connection.execute('INSERT OR REPLACE INTO staff_organization_roles(staff_id,club_id,department,rank,leadership,updated_at) VALUES(?,?,?,?,?,?)',(staff_id,club_id,department,rank,int(leadership),self.clock.current()['current_date']))
+        return dict(self.connection.execute('SELECT * FROM staff_organization_roles WHERE staff_id=?',(staff_id,)).fetchone())
+
+    def organization(self, club_id: int) -> list[dict]:
+        return [dict(row) for row in self.connection.execute('SELECT o.*,s.name,s.role,s.level FROM staff_organization_roles o JOIN staff_members s ON s.staff_id=o.staff_id WHERE o.club_id=? ORDER BY o.rank DESC,o.staff_id',(club_id,)).fetchall()]
+
+    def add_performance_bonus(self, staff_id: int, club_id: int, bonus_type: str, amount: int, threshold: int = 0) -> dict:
+        if int(amount)<0 or int(threshold)<0 or not str(bonus_type).strip(): raise ValueError('STAFF_BONUS_INVALID')
+        with self.connection: self.connection.execute('INSERT OR REPLACE INTO staff_performance_bonuses(staff_id,club_id,bonus_type,amount,threshold) VALUES(?,?,?,?,?)',(staff_id,club_id,bonus_type,amount,threshold))
+        return dict(self.connection.execute('SELECT * FROM staff_performance_bonuses WHERE staff_id=? AND club_id=? AND bonus_type=?',(staff_id,club_id,bonus_type)).fetchone())
+
+    def contract_audit(self, club_id: int) -> dict:
+        return {'club_id':int(club_id),'contracts':[dict(row) for row in self.connection.execute('SELECT * FROM staff_contracts WHERE club_id=? ORDER BY contract_id',(club_id,)).fetchall()],'proposals':[dict(row) for row in self.connection.execute('SELECT * FROM staff_hire_proposals WHERE club_id=? ORDER BY proposal_id',(club_id,)).fetchall()],'organization':self.organization(club_id),'vacancies':self.staff_vacancies(club_id),'persisted':True}
 
     def close(self):
         self.connection.close()
@@ -433,6 +478,66 @@ class StaffMarketService:
             catalog.append(item)
         return sorted(catalog, key=lambda item: (-item["cost_benefit"], -item["level"], -item["reputation"], item["name"]))
 
+    def staff_affinity(self, staff_id: int) -> dict[str, float]:
+        row = self.connection.execute("SELECT role,level,reputation,potential FROM staff_members WHERE staff_id=?", (staff_id,)).fetchone()
+        if row is None:
+            raise DomainError(DomainErrorCode.STAFF_NOT_FOUND)
+        weights = {"base": 0.0, "medicina": 0.0, "preparacao_fisica": 0.0, "analise": 0.0}
+        mapping = {"medico": "medicina", "preparador_fisico": "preparacao_fisica", "scout": "analise", "treinador": "base", "auxiliar": "analise"}
+        department = mapping.get(str(row["role"]))
+        if department:
+            weights[department] = round(min(1.0, (int(row["level"]) * 0.06 + int(row["reputation"]) * 0.004 + int(row["potential"]) * 0.002)), 4)
+        return weights
+
+    def preview_staff_hire(self, club_id: int, staff_id: int, reference: str) -> dict:
+        self.seed_catalog()
+        staff = self.connection.execute("SELECT * FROM staff_members WHERE staff_id=?", (staff_id,)).fetchone()
+        if staff is None: raise DomainError(DomainErrorCode.STAFF_NOT_FOUND)
+        if staff["status"] != "disponivel" or staff["club_id"] is not None: raise ValueError("STAFF_UNAVAILABLE")
+        salary = self.weekly_staff_salary(club_id, staff_id)
+        fee = salary * 4
+        self.connection.execute("INSERT OR IGNORE INTO staff_hire_proposals(club_id,staff_id,weekly_salary,termination_fee,created_at,reference) VALUES(?,?,?,?,?,?)", (club_id, staff_id, salary, fee, self.clock.current()["current_date"], reference))
+        self.connection.commit()
+        return {"club_id": club_id, "staff_id": staff_id, "name": staff["name"], "role": staff["role"], "weekly_salary": salary, "termination_fee": fee, "affinity": self.staff_affinity(staff_id), "persisted": True, "status": "PENDING", "reference": reference}
+
+    def approve_staff_hire(self, club_id: int, proposal_id: int, approved: bool) -> dict:
+        proposal = self.connection.execute("SELECT * FROM staff_hire_proposals WHERE proposal_id=? AND club_id=?", (proposal_id, club_id)).fetchone()
+        if proposal is None: raise ValueError("STAFF_PROPOSAL_NOT_FOUND")
+        if proposal["status"] != "PENDING": return dict(proposal)
+        with self.connection:
+            status = "APPROVED" if approved else "REJECTED"
+            self.connection.execute("UPDATE staff_hire_proposals SET status=? WHERE proposal_id=?", (status, proposal_id))
+        if approved:
+            result = self.hire_staff(club_id, int(proposal["staff_id"]))
+            result["proposal_id"] = proposal_id
+            return result
+        return {"proposal_id": proposal_id, "status": status}
+
+    def change_staff_role(self, club_id: int, staff_id: int, new_role: str, reference: str) -> dict:
+        if new_role not in ROLE_MULTIPLIER: raise ValueError("STAFF_ROLE_INVALID")
+        row = self.connection.execute("SELECT role FROM staff_members WHERE staff_id=? AND club_id=?", (staff_id, club_id)).fetchone()
+        if row is None: raise ValueError("STAFF_NOT_ACTIVE")
+        with self.connection:
+            self.connection.execute("UPDATE staff_members SET role=? WHERE staff_id=?", (new_role, staff_id))
+            self.connection.execute("INSERT OR IGNORE INTO staff_role_history(staff_id,club_id,previous_role,new_role,changed_at,reference) VALUES(?,?,?,?,?,?)", (staff_id, club_id, row["role"], new_role, self.clock.current()["current_date"], reference))
+        return {"staff_id": staff_id, "previous_role": row["role"], "new_role": new_role, "reference": reference}
+
+    def evaluate_staff(self, club_id: int, staff_id: int, score: float, notes: str) -> dict:
+        if not 0 <= float(score) <= 100: raise ValueError("STAFF_EVALUATION_INVALID")
+        if not self.connection.execute("SELECT 1 FROM staff_members WHERE staff_id=? AND club_id=?", (staff_id, club_id)).fetchone(): raise ValueError("STAFF_NOT_ACTIVE")
+        cur = self.connection.execute("INSERT INTO staff_evaluations(staff_id,club_id,score,notes,created_at) VALUES(?,?,?,?,?)", (staff_id, club_id, float(score), notes, self.clock.current()["current_date"]))
+        self.connection.commit()
+        return {"evaluation_id": int(cur.lastrowid), "staff_id": staff_id, "score": float(score), "notes": notes}
+
+    def schedule_staff_absence(self, club_id: int, staff_id: int, start_date: str, end_date: str, reason: str) -> dict:
+        if not self.connection.execute("SELECT 1 FROM staff_members WHERE staff_id=? AND club_id=?", (staff_id, club_id)).fetchone(): raise ValueError("STAFF_NOT_ACTIVE")
+        self.connection.execute("INSERT INTO staff_absences(staff_id,club_id,start_date,end_date,reason) VALUES(?,?,?,?,?)", (staff_id, club_id, start_date, end_date, reason)); self.connection.commit()
+        return {"staff_id": staff_id, "club_id": club_id, "start_date": start_date, "end_date": end_date, "reason": reason, "status": "SCHEDULED"}
+
+    def list_staff_history(self, club_id: int, staff_id: int) -> list[dict]:
+        rows = self.connection.execute("SELECT * FROM staff_history WHERE staff_id=? ORDER BY event_date,history_id", (staff_id,)).fetchall()
+        return [dict(row) for row in rows if "club_id" not in row.keys() or row["club_id"] is None or int(row["club_id"]) == club_id]
+
     def hire_staff(self, club_id: int, staff_id: int) -> dict:
         self.seed_catalog()
         profile = self.ensure_club_economy(club_id)
@@ -506,21 +611,36 @@ class StaffMarketService:
 
     def upgrade_department(self, club_id: int, department: str) -> dict:
         offer = self.department_offer(club_id, department)
+        pending = self.connection.execute("SELECT construction_id, completion_at FROM department_constructions WHERE club_id=? AND department=? AND status='IN_PROGRESS'", (club_id, department)).fetchone()
+        if pending:
+            raise DomainError('DEPARTMENT_CONSTRUCTION_IN_PROGRESS', pending['completion_at'])
         state = self.connection.execute("SELECT cash FROM club_economic_state WHERE club_id=?", (club_id,)).fetchone()
         if state is None or int(state["cash"]) < offer["cost"]:
             raise DomainError(DomainErrorCode.INSUFFICIENT_CASH)
         context = self._context("department", f"{club_id}:{department}:{offer['target_level']}")
+        duration_weeks = 1 + (int(offer['target_level']) // 3)
+        completion_at = (context.current_date + timedelta(weeks=duration_weeks)).isoformat()
         with self.connection:
             self.connection.execute("UPDATE club_economic_state SET cash=cash-?,expense_accumulated=expense_accumulated+?,updated_at=? WHERE club_id=?", (offer["cost"], offer["cost"], context.current_date.isoformat(), club_id))
             self.connection.execute(
-                """INSERT INTO club_departments(club_id,department,level,cost,capacity,maintenance,efficiency) VALUES(?,?,?,?,?,?,?)
-                ON CONFLICT(club_id,department) DO UPDATE SET level=excluded.level,cost=excluded.cost,capacity=excluded.capacity,maintenance=excluded.maintenance,efficiency=excluded.efficiency""",
-                (club_id, department, offer["target_level"], offer["cost"], offer["capacity"], offer["maintenance"], offer["target_level"] / 10),
+                "INSERT INTO department_constructions(club_id,department,target_level,cost,capacity,maintenance,efficiency,started_at,completion_at,status) VALUES(?,?,?,?,?,?,?,?,?,'IN_PROGRESS')",
+                (club_id, department, offer["target_level"], offer["cost"], offer["capacity"], offer["maintenance"], offer["target_level"] / 10, context.current_date.isoformat(), completion_at),
             )
             self.ledger.post(context, club_id, "EXPENSE", "DEPARTMENT", -offer["cost"], "department", f"{department}:{offer['target_level']}", f"{offer['label']} nível {offer['target_level']}")
-            self.connection.execute("INSERT INTO training_history(club_id,event_type,event_date,payload) VALUES(?,?,?,?)", (club_id, "DEPARTMENT_UPGRADED", context.current_date.isoformat(), f'{{"department":"{department}","level":{offer["target_level"]},"cost":{offer["cost"]}}}'))
+            self.connection.execute("INSERT INTO training_history(club_id,event_type,event_date,payload) VALUES(?,?,?,?)", (club_id, "DEPARTMENT_CONSTRUCTION_STARTED", context.current_date.isoformat(), f'{{"department":"{department}","level":{offer["target_level"]},"cost":{offer["cost"]},"completion_at":"{completion_at}"}}'))
         self._refresh_profile(club_id)
-        return offer
+        return {**offer, "status": "IN_PROGRESS", "started_at": context.current_date.isoformat(), "completion_at": completion_at, "duration_weeks": duration_weeks}
+
+    def complete_department_constructions(self, current_date: date, managed_transaction: bool = True) -> dict:
+        due = self.connection.execute("SELECT * FROM department_constructions WHERE status='IN_PROGRESS' AND completion_at<=? ORDER BY completion_at,construction_id", (current_date.isoformat(),)).fetchall()
+        completed = []
+        with (self.connection if managed_transaction else nullcontext()):
+            for construction in due:
+                self.connection.execute("INSERT INTO club_departments(club_id,department,level,cost,capacity,maintenance,efficiency) VALUES(?,?,?,?,?,?,?) ON CONFLICT(club_id,department) DO UPDATE SET level=excluded.level,cost=excluded.cost,capacity=excluded.capacity,maintenance=excluded.maintenance,efficiency=excluded.efficiency", (construction['club_id'], construction['department'], construction['target_level'], construction['cost'], construction['capacity'], construction['maintenance'], construction['efficiency']))
+                self.connection.execute("UPDATE department_constructions SET status='COMPLETED',completed_at=? WHERE construction_id=?", (current_date.isoformat(), construction['construction_id']))
+                self.connection.execute("INSERT INTO training_history(club_id,event_type,event_date,payload) VALUES(?,?,?,?)", (construction['club_id'], 'DEPARTMENT_CONSTRUCTION_COMPLETED', current_date.isoformat(), f'{{"department":"{construction["department"]}","level":{construction["target_level"]}}}'))
+                completed.append(dict(construction))
+        return {"completed": len(completed), "items": completed}
 
     def process_weekly_costs(self, club_id: int, managed_transaction: bool = True) -> dict:
         profile = self._refresh_profile(club_id, managed_transaction=managed_transaction)

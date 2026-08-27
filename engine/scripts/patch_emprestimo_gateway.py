@@ -1,0 +1,13 @@
+from pathlib import Path
+p=Path('/home/ubuntu/brasfoot_engine/scripts/career_gateway.py')
+s=p.read_text()
+needle='from engine.core.p1_commission_contract import audit_p1_commissions, protect_p1_commission_mutation, read_p1_commissions, read_p1_commission_state, persist_p1_commission, validate_p1_commission\n'
+s=s.replace(needle, needle+'from engine.core.p1_emprestimo_contract import audit_p1_emprestimos, protect_p1_emprestimo_mutation, read_p1_emprestimos, read_p1_emprestimo_state, persist_p1_emprestimo, validate_p1_emprestimo\n',1)
+needle='def p1_commission_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n'
+fn="""def p1_emprestimo_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n    if action == 'p1_emprestimo_contracts': return {'items': read_p1_emprestimos(connection), 'read_only': True}\n    if action == 'p1_emprestimo_state': return {'items': read_p1_emprestimo_state(connection, payload.get('emprestimo_key')), 'read_only': True}\n    if action == 'p1_emprestimo_validate': return validate_p1_emprestimo(connection, int(payload.get('item_id')))\n    if action == 'p1_emprestimo_persist': return persist_p1_emprestimo(connection, str(payload.get('emprestimo_key', '')), int(payload.get('emprestimo_id', 0)), str(payload.get('emprestimo_name', '')), dict(payload.get('emprestimo_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))\n    if action == 'p1_emprestimo_protect': return protect_p1_emprestimo_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))\n    if action == 'p1_emprestimo_audit': return audit_p1_emprestimos(connection)\n    raise ValueError('P1_EMPRESTIMO_ACTION_INVALID')\n\n"""
+s=s.replace(needle,fn+needle,1)
+marker='        if action in {"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit"}:\n            return {"ok": True, **p1_commission_market(service.connection, action, payload)}\n'
+s=s.replace(marker,marker+'        if action in {"p1_emprestimo_contracts", "p1_emprestimo_state", "p1_emprestimo_validate", "p1_emprestimo_persist", "p1_emprestimo_protect", "p1_emprestimo_audit"}:\n            return {"ok": True, **p1_emprestimo_market(service.connection, action, payload)}\n',1)
+choices='"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit", '
+s=s.replace(choices,choices+'"p1_emprestimo_contracts", "p1_emprestimo_state", "p1_emprestimo_validate", "p1_emprestimo_persist", "p1_emprestimo_protect", "p1_emprestimo_audit", ',1)
+p.write_text(s)

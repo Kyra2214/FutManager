@@ -1,0 +1,13 @@
+from pathlib import Path
+p=Path('/home/ubuntu/brasfoot_engine/scripts/career_gateway.py')
+s=p.read_text()
+needle='from engine.core.p1_commission_contract import audit_p1_commissions, protect_p1_commission_mutation, read_p1_commissions, read_p1_commission_state, persist_p1_commission, validate_p1_commission\n'
+s=s.replace(needle, needle+'from engine.core.p1_cohesion_contract import audit_p1_cohesions, protect_p1_cohesion_mutation, read_p1_cohesions, read_p1_cohesion_state, persist_p1_cohesion, validate_p1_cohesion\n',1)
+needle='def p1_commission_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n'
+fn="""def p1_cohesion_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n    if action == 'p1_cohesion_contracts': return {'items': read_p1_cohesions(connection), 'read_only': True}\n    if action == 'p1_cohesion_state': return {'items': read_p1_cohesion_state(connection, payload.get('cohesion_key')), 'read_only': True}\n    if action == 'p1_cohesion_validate': return validate_p1_cohesion(connection, int(payload.get('item_id')))\n    if action == 'p1_cohesion_persist': return persist_p1_cohesion(connection, str(payload.get('cohesion_key', '')), int(payload.get('cohesion_id', 0)), str(payload.get('cohesion_name', '')), dict(payload.get('cohesion_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))\n    if action == 'p1_cohesion_protect': return protect_p1_cohesion_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))\n    if action == 'p1_cohesion_audit': return audit_p1_cohesions(connection)\n    raise ValueError('P1_COHESION_ACTION_INVALID')\n\n"""
+s=s.replace(needle,fn+needle,1)
+marker='        if action in {"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit"}:\n            return {"ok": True, **p1_commission_market(service.connection, action, payload)}\n'
+s=s.replace(marker,marker+'        if action in {"p1_cohesion_contracts", "p1_cohesion_state", "p1_cohesion_validate", "p1_cohesion_persist", "p1_cohesion_protect", "p1_cohesion_audit"}:\n            return {"ok": True, **p1_cohesion_market(service.connection, action, payload)}\n',1)
+choices='"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit", '
+s=s.replace(choices,choices+'"p1_cohesion_contracts", "p1_cohesion_state", "p1_cohesion_validate", "p1_cohesion_persist", "p1_cohesion_protect", "p1_cohesion_audit", ',1)
+p.write_text(s)

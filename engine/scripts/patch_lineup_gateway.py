@@ -1,0 +1,13 @@
+from pathlib import Path
+p=Path('/home/ubuntu/brasfoot_engine/scripts/career_gateway.py')
+s=p.read_text()
+needle='from engine.core.p1_commission_contract import audit_p1_commissions, protect_p1_commission_mutation, read_p1_commissions, read_p1_commission_state, persist_p1_commission, validate_p1_commission\n'
+s=s.replace(needle, needle+'from engine.core.p1_lineup_contract import audit_p1_lineups, protect_p1_lineup_mutation, read_p1_lineups, read_p1_lineup_state, persist_p1_lineup, validate_p1_lineup\n',1)
+needle='def p1_commission_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n'
+fn="""def p1_lineup_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n    if action == 'p1_lineup_contracts': return {'items': read_p1_lineups(connection), 'read_only': True}\n    if action == 'p1_lineup_state': return {'items': read_p1_lineup_state(connection, payload.get('lineup_key')), 'read_only': True}\n    if action == 'p1_lineup_validate': return validate_p1_lineup(connection, int(payload.get('item_id')))\n    if action == 'p1_lineup_persist': return persist_p1_lineup(connection, str(payload.get('lineup_key', '')), int(payload.get('lineup_id', 0)), str(payload.get('lineup_name', '')), dict(payload.get('lineup_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))\n    if action == 'p1_lineup_protect': return protect_p1_lineup_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))\n    if action == 'p1_lineup_audit': return audit_p1_lineups(connection)\n    raise ValueError('P1_LINEUP_ACTION_INVALID')\n\n"""
+s=s.replace(needle,fn+needle,1)
+marker='        if action in {"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit"}:\n            return {"ok": True, **p1_commission_market(service.connection, action, payload)}\n'
+s=s.replace(marker,marker+'        if action in {"p1_lineup_contracts", "p1_lineup_state", "p1_lineup_validate", "p1_lineup_persist", "p1_lineup_protect", "p1_lineup_audit"}:\n            return {"ok": True, **p1_lineup_market(service.connection, action, payload)}\n',1)
+choices='"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit", '
+s=s.replace(choices,choices+'"p1_lineup_contracts", "p1_lineup_state", "p1_lineup_validate", "p1_lineup_persist", "p1_lineup_protect", "p1_lineup_audit", ',1)
+p.write_text(s)

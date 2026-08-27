@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS player_positions(player_id INTEGER PRIMARY KEY,positi
 CREATE TABLE IF NOT EXISTS substitution_plans(plan_id INTEGER PRIMARY KEY AUTOINCREMENT,lineup_id INTEGER NOT NULL,minute_target INTEGER NOT NULL,outgoing_player_id INTEGER NOT NULL,incoming_player_id INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'PLANNED',applied_minute INTEGER,created_at TEXT NOT NULL,UNIQUE(lineup_id,minute_target,outgoing_player_id),FOREIGN KEY(lineup_id) REFERENCES lineups(lineup_id));
 CREATE TABLE IF NOT EXISTS player_match_stats(match_id INTEGER NOT NULL,player_id INTEGER NOT NULL,minutes INTEGER DEFAULT 0,goals INTEGER DEFAULT 0,assists INTEGER DEFAULT 0,cards INTEGER DEFAULT 0,rating REAL,PRIMARY KEY(match_id,player_id));
 CREATE TABLE IF NOT EXISTS match_events(event_id INTEGER PRIMARY KEY AUTOINCREMENT,match_id INTEGER NOT NULL,event_type TEXT NOT NULL,minute INTEGER,player_id INTEGER,payload TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS tactical_profiles(profile_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,name TEXT NOT NULL,formation TEXT NOT NULL,instructions TEXT NOT NULL,created_at TEXT NOT NULL,updated_at TEXT NOT NULL,UNIQUE(club_id,name));
+CREATE TABLE IF NOT EXISTS lineup_history(history_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,lineup_id INTEGER NOT NULL,event_type TEXT NOT NULL,created_at TEXT NOT NULL,payload TEXT NOT NULL);
 '''
 class SquadCategory(StrEnum): FIRST_TEAM='FIRST_TEAM'; RESERVE='RESERVE'; YOUTH='YOUTH'
 class TrainingType(StrEnum): GENERAL='GENERAL'; ATTACK='ATTACK'; DEFENCE='DEFENCE'; PHYSICAL='PHYSICAL'; TECHNICAL='TECHNICAL'; GOALKEEPER='GOALKEEPER'
@@ -59,6 +61,22 @@ class SportStateStore:
    unavailable=not row['available'] or row['recovery_days']>0 or self.is_suspended(row['player_id'])
    bucket['unavailable']+=int(unavailable); bucket['available']+=int(not unavailable); bucket['suspended']+=int(self.is_suspended(row['player_id']))
   return {'club_id':int(club_id),'positions':tuple(grouped[position] for position in sorted(grouped))}
+
+ def create_tactical_profile(self, club_id, name, formation, instructions=None):
+  if not str(name).strip() or not formation or '-' not in formation: raise ValueError('INVALID_TACTICAL_PROFILE')
+  encoded=json.dumps(instructions if isinstance(instructions,dict) else {},ensure_ascii=False,sort_keys=True,separators=(',',':'))
+  now=date.today().isoformat()
+  self.connection.execute('INSERT INTO tactical_profiles(club_id,name,formation,instructions,created_at,updated_at) VALUES(?,?,?,?,?,?) ON CONFLICT(club_id,name) DO UPDATE SET formation=excluded.formation,instructions=excluded.instructions,updated_at=excluded.updated_at',(int(club_id),str(name).strip(),formation,encoded,now,now)); self.connection.commit()
+  row=self.connection.execute('SELECT * FROM tactical_profiles WHERE club_id=? AND name=?',(int(club_id),str(name).strip())).fetchone(); result=dict(row); result['instructions']=json.loads(result['instructions']); return result
+
+ def tactical_profiles(self, club_id):
+  return [dict(row, instructions=json.loads(row['instructions'])) for row in self.connection.execute('SELECT * FROM tactical_profiles WHERE club_id=? ORDER BY name',(int(club_id),)).fetchall()]
+
+ def preview_lineup(self, club_id, competition_id, name):
+  saved=self.saved_formation(club_id, competition_id, name)
+  available=tuple(int(row['player_id']) for row in self.connection.execute('SELECT player_id FROM player_sport_state WHERE club_id=? AND available=1 AND recovery_days=0 ORDER BY player_id',(int(club_id),)).fetchall())
+  missing=tuple(pid for pid in saved['player_ids'] if pid not in available)
+  return {'club_id':int(club_id),'competition_id':int(competition_id),'name':name,'formation':saved['formation'],'player_ids':saved['player_ids'],'unavailable_player_ids':missing,'valid':len(saved['player_ids'])>=11 and not missing,'persisted':False}
 
  def set_player_role(self, club_id, role, player_id):
   allowed={'CAPTAIN','PENALTY_TAKER','FREE_KICK_TAKER','CORNER_TAKER'}
@@ -147,10 +165,17 @@ class SportStateStore:
     if int(club_id) not in (int(match['home_team_id']),int(match['away_team_id'])): raise ValueError('CLUB_NOT_IN_MATCH')
   now=date.today().isoformat()
   with self.connection:
+   self.connection.execute('INSERT INTO lineup_history(club_id,lineup_id,event_type,created_at,payload) VALUES(?,?,?,?,?)',(int(club_id),int(lineup_id),'LINEUP_CONFIRMED',now,json.dumps({'competition_id':int(competition_id),'match_id':match_id},sort_keys=True,separators=(',',':'))))
    self.connection.execute('INSERT OR IGNORE INTO lineup_confirmations(club_id,competition_id,lineup_id,match_id,confirmed_at) VALUES(?,?,?,?,?)',(int(club_id),int(competition_id),int(lineup_id),None if match_id is None else int(match_id),now))
    self.connection.execute('INSERT INTO tactical_decision_history(club_id,match_id,event_type,decision_date,payload) VALUES(?,?,?,?,?)',(int(club_id),None if match_id is None else int(match_id),'LINEUP_CONFIRMED',now,json.dumps({'competition_id':int(competition_id),'lineup_id':int(lineup_id),'player_ids':[int(row['player_id']) for row in players]},sort_keys=True,separators=(',',':'))))
   row=self.connection.execute('SELECT * FROM lineup_confirmations WHERE club_id=? AND competition_id=? AND lineup_id=? AND (match_id IS ? OR match_id=?)',(int(club_id),int(competition_id),int(lineup_id),None if match_id is None else int(match_id),None if match_id is None else int(match_id))).fetchone()
   return dict(row)
+
+ def lineup_history(self, club_id, lineup_id=None):
+  query='SELECT * FROM lineup_history WHERE club_id=?'; args=[int(club_id)]
+  if lineup_id is not None: query+=' AND lineup_id=?'; args.append(int(lineup_id))
+  query+=' ORDER BY history_id'
+  return [dict(row, payload=json.loads(row['payload'])) for row in self.connection.execute(query,args).fetchall()]
 
  def validate_minimum_lineup(self, club_id, minimum=11):
   available = self.squad_summary(club_id)['available']

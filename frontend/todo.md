@@ -606,3 +606,166 @@
 - [x] Corrigir a governança do roadmap: reabrir 1181–1190 até a dependência 1171–1180 ser concluída, evitando avanço fora de ordem.
 - [x] Implementar e validar o lote P1 1171–1180: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de escopo.
 - [x] Implementar e validar o lote P1 1211–1220: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de consentimento.
+- [x] Implementar e validar o lote P1 1251–1260: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de país.
+- [x] Reproduzir e corrigir o erro `Cannot read properties of undefined (reading 'length')` ao abrir a seção Time em mobile.
+- [x] Auditar e exibir a quantidade real de partidas por temporada da liga principal, separando partidas por clube, por divisão e total da competição.
+- [x] Atualizar o teste de integração de início de carreira que ainda espera 78 clubes, alinhando-o à regra validada de 80 clubes em 4 divisões.
+- [x] Redesenhar a primeira tela do FutManager com hierarquia visual mais bonita, clara e adequada ao uso em celular.
+- [x] Remover da interface informações técnicas destinadas apenas ao motor interno, mantendo-as disponíveis somente em contratos e auditorias internas.
+- [x] Criar a aba principal Dia do Jogo com simulação visual da partida, eventos e contexto da carreira usando dados reais do GameState.
+- [x] Integrar a simulação do Dia do Jogo ao calendário e aos clubes reais, sem placares ou eventos fictícios persistidos.
+- [x] Validar a nova experiência em desktop e mobile com testes de interface, typecheck e build.
+- [x] Atualizar testes de interface afetados pela nova linguagem editorial do Dia do Jogo e da prévia de ligas, mantendo cobertura funcional.
+- [x] Implementar e validar o lote P1 1261–1270: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de cidade.
+- [x] Registrar a abertura controlada do P1_GLOBAL_GATE após autorização explícita do usuário, mantendo P2 bloqueado.
+- [x] Implementar e validar o lote P1 1271–1280: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de identidade.
+- [x] Implementar e validar o lote P1 1281–1290: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de perfil.
+- [x] Implementar e validar o lote P1 1291–1300: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de preferências.
+- [x] Corrigir construções de edifícios para persistir prazo, estado em andamento, conclusão no avanço semanal e rollback transacional.
+- [x] Exibir no CT o estado editorial da obra, duração e data prevista, bloqueando nova ação no departamento em construção.
+- [ ] Concluir todos os lotes P1 pendentes do manifesto em ordem, com contratos GameState, validações, evidências e P2 mantido bloqueado até o fechamento do P1.
+- [x] Implementar e validar o lote P1 1301–1310: contrato de estádio, regras, leitura SQLite/GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1311–1320: contrato de capacidade do estádio, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1321–1330: contrato de componentes do estádio, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1331–1340: contrato de infraestrutura do estádio, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1331–1340: contrato de infraestrutura do estádio, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1351–1360: contrato de posição, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1361–1370: contrato de atributo, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1371–1380: contrato de potencial, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1381–1390: contrato de idade, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1391–1400: contrato de alias, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1401–1410: contrato de nacionalidade, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1411–1420: contrato de histórico, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1451–1460: contrato de convocação, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1461–1470: contrato de ranking, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1471–1480: contrato de data FIFA, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1481–1490: contrato de comissão, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1491–1500: contrato de torneio, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1501–1510: contrato de elegibilidade, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1511–1520: contrato de calendário, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1551–1560: contrato de membership, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1561–1570: contrato de regulamento, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1571–1580: contrato de rodada, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1581–1590: contrato de tabela, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1591–1600: contrato de promoção, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1601–1610: contrato de rebaixamento, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1611–1620: contrato de registro, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1651–1660: contrato de membership do domínio 08, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1661–1670: contrato de sorteio, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1671–1680: contrato de divisão, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1681–1690: contrato de fixture, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1691–1700: contrato de rodada do domínio 08, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1701–1710: contrato de tabela do domínio 08, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1711–1720: contrato de promoção do domínio 08, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1751–1760: contrato de pote, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1761–1770: contrato de grupo, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1771–1780: contrato de mata-mata, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1781–1790: contrato de sorteio do domínio 08, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1791–1800: contrato de coeficiente, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1801–1810: contrato de registro do domínio 08, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1811–1820: contrato de premiação, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1851–1860: contrato de feriado, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1861–1870: contrato de janela, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1871–1880: contrato de conflito, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1881–1890: contrato de reagendamento, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1891–1900: contrato de fuso, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1901–1910: contrato de clima, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1911–1920: contrato de segurança, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1951–1960: contrato de tática, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1961–1970: contrato de evento, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1971–1980: contrato de placar, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1981–1990: contrato de posse, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1991–2000: contrato de finalização, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [ ] Aplicar política de execução: produzir os lotes restantes com validação mínima durante a implementação e reservar a revisão/testes completos para o encerramento do roadmap.
+- [ ] Executar revisão e testes gerais somente após todos os lotes do roadmap serem produzidos.
+- [x] Produzir o lote P1 2001–2010: contrato de xG, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2011–2020: contrato de substituição, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2051–2060: contrato de xA, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2061–2070: contrato de posse do domínio 09, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2071–2080: contrato de duelo, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2081–2090: contrato de pressão, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2091–2100: contrato de mapa, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2101–2110: contrato de finalização do domínio 09, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2111–2120: contrato de passe, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2151–2160: contrato de contratação, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2161–2170: contrato de venda, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2171–2180: contrato de escalação, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2181–2190: contrato de treino, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2191–2200: contrato de tática, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2201–2210: contrato de orçamento, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2211–2220: contrato de objetivo, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2251–2260: contrato de reserva, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2261–2270: contrato de liderança, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2271–2280: contrato de promessa, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2281–2290: contrato de minutos, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2291–2300: contrato de camisa, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2301–2310: contrato de inscrição, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2311–2320: contrato de coesão, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2351–2360: contrato de duração, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2361–2370: contrato de bônus, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2371–2380: contrato de cláusula, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2381–2390: contrato de renovação, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2391–2400: contrato de rescisão, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2401–2410: contrato de empréstimo, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2411–2420: contrato de opção, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2451–2460: contrato de auxiliar, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2461–2470: contrato de médico, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2471–2480: contrato de scout, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2481–2490: contrato de especialidade, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2491–2500: contrato de nível, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2501–2510: contrato de vaga, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2511–2520: contrato de contrato, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2551–2560: contrato de nível do domínio 10, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2561–2570: contrato de capacidade do domínio 10, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2571–2580: contrato de manutenção, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2581–2590: contrato de upgrade, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2591–2600: contrato de treino, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2601–2610: contrato de base, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2611–2620: contrato de medicina, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2651–2660: contrato de categoria, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2661–2670: contrato de captação, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2671–2680: contrato de desenvolvimento, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2681–2690: contrato de promoção, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2691–2700: contrato de bolsa, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2701–2710: contrato de educação, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2711–2720: contrato de minutos, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2751–2760: contrato de diagnóstico, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2761–2770: contrato de tratamento, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2771–2780: contrato de fisioterapia, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2781–2790: contrato de retorno, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2791–2800: contrato de risco, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2801–2810: contrato de carga, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2811–2820: contrato de suspensão, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2851–2860: contrato de carga operacional, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2861–2870: contrato de objetivo operacional, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2871–2880: contrato de intensidade, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2881–2890: contrato de descanso, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2891–2900: contrato de tática, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2901–2910: contrato de atributo, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2911–2920: contrato de potencial, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2951–2960: contrato de proposta, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2961–2970: contrato de contraproposta, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2971–2980: contrato de valor, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2981–2990: contrato de comissão operacional, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2991–3000: contrato de empréstimo, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3001–3010: contrato de opção, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3011–3020: contrato de registro adicional, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3051–3060: contrato de região, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3061–3070: contrato de posição, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3071–3080: contrato de filtro, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3081–3090: contrato de confiança, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3091–3100: contrato de evidência, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3101–3110: contrato de comparação, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3111–3120: contrato de relatório, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3151–3160: contrato de receita, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3161–3170: contrato de despesa, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3171–3180: contrato de salário, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3181–3190: contrato de bônus operacional, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3191–3200: contrato de ledger contábil, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3201–3210: contrato de orçamento operacional, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3211–3220: contrato de projeção, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [ ] Produzir o próximo lote P1 pendente identificado no manifesto, mantendo SQL/GameState como fonte única da verdade e validação mínima.
+- [ ] Criar backup do estado atual no repositório GitHub Kyra2214/FutManager antes da correção.
+- [ ] Investigar o contrato-base ausente do lote P1 3251–3260 usando somente módulos, patches e manifesto existentes.
+- [ ] Corrigir o lote P1 3251–3260 sem inventar contrato, regras ou dados; usar apenas uma origem comprovada.
+- [ ] Validar minimamente a correção e retomar a produção sequencial dos lotes P1 pendentes.

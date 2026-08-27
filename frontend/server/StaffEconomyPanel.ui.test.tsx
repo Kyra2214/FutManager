@@ -1,6 +1,6 @@
 /** @vitest-environment jsdom */
 import React from "react";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
@@ -31,7 +31,7 @@ describe("StaffEconomyPanel", () => {
   const hireMutate = vi.fn();
   const departmentMutate = vi.fn();
   let hireOptions: { onSuccess?: (result: { name: string; weekly_salary: number }) => void } | undefined;
-  let departmentOptions: { onSuccess?: (result: { label: string; target_level: number }) => void } | undefined;
+  let departmentOptions: { onSuccess?: (result: { department: string; label: string; target_level: number; completion_at: string; duration_weeks: number }) => void } | undefined;
   const invalidates = { summary: vi.fn(), catalog: vi.fn(), departments: vi.fn(), workspace: vi.fn() };
 
   beforeEach(() => {
@@ -67,7 +67,7 @@ describe("StaffEconomyPanel", () => {
     expect(departmentMutate).toHaveBeenCalledWith({ department: "medicina" });
   });
 
-  it("invalida os dados financeiros e estruturais após a mutation confirmada", () => {
+  it("invalida os dados financeiros e estruturais após a mutation confirmada", async () => {
     render(<StaffEconomyPanel mode="market" onNavigateToMarket={vi.fn()} />);
     hireOptions?.onSuccess?.({ name: "Dra. Renata Moura", weekly_salary: 8277 });
     expect(mocks.toastSuccess).toHaveBeenCalledWith(expect.stringContaining("contratado"));
@@ -78,8 +78,10 @@ describe("StaffEconomyPanel", () => {
 
     cleanup();
     render(<StaffEconomyPanel mode="ct" onNavigateToMarket={vi.fn()} />);
-    departmentOptions?.onSuccess?.({ label: "Medicina", target_level: 1 });
-    expect(mocks.toastSuccess).toHaveBeenCalledWith("Medicina evoluiu para o nível 1.");
+    departmentOptions?.onSuccess?.({ department: "medicina", label: "Medicina", target_level: 1, completion_at: "2026-01-15", duration_weeks: 1 });
+    expect(mocks.toastSuccess).toHaveBeenCalledWith(expect.stringContaining("entrou em obras"));
+    await waitFor(() => expect(screen.getByText(/OBRA EM ANDAMENTO/)).toBeTruthy());
+    expect(screen.getByText(/15\/01\/2026/)).toBeTruthy();
     expect(invalidates.summary).toHaveBeenCalledTimes(2);
     expect(invalidates.catalog).toHaveBeenCalledTimes(2);
     expect(invalidates.departments).toHaveBeenCalledTimes(2);

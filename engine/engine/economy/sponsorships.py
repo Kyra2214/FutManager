@@ -537,7 +537,13 @@ class SponsorshipService:
         return {"clubs_total": len(club_ids), "processed": processed, "already_processed": already_processed}
 
     def summary(self, club_id: int) -> dict:
-        profile = self._current_profile(club_id, refresh=False)
+        try:
+            profile = self._current_profile(club_id, refresh=False)
+        except ValueError as error:
+            if str(error) != 'INSTITUTIONAL_PROFILE_NOT_INITIALIZED':
+                raise
+            self.bootstrap_club(club_id)
+            profile = self._current_profile(club_id, refresh=False)
         institutional = InstitutionalPowerService(self.connection).get(club_id)
         active = self.connection.execute(
             """SELECT contract.*,template.name,template.industry FROM sponsor_contracts contract

@@ -1,0 +1,16 @@
+from pathlib import Path
+p = Path('/home/ubuntu/brasfoot_engine/scripts/career_gateway.py')
+s = p.read_text()
+needle = 'def p1_fifa_date_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n'
+fn = """def p1_comissao_operacional_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n    if action == 'p1_comissao_operacional_contracts': return {'items': read_p1_comissao_operacionals(connection), 'read_only': True}\n    if action == 'p1_comissao_operacional_state': return {'items': read_p1_comissao_operacional_state(connection, payload.get('comissao_operacional_key')), 'read_only': True}\n    if action == 'p1_comissao_operacional_validate': return validate_p1_comissao_operacional(connection, int(payload.get('item_id')))\n    if action == 'p1_comissao_operacional_persist': return persist_p1_comissao_operacional(connection, str(payload.get('comissao_operacional_key', '')), int(payload.get('comissao_operacional_id', 0)), str(payload.get('comissao_operacional_name', '')), dict(payload.get('comissao_operacional_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))\n    if action == 'p1_comissao_operacional_protect': return protect_p1_comissao_operacional_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))\n    if action == 'p1_comissao_operacional_audit': return audit_p1_comissao_operacionals(connection)\n    raise ValueError('P1_COMISSAO_OPERACIONAL_ACTION_INVALID')\n\n"""
+if 'def p1_comissao_operacional_market' not in s:
+    s = s.replace(needle, fn + needle, 1)
+needle2 = 'from engine.core.p1_fifa_date_contract import audit_p1_fifa_dates, protect_p1_fifa_date_mutation, read_p1_fifa_dates, read_p1_fifa_date_state, persist_p1_fifa_date, validate_p1_fifa_date\n'
+imp = needle2 + 'from engine.core.p1_comissao_operacional_contract import audit_p1_comissao_operacionals, protect_p1_comissao_operacional_mutation, read_p1_comissao_operacionals, read_p1_comissao_operacional_state, persist_p1_comissao_operacional, validate_p1_comissao_operacional\n'
+s = s.replace(needle2, imp, 1)
+marker = '        if action in {"p1_fifa_date_contracts", "p1_fifa_date_state", "p1_fifa_date_validate", "p1_fifa_date_persist", "p1_fifa_date_protect", "p1_fifa_date_audit"}:\n            return {"ok": True, **p1_fifa_date_market(service.connection, action, payload)}\n'
+insert = marker + '        if action in {"p1_comissao_operacional_contracts", "p1_comissao_operacional_state", "p1_comissao_operacional_validate", "p1_comissao_operacional_persist", "p1_comissao_operacional_protect", "p1_comissao_operacional_audit"}:\n            return {"ok": True, **p1_comissao_operacional_market(service.connection, action, payload)}\n'
+s = s.replace(marker, insert, 1)
+choices = '"p1_fifa_date_contracts", "p1_fifa_date_state", "p1_fifa_date_validate", "p1_fifa_date_persist", "p1_fifa_date_protect", "p1_fifa_date_audit", '
+s = s.replace(choices, choices + '"p1_comissao_operacional_contracts", "p1_comissao_operacional_state", "p1_comissao_operacional_validate", "p1_comissao_operacional_persist", "p1_comissao_operacional_protect", "p1_comissao_operacional_audit", ', 1)
+p.write_text(s)

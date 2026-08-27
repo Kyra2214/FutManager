@@ -3,7 +3,7 @@ from __future__ import annotations
 import sqlite3
 from datetime import datetime, timezone
 
-CURRENT_SCHEMA_VERSION = 2
+CURRENT_SCHEMA_VERSION = 3
 
 INDEXES = (
     ("idx_matches_club_week", "matches", "home_team_id, away_team_id, scheduled_date"),
@@ -11,6 +11,12 @@ INDEXES = (
     ("idx_financial_ledger_category_source", "financial_ledger", "category, source_type, source_id"),
     ("idx_club_events_club_read_date", "club_events", "club_id, read, created_at"),
     ("idx_attendance_club_match", "attendance_records", "club_id, match_id"),
+    ("idx_manager_career_status", "manager_careers", "manager_id, status, current_club_id"),
+    ("idx_manager_history_scope", "manager_history", "manager_id, event_date"),
+    ("idx_manager_preferences_scope", "manager_preferences", "manager_id, preference_key"),
+    ("idx_career_snapshots_scope", "career_snapshots", "career_id, created_at"),
+    ("idx_permission_audit_scope", "manager_permission_audit", "manager_id, created_at"),
+    ("idx_migration_audit_component", "migration_audit", "component, version"),
 )
 
 

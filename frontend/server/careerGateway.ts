@@ -289,7 +289,7 @@ export function listDepartmentOffers(databasePath?: string) {
 export type StadiumUpgradePreview = { club_id: number; component: string; from_level: number; target_level: number; cost: number; maintenance_before: number; maintenance_after: number; cash_before: number; cash_after: number; cash_sufficient: boolean; persisted: boolean; formula_version: string };
 export function previewStadiumUpgrade(component: string, databasePath?: string) { return staffMarketAction<GatewayResult & StadiumUpgradePreview>("stadium_preview", { component }, databasePath); }
 export function upgradeClubDepartment(department: string, databasePath?: string) {
-  return staffMarketAction<GatewayResult & { department: string; label: string; target_level: number; cost: number; maintenance: number; capacity: number }>("department_upgrade", { department }, databasePath);
+  return staffMarketAction<GatewayResult & { department: string; label: string; target_level: number; cost: number; maintenance: number; capacity: number; status: "IN_PROGRESS" | "COMPLETED"; started_at: string; completion_at: string; duration_weeks: number }>("department_upgrade", { department }, databasePath);
 }
 
 export function upgradeStadiumComponent(component: string, databasePath?: string) {

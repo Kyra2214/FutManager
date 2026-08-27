@@ -1,0 +1,13 @@
+from pathlib import Path
+p=Path('/home/ubuntu/brasfoot_engine/scripts/career_gateway.py')
+s=p.read_text()
+needle='from engine.core.p1_commission_contract import audit_p1_commissions, protect_p1_commission_mutation, read_p1_commissions, read_p1_commission_state, persist_p1_commission, validate_p1_commission\n'
+s=s.replace(needle, needle+'from engine.core.p1_vacancy_contract import audit_p1_vacancys, protect_p1_vacancy_mutation, read_p1_vacancys, read_p1_vacancy_state, persist_p1_vacancy, validate_p1_vacancy\n',1)
+needle='def p1_commission_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n'
+fn="""def p1_vacancy_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n    if action == 'p1_vacancy_contracts': return {'items': read_p1_vacancys(connection), 'read_only': True}\n    if action == 'p1_vacancy_state': return {'items': read_p1_vacancy_state(connection, payload.get('vacancy_key')), 'read_only': True}\n    if action == 'p1_vacancy_validate': return validate_p1_vacancy(connection, int(payload.get('item_id')))\n    if action == 'p1_vacancy_persist': return persist_p1_vacancy(connection, str(payload.get('vacancy_key', '')), int(payload.get('vacancy_id', 0)), str(payload.get('vacancy_name', '')), dict(payload.get('vacancy_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))\n    if action == 'p1_vacancy_protect': return protect_p1_vacancy_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))\n    if action == 'p1_vacancy_audit': return audit_p1_vacancys(connection)\n    raise ValueError('P1_VACANCY_ACTION_INVALID')\n\n"""
+s=s.replace(needle,fn+needle,1)
+marker='        if action in {"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit"}:\n            return {"ok": True, **p1_commission_market(service.connection, action, payload)}\n'
+s=s.replace(marker,marker+'        if action in {"p1_vacancy_contracts", "p1_vacancy_state", "p1_vacancy_validate", "p1_vacancy_persist", "p1_vacancy_protect", "p1_vacancy_audit"}:\n            return {"ok": True, **p1_vacancy_market(service.connection, action, payload)}\n',1)
+choices='"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit", '
+s=s.replace(choices,choices+'"p1_vacancy_contracts", "p1_vacancy_state", "p1_vacancy_validate", "p1_vacancy_persist", "p1_vacancy_protect", "p1_vacancy_audit", ',1)
+p.write_text(s)

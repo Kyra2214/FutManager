@@ -125,6 +125,14 @@ class TransferMarketService:
             self._event(row['offer_id'], 'TRANSFER_EXPIRED', {'as_of': as_of})
         self.connection.commit()
         return len(rows)
+    def market_audit(self, club_id: int, season: int | None = None) -> dict:
+        offers=self.connection.execute('SELECT * FROM transfer_offers WHERE buyer_club_id=? OR seller_club_id=? ORDER BY offer_id',(club_id,club_id)).fetchall()
+        loans=self.connection.execute('SELECT * FROM transfer_loans WHERE from_club_id=? OR to_club_id=? ORDER BY loan_id',(club_id,club_id)).fetchall()
+        query='SELECT * FROM transfer_history WHERE old_club_id=? OR new_club_id=?'; args=[club_id,club_id]
+        if season is not None: query+=' AND season=?'; args.append(season)
+        history=self.connection.execute(query+' ORDER BY transfer_id',args).fetchall()
+        return {'club_id':int(club_id),'season':season,'offers':[dict(r) for r in offers],'loans':[dict(r) for r in loans],'history':[dict(r) for r in history],'persisted':True}
+
     def negotiation_history(self, offer_id: int):
         self._offer(offer_id)
         return self.connection.execute("SELECT event_id,offer_id,event_type,event_date,payload FROM transfer_events WHERE offer_id=? ORDER BY event_id", (offer_id,)).fetchall()

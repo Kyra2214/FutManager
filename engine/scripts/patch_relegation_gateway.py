@@ -1,0 +1,13 @@
+from pathlib import Path
+p=Path('/home/ubuntu/brasfoot_engine/scripts/career_gateway.py')
+s=p.read_text()
+needle='from engine.core.p1_commission_contract import audit_p1_commissions, protect_p1_commission_mutation, read_p1_commissions, read_p1_commission_state, persist_p1_commission, validate_p1_commission\n'
+s=s.replace(needle, needle+'from engine.core.p1_relegation_contract import audit_p1_relegations, protect_p1_relegation_mutation, read_p1_relegations, read_p1_relegation_state, persist_p1_relegation, validate_p1_relegation\n',1)
+needle='def p1_commission_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n'
+fn="""def p1_relegation_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n    if action == 'p1_relegation_contracts': return {'items': read_p1_relegations(connection), 'read_only': True}\n    if action == 'p1_relegation_state': return {'items': read_p1_relegation_state(connection, payload.get('relegation_key')), 'read_only': True}\n    if action == 'p1_relegation_validate': return validate_p1_relegation(connection, int(payload.get('item_id')))\n    if action == 'p1_relegation_persist': return persist_p1_relegation(connection, str(payload.get('relegation_key', '')), int(payload.get('relegation_id', 0)), str(payload.get('relegation_name', '')), dict(payload.get('relegation_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))\n    if action == 'p1_relegation_protect': return protect_p1_relegation_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))\n    if action == 'p1_relegation_audit': return audit_p1_relegations(connection)\n    raise ValueError('P1_RELEGATION_ACTION_INVALID')\n\n"""
+s=s.replace(needle,fn+needle,1)
+marker='        if action in {"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit"}:\n            return {"ok": True, **p1_commission_market(service.connection, action, payload)}\n'
+s=s.replace(marker,marker+'        if action in {"p1_relegation_contracts", "p1_relegation_state", "p1_relegation_validate", "p1_relegation_persist", "p1_relegation_protect", "p1_relegation_audit"}:\n            return {"ok": True, **p1_relegation_market(service.connection, action, payload)}\n',1)
+choices='"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit", '
+s=s.replace(choices,choices+'"p1_relegation_contracts", "p1_relegation_state", "p1_relegation_validate", "p1_relegation_persist", "p1_relegation_protect", "p1_relegation_audit", ',1)
+p.write_text(s)

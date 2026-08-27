@@ -1,0 +1,13 @@
+from pathlib import Path
+p=Path('/home/ubuntu/brasfoot_engine/scripts/career_gateway.py')
+s=p.read_text()
+needle='from engine.core.p1_commission_contract import audit_p1_commissions, protect_p1_commission_mutation, read_p1_commissions, read_p1_commission_state, persist_p1_commission, validate_p1_commission\n'
+s=s.replace(needle, needle+'from engine.core.p1_promise_contract import audit_p1_promises, protect_p1_promise_mutation, read_p1_promises, read_p1_promise_state, persist_p1_promise, validate_p1_promise\n',1)
+needle='def p1_commission_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n'
+fn="""def p1_promise_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n    if action == 'p1_promise_contracts': return {'items': read_p1_promises(connection), 'read_only': True}\n    if action == 'p1_promise_state': return {'items': read_p1_promise_state(connection, payload.get('promise_key')), 'read_only': True}\n    if action == 'p1_promise_validate': return validate_p1_promise(connection, int(payload.get('item_id')))\n    if action == 'p1_promise_persist': return persist_p1_promise(connection, str(payload.get('promise_key', '')), int(payload.get('promise_id', 0)), str(payload.get('promise_name', '')), dict(payload.get('promise_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))\n    if action == 'p1_promise_protect': return protect_p1_promise_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))\n    if action == 'p1_promise_audit': return audit_p1_promises(connection)\n    raise ValueError('P1_PROMISE_ACTION_INVALID')\n\n"""
+s=s.replace(needle,fn+needle,1)
+marker='        if action in {"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit"}:\n            return {"ok": True, **p1_commission_market(service.connection, action, payload)}\n'
+s=s.replace(marker,marker+'        if action in {"p1_promise_contracts", "p1_promise_state", "p1_promise_validate", "p1_promise_persist", "p1_promise_protect", "p1_promise_audit"}:\n            return {"ok": True, **p1_promise_market(service.connection, action, payload)}\n',1)
+choices='"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit", '
+s=s.replace(choices,choices+'"p1_promise_contracts", "p1_promise_state", "p1_promise_validate", "p1_promise_persist", "p1_promise_protect", "p1_promise_audit", ',1)
+p.write_text(s)

@@ -1,0 +1,13 @@
+from pathlib import Path
+p=Path('/home/ubuntu/brasfoot_engine/scripts/career_gateway.py')
+s=p.read_text()
+needle='from engine.core.p1_commission_contract import audit_p1_commissions, protect_p1_commission_mutation, read_p1_commissions, read_p1_commission_state, persist_p1_commission, validate_p1_commission\n'
+s=s.replace(needle, needle+'from engine.core.p1_atributo_contract import audit_p1_atributos, protect_p1_atributo_mutation, read_p1_atributos, read_p1_atributo_state, persist_p1_atributo, validate_p1_atributo\n',1)
+needle='def p1_commission_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n'
+fn="""def p1_atributo_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n    if action == 'p1_atributo_contracts': return {'items': read_p1_atributos(connection), 'read_only': True}\n    if action == 'p1_atributo_state': return {'items': read_p1_atributo_state(connection, payload.get('atributo_key')), 'read_only': True}\n    if action == 'p1_atributo_validate': return validate_p1_atributo(connection, int(payload.get('item_id')))\n    if action == 'p1_atributo_persist': return persist_p1_atributo(connection, str(payload.get('atributo_key', '')), int(payload.get('atributo_id', 0)), str(payload.get('atributo_name', '')), dict(payload.get('atributo_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))\n    if action == 'p1_atributo_protect': return protect_p1_atributo_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))\n    if action == 'p1_atributo_audit': return audit_p1_atributos(connection)\n    raise ValueError('P1_ATRIBUTO_ACTION_INVALID')\n\n"""
+s=s.replace(needle,fn+needle,1)
+marker='        if action in {"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit"}:\n            return {"ok": True, **p1_commission_market(service.connection, action, payload)}\n'
+s=s.replace(marker,marker+'        if action in {"p1_atributo_contracts", "p1_atributo_state", "p1_atributo_validate", "p1_atributo_persist", "p1_atributo_protect", "p1_atributo_audit"}:\n            return {"ok": True, **p1_atributo_market(service.connection, action, payload)}\n',1)
+choices='"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit", '
+s=s.replace(choices,choices+'"p1_atributo_contracts", "p1_atributo_state", "p1_atributo_validate", "p1_atributo_persist", "p1_atributo_protect", "p1_atributo_audit", ',1)
+p.write_text(s)

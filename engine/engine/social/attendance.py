@@ -59,6 +59,8 @@ class AttendanceService:
 
     def sell_tickets(self, match_id: int, club_id: int, sector_id: int, quantity: int, unit_price: int, complimentary: bool = False, reason: str = '', responsible: str = '') -> dict:
         if int(quantity) <= 0 or int(unit_price) < 0: raise ValueError('TICKET_SALE_INVALID')
+        security=self.connection.execute("SELECT security FROM club_stadiums WHERE club_id=? AND is_primary=1",(int(club_id),)).fetchone()
+        if security is not None and int(security['security']) < 20: raise ValueError('TICKET_SECURITY_BLOCKED')
         sector=self.connection.execute('SELECT * FROM stadium_ticket_sectors WHERE sector_id=? AND club_id=?',(int(sector_id),int(club_id))).fetchone()
         if not sector: raise KeyError(sector_id)
         available=self.preview_sector_demand(match_id,club_id); current=next((x for x in available if x['sector_id']==int(sector_id)),None)

@@ -7,6 +7,8 @@ def test_opponent_observation_report_plan_quality_and_expiry():
     assert row['status'] == 'ACTIVE'
     report = service.opponent_report(1, 2, 9, 2026)
     assert report['quality'] == 0.8 and report['reports'][0]['evidence'] == 'fixture:44:eventos'
+    post = service.post_match_report(row['observation_id'], 44, {'home_goals': 2, 'away_goals': 0}, True)
+    assert post['confirmed_weakness'] is True
     assert service.preview_game_plan(1, 2, row['observation_id'], 'bloquear transição')['persisted'] is False
     assert service.approve_game_plan(1, 2, row['observation_id'], 'bloquear transição')['status'] == 'APPROVED'
     assert service.compare_opponents(1, [2], 9, 2026)[0]['weaknesses'] == ['costas da defesa']

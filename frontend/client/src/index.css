@@ -469,3 +469,54 @@ html, body, #root { max-width: 100%; overflow-x: hidden; }
   .career-national-preview { padding: .9rem; }
   .career-world-country.unavailable { min-width: 0; }
 }
+
+/* Redesign da abertura: foco em leitura, escolha e mobile */
+.career-start-shell { background: #f5f2ea; }
+.career-start-hero { background: radial-gradient(circle at 18% 22%, rgba(166,205,76,.18), transparent 34%), linear-gradient(145deg, #101719 0%, #1d2d2e 62%, #263b35 100%); }
+.career-start-hero:after { content: ""; position: absolute; right: 8%; bottom: 9%; width: 150px; height: 150px; border: 1px solid rgba(166,205,76,.35); border-radius: 50%; box-shadow: 0 0 0 20px rgba(166,205,76,.04), 0 0 0 42px rgba(166,205,76,.025); pointer-events: none; }
+.career-start-brand b { color: #eef4dc; }
+.career-start-kicker { color: #c7d982; font-weight: 800; letter-spacing: .14em; }
+.career-start-hero h1 { max-width: 580px; font-size: clamp(3.2rem, 6vw, 5.7rem); line-height: .91; letter-spacing: -.075em; }
+.career-start-hero p { max-width: 430px; color: rgba(244,241,233,.72); font-size: 13px; line-height: 1.6; }
+.career-start-steps { display: flex; flex-wrap: wrap; gap: 16px; color: rgba(244,241,233,.46); font-size: 9px; letter-spacing: .09em; text-transform: uppercase; }
+.career-start-steps .active { color: #f4f1e9; }
+.career-start-panel { background: #fbfaf6; box-shadow: -18px 0 50px rgba(22,29,28,.06); }
+.career-start-panel > header { padding-bottom: 22px; border-bottom: 1px solid #e4e0d6; }
+.career-start-panel > header h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -.065em; }
+.career-start-panel > header p { color: #71766c; font-size: 12px; }
+.career-form-grid label > span, .career-target-head .eyebrow { color: #7b8177; font-size: 9px; font-weight: 800; letter-spacing: .12em; }
+.career-form-grid input, .career-search { min-height: 48px; border-color: #d9d7cd; background: #fff; border-radius: 2px; transition: border-color .18s ease, box-shadow .18s ease; }
+.career-form-grid input:focus, .career-search:focus-within { border-color: #91b64b; box-shadow: 0 0 0 3px rgba(145,182,75,.14); outline: 0; }
+.career-world-config { border: 1px solid #dedbd1; border-top: 4px solid #7da43b; border-radius: 3px; background: #f7f6f0; box-shadow: 0 14px 28px rgba(31,34,34,.04); }
+.career-world-country { background: #fff; }
+.career-world-country.selected { background: #edf5d7; box-shadow: inset 4px 0 #83a93d; }
+.career-target-card { min-height: 70px; border: 1px solid #dedbd1; border-radius: 3px; background: #fff; transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease; }
+.career-target-card:hover { border-color: #9dbb66; box-shadow: 0 8px 18px rgba(31,34,34,.07); transform: translateY(-1px); }
+.career-target-card.selected { border-color: #83a93d; background: #f0f6df; box-shadow: 0 8px 20px rgba(105,133,52,.12); }
+.career-start-action { min-height: 54px; border-radius: 3px; background: #172425; color: #f4f1e9; letter-spacing: .08em; }
+.career-start-action:not(:disabled):hover { background: #31513e; }
+@media (max-width: 840px) { .career-start-shell { background: #fbfaf6; } .career-start-hero { min-height: 330px; padding: 34px 22px 30px; } .career-start-hero:after { right: -35px; bottom: 18px; width: 120px; height: 120px; } .career-start-hero h1 { font-size: 3.35rem; } .career-start-panel { box-shadow: none; } }
+@media (max-width: 520px) { .career-start-hero h1 { font-size: 2.9rem; } .career-start-hero p { font-size: 12px; } .career-start-steps { gap: 10px; font-size: 8px; } .career-start-panel > header h2 { font-size: 1.85rem; } }
+
+/* Central Dia do Jogo */
+.matchday-simulation { margin-top: 24px; border: 1px solid var(--line); border-top: 4px solid var(--cobalt); background: var(--paper-bright); box-shadow: 0 14px 30px rgba(31,34,34,.06); }
+.matchday-simulation-head { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 24px; }
+.matchday-simulation-head h2 { margin: 6px 0 0; font: 700 clamp(20px, 3vw, 28px)/.95 "Space Grotesk", sans-serif; letter-spacing: -.055em; }
+.matchday-simulation-head p { margin: 8px 0 0; color: #777970; font-size: 11px; }
+.matchday-simulation-body { display: grid; grid-template-columns: .8fr 1.2fr; gap: 1px; border-top: 1px solid var(--line); background: var(--line); }
+.matchday-progress, .matchday-pitch, .matchday-events { padding: 22px; background: var(--paper); }
+.matchday-progress { display: grid; align-content: center; gap: 10px; }
+.matchday-progress > span { color: var(--cobalt); font-size: 9px; font-weight: 800; letter-spacing: .12em; }
+.matchday-progress strong { font: 700 22px/.98 "Space Grotesk", sans-serif; letter-spacing: -.04em; }
+.matchday-progress-bar { height: 5px; margin-top: 8px; background: #e3e1d8; overflow: hidden; }
+.matchday-progress-bar i { display: block; height: 100%; background: var(--grass); transition: width .3s var(--ease-out, ease-out); }
+.matchday-pitch { display: flex; align-items: center; justify-content: center; gap: clamp(14px, 5vw, 48px); background: radial-gradient(circle at center, #315642, #17372c); color: #f4f1e9; }
+.matchday-pitch > div { display: grid; justify-items: center; gap: 9px; max-width: 130px; text-align: center; }
+.matchday-pitch .crest-placeholder { width: 44px; height: 44px; }
+.matchday-pitch b { font: 600 12px/1.1 "Space Grotesk", sans-serif; }
+.matchday-pitch > span { color: #bed477; font: 800 11px "Space Grotesk", sans-serif; letter-spacing: .12em; }
+.matchday-events { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 16px 22px; color: #6f756c; font-size: 10px; line-height: 1.45; }
+.matchday-events p { margin: 0; display: flex; gap: 8px; align-items: flex-start; }
+.matchday-events .status-pip { flex: 0 0 auto; margin-top: 4px; }
+.primary-action.compact { min-height: 40px; padding: 0 14px; font-size: 9px; }
+@media (max-width: 680px) { .matchday-simulation-head { align-items: flex-start; flex-direction: column; padding: 18px; } .matchday-simulation-head .primary-action { width: 100%; justify-content: center; } .matchday-simulation-body { grid-template-columns: 1fr; } .matchday-events { grid-column: auto; grid-template-columns: 1fr; } .matchday-pitch { min-height: 150px; } }

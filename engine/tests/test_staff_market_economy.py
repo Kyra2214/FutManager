@@ -46,6 +46,26 @@ def test_initial_cash_contracts_staff_and_department_weekly_costs(tmp_path):
     service.close()
 
 
+def test_department_upgrade_waits_for_construction_deadline(tmp_path):
+    service = StaffMarketService(make_db(tmp_path))
+    service.ensure_club_economy(1)
+    result = service.upgrade_department(1, "medicina")
+    assert result["status"] == "IN_PROGRESS"
+    assert result["duration_weeks"] >= 1
+    assert service.connection.execute("SELECT level FROM club_departments WHERE club_id=1 AND department='medicina'").fetchone() is None
+    assert service.connection.execute("SELECT status FROM department_constructions WHERE club_id=1 AND department='medicina'").fetchone()[0] == "IN_PROGRESS"
+    with pytest.raises(Exception, match="DEPARTMENT_CONSTRUCTION_IN_PROGRESS"):
+        service.upgrade_department(1, "medicina")
+    started = __import__('datetime').date.fromisoformat(result["started_at"])
+    completed = service.complete_department_constructions(started, managed_transaction=True)
+    assert completed["completed"] == 0
+    due = __import__('datetime').date.fromisoformat(result["completion_at"])
+    completed = service.complete_department_constructions(due, managed_transaction=True)
+    assert completed["completed"] == 1
+    assert service.connection.execute("SELECT level FROM club_departments WHERE club_id=1 AND department='medicina'").fetchone()[0] == 1
+    service.close()
+
+
 def test_economy_bootstrap_creates_staff_schema_when_it_is_absent(tmp_path):
     path = tmp_path / "economy_without_staff_schema.db"
     con = sqlite3.connect(path)

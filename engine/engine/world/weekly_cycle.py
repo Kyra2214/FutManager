@@ -88,11 +88,14 @@ class WeeklyWorldCycleService:
             raise DomainError(DomainErrorCode.WEEK_OUT_OF_SEQUENCE)
         self.connection.execute("INSERT INTO weekly_world_runs(season,week,scope,tick_id,seed,status,started_at) VALUES(?,?,?,?,?,'RUNNING',?) ON CONFLICT(season,week,scope) DO UPDATE SET tick_id=excluded.tick_id,seed=excluded.seed,status='RUNNING',started_at=excluded.started_at,finished_at=NULL,result_json=NULL,error=NULL", (context.season, context.week, "WORLD", context.tick_id, seed, context.current_date.isoformat()))
         self.connection.commit()
+        clock_before = dict(self.clock.current())
         try:
             self.connection.execute("BEGIN IMMEDIATE")
             self.clock.commit_tick(context)
+            construction_result = self.staff.complete_department_constructions(context.current_date, managed_transaction=False)
             due = self.connection.execute("SELECT * FROM matches WHERE status='SCHEDULED' AND match_date<=? ORDER BY match_date,match_id", (context.current_date.isoformat(),)).fetchall()
             processed_matches = []
+            match_snapshots = {int(match['match_id']): dict(match) for match in due}
             for match in due:
                 result = self.matches.play(int(match["match_id"]), seed=(seed or 0) + int(match["match_id"]), managed_transaction=False)
                 importance = min(100, 40 + int(match["round"]) * 4)
@@ -169,11 +172,12 @@ class WeeklyWorldCycleService:
                     managed_transaction=False,
                 )
             ledger_close = self.ledger.close_week(context)
-            result = {"matches": len(processed_matches), "match_details": processed_matches, "prizes": prizes, "sponsorship": sponsor_result, "payroll": payroll_result, "ledger_close": ledger_close}
+            result = {"matches": len(processed_matches), "match_details": processed_matches, "prizes": prizes, "sponsorship": sponsor_result, "payroll": payroll_result, "constructions": construction_result, "ledger_close": ledger_close}
             self._audit(context, "MATCHES", {"processed": len(processed_matches)})
             self._audit(context, "PRIZES", {"competitions": len(prizes)})
             self._audit(context, "SPONSORSHIPS", sponsor_result)
             self._audit(context, "PAYROLL", payroll_result)
+            self._audit(context, "CONSTRUCTIONS", construction_result)
             self._audit(context, "TRAVEL", {"matches": len(processed_matches), "costs": [detail.get("travel", {}) for detail in processed_matches]})
             self._audit(context, "LEDGER_CLOSE", ledger_close)
             self.connection.execute("UPDATE weekly_world_runs SET status='COMPLETED',finished_at=?,result_json=? WHERE season=? AND week=? AND scope='WORLD'", (context.current_date.isoformat(), json.dumps(result, sort_keys=True), context.season, context.week))
@@ -181,6 +185,12 @@ class WeeklyWorldCycleService:
             return {"status": "COMPLETED", "tick_id": context.tick_id, "season": context.season, "week": context.week, **result}
         except Exception as error:
             self.connection.rollback()
+            for snapshot in match_snapshots.values():
+                self.connection.execute("UPDATE matches SET home_goals=?,away_goals=?,status=?,home_lineup_id=?,away_lineup_id=?,seed=? WHERE match_id=?", (snapshot.get('home_goals'), snapshot.get('away_goals'), snapshot.get('status'), snapshot.get('home_lineup_id'), snapshot.get('away_lineup_id'), snapshot.get('seed'), snapshot['match_id']))
+                self.connection.execute("DELETE FROM match_events WHERE match_id=? AND event_type='RESULT'", (snapshot['match_id'],))
+                self.connection.execute("DELETE FROM match_stats WHERE match_id=?", (snapshot['match_id'],))
+            self.clock.restore(clock_before['current_date'], int(clock_before['current_week']), int(clock_before['current_month']), int(clock_before['current_season']), clock_before.get('last_processed_tick'))
+            self.connection.commit()
             self.connection.execute("UPDATE weekly_world_runs SET status='ROLLED_BACK',finished_at=?,error=? WHERE season=? AND week=? AND scope='WORLD'", (context.current_date.isoformat(), str(error), context.season, context.week))
             self.connection.commit()
             raise

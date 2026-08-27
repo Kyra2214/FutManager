@@ -1,0 +1,13 @@
+from pathlib import Path
+p=Path('/home/ubuntu/brasfoot_engine/scripts/career_gateway.py')
+s=p.read_text()
+needle='from engine.core.p1_commission_contract import audit_p1_commissions, protect_p1_commission_mutation, read_p1_commissions, read_p1_commission_state, persist_p1_commission, validate_p1_commission\n'
+s=s.replace(needle, needle+'from engine.core.p1_record_contract import audit_p1_records, protect_p1_record_mutation, read_p1_records, read_p1_record_state, persist_p1_record, validate_p1_record\n',1)
+needle='def p1_commission_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n'
+fn="""def p1_record_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n    if action == 'p1_record_contracts': return {'items': read_p1_records(connection), 'read_only': True}\n    if action == 'p1_record_state': return {'items': read_p1_record_state(connection, payload.get('record_key')), 'read_only': True}\n    if action == 'p1_record_validate': return validate_p1_record(connection, int(payload.get('item_id')))\n    if action == 'p1_record_persist': return persist_p1_record(connection, str(payload.get('record_key', '')), int(payload.get('record_id', 0)), str(payload.get('record_name', '')), dict(payload.get('record_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))\n    if action == 'p1_record_protect': return protect_p1_record_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))\n    if action == 'p1_record_audit': return audit_p1_records(connection)\n    raise ValueError('P1_RECORD_ACTION_INVALID')\n\n"""
+s=s.replace(needle,fn+needle,1)
+marker='        if action in {"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit"}:\n            return {"ok": True, **p1_commission_market(service.connection, action, payload)}\n'
+s=s.replace(marker,marker+'        if action in {"p1_record_contracts", "p1_record_state", "p1_record_validate", "p1_record_persist", "p1_record_protect", "p1_record_audit"}:\n            return {"ok": True, **p1_record_market(service.connection, action, payload)}\n',1)
+choices='"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit", '
+s=s.replace(choices,choices+'"p1_record_contracts", "p1_record_state", "p1_record_validate", "p1_record_persist", "p1_record_protect", "p1_record_audit", ',1)
+p.write_text(s)

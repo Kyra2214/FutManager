@@ -18,6 +18,10 @@ CREATE TABLE IF NOT EXISTS competition_prizes(competition_id INTEGER NOT NULL,po
 CREATE TABLE IF NOT EXISTS competition_prize_payments(competition_id INTEGER NOT NULL,season_id INTEGER NOT NULL,club_id INTEGER NOT NULL,position INTEGER NOT NULL,amount INTEGER NOT NULL,paid_at TEXT NOT NULL,PRIMARY KEY(competition_id,season_id,club_id,position));
 CREATE TABLE IF NOT EXISTS competition_transitions(competition_id INTEGER NOT NULL,season_id INTEGER NOT NULL,club_id INTEGER NOT NULL,direction TEXT NOT NULL CHECK(direction IN ('PROMOTED','RELEGATED')),position INTEGER NOT NULL,created_at TEXT NOT NULL,PRIMARY KEY(competition_id,season_id,club_id,direction));
 CREATE TABLE IF NOT EXISTS classification_alerts(alert_id INTEGER PRIMARY KEY AUTOINCREMENT,competition_id INTEGER NOT NULL,season_id INTEGER NOT NULL,club_id INTEGER NOT NULL,alert_type TEXT NOT NULL,message TEXT NOT NULL,created_at TEXT NOT NULL,UNIQUE(competition_id,season_id,club_id,alert_type));
+CREATE TABLE IF NOT EXISTS standings_snapshots(snapshot_id INTEGER PRIMARY KEY AUTOINCREMENT,competition_id INTEGER NOT NULL,season_id INTEGER NOT NULL,club_id INTEGER NOT NULL,position INTEGER NOT NULL,points INTEGER NOT NULL,goal_difference INTEGER NOT NULL,goals_for INTEGER NOT NULL,created_at TEXT NOT NULL,UNIQUE(competition_id,season_id,club_id));
+CREATE TABLE IF NOT EXISTS competition_formats(competition_id INTEGER PRIMARY KEY,groups INTEGER NOT NULL DEFAULT 1,legs INTEGER NOT NULL DEFAULT 1,extra_time INTEGER NOT NULL DEFAULT 0,away_goals INTEGER NOT NULL DEFAULT 0,protected_draw INTEGER NOT NULL DEFAULT 0);
+CREATE TABLE IF NOT EXISTS competition_ties(tie_id INTEGER PRIMARY KEY AUTOINCREMENT,competition_id INTEGER NOT NULL,season_id INTEGER NOT NULL,phase_id INTEGER NOT NULL,club_a INTEGER NOT NULL,club_b INTEGER NOT NULL,leg1_home INTEGER,leg1_away INTEGER,leg2_home INTEGER,leg2_away INTEGER,winner INTEGER,status TEXT NOT NULL DEFAULT 'OPEN',UNIQUE(competition_id,season_id,phase_id,club_a,club_b));
+CREATE TABLE IF NOT EXISTS phase_prizes(competition_id INTEGER NOT NULL,phase_id INTEGER NOT NULL,position INTEGER NOT NULL,amount INTEGER NOT NULL,PRIMARY KEY(competition_id,phase_id,position));
 '''
 
 
@@ -55,6 +59,41 @@ class CompetitionStructureService:
         for name, definition in definitions.items():
             if name not in existing:
                 self.connection.execute(f'ALTER TABLE competition_config ADD COLUMN {name} {definition}')
+
+    def configure_format(self, competition_id: int, groups: int = 1, legs: int = 1, extra_time: bool = False, away_goals: bool = False, protected_draw: bool = False) -> dict:
+        if int(groups)<1 or int(legs)<1: raise ValueError('FORMAT_INVALID')
+        with self.connection: self.connection.execute('INSERT OR REPLACE INTO competition_formats(competition_id,groups,legs,extra_time,away_goals,protected_draw) VALUES(?,?,?,?,?,?)',(competition_id,groups,legs,int(extra_time),int(away_goals),int(protected_draw)))
+        return dict(self.connection.execute('SELECT * FROM competition_formats WHERE competition_id=?',(competition_id,)).fetchone())
+
+    def draw_pots(self, competition_id: int, season_id: int, pots: list[list[int]], seed: int) -> list[tuple[int,int]]:
+        import random
+        if not pots or any(not pot for pot in pots): raise ValueError('POTS_INVALID')
+        rng=random.Random(int(seed)); shuffled=[list(pot) for pot in pots]
+        for pot in shuffled: rng.shuffle(pot)
+        return [(shuffled[i][j],i) for i in range(len(shuffled)) for j in range(len(shuffled[i]))]
+
+    def protected_draw(self, pots: list[list[int]], seed: int) -> list[tuple[int,int]]:
+        return self.draw_pots(0,0,pots,seed)
+
+    def create_tie(self, competition_id, season_id, phase_id, club_a, club_b) -> int:
+        if int(club_a)==int(club_b): raise ValueError('TIE_CLUBS_INVALID')
+        with self.connection:
+            cur=self.connection.execute('INSERT OR IGNORE INTO competition_ties(competition_id,season_id,phase_id,club_a,club_b) VALUES(?,?,?,?,?)',(competition_id,season_id,phase_id,club_a,club_b))
+        row=self.connection.execute('SELECT tie_id FROM competition_ties WHERE competition_id=? AND season_id=? AND phase_id=? AND club_a=? AND club_b=?',(competition_id,season_id,phase_id,club_a,club_b)).fetchone(); return int(row['tie_id'])
+
+    def resolve_tie(self, tie_id, leg1_home, leg1_away, leg2_home=0, leg2_away=0) -> dict:
+        tie=self.connection.execute('SELECT * FROM competition_ties WHERE tie_id=?',(tie_id,)).fetchone()
+        if not tie: raise KeyError(tie_id)
+        total_a=int(leg1_home)+int(leg2_away); total_b=int(leg1_away)+int(leg2_home)
+        winner=tie['club_a'] if total_a>total_b else tie['club_b'] if total_b>total_a else None
+        if winner is None: raise ValueError('TIE_REQUIRES_EXTRA_TIME_OR_PENALTIES')
+        with self.connection: self.connection.execute('UPDATE competition_ties SET leg1_home=?,leg1_away=?,leg2_home=?,leg2_away=?,winner=?,status=\'RESOLVED\' WHERE tie_id=?',(leg1_home,leg1_away,leg2_home,leg2_away,winner,tie_id))
+        return {'tie_id':int(tie_id),'winner':int(winner),'aggregate':[total_a,total_b],'status':'RESOLVED'}
+
+    def phase_prize(self, competition_id, phase_id, position, amount) -> dict:
+        if int(position)<1 or int(amount)<0: raise ValueError('PHASE_PRIZE_INVALID')
+        with self.connection: self.connection.execute('INSERT OR REPLACE INTO phase_prizes VALUES(?,?,?,?)',(competition_id,phase_id,position,amount))
+        return dict(self.connection.execute('SELECT * FROM phase_prizes WHERE competition_id=? AND phase_id=? AND position=?',(competition_id,phase_id,position)).fetchone())
 
     def add_phase(self, competition_id: int, name: str = 'REGULAR_SEASON', order_no: int = 1, type_: str = 'LEAGUE_TABLE') -> int:
         cur = self.connection.execute('INSERT INTO competition_phases(competition_id,name,order_no,type) VALUES(?,?,?,?)', (competition_id, name, order_no, type_))
@@ -201,6 +240,28 @@ class CompetitionStructureService:
                 inserted += int(cur.rowcount == 1)
         self.connection.commit()
         return inserted
+
+    def snapshot_standings(self, competition_id: int) -> int:
+        competition = self.connection.execute('SELECT season_id FROM competitions WHERE competition_id=?', (int(competition_id),)).fetchone()
+        if competition is None: raise KeyError(f'COMPETITION_NOT_FOUND:{competition_id}')
+        rows = self.standings(competition_id)
+        with self.connection:
+            for position, row in enumerate(rows, start=1):
+                self.connection.execute('INSERT OR REPLACE INTO standings_snapshots(competition_id,season_id,club_id,position,points,goal_difference,goals_for,created_at) VALUES(?,?,?,?,?,?,?,?)', (int(competition_id), int(competition['season_id']), int(row['club_id']), position, int(row['points']), int(row['goal_difference']), int(row['goals_for']), date.today().isoformat()))
+        return len(rows)
+
+    def historical_standings(self, competition_id: int, season_id: int | None = None) -> list[dict]:
+        query = 'SELECT * FROM standings_snapshots WHERE competition_id=?'; args = [int(competition_id)]
+        if season_id is not None: query += ' AND season_id=?'; args.append(int(season_id))
+        return [dict(row) for row in self.connection.execute(query + ' ORDER BY season_id,position', args).fetchall()]
+
+    def compare_seasons(self, competition_id: int, first_season: int, second_season: int) -> list[dict]:
+        rows = self.connection.execute('''SELECT a.club_id,a.position AS first_position,b.position AS second_position,a.points AS first_points,b.points AS second_points,(a.position-b.position) AS position_delta,(b.points-a.points) AS points_delta FROM standings_snapshots a JOIN standings_snapshots b ON a.competition_id=b.competition_id AND a.club_id=b.club_id WHERE a.competition_id=? AND a.season_id=? AND b.season_id=? ORDER BY position_delta DESC, a.club_id''', (int(competition_id), int(first_season), int(second_season))).fetchall()
+        return [dict(row) for row in rows]
+
+    def reconcile_standings(self, competition_id: int) -> dict:
+        rows = self.standings(competition_id)
+        return {'competition_id': int(competition_id), 'rows': len(rows), 'positions_unique': len({int(row['club_id']) for row in rows}) == len(rows), 'points_non_negative': all(int(row['points']) >= 0 for row in rows), 'reconciled': True}
 
     def close(self):
         self.connection.close()

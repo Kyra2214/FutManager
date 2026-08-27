@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS staff_history (
  history_id INTEGER PRIMARY KEY AUTOINCREMENT, staff_id INTEGER NOT NULL, event_type TEXT NOT NULL,
  event_date TEXT NOT NULL, payload TEXT NOT NULL, FOREIGN KEY(staff_id) REFERENCES staff_members(staff_id)
 );
+CREATE TABLE IF NOT EXISTS department_upgrade_audit (upgrade_id INTEGER PRIMARY KEY AUTOINCREMENT,club_id INTEGER NOT NULL,department TEXT NOT NULL,from_level INTEGER NOT NULL,to_level INTEGER NOT NULL,cost INTEGER NOT NULL,status TEXT NOT NULL,reference TEXT NOT NULL UNIQUE,created_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS club_departments (
  club_id INTEGER NOT NULL, department TEXT NOT NULL, level INTEGER NOT NULL DEFAULT 1,
  cost INTEGER NOT NULL DEFAULT 0, capacity INTEGER NOT NULL DEFAULT 0,
@@ -125,7 +126,24 @@ class StaffStateStore:
             con.execute('''INSERT INTO club_departments(club_id,department,level,cost,capacity,maintenance,efficiency)
                 VALUES (?,?,?,?,?,?,?) ON CONFLICT(club_id,department) DO UPDATE SET level=excluded.level,cost=excluded.cost,capacity=excluded.capacity,maintenance=excluded.maintenance,efficiency=excluded.efficiency''',(club_id,department,level,cost,capacity,maintenance,efficiency))
 
-    def add_history(self, staff_id:int, event_type:str, payload:dict, con=None):
+    def preview_department_upgrade(self, club_id:int, department:str, cost:int, target_level:int, cash:int) -> dict:
+        row=self.connection.execute('SELECT * FROM club_departments WHERE club_id=? AND department=?',(club_id,department)).fetchone()
+        current=int(row['level']) if row else 0
+        if int(target_level)<=current or int(target_level)>10 or int(cost)<0: raise ValueError('DEPARTMENT_UPGRADE_INVALID')
+        return {'club_id':int(club_id),'department':department,'from_level':current,'to_level':int(target_level),'cost':int(cost),'cash_after':int(cash)-int(cost),'cash_sufficient':int(cash)>=int(cost),'persisted':False}
+
+    def approve_department_upgrade(self, club_id:int, department:str, target_level:int, cost:int, cash:int, reference:str) -> dict:
+        preview=self.preview_department_upgrade(club_id,department,cost,target_level,cash)
+        if not preview['cash_sufficient']: raise ValueError('INSUFFICIENT_CASH')
+        with self.transaction() as con:
+            con.execute('UPDATE club_departments SET level=?,cost=?,maintenance=maintenance+?,efficiency=MIN(1.0,efficiency+0.05) WHERE club_id=? AND department=?',(target_level,cost,max(1,cost//100),club_id,department))
+            con.execute('INSERT OR IGNORE INTO department_upgrade_audit(club_id,department,from_level,to_level,cost,status,reference,created_at) VALUES(?,?,?,?,?,?,?,?)',(club_id,department,preview['from_level'],target_level,cost,'APPROVED',reference,date.today().isoformat()))
+        return {'reference':reference,'status':'APPROVED','preview':preview,'persisted':True}
+
+    def department_audit(self, club_id:int) -> list[dict]:
+        return [dict(row) for row in self.connection.execute('SELECT * FROM department_upgrade_audit WHERE club_id=? ORDER BY upgrade_id',(club_id,)).fetchall()]
+
+    def add_history(self, staff_id:int,event_type:str,payload:dict,con=None):
         target=con or self.connection
         target.execute('INSERT INTO staff_history(staff_id,event_type,event_date,payload) VALUES (?,?,?,?)',(staff_id,event_type,date.today().isoformat(),json.dumps(payload,ensure_ascii=False,sort_keys=True)))
 

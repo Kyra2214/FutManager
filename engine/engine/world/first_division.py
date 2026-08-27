@@ -33,6 +33,12 @@ FIRST_DIVISION_SOURCES: tuple[FirstDivisionSource, ...] = (
     FirstDivisionSource(154, "POR", "Liga Portugal Betclic", "2025/26", (
         "Porto", "Sporting CP", "Benfica", "Braga", "Famalicão", "Gil Vicente", "Moreirense", "Arouca", "Vitória de Guimarães", "Estoril Praia", "Alverca", "Rio Ave", "Santa Clara", "Nacional", "Estrela da Amadora", "Casa Pia", "Tondela", "AVS",
     ), "https://pt.wikipedia.org/wiki/Primeira_Liga_de_2025%E2%80%9326"),
+    FirstDivisionSource(3, "GER", "Bundesliga", "2026/27", (
+        "FC Bayern München", "Borussia Dortmund", "RB Leipzig", "VfB Stuttgart", "TSG Hoffenheim", "Bayer 04 Leverkusen", "Sport-Club Freiburg", "Eintracht Frankfurt", "FC Augsburg", "1. FSV Mainz 05", "1. FC Union Berlin", "Borussia Mönchengladbach", "Hamburger SV", "1. FC Köln", "SV Werder Bremen", "FC Schalke 04", "SV Elversberg", "SC Paderborn 07",
+    ), "https://www.bundesliga.com/en/bundesliga/clubs"),
+    FirstDivisionSource(72, "FRA", "Ligue 1", "2026/27", (
+        "SCO Angers", "AJ Auxerre", "AS Monaco", "Stade Brestois", "Lorient", "Havre AC", "LOSC", "OGC Nice", "Olympique Lyonnais", "Olympique de Marseille", "Paris FC", "Paris Saint-Germain", "RC Lens", "Rennes", "RC Strasbourg", "Toulouse FC", "Le Mans FC", "ESTAC",
+    ), "https://ligue1.com/en/calendar/ligue1"),
 )
 
 
@@ -67,6 +73,28 @@ ALIASES = {
     normalize_club_name("RCD Espanyol de Barcelona"): {"espanyol", "rcd espanyol"},
     normalize_club_name("Vitória de Guimarães"): {"vitoria guimaraes", "vitoria de guimaraes"},
     normalize_club_name("Sporting CP"): {"sporting", "sporting cp"},
+    normalize_club_name("FC Bayern München"): {"bayern munique", "bayern de munique", "bayern munchen"},
+    normalize_club_name("VfB Stuttgart"): {"stuttgart"},
+    normalize_club_name("TSG Hoffenheim"): {"hoffenheim"},
+    normalize_club_name("Bayer 04 Leverkusen"): {"bayer leverkusen"},
+    normalize_club_name("Sport-Club Freiburg"): {"freiburg"},
+    normalize_club_name("1. FSV Mainz 05"): {"mainz", "mainz 05"},
+    normalize_club_name("1. FC Union Berlin"): {"union berlin"},
+    normalize_club_name("Borussia Mönchengladbach"): {"borussia mgladbach", "b monchengladbach"},
+    normalize_club_name("Hamburger SV"): {"hamburgo sv", "hamburg"},
+    normalize_club_name("1. FC Köln"): {"koln"},
+    normalize_club_name("SV Werder Bremen"): {"werder bremen"},
+    normalize_club_name("SV Elversberg"): {"elversberg"},
+    normalize_club_name("SCO Angers"): {"angers"},
+    normalize_club_name("AJ Auxerre"): {"auxerre"},
+    normalize_club_name("AS Monaco"): {"monaco"},
+    normalize_club_name("Stade Brestois"): {"stade brest"},
+    normalize_club_name("Havre AC"): {"le havre"},
+    normalize_club_name("LOSC"): {"lille"},
+    normalize_club_name("OGC Nice"): {"nice"},
+    normalize_club_name("Olympique Lyonnais"): {"lyon"},
+    normalize_club_name("Olympique de Marseille"): {"olympique marseille"},
+    normalize_club_name("ESTAC"): {"troyes", "troyes ac"},
 }
 
 

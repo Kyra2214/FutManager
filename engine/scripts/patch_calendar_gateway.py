@@ -1,0 +1,13 @@
+from pathlib import Path
+p=Path('/home/ubuntu/brasfoot_engine/scripts/career_gateway.py')
+s=p.read_text()
+needle='from engine.core.p1_commission_contract import audit_p1_commissions, protect_p1_commission_mutation, read_p1_commissions, read_p1_commission_state, persist_p1_commission, validate_p1_commission\n'
+s=s.replace(needle, needle+'from engine.core.p1_calendar_contract import audit_p1_calendars, protect_p1_calendar_mutation, read_p1_calendars, read_p1_calendar_state, persist_p1_calendar, validate_p1_calendar\n',1)
+needle='def p1_commission_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n'
+fn="""def p1_calendar_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:\n    if action == 'p1_calendar_contracts': return {'items': read_p1_calendars(connection), 'read_only': True}\n    if action == 'p1_calendar_state': return {'items': read_p1_calendar_state(connection, payload.get('calendar_key')), 'read_only': True}\n    if action == 'p1_calendar_validate': return validate_p1_calendar(connection, int(payload.get('item_id')))\n    if action == 'p1_calendar_persist': return persist_p1_calendar(connection, str(payload.get('calendar_key', '')), int(payload.get('calendar_id', 0)), str(payload.get('calendar_name', '')), dict(payload.get('calendar_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))\n    if action == 'p1_calendar_protect': return protect_p1_calendar_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))\n    if action == 'p1_calendar_audit': return audit_p1_calendars(connection)\n    raise ValueError('P1_CALENDAR_ACTION_INVALID')\n\n"""
+s=s.replace(needle,fn+needle,1)
+marker='        if action in {"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit"}:\n            return {"ok": True, **p1_commission_market(service.connection, action, payload)}\n'
+s=s.replace(marker,marker+'        if action in {"p1_calendar_contracts", "p1_calendar_state", "p1_calendar_validate", "p1_calendar_persist", "p1_calendar_protect", "p1_calendar_audit"}:\n            return {"ok": True, **p1_calendar_market(service.connection, action, payload)}\n',1)
+choices='"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit", '
+s=s.replace(choices,choices+'"p1_calendar_contracts", "p1_calendar_state", "p1_calendar_validate", "p1_calendar_persist", "p1_calendar_protect", "p1_calendar_audit", ',1)
+p.write_text(s)

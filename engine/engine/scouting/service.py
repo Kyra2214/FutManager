@@ -97,6 +97,13 @@ class ScoutService:
   preview=self.preview_game_plan(club_id,opponent_id,observation_id,plan)
   with self.connection: cur=self.connection.execute('INSERT INTO game_plans(club_id,opponent_id,observation_id,plan,status,approved_by,approved_at) VALUES(?,?,?,?,?,?,?)',(club_id,opponent_id,observation_id,plan,'APPROVED',approved_by,date.today().isoformat()))
   return {'plan_id':int(cur.lastrowid),'status':'APPROVED','preview':preview}
+ def post_match_report(self, observation_id, match_id, result, confirmed_weakness: bool):
+  row=self.connection.execute('SELECT * FROM opponent_observations WHERE observation_id=?',(int(observation_id),)).fetchone()
+  if not row: raise KeyError(observation_id)
+  payload=json.dumps({'match_id':int(match_id),'result':result,'confirmed_weakness':bool(confirmed_weakness)},sort_keys=True)
+  self.connection.execute('UPDATE opponent_observations SET evidence=evidence || ? WHERE observation_id=?',(f' | post_match:{payload}',int(observation_id))); self.connection.commit()
+  return {'observation_id':int(observation_id),'match_id':int(match_id),'confirmed_weakness':bool(confirmed_weakness),'persisted':True}
+
  def expire_opponent_reports(self,as_of):
   with self.connection: cur=self.connection.execute("UPDATE opponent_observations SET status='EXPIRED' WHERE status='ACTIVE' AND expires_at<?",(as_of,))
   return int(cur.rowcount)
