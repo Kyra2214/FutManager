@@ -39,6 +39,7 @@ from engine.core.p1_telemetry_contract import audit_p1_telemetry, protect_p1_tel
 from engine.core.p1_session_contract import audit_p1_sessions, protect_p1_session_mutation, read_p1_sessions, read_p1_session_state, persist_p1_session, validate_p1_session
 from engine.core.p1_role_contract import audit_p1_roles, protect_p1_role_mutation, read_p1_roles, read_p1_role_state, persist_p1_role, validate_p1_role
 from engine.core.p1_invite_contract import audit_p1_invites, protect_p1_invite_mutation, read_p1_invites, read_p1_invite_state, persist_p1_invite, validate_p1_invite
+from engine.core.p1_scope_contract import audit_p1_scopes, protect_p1_scope_mutation, read_p1_scopes, read_p1_scope_state, persist_p1_scope, validate_p1_scope
 from engine.social.attendance import AttendanceService
 from engine.social.stadium_fans import SocialService
 from engine.stadiums.service import StadiumService
@@ -528,6 +529,15 @@ def p1_domain_version_market(connection: sqlite3.Connection, action: str, payloa
     raise ValueError('P1_DOMAIN_VERSION_ACTION_INVALID')
 
 
+def p1_scope_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_scope_contracts': return {'items': read_p1_scopes(connection), 'read_only': True}
+    if action == 'p1_scope_state': return {'items': read_p1_scope_state(connection, payload.get('scope_key')), 'read_only': True}
+    if action == 'p1_scope_validate': return validate_p1_scope(connection, int(payload.get('item_id')))
+    if action == 'p1_scope_persist': return persist_p1_scope(connection, str(payload.get('scope_key', '')), dict(payload.get('scope_payload') or {}), payload.get('career_id'), str(payload.get('scope_name', 'career_scope')), str(payload.get('actor', '')))
+    if action == 'p1_scope_protect': return protect_p1_scope_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_scope_audit': return audit_p1_scopes(connection)
+    raise ValueError('P1_SCOPE_ACTION_INVALID')
+
 def p1_invite_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
     if action == 'p1_invite_contracts': return {'items': read_p1_invites(connection), 'read_only': True}
     if action == 'p1_invite_state': return {'items': read_p1_invite_state(connection, payload.get('invite_key')), 'read_only': True}
@@ -614,6 +624,8 @@ def run(action: str, payload: dict, database_path: Path) -> dict:
             return {"ok": True, **p1_role_market(service.connection, action, payload)}
         if action in {"p1_invite_contracts", "p1_invite_state", "p1_invite_validate", "p1_invite_persist", "p1_invite_protect", "p1_invite_audit"}:
             return {"ok": True, **p1_invite_market(service.connection, action, payload)}
+        if action in {"p1_scope_contracts", "p1_scope_state", "p1_scope_validate", "p1_scope_persist", "p1_scope_protect", "p1_scope_audit"}:
+            return {"ok": True, **p1_scope_market(service.connection, action, payload)}
         if action == "parallel_preview":
             return {"ok": True, **service.preview_parallel_league([int(value) for value in payload.get('selected_country_ids', [])], str(payload.get('target_type', 'club')), int(payload.get('target_id')))}
         if action in {"parallel_snapshot", "parallel_result", "parallel_close"}:
