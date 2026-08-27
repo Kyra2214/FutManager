@@ -861,3 +861,4 @@
 - [x] Produzir o lote P2 2531–2540: contrato de organograma derivado da comissão operacional existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 2621–2630: contrato de scouting do domínio 100 derivado do scout existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 2631–2640: contrato de auditoria do domínio 100 derivado da implementação existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 2721–2730: contrato do domínio 110 derivado da implementação existente, integração ao serviço e validação mínima.
