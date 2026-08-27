@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 1020,
-    "pending": 1980,
+    "done": 1030,
+    "pending": 1970,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -12685,8 +12685,12 @@
       "title": "definir contrato para tática",
       "dependency": "P0_GLOBAL_GATE + passo anterior do domínio",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tactic_contract.py::test_tactic_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1952,
@@ -12694,8 +12698,12 @@
       "title": "validar regras de tática",
       "dependency": "1951",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tactic_contract.py::test_tactic_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1953,
@@ -12703,8 +12711,12 @@
       "title": "persistir estado de tática",
       "dependency": "1952",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tactic_contract.py::test_tactic_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1954,
@@ -12712,8 +12724,12 @@
       "title": "expor leitura de tática",
       "dependency": "1953",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tactic_contract.py::test_tactic_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1955,
@@ -12721,8 +12737,12 @@
       "title": "proteger mutação de tática",
       "dependency": "1954",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tactic_contract.py::test_tactic_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1956,
@@ -12730,8 +12750,12 @@
       "title": "auditar fluxo de tática",
       "dependency": "1955",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tactic_contract.py::test_tactic_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1957,
@@ -12739,8 +12763,12 @@
       "title": "otimizar consulta de tática",
       "dependency": "1956",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tactic_contract.py::test_tactic_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1958,
@@ -12748,8 +12776,12 @@
       "title": "simular cenário de tática",
       "dependency": "1957",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tactic_contract.py::test_tactic_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1959,
@@ -12757,8 +12789,12 @@
       "title": "documentar ciclo de tática",
       "dependency": "1958",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tactic_contract.py::test_tactic_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1960,
@@ -12766,8 +12802,12 @@
       "title": "testar integração de tática",
       "dependency": "1959",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tactic_contract.py::test_tactic_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1961,
