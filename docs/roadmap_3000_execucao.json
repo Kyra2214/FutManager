@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 590,
-    "pending": 2410,
+    "done": 600,
+    "pending": 2400,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -5035,8 +5035,12 @@
       "title": "definir contrato para unicidade",
       "dependency": "1330",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_infrastructure_contract.py::test_stadium_infrastructure_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1332,
@@ -5044,8 +5048,12 @@
       "title": "validar regras de unicidade",
       "dependency": "1331",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_infrastructure_contract.py::test_stadium_infrastructure_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1333,
@@ -5053,8 +5061,12 @@
       "title": "persistir estado de unicidade",
       "dependency": "1332",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_infrastructure_contract.py::test_stadium_infrastructure_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1334,
@@ -5062,8 +5074,12 @@
       "title": "expor leitura de unicidade",
       "dependency": "1333",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_infrastructure_contract.py::test_stadium_infrastructure_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1335,
@@ -5071,8 +5087,12 @@
       "title": "proteger mutação de unicidade",
       "dependency": "1334",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_infrastructure_contract.py::test_stadium_infrastructure_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1336,
@@ -5080,8 +5100,12 @@
       "title": "auditar fluxo de unicidade",
       "dependency": "1335",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_infrastructure_contract.py::test_stadium_infrastructure_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1337,
@@ -5089,8 +5113,12 @@
       "title": "otimizar consulta de unicidade",
       "dependency": "1336",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_infrastructure_contract.py::test_stadium_infrastructure_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1338,
@@ -5098,8 +5126,12 @@
       "title": "simular cenário de unicidade",
       "dependency": "1337",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_infrastructure_contract.py::test_stadium_infrastructure_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1339,
@@ -5107,8 +5139,12 @@
       "title": "documentar ciclo de unicidade",
       "dependency": "1338",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_infrastructure_contract.py::test_stadium_infrastructure_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1340,
@@ -5116,8 +5152,12 @@
       "title": "testar integração de unicidade",
       "dependency": "1339",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_stadium_infrastructure_contract.py::test_stadium_infrastructure_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1341,
