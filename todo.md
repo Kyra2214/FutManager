@@ -596,3 +596,4 @@
 - [x] Implementar e validar o lote P1 1101–1110: contrato e governança de timeout.
 - [x] Implementar lote P0 1041–1050: contrato, validação, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de payload.
 - [x] Integrar o guard real do career_gateway.py ao manifesto 941–3940, mantendo o guard legado para fronts 1–25 e bloqueando P1/P2 pelos gates globais.
+- [x] Implementar e validar o lote P1 1111–1120: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de telemetria.

@@ -2115,8 +2115,14 @@
       "title": "definir contrato para telemetria",
       "dependency": "1110",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1112,
@@ -2124,8 +2130,14 @@
       "title": "validar regras de telemetria",
       "dependency": "1111",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1113,
@@ -2133,8 +2145,14 @@
       "title": "persistir estado de telemetria",
       "dependency": "1112",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1114,
@@ -2142,8 +2160,14 @@
       "title": "expor leitura de telemetria",
       "dependency": "1113",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1115,
@@ -2151,8 +2175,14 @@
       "title": "proteger mutação de telemetria",
       "dependency": "1114",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1116,
@@ -2160,8 +2190,14 @@
       "title": "auditar fluxo de telemetria",
       "dependency": "1115",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1117,
@@ -2169,8 +2205,14 @@
       "title": "otimizar consulta de telemetria",
       "dependency": "1116",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1118,
@@ -2178,8 +2220,14 @@
       "title": "simular cenário de telemetria",
       "dependency": "1117",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1119,
@@ -2187,8 +2235,14 @@
       "title": "documentar ciclo de telemetria",
       "dependency": "1118",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1120,
@@ -2196,8 +2250,14 @@
       "title": "testar integração de telemetria",
       "dependency": "1119",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1121,
