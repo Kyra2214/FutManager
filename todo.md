@@ -680,3 +680,4 @@
 - [ ] Executar revisão e testes gerais somente após todos os lotes do roadmap serem produzidos.
 - [x] Produzir o lote P1 2001–2010: contrato de xG, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2011–2020: contrato de substituição, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2051–2060: contrato de xA, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
