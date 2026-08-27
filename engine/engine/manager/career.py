@@ -35,7 +35,11 @@ CREATE TABLE IF NOT EXISTS career_parallel_entries(career_id INTEGER NOT NULL,cl
 CREATE TABLE IF NOT EXISTS career_parallel_fixtures(fixture_id INTEGER PRIMARY KEY AUTOINCREMENT,career_id INTEGER NOT NULL,season_number INTEGER NOT NULL,matchday INTEGER NOT NULL,leg INTEGER NOT NULL,division INTEGER NOT NULL,scheduled_date TEXT NOT NULL,home_club_id INTEGER NOT NULL,away_club_id INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'SCHEDULED',home_goals INTEGER,away_goals INTEGER,played_at TEXT,UNIQUE(career_id,season_number,matchday,leg,home_club_id,away_club_id));
 CREATE TABLE IF NOT EXISTS career_parallel_standings(career_id INTEGER NOT NULL,season_number INTEGER NOT NULL,club_id INTEGER NOT NULL,division INTEGER NOT NULL,played INTEGER NOT NULL DEFAULT 0,wins INTEGER NOT NULL DEFAULT 0,draws INTEGER NOT NULL DEFAULT 0,losses INTEGER NOT NULL DEFAULT 0,goals_for INTEGER NOT NULL DEFAULT 0,goals_against INTEGER NOT NULL DEFAULT 0,points INTEGER NOT NULL DEFAULT 0,position INTEGER NOT NULL,updated_at TEXT NOT NULL,PRIMARY KEY(career_id,season_number,club_id));
 CREATE TABLE IF NOT EXISTS career_parallel_season_closures(closure_id INTEGER PRIMARY KEY AUTOINCREMENT,career_id INTEGER NOT NULL,season_number INTEGER NOT NULL,closed_at TEXT NOT NULL,promoted_count INTEGER NOT NULL,relegated_count INTEGER NOT NULL,details TEXT NOT NULL,UNIQUE(career_id,season_number));
-'''
+CREATE INDEX IF NOT EXISTS idx_parallel_fixtures_lookup ON career_parallel_fixtures(career_id,season_number,division,matchday,leg);
+CREATE INDEX IF NOT EXISTS idx_parallel_standings_lookup ON career_parallel_standings(career_id,season_number,division,position);
+CREATE INDEX IF NOT EXISTS idx_first_division_country ON first_division_membership(country_id,club_id);
+CREATE INDEX IF NOT EXISTS idx_world_countries_career ON career_world_countries(career_id,country_id);
+  '''
 
 
 class ManagerStatus(StrEnum):
@@ -78,6 +82,73 @@ class ManagerService:
             'INSERT INTO manager_permission_audit(manager_id,action,allowed,reason,created_at) VALUES(?,?,?,?,?)',
             (manager_id, action, int(allowed), reason, self._now()),
         )
+
+    def audit_constraints(self, career_id: int | None = None) -> dict[str, Any]:
+        """Audita constraints SQLite e invariantes de carreira sem alterar o estado."""
+        foreign_keys = int(self.connection.execute('PRAGMA foreign_keys').fetchone()[0])
+        integrity_rows = self.connection.execute('PRAGMA integrity_check').fetchall()
+        foreign_key_rows = self.connection.execute('PRAGMA foreign_key_check').fetchall()
+        checks: dict[str, bool] = {
+            'foreign_keys_enabled': foreign_keys == 1,
+            'integrity_check': len(integrity_rows) == 1 and str(integrity_rows[0][0]).lower() == 'ok',
+            'foreign_key_check': not foreign_key_rows,
+        }
+        params: tuple[Any, ...] = ()
+        scope = ''
+        if career_id is not None:
+            scope = ' WHERE career_id=?'
+            params = (career_id,)
+        duplicate_entries = self.connection.execute(
+            f'SELECT career_id,club_id,COUNT(*) FROM career_parallel_entries{scope} GROUP BY career_id,club_id HAVING COUNT(*) > 1', params
+        ).fetchall()
+        duplicate_fixtures = self.connection.execute(
+            f'SELECT career_id,season_number,matchday,leg,home_club_id,away_club_id,COUNT(*) FROM career_parallel_fixtures{scope} GROUP BY career_id,season_number,matchday,leg,home_club_id,away_club_id HAVING COUNT(*) > 1', params
+        ).fetchall()
+        invalid_divisions = self.connection.execute(
+            f'SELECT career_id,club_id,parallel_division FROM career_parallel_entries{scope} AND parallel_division NOT BETWEEN 1 AND 4' if scope else 'SELECT career_id,club_id,parallel_division FROM career_parallel_entries WHERE parallel_division NOT BETWEEN 1 AND 4',
+            params,
+        ).fetchall()
+        checks.update({
+            'unique_parallel_entries': not duplicate_entries,
+            'unique_parallel_fixtures': not duplicate_fixtures,
+            'valid_parallel_divisions': not invalid_divisions,
+        })
+        return {
+            'status': 'VALID' if all(checks.values()) else 'INVALID',
+            'career_id': career_id,
+            'checks': checks,
+            'violations': {
+                'foreign_keys': foreign_key_rows,
+                'duplicate_entries': duplicate_entries,
+                'duplicate_fixtures': duplicate_fixtures,
+                'invalid_divisions': invalid_divisions,
+            },
+        }
+
+    def audit_indexes(self, career_id: int | None = None) -> dict[str, Any]:
+        """Confirma índices de leitura sem executar mutações ou regras no frontend."""
+        expected = {
+            'idx_parallel_fixtures_lookup': 'career_parallel_fixtures',
+            'idx_parallel_standings_lookup': 'career_parallel_standings',
+            'idx_first_division_country': 'first_division_membership',
+            'idx_world_countries_career': 'career_world_countries',
+        }
+        indexes: dict[str, bool] = {}
+        for index_name, table_name in expected.items():
+            rows = self.connection.execute(f'PRAGMA index_list({table_name})').fetchall()
+            indexes[index_name] = any(str(row[1]) == index_name for row in rows)
+        fixture_query = 'SELECT fixture_id FROM career_parallel_fixtures WHERE career_id=? AND season_number=? AND division=? AND matchday=? AND leg=?'
+        standings_query = 'SELECT club_id FROM career_parallel_standings WHERE career_id=? AND season_number=? AND division=? ORDER BY position'
+        fixture_plan = [tuple(row) for row in self.connection.execute('EXPLAIN QUERY PLAN ' + fixture_query, (career_id or 0, 1, 1, 1, 1)).fetchall()]
+        standings_plan = [tuple(row) for row in self.connection.execute('EXPLAIN QUERY PLAN ' + standings_query, (career_id or 0, 1, 1)).fetchall()]
+        plan_text = ' '.join(' '.join(map(str, row)) for row in fixture_plan + standings_plan).lower()
+        checks = {
+            'expected_indexes': all(indexes.values()),
+            'fixture_query_plan_available': bool(fixture_plan),
+            'standings_query_plan_available': bool(standings_plan),
+            'query_plan_uses_index': 'idx_parallel_' in plan_text or 'autoindex' in plan_text,
+        }
+        return {'status': 'VALID' if all(checks.values()) else 'INVALID', 'career_id': career_id, 'indexes': indexes, 'checks': checks, 'plans': {'fixtures': fixture_plan, 'standings': standings_plan}}
 
     def create_manager(self, name: str, nationality: str | None, age: int) -> int:
         cur = self.connection.execute('INSERT INTO managers(name,nationality,age,created_at) VALUES(?,?,?,?)', (name, nationality, age, date.today().isoformat()))

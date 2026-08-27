@@ -80,3 +80,30 @@ def test_single_country_uses_national_flow_and_main_country_names(tmp_path):
     assert result['parallel_league']['fixture_count'] == 0
     assert service.connection.execute('SELECT COUNT(*) FROM career_parallel_leagues WHERE career_id=?', (career_id,)).fetchone()[0] == 0
     assert service.connection.execute('SELECT career_division FROM career_national_reassignments WHERE career_id=?', (career_id,)).fetchone()[0] == 4
+
+
+def test_constraint_audit_is_read_only_and_validates_parallel_state(tmp_path):
+    db_path = tmp_path / 'game.db'
+    shutil.copyfile(STATE, db_path)
+    service = ManagerService(str(db_path))
+    career_id = service.start_career('Manager Constraints', 'BR', 30, 'Constraints', 'club', 2009, selected_country_ids=[29, 104])['career_id']
+    before = service.connection.execute('SELECT COUNT(*) FROM career_parallel_fixtures WHERE career_id=?', (career_id,)).fetchone()[0]
+    audit = service.audit_constraints(career_id)
+    after = service.connection.execute('SELECT COUNT(*) FROM career_parallel_fixtures WHERE career_id=?', (career_id,)).fetchone()[0]
+    assert audit['status'] == 'VALID'
+    assert all(audit['checks'].values())
+    assert audit['violations'] == {'foreign_keys': [], 'duplicate_entries': [], 'duplicate_fixtures': [], 'invalid_divisions': []}
+    assert before == after
+
+
+def test_index_audit_confirms_calendar_and_standings_plans(tmp_path):
+    db_path = tmp_path / 'game.db'
+    shutil.copyfile(STATE, db_path)
+    service = ManagerService(str(db_path))
+    career_id = service.start_career('Manager Indexes', 'BR', 30, 'Indexes', 'club', 2009, selected_country_ids=[29, 104])['career_id']
+    audit = service.audit_indexes(career_id)
+    assert audit['status'] == 'VALID'
+    assert all(audit['checks'].values())
+    assert all(audit['indexes'].values())
+    assert audit['plans']['fixtures']
+    assert audit['plans']['standings']
