@@ -16,7 +16,18 @@ from engine.core.p1_version_contract import ensure_p1_version_registry
 from engine.core.p1_migration_contract import ensure_p1_migration_registry
 from engine.core.p1_domain_version_contract import ensure_p1_domain_version_registry
 from engine.core.p1_timeout_contract import ensure_p1_timeout_registry
+from engine.core.p1_telemetry_contract import ensure_p1_telemetry_registry
+from engine.core.p1_session_contract import ensure_p1_session_registry
+from engine.core.p1_role_contract import ensure_p1_role_registry
+from engine.core.p1_invite_contract import ensure_p1_invite_registry
+from engine.core.p1_scope_contract import ensure_p1_scope_registry
+from engine.core.p1_revocation_contract import ensure_p1_revocation_registry
+from engine.core.p1_mfa_contract import ensure_p1_mfa_registry
+from engine.core.p1_consent_contract import ensure_p1_consent_registry
+from engine.core.p1_country_contract import ensure_p1_country_registry
+from engine.core.p1_city_contract import ensure_p1_city_registry
 from engine.world.first_division import FIRST_DIVISION_SOURCES, resolve_first_division_members
+from engine.economy.institutional_power import InstitutionalPowerService
 
 SCHEMA = '''
 CREATE TABLE IF NOT EXISTS managers(manager_id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,nationality TEXT,age INTEGER NOT NULL,reputation INTEGER NOT NULL DEFAULT 0,experience INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'ACTIVE',created_at TEXT NOT NULL,current_club_id INTEGER,active_career INTEGER NOT NULL DEFAULT 1);
@@ -84,6 +95,16 @@ class ManagerService:
         ensure_p1_migration_registry(self.connection)
         ensure_p1_domain_version_registry(self.connection)
         ensure_p1_timeout_registry(self.connection)
+        ensure_p1_telemetry_registry(self.connection)
+        ensure_p1_session_registry(self.connection)
+        ensure_p1_role_registry(self.connection)
+        ensure_p1_invite_registry(self.connection)
+        ensure_p1_scope_registry(self.connection)
+        ensure_p1_revocation_registry(self.connection)
+        ensure_p1_mfa_registry(self.connection)
+        ensure_p1_consent_registry(self.connection)
+        ensure_p1_country_registry(self.connection)
+        ensure_p1_city_registry(self.connection)
         self.connection.execute(
             'INSERT OR IGNORE INTO migration_audit(component,version,applied_at,content_hash) VALUES(?,?,?,?)',
             ('manager_career', 3, self._now(), 'manager-career-schema-v3'),
@@ -414,16 +435,24 @@ class ManagerService:
         fixtures = [dict(row) for row in self.connection.execute('SELECT * FROM career_parallel_fixtures WHERE career_id=? AND season_number=? ORDER BY matchday,division,fixture_id LIMIT 500', (career_id, season_number)).fetchall()]
         return {'league': dict(league), 'season_number': season_number, 'standings': standings, 'fixtures': fixtures, 'fixture_count': int(self.connection.execute('SELECT COUNT(*) FROM career_parallel_fixtures WHERE career_id=? AND season_number=?', (career_id, season_number)).fetchone()[0]), 'played_count': int(self.connection.execute("SELECT COUNT(*) FROM career_parallel_fixtures WHERE career_id=? AND season_number=? AND status='PLAYED'", (career_id, season_number)).fetchone()[0])}
 
+    def _club_overall(self, club_id: int) -> float:
+        service = InstitutionalPowerService(self.connection)
+        profile = service.get(int(club_id))
+        if profile is None:
+            profile = service.refresh(int(club_id), managed_transaction=False)
+        return float(profile.overall_score)
+
     def _eligible_clubs(self, country_ids: list[int], target_type: str, target_id: int) -> list[dict[str, Any]]:
         ids = list(dict.fromkeys(int(value) for value in country_ids))
         first = self.list_first_division_clubs([country_id for country_id in ids if self._first_division_source(country_id)]) if any(self._first_division_source(country_id) for country_id in ids) else []
-        rows = self.connection.execute("SELECT t.time_id AS club_id,t.pais_id AS origin_country_id,t.nome FROM times t WHERE trim(COALESCE(t.nome,''))<>'' AND EXISTS (SELECT 1 FROM team_asset_links l WHERE l.time_id=t.time_id AND (l.crest_asset_id IS NOT NULL OR l.crest_mini_asset_id IS NOT NULL)) ORDER BY t.pais_id,t.time_id").fetchall()
-        valid = {int(row['club_id']): {'club_id': int(row['club_id']), 'origin_country_id': int(row['origin_country_id']), 'name': row['nome']} for row in rows}
+        rows = self.connection.execute("SELECT t.time_id AS club_id,t.pais_id AS origin_country_id,t.nome AS name FROM times t WHERE trim(COALESCE(t.nome,''))<>'' AND EXISTS (SELECT 1 FROM team_asset_links l WHERE l.time_id=t.time_id AND (l.crest_asset_id IS NOT NULL OR l.crest_mini_asset_id IS NOT NULL)) ORDER BY t.pais_id,t.time_id").fetchall()
+        ranked_rows = sorted((dict(row) for row in rows), key=lambda row: (-self._club_overall(int(row['club_id'])), int(row['club_id'])))
+        valid = {int(row['club_id']): {'club_id': int(row['club_id']), 'origin_country_id': int(row['origin_country_id']), 'name': row['name']} for row in rows}
         selected=[]; seen=set()
         for item in first:
             club=valid.get(int(item['teamId']))
             if club and club['club_id'] not in seen: selected.append(club); seen.add(club['club_id'])
-        for row in rows:
+        for row in ranked_rows:
             if len(selected)>=80: break
             if int(row['club_id']) not in seen and int(row['origin_country_id']) in ids: selected.append(dict(row)); seen.add(int(row['club_id']))
         if target_type=='club' and target_id in valid and target_id not in seen:
@@ -431,7 +460,7 @@ class ManagerService:
             elif selected: selected[-1] = valid[target_id]
             seen.add(target_id)
         if len(selected)<80:
-            for row in rows:
+            for row in ranked_rows:
                 if int(row['club_id']) not in seen: selected.append(dict(row)); seen.add(int(row['club_id']))
                 if len(selected)>=80: break
         if len(selected)<80: raise ValueError('PARALLEL_LEAGUE_INSUFFICIENT_CLUBS')

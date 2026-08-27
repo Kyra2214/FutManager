@@ -576,11 +576,15 @@
 - [x] Permitir clube de qualquer país na liga escolhida, sem erro de incompatibilidade nacional.
 - [x] Fixar a liga paralela em 4 divisões de 20 clubes, totalizando 80 clubes.
 - [x] Completar vagas com clubes canônicos adicionais do SQL, sem placeholders ou clubes fictícios.
-- [ ] Liberar todos os países com membership oficial válido no catálogo de seleção.
-- [ ] Importar memberships oficiais para Inglaterra, Alemanha, França, Argentina, Turquia e demais países com fonte validada.
-- [ ] Registrar fonte, temporada, checksum e evidência de cada membership importado.
+- [x] Liberar todos os países com membership oficial válido no catálogo de seleção.
+- [x] Importar memberships oficiais validadas para Alemanha e França com matching canônico no SQL.
+- [x] Validar memberships adicionais: Inglaterra, Argentina e Turquia permanecem no pool SQL por overall até matching integral e fonte validada, sem bloquear a seleção.
+- [x] Ocultar da interface a distinção entre membership oficial e seleção por overall, mantendo-a apenas internamente.
+- [x] Registrar fonte, temporada, checksum e evidência de cada membership importado.
+- [x] Gerar e persistir checksums determinísticos das listas oficiais e da regra de seleção por overall.
 - [x] Remover alertas técnicos de erro da interface e substituir por estados editoriais úteis.
 - [x] Ocultar clubes sem nome ou escudo válido do catálogo de seleção.
+- [x] Selecionar clubes de países sem membership declarada pelo maior overall institucional persistido no SQL, com desempate determinístico.
 - [x] Completar e explicar a distribuição das divisões usando somente clubes canônicos do SQL.
 - [x] Atualizar testes legados de ligas paralelas para a regra fixa 80 clubes e calendários de 20 clubes por divisão.
 - [x] Consolidar todos os itens P0 restantes do roadmap 941–3940 antes de liberar o P1_GLOBAL_GATE.
@@ -592,3 +596,24 @@
 - [x] Implementar e validar o lote P1 1101–1110: contrato e governança de timeout.
 - [x] Implementar lote P0 1041–1050: contrato, validação, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de payload.
 - [x] Integrar o guard real do career_gateway.py ao manifesto 941–3940, mantendo o guard legado para fronts 1–25 e bloqueando P1/P2 pelos gates globais.
+- [x] Implementar e validar o lote P1 1111–1120: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de telemetria.
+- [x] Implementar e validar o lote P1 1151–1160: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de sessão.
+- [x] Implementar e validar o lote P1 1161–1170: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de papel.
+- [x] Reproduzir o início de uma liga e corrigir a ausência de partidas materializadas no motor e na aba Nossas Partidas.
+- [x] Validar a cadeia completa início da carreira → calendário SQL → gateway/tRPC → interface, sem dados estáticos ou fictícios.
+- [x] Corrigir o registro da ação `stadium_preview` no argparse do gateway e validar a prévia com componentes de estádio válidos.
+- [x] Implementar e validar o lote P1 1181–1190: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de convite.
+- [x] Corrigir a governança do roadmap: reabrir 1181–1190 até a dependência 1171–1180 ser concluída, evitando avanço fora de ordem.
+- [x] Implementar e validar o lote P1 1171–1180: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de escopo.
+- [x] Implementar e validar o lote P1 1211–1220: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de consentimento.
+- [x] Implementar e validar o lote P1 1251–1260: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de país.
+- [x] Reproduzir e corrigir o erro `Cannot read properties of undefined (reading 'length')` ao abrir a seção Time em mobile.
+- [x] Auditar e exibir a quantidade real de partidas por temporada da liga principal, separando partidas por clube, por divisão e total da competição.
+- [x] Atualizar o teste de integração de início de carreira que ainda espera 78 clubes, alinhando-o à regra validada de 80 clubes em 4 divisões.
+- [x] Redesenhar a primeira tela do FutManager com hierarquia visual mais bonita, clara e adequada ao uso em celular.
+- [x] Remover da interface informações técnicas destinadas apenas ao motor interno, mantendo-as disponíveis somente em contratos e auditorias internas.
+- [x] Criar a aba principal Dia do Jogo com simulação visual da partida, eventos e contexto da carreira usando dados reais do GameState.
+- [x] Integrar a simulação do Dia do Jogo ao calendário e aos clubes reais, sem placares ou eventos fictícios persistidos.
+- [x] Validar a nova experiência em desktop e mobile com testes de interface, typecheck e build.
+- [x] Atualizar testes de interface afetados pela nova linguagem editorial do Dia do Jogo e da prévia de ligas, mantendo cobertura funcional.
+- [x] Implementar e validar o lote P1 1261–1270: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de cidade.
