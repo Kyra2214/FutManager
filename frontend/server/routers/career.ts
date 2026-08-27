@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { getCurrentCareer, listCareerTargets, startCareer } from "../careerGateway";
+import { getCurrentCareer, getParallelLeaguePreview, listCareerTargets, listWorldCountries, startCareer } from "../careerGateway";
 import { publicProcedure, router } from "../_core/trpc";
 
 function toTrpcError(error: unknown) {
@@ -17,6 +17,15 @@ export const careerRouter = router({
       throw toTrpcError(error);
     }
   }),
+  worldCountries: publicProcedure
+    .input(z.object({ search: z.string().max(120).default(""), limit: z.number().int().min(1).max(96).default(48) }))
+    .query(({ input }) => {
+      try {
+        return { items: listWorldCountries(input.search.trim(), input.limit) };
+      } catch (error) {
+        throw toTrpcError(error);
+      }
+    }),
   catalog: publicProcedure
     .input(z.object({ targetType: z.enum(["club", "selection"]), search: z.string().max(120).default(""), limit: z.number().int().min(1).max(96).default(48) }))
     .query(({ input }) => {
@@ -26,8 +35,17 @@ export const careerRouter = router({
         throw toTrpcError(error);
       }
     }),
+  parallelPreview: publicProcedure
+    .input(z.object({ selectedCountryIds: z.array(z.number().int().positive()).min(1).max(12), targetType: z.enum(["club", "selection"]), targetId: z.number().int().positive() }))
+    .query(({ input }) => {
+      try {
+        return getParallelLeaguePreview(input.selectedCountryIds, input.targetType, input.targetId);
+      } catch (error) {
+        throw toTrpcError(error);
+      }
+    }),
   start: publicProcedure
-    .input(z.object({ managerName: z.string().trim().min(1).max(60), nationality: z.string().trim().max(60).optional(), age: z.number().int().min(18).max(90), careerName: z.string().trim().min(1).max(80), targetType: z.enum(["club", "selection"]), targetId: z.number().int().positive() }))
+    .input(z.object({ managerName: z.string().trim().min(1).max(60), nationality: z.string().trim().max(60).optional(), age: z.number().int().min(18).max(90), careerName: z.string().trim().min(1).max(80), targetType: z.enum(["club", "selection"]), targetId: z.number().int().positive(), selectedCountryIds: z.array(z.number().int().positive()).min(1).max(12) }))
     .mutation(({ input }) => {
       try {
         return startCareer(input);

@@ -31,6 +31,9 @@ CREATE TABLE IF NOT EXISTS career_world_countries(career_id INTEGER NOT NULL,cou
 CREATE TABLE IF NOT EXISTS first_division_membership(country_id INTEGER NOT NULL,club_id INTEGER NOT NULL,source_name TEXT NOT NULL,source_url TEXT NOT NULL,season_label TEXT NOT NULL,imported_at TEXT NOT NULL,PRIMARY KEY(country_id,club_id));
 CREATE TABLE IF NOT EXISTS career_parallel_leagues(career_id INTEGER PRIMARY KEY,manager_id INTEGER NOT NULL,name TEXT NOT NULL,season_id INTEGER,total_clubs INTEGER NOT NULL,source_country_count INTEGER NOT NULL,seed TEXT NOT NULL,division_count INTEGER NOT NULL DEFAULT 4,created_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS career_parallel_entries(career_id INTEGER NOT NULL,club_id INTEGER NOT NULL,origin_country_id INTEGER NOT NULL,origin_division INTEGER NOT NULL DEFAULT 1,parallel_division INTEGER NOT NULL,parallel_position INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',PRIMARY KEY(career_id,club_id));
+CREATE TABLE IF NOT EXISTS career_parallel_fixtures(fixture_id INTEGER PRIMARY KEY AUTOINCREMENT,career_id INTEGER NOT NULL,season_number INTEGER NOT NULL,matchday INTEGER NOT NULL,leg INTEGER NOT NULL,division INTEGER NOT NULL,scheduled_date TEXT NOT NULL,home_club_id INTEGER NOT NULL,away_club_id INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'SCHEDULED',home_goals INTEGER,away_goals INTEGER,played_at TEXT,UNIQUE(career_id,season_number,matchday,leg,home_club_id,away_club_id));
+CREATE TABLE IF NOT EXISTS career_parallel_standings(career_id INTEGER NOT NULL,season_number INTEGER NOT NULL,club_id INTEGER NOT NULL,division INTEGER NOT NULL,played INTEGER NOT NULL DEFAULT 0,wins INTEGER NOT NULL DEFAULT 0,draws INTEGER NOT NULL DEFAULT 0,losses INTEGER NOT NULL DEFAULT 0,goals_for INTEGER NOT NULL DEFAULT 0,goals_against INTEGER NOT NULL DEFAULT 0,points INTEGER NOT NULL DEFAULT 0,position INTEGER NOT NULL,updated_at TEXT NOT NULL,PRIMARY KEY(career_id,season_number,club_id));
+CREATE TABLE IF NOT EXISTS career_parallel_season_closures(closure_id INTEGER PRIMARY KEY AUTOINCREMENT,career_id INTEGER NOT NULL,season_number INTEGER NOT NULL,closed_at TEXT NOT NULL,promoted_count INTEGER NOT NULL,relegated_count INTEGER NOT NULL,details TEXT NOT NULL,UNIQUE(career_id,season_number));
 '''
 
 
@@ -52,6 +55,9 @@ class ManagerService:
         career_columns = {row[1] for row in self.connection.execute('PRAGMA table_info(manager_careers)').fetchall()}
         if 'starting_division' not in career_columns:
             self.connection.execute('ALTER TABLE manager_careers ADD COLUMN starting_division INTEGER NOT NULL DEFAULT 4')
+        fixture_columns = {row[1] for row in self.connection.execute('PRAGMA table_info(career_parallel_fixtures)').fetchall()}
+        if 'scheduled_date' not in fixture_columns:
+            self.connection.execute("ALTER TABLE career_parallel_fixtures ADD COLUMN scheduled_date TEXT NOT NULL DEFAULT '1970-01-01'")
         ensure_schema_version(self.connection)
         self.connection.execute(
             'INSERT OR IGNORE INTO migration_audit(component,version,applied_at,content_hash) VALUES(?,?,?,?)',
@@ -142,6 +148,118 @@ class ManagerService:
                     seen.add(item['teamId'])
         return clubs
 
+    @staticmethod
+    def _round_robin_pairs(team_ids: list[int]):
+        teams = list(team_ids)
+        if len(teams) % 2:
+            teams.append(None)
+        for round_number in range(len(teams) - 1):
+            half = len(teams) // 2
+            for index in range(half):
+                left, right = teams[index], teams[-1 - index]
+                if left is None or right is None:
+                    continue
+                home, away = (left, right) if (round_number + index) % 2 == 0 else (right, left)
+                yield round_number + 1, home, away
+            teams = [teams[0], teams[-1], *teams[1:-1]]
+
+    def _seed_parallel_season(self, career_id: int, season_number: int = 1) -> int:
+        now = self._now()
+        entries = self.connection.execute('SELECT club_id,parallel_division,parallel_position FROM career_parallel_entries WHERE career_id=? AND status=? ORDER BY parallel_division,parallel_position', (career_id, 'ACTIVE')).fetchall()
+        self.connection.execute('DELETE FROM career_parallel_standings WHERE career_id=? AND season_number=?', (career_id, season_number))
+        self.connection.execute('DELETE FROM career_parallel_fixtures WHERE career_id=? AND season_number=?', (career_id, season_number))
+        by_division: dict[int, list[int]] = {}
+        for entry in entries:
+            by_division.setdefault(int(entry['parallel_division']), []).append(int(entry['club_id']))
+            self.connection.execute('INSERT INTO career_parallel_standings(career_id,season_number,club_id,division,position,updated_at) VALUES(?,?,?,?,?,?)', (career_id, season_number, entry['club_id'], entry['parallel_division'], entry['parallel_position'], now))
+        fixture_count = 0
+        season_start = date(2026 + season_number - 1, 8, 1)
+        for division, clubs in by_division.items():
+            first_leg = list(self._round_robin_pairs(clubs))
+            round_count = max((item[0] for item in first_leg), default=0)
+            for matchday, home, away in first_leg:
+                scheduled = season_start + __import__('datetime').timedelta(weeks=matchday - 1)
+                self.connection.execute('INSERT INTO career_parallel_fixtures(career_id,season_number,matchday,leg,division,scheduled_date,home_club_id,away_club_id) VALUES(?,?,?,?,?,?,?,?)', (career_id, season_number, matchday, 1, division, scheduled.isoformat(), home, away))
+                fixture_count += 1
+                scheduled_second = season_start + __import__('datetime').timedelta(weeks=round_count + matchday - 1)
+                self.connection.execute('INSERT INTO career_parallel_fixtures(career_id,season_number,matchday,leg,division,scheduled_date,home_club_id,away_club_id) VALUES(?,?,?,?,?,?,?,?)', (career_id, season_number, round_count + matchday, 2, division, scheduled_second.isoformat(), away, home))
+                fixture_count += 1
+        return fixture_count
+
+    def record_parallel_result(self, career_id: int, fixture_id: int, home_goals: int, away_goals: int) -> dict[str, Any]:
+        home_goals, away_goals = int(home_goals), int(away_goals)
+        if home_goals < 0 or away_goals < 0:
+            raise ValueError('PARALLEL_RESULT_INVALID')
+        with self.connection:
+            fixture = self.connection.execute('SELECT * FROM career_parallel_fixtures WHERE career_id=? AND fixture_id=?', (career_id, fixture_id)).fetchone()
+            if not fixture:
+                raise ValueError('PARALLEL_FIXTURE_NOT_FOUND')
+            if fixture['status'] == 'PLAYED':
+                return {'fixture_id': fixture_id, 'status': 'ALREADY_PLAYED', 'home_goals': fixture['home_goals'], 'away_goals': fixture['away_goals']}
+            self.connection.execute("UPDATE career_parallel_fixtures SET status='PLAYED',home_goals=?,away_goals=?,played_at=? WHERE fixture_id=?", (home_goals, away_goals, self._now(), fixture_id))
+            for club_id, goals_for, goals_against, won, drawn, lost, points in (
+                (fixture['home_club_id'], home_goals, away_goals, int(home_goals > away_goals), int(home_goals == away_goals), int(home_goals < away_goals), 3 if home_goals > away_goals else 1 if home_goals == away_goals else 0),
+                (fixture['away_club_id'], away_goals, home_goals, int(away_goals > home_goals), int(away_goals == home_goals), int(away_goals < home_goals), 3 if away_goals > home_goals else 1 if home_goals == away_goals else 0),
+            ):
+                self.connection.execute('UPDATE career_parallel_standings SET played=played+1,wins=wins+?,draws=draws+?,losses=losses+?,goals_for=goals_for+?,goals_against=goals_against+?,points=points+?,updated_at=? WHERE career_id=? AND season_number=? AND club_id=?', (won, drawn, lost, goals_for, goals_against, points, self._now(), career_id, fixture['season_number'], club_id))
+            return {'fixture_id': fixture_id, 'status': 'PLAYED', 'home_goals': home_goals, 'away_goals': away_goals}
+
+    def close_parallel_season(self, career_id: int, season_number: int = 1) -> dict[str, Any]:
+        existing = self.connection.execute('SELECT * FROM career_parallel_season_closures WHERE career_id=? AND season_number=?', (career_id, season_number)).fetchone()
+        if existing:
+            return {'status': 'ALREADY_CLOSED', 'career_id': career_id, 'season_number': season_number, 'promoted_count': existing['promoted_count'], 'relegated_count': existing['relegated_count']}
+        rows = self.connection.execute('SELECT * FROM career_parallel_standings WHERE career_id=? AND season_number=? ORDER BY division,points DESC,(goals_for-goals_against) DESC,goals_for DESC,club_id', (career_id, season_number)).fetchall()
+        if not rows:
+            raise ValueError('PARALLEL_SEASON_NOT_FOUND')
+        grouped: dict[int, list[Any]] = {}
+        for row in rows:
+            grouped.setdefault(int(row['division']), []).append(row)
+        moves: dict[int, int] = {}
+        for division in range(1, 5):
+            table = grouped.get(division, [])
+            if division > 1 and table:
+                for row in table[:2]: moves[int(row['club_id'])] = division - 1
+            if division < 4 and table:
+                for row in table[-2:]: moves[int(row['club_id'])] = division + 1
+        with self.connection:
+            for club_id, division in moves.items():
+                self.connection.execute('UPDATE career_parallel_entries SET parallel_division=?,parallel_position=0,status=? WHERE career_id=? AND club_id=?', (division, 'ACTIVE', career_id, club_id))
+            positions: dict[int, int] = {}
+            for row in self.connection.execute('SELECT club_id,parallel_division FROM career_parallel_entries WHERE career_id=? ORDER BY parallel_division,club_id', (career_id,)).fetchall():
+                division = int(row['parallel_division']); positions[division] = positions.get(division, 0) + 1
+                self.connection.execute('UPDATE career_parallel_entries SET parallel_position=? WHERE career_id=? AND club_id=?', (positions[division], career_id, row['club_id']))
+            details = {'moves': [{'club_id': club_id, 'division': division} for club_id, division in sorted(moves.items())]}
+            self.connection.execute('INSERT INTO career_parallel_season_closures(career_id,season_number,closed_at,promoted_count,relegated_count,details) VALUES(?,?,?,?,?,?)', (career_id, season_number, self._now(), sum(1 for row in moves.values() if row < 4), sum(1 for row in moves.values() if row > 1), json.dumps(details, sort_keys=True)))
+            next_fixtures = self._seed_parallel_season(career_id, season_number + 1)
+        return {'status': 'CLOSED', 'career_id': career_id, 'season_number': season_number, 'promoted_count': sum(1 for row in moves.values() if row < 4), 'relegated_count': sum(1 for row in moves.values() if row > 1), 'next_season': season_number + 1, 'next_fixtures': next_fixtures, 'moves': details['moves']}
+
+    def parallel_league_snapshot(self, career_id: int, season_number: int = 1) -> dict[str, Any]:
+        league = self.connection.execute('SELECT * FROM career_parallel_leagues WHERE career_id=?', (career_id,)).fetchone()
+        if not league:
+            raise ValueError('PARALLEL_LEAGUE_NOT_FOUND')
+        standings = [dict(row) for row in self.connection.execute('SELECT s.*,t.nome AS club_name FROM career_parallel_standings s LEFT JOIN times t ON t.time_id=s.club_id WHERE s.career_id=? AND s.season_number=? ORDER BY s.division,s.position', (career_id, season_number)).fetchall()]
+        fixtures = [dict(row) for row in self.connection.execute('SELECT * FROM career_parallel_fixtures WHERE career_id=? AND season_number=? ORDER BY matchday,division,fixture_id LIMIT 500', (career_id, season_number)).fetchall()]
+        return {'league': dict(league), 'season_number': season_number, 'standings': standings, 'fixtures': fixtures, 'fixture_count': int(self.connection.execute('SELECT COUNT(*) FROM career_parallel_fixtures WHERE career_id=? AND season_number=?', (career_id, season_number)).fetchone()[0]), 'played_count': int(self.connection.execute("SELECT COUNT(*) FROM career_parallel_fixtures WHERE career_id=? AND season_number=? AND status='PLAYED'", (career_id, season_number)).fetchone()[0])}
+
+    def preview_parallel_league(self, country_ids: list[int], target_type: str, target_id: int) -> dict[str, Any]:
+        countries = list(dict.fromkeys(int(country_id) for country_id in country_ids))
+        clubs = [{'club_id': item['teamId'], 'origin_country_id': item['countryId'], 'name': item.get('teamName')} for item in self.list_first_division_clubs(countries)]
+        if target_type == 'club' and target_id not in {item['club_id'] for item in clubs}:
+            raise ValueError('TARGET_CLUB_NOT_FIRST_DIVISION')
+        seed = hashlib.sha256(f'preview:{"/".join(str(value) for value in countries)}'.encode()).hexdigest()[:16]
+        import random
+        randomizer = random.Random(int(seed, 16)); randomizer.shuffle(clubs)
+        if target_type == 'club':
+            target_index = next(index for index, item in enumerate(clubs) if item['club_id'] == target_id)
+            clubs[target_index], clubs[-max(1, len(clubs) // 4)] = clubs[-max(1, len(clubs) // 4)], clubs[target_index]
+        base, remainder = divmod(len(clubs), 4)
+        capacities = [base + (1 if division <= remainder else 0) for division in range(1, 5)]
+        divisions = []; cursor = 0
+        for division, capacity in enumerate(capacities, start=1):
+            divisions.append({'division': division, 'clubs': clubs[cursor:cursor + capacity]})
+            cursor += capacity
+        return {'total_clubs': len(clubs), 'country_count': len(countries), 'division_count': 4, 'seed': seed, 'target_division': 4 if target_type == 'club' else None, 'divisions': divisions, 'read_only': True}
+
     def _materialize_parallel_league(self, career_id: int, manager_id: int, career_name: str, season_id: int | None, country_ids: list[int], target_type: str, target_id: int) -> dict[str, Any]:
         reports = [self._import_first_division_membership(country_id) for country_id in country_ids]
         clubs = []
@@ -172,7 +290,8 @@ class ManagerService:
             for position, item in enumerate(clubs[cursor:cursor + capacity], start=1):
                 self.connection.execute('INSERT INTO career_parallel_entries(career_id,club_id,origin_country_id,origin_division,parallel_division,parallel_position) VALUES(?,?,?,?,?,?)', (career_id, item['club_id'], item['origin_country_id'], 1, division, position))
             cursor += capacity
-        return {'name': f'{career_name} · Liga Mundial', 'total_clubs': len(clubs), 'country_count': len(country_ids), 'division_count': 4, 'seed': seed, 'target_division': 4 if target_type == 'club' else None}
+        fixture_count = self._seed_parallel_season(career_id, 1)
+        return {'name': f'{career_name} · Liga Mundial', 'total_clubs': len(clubs), 'country_count': len(country_ids), 'division_count': 4, 'seed': seed, 'target_division': 4 if target_type == 'club' else None, 'fixture_count': fixture_count, 'season_number': 1}
 
     def create_career(self, manager_id: int, name: str = 'Carreira', club_id: int | None = None, season_id: int | None = None):
         if self.connection.execute("SELECT 1 FROM manager_careers WHERE manager_id=? AND status='ACTIVE'", (manager_id,)).fetchone():

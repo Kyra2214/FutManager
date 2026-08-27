@@ -9,13 +9,18 @@ export type CareerTargetType = "club" | "selection";
 export type CareerCatalogItem = {
   entityId: number;
   name: string;
+  countryId?: number | null;
   mappingStatus: string;
   assetUrl: string | null;
   assetKind: "crest" | "kit" | null;
 };
 
+export type WorldCountry = { countryId: number; name: string; code: string | null; clubCount: number; firstDivisionClubCount: number; firstDivisionName: string | null };
+
 type GatewayResult = { ok: boolean; error?: string } & Record<string, unknown>;
-type GatewayAction = "catalog" | "current" | "start" | "contract_renew_approve" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "finance_revenue" | "finance_expense" | "finance_budget" | "finance_expense_preview" | "finance_post_match_preview" | "finance_projection" | "finance_alert" | "finance_world_report" | "finance_audit" | "travel_preview" | "travel_summary" | "training_departments" | "morale_summary" | "morale_match" | "weekly_training" | "opponent_preparation" | "weekly_load" | "form_recommendations" | "health_list" | "health_alerts" | "health_injury" | "health_recover" | "health_suspension" | "ai_diagnosis" | "ai_history" | "ai_training" | "ai_market" | "ai_weekly" | "ai_lineup" | "ai_tactic" | "ai_objective_progress" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_preview" | "stadium_upgrade" | "ticket_price" | "ticket_price_preview" | "fan_segments" | "social_timeline" | "weekly_advance" | "events_list" | "events_mark_read" | "transferable_players" | "transfer_open_window" | "transfer_preview" | "transfer_offer" | "transfer_counter" | "transfer_accept" | "transfer_approve" | "transfer_loan" | "transfer_complete";
+export type ParallelLeagueSnapshot = { league: { career_id: number; name: string; total_clubs: number; source_country_count: number; seed: string; division_count: number }; season_number: number; fixture_count: number; played_count: number; standings: Array<Record<string, unknown>>; fixtures: Array<Record<string, unknown>> };
+
+export type GatewayAction = "parallel_preview" | "parallel_snapshot" | "parallel_result" | "parallel_close" | "catalog" | "current" | "start" | "contract_renew_approve" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "finance_revenue" | "finance_expense" | "finance_budget" | "finance_expense_preview" | "finance_post_match_preview" | "finance_projection" | "finance_alert" | "finance_world_report" | "finance_audit" | "finance_monthly_close" | "finance_reconciliation" | "finance_media_summary" | "travel_preview" | "travel_summary" | "training_departments" | "morale_summary" | "morale_match" | "weekly_training" | "opponent_preparation" | "weekly_load" | "form_recommendations" | "health_list" | "health_alerts" | "health_injury" | "health_recover" | "health_suspension" | "ai_diagnosis" | "ai_history" | "ai_training" | "ai_market" | "ai_weekly" | "ai_lineup" | "ai_tactic" | "ai_objective_progress" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_preview" | "stadium_upgrade" | "ticket_price" | "ticket_price_preview" | "fan_segments" | "social_timeline" | "weekly_advance" | "events_list" | "events_mark_read" | "transferable_players" | "transfer_open_window" | "transfer_preview" | "transfer_offer" | "transfer_counter" | "transfer_accept" | "transfer_approve" | "transfer_loan" | "transfer_complete" | "simulation_configure" | "simulation_batch" | "simulation_progress" | "simulation_checkpoint" | "simulation_divergence" | "simulation_benchmark" | "simulation_resume" | "simulation_metrics" | "simulation_failure_report" | "scout_regions" | "scout_create_region" | "scout_mission" | "scout_start" | "scout_complete" | "scout_opportunities" | "scout_compare" | "scout_confirm" | "academy_enroll" | "academy_progress" | "academy_promote" | "academy_maintenance" | "sponsor_weekly" | "training_objective" | "training_preview" | "training_approve" | "training_cancel" | "transfer_history" | "transfer_alerts" | "transfer_expire" | "ai_preview" | "ai_approve" | "ai_risk_limit" | "ai_budget_alerts" | "health_return_protocol" | "health_eligibility" | "health_treatment" | "health_audit" | "training_microcycle" | "training_overtraining" | "training_audit" | "career_snapshot" | "career_snapshot_list" | "career_snapshot_hash" | "career_snapshot_compare" | "career_snapshot_restore" | "career_snapshot_audit" | "gateway_audit";
 
 function callGateway<T extends GatewayResult>(action: GatewayAction, payload: Record<string, unknown>, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): T {
   try {
@@ -30,6 +35,18 @@ function callGateway<T extends GatewayResult>(action: GatewayAction, payload: Re
     console.error("[Career gateway] Falha ao executar ação de carreira:", error);
     return { ok: false, error: "CAREER_GATEWAY_UNAVAILABLE" } as T;
   }
+}
+
+export function runCareerGatewayAction<T extends GatewayResult = GatewayResult>(action: GatewayAction, payload: Record<string, unknown> = {}, databasePath?: string): T {
+  const result = callGateway<T>(action, payload, databasePath);
+  if (!result.ok) throw new Error(result.error || `CAREER_ACTION_FAILED:${action}`);
+  return result;
+}
+
+export function listWorldCountries(search = "", limit = 48, databasePath?: string) {
+  const result = callGateway<{ ok: boolean; error?: string; items?: WorldCountry[] }>("catalog", { entity_type: "world_country", search, limit }, databasePath);
+  if (!result.ok) throw new Error(result.error || "WORLD_COUNTRY_CATALOG_UNAVAILABLE");
+  return result.items || [];
 }
 
 export function listCareerTargets(targetType: CareerTargetType, search: string, limit: number, databasePath?: string) {
@@ -48,6 +65,24 @@ export function getCurrentCareer(databasePath?: string) {
   return result;
 }
 
+export function getParallelLeaguePreview(selectedCountryIds: number[], targetType: CareerTargetType, targetId: number, databasePath?: string) {
+  const result = callGateway<GatewayResult & { total_clubs: number; country_count: number; division_count: number; seed: string; target_division: number | null; divisions: Array<{ division: number; clubs: Array<{ club_id: number; origin_country_id: number; name: string }> }>; read_only: boolean }>("parallel_preview", { selected_country_ids: selectedCountryIds, target_type: targetType, target_id: targetId }, databasePath);
+  if (!result.ok) throw new Error(result.error || "PARALLEL_PREVIEW_UNAVAILABLE");
+  return result;
+}
+
+export function getParallelLeagueSnapshot(seasonNumber = 1, databasePath?: string) {
+  return staffMarketAction<GatewayResult & ParallelLeagueSnapshot>("parallel_snapshot", { season_number: seasonNumber }, databasePath);
+}
+
+export function recordParallelLeagueResult(fixtureId: number, homeGoals: number, awayGoals: number, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { fixture_id: number; status: string; home_goals: number; away_goals: number }>("parallel_result", { fixture_id: fixtureId, home_goals: homeGoals, away_goals: awayGoals }, databasePath);
+}
+
+export function closeParallelLeagueSeason(seasonNumber = 1, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { status: string; season_number: number; next_season?: number; promoted_count: number; relegated_count: number; moves?: Array<Record<string, unknown>> }>("parallel_close", { season_number: seasonNumber }, databasePath);
+}
+
 export function startCareer(input: {
   managerName: string;
   nationality?: string;
@@ -55,6 +90,7 @@ export function startCareer(input: {
   careerName: string;
   targetType: CareerTargetType;
   targetId: number;
+  selectedCountryIds?: number[];
 }, databasePath?: string) {
   const result = callGateway<GatewayResult & { started?: boolean }>("start", {
     manager_name: input.managerName,
@@ -63,6 +99,7 @@ export function startCareer(input: {
     career_name: input.careerName,
     target_type: input.targetType,
     target_id: input.targetId,
+    selected_country_ids: input.selectedCountryIds,
   }, databasePath);
   if (!result.ok) throw new Error(result.error || "CAREER_START_UNAVAILABLE");
   return result;

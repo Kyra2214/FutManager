@@ -33,3 +33,26 @@ def test_parallel_league_uses_all_official_first_division_clubs(tmp_path, countr
     assert target_division == 4
     assert sum(1 for row in entries if row[1] == 1) + sum(1 for row in entries if row[1] == 2) + sum(1 for row in entries if row[1] == 3) + sum(1 for row in entries if row[1] == 4) == expected_total
     assert before == after
+
+
+def test_parallel_league_generates_round_trip_calendar_and_closes_idempotently(tmp_path):
+    db_path = tmp_path / 'game.db'
+    shutil.copyfile(STATE, db_path)
+    service = ManagerService(str(db_path))
+    result = service.start_career('Manager Calendário', 'BR', 30, 'Temporada Paralela', 'club', 2009, selected_country_ids=[29, 104, 65, 154])
+    career_id = result['career_id']
+    snapshot = service.parallel_league_snapshot(career_id)
+
+    assert snapshot['fixture_count'] == 1444
+    assert snapshot['played_count'] == 0
+    assert all(fixture['scheduled_date'] >= '2026-08-01' for fixture in snapshot['fixtures'])
+    assert len(snapshot['standings']) == 78
+    assert {row['division'] for row in snapshot['standings']} == {1, 2, 3, 4}
+
+    closed = service.close_parallel_season(career_id)
+    repeated = service.close_parallel_season(career_id)
+    assert closed['status'] == 'CLOSED'
+    assert closed['next_season'] == 2
+    assert closed['next_fixtures'] == 1444
+    assert repeated['status'] == 'ALREADY_CLOSED'
+    assert service.parallel_league_snapshot(career_id, 2)['fixture_count'] == 1444
