@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 410,
-    "pending": 2590,
+    "done": 420,
+    "pending": 2580,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -1815,8 +1815,14 @@
       "title": "definir contrato para versão",
       "dependency": "1090",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_domain_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_domain_version_contract.py",
+        "docs/p1_domain_version_1091_1100.md"
+      ]
     },
     {
       "item_id": 1092,
@@ -1824,8 +1830,14 @@
       "title": "validar regras de versão",
       "dependency": "1091",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_domain_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_domain_version_contract.py",
+        "docs/p1_domain_version_1091_1100.md"
+      ]
     },
     {
       "item_id": 1093,
@@ -1833,8 +1845,14 @@
       "title": "persistir estado de versão",
       "dependency": "1092",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_domain_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_domain_version_contract.py",
+        "docs/p1_domain_version_1091_1100.md"
+      ]
     },
     {
       "item_id": 1094,
@@ -1842,8 +1860,14 @@
       "title": "expor leitura de versão",
       "dependency": "1093",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_domain_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_domain_version_contract.py",
+        "docs/p1_domain_version_1091_1100.md"
+      ]
     },
     {
       "item_id": 1095,
@@ -1851,8 +1875,14 @@
       "title": "proteger mutação de versão",
       "dependency": "1094",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_domain_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_domain_version_contract.py",
+        "docs/p1_domain_version_1091_1100.md"
+      ]
     },
     {
       "item_id": 1096,
@@ -1860,8 +1890,14 @@
       "title": "auditar fluxo de versão",
       "dependency": "1095",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_domain_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_domain_version_contract.py",
+        "docs/p1_domain_version_1091_1100.md"
+      ]
     },
     {
       "item_id": 1097,
@@ -1869,8 +1905,14 @@
       "title": "otimizar consulta de versão",
       "dependency": "1096",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_domain_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_domain_version_contract.py",
+        "docs/p1_domain_version_1091_1100.md"
+      ]
     },
     {
       "item_id": 1098,
@@ -1878,8 +1920,14 @@
       "title": "simular cenário de versão",
       "dependency": "1097",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_domain_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_domain_version_contract.py",
+        "docs/p1_domain_version_1091_1100.md"
+      ]
     },
     {
       "item_id": 1099,
@@ -1887,8 +1935,14 @@
       "title": "documentar ciclo de versão",
       "dependency": "1098",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_domain_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_domain_version_contract.py",
+        "docs/p1_domain_version_1091_1100.md"
+      ]
     },
     {
       "item_id": 1100,
@@ -1896,8 +1950,14 @@
       "title": "testar integração de versão",
       "dependency": "1099",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_domain_version_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_domain_version_contract.py",
+        "docs/p1_domain_version_1091_1100.md"
+      ]
     },
     {
       "item_id": 1101,
