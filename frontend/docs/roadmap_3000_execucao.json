@@ -3485,8 +3485,14 @@
       "title": "definir contrato para consentimento",
       "dependency": "1210",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_consent_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_consent_contract.py",
+        "docs/p1_consent_1211_1220.md"
+      ]
     },
     {
       "item_id": 1212,
@@ -3494,8 +3500,14 @@
       "title": "validar regras de consentimento",
       "dependency": "1211",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_consent_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_consent_contract.py",
+        "docs/p1_consent_1211_1220.md"
+      ]
     },
     {
       "item_id": 1213,
@@ -3503,8 +3515,14 @@
       "title": "persistir estado de consentimento",
       "dependency": "1212",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_consent_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_consent_contract.py",
+        "docs/p1_consent_1211_1220.md"
+      ]
     },
     {
       "item_id": 1214,
@@ -3512,8 +3530,14 @@
       "title": "expor leitura de consentimento",
       "dependency": "1213",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_consent_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_consent_contract.py",
+        "docs/p1_consent_1211_1220.md"
+      ]
     },
     {
       "item_id": 1215,
@@ -3521,8 +3545,14 @@
       "title": "proteger mutação de consentimento",
       "dependency": "1214",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_consent_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_consent_contract.py",
+        "docs/p1_consent_1211_1220.md"
+      ]
     },
     {
       "item_id": 1216,
@@ -3530,8 +3560,14 @@
       "title": "auditar fluxo de consentimento",
       "dependency": "1215",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_consent_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_consent_contract.py",
+        "docs/p1_consent_1211_1220.md"
+      ]
     },
     {
       "item_id": 1217,
@@ -3539,8 +3575,14 @@
       "title": "otimizar consulta de consentimento",
       "dependency": "1216",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_consent_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_consent_contract.py",
+        "docs/p1_consent_1211_1220.md"
+      ]
     },
     {
       "item_id": 1218,
@@ -3548,8 +3590,14 @@
       "title": "simular cenário de consentimento",
       "dependency": "1217",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_consent_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_consent_contract.py",
+        "docs/p1_consent_1211_1220.md"
+      ]
     },
     {
       "item_id": 1219,
@@ -3557,8 +3605,14 @@
       "title": "documentar ciclo de consentimento",
       "dependency": "1218",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_consent_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_consent_contract.py",
+        "docs/p1_consent_1211_1220.md"
+      ]
     },
     {
       "item_id": 1220,
@@ -3566,8 +3620,14 @@
       "title": "testar integração de consentimento",
       "dependency": "1219",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_consent_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_consent_contract.py",
+        "docs/p1_consent_1211_1220.md"
+      ]
     },
     {
       "item_id": 1221,
