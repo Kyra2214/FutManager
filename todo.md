@@ -654,3 +654,4 @@
 - [x] Implementar e validar o lote P1 1661–1670: contrato de sorteio, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1671–1680: contrato de divisão, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1681–1690: contrato de fixture, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1691–1700: contrato de rodada do domínio 08, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
