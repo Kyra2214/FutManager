@@ -24,6 +24,6 @@ describe("MatchesPage em carregamento", () => {
     const markup = renderToStaticMarkup(<MatchesPage initialView={initialView} />);
 
     expect(markup).toContain(expectedText);
-    expect(markup).toContain("consultando estado");
+    expect(markup).toContain("atualizando calendário");
   });
 });

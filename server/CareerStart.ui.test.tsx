@@ -121,7 +121,7 @@ describe("CareerStart UI", () => {
     expect(screen.getByText("4 clubes · 4 divisões")).toBeTruthy();
     expect(screen.getByText("Clube 1")).toBeTruthy();
     expect(screen.getByText("Clube 4")).toBeTruthy();
-    expect(screen.getByText("Sorteio persistirá no save · seed seed-teste")).toBeTruthy();
+    expect(screen.getByText("As divisões serão montadas automaticamente para a sua carreira.")).toBeTruthy();
   });
 
 describe("CareerStart — modo nacional", () => {

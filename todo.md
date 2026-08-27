@@ -612,6 +612,7 @@
 - [x] Atualizar o teste de integração de início de carreira que ainda espera 78 clubes, alinhando-o à regra validada de 80 clubes em 4 divisões.
 - [x] Redesenhar a primeira tela do FutManager com hierarquia visual mais bonita, clara e adequada ao uso em celular.
 - [ ] Remover da interface informações técnicas destinadas apenas ao motor interno, mantendo-as disponíveis somente em contratos e auditorias internas.
-- [ ] Criar a aba principal Dia do Jogo com simulação visual da partida, eventos e contexto da carreira usando dados reais do GameState.
+- [x] Criar a aba principal Dia do Jogo com simulação visual da partida, eventos e contexto da carreira usando dados reais do GameState.
 - [ ] Integrar a simulação do Dia do Jogo ao calendário e aos clubes reais, sem placares ou eventos fictícios persistidos.
-- [ ] Validar a nova experiência em desktop e mobile com testes de interface, typecheck e build.
+- [x] Validar a nova experiência em desktop e mobile com testes de interface, typecheck e build.
+- [x] Atualizar testes de interface afetados pela nova linguagem editorial do Dia do Jogo e da prévia de ligas, mantendo cobertura funcional.
