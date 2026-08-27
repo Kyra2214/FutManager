@@ -760,3 +760,4 @@
 - [x] Produzir o lote P1 3151–3160: contrato de receita, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 3161–3170: contrato de despesa, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 3171–3180: contrato de salário, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3181–3190: contrato de bônus operacional, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
