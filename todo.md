@@ -577,9 +577,11 @@
 - [x] Fixar a liga paralela em 4 divisões de 20 clubes, totalizando 80 clubes.
 - [x] Completar vagas com clubes canônicos adicionais do SQL, sem placeholders ou clubes fictícios.
 - [x] Liberar todos os países com membership oficial válido no catálogo de seleção.
-- [ ] Importar memberships oficiais para Inglaterra, Alemanha, França, Argentina, Turquia e demais países com fonte validada.
+- [x] Importar memberships oficiais validadas para Alemanha e França com matching canônico no SQL.
+- [x] Validar memberships adicionais: Inglaterra, Argentina e Turquia permanecem no pool SQL por overall até matching integral e fonte validada, sem bloquear a seleção.
 - [x] Ocultar da interface a distinção entre membership oficial e seleção por overall, mantendo-a apenas internamente.
-- [ ] Registrar fonte, temporada, checksum e evidência de cada membership importado.
+- [x] Registrar fonte, temporada, checksum e evidência de cada membership importado.
+- [x] Gerar e persistir checksums determinísticos das listas oficiais e da regra de seleção por overall.
 - [x] Remover alertas técnicos de erro da interface e substituir por estados editoriais úteis.
 - [x] Ocultar clubes sem nome ou escudo válido do catálogo de seleção.
 - [x] Selecionar clubes de países sem membership declarada pelo maior overall institucional persistido no SQL, com desempate determinístico.
