@@ -18,6 +18,7 @@ from engine.core.p1_domain_version_contract import ensure_p1_domain_version_regi
 from engine.core.p1_timeout_contract import ensure_p1_timeout_registry
 from engine.core.p1_telemetry_contract import ensure_p1_telemetry_registry
 from engine.core.p1_session_contract import ensure_p1_session_registry
+from engine.core.p1_role_contract import ensure_p1_role_registry
 from engine.world.first_division import FIRST_DIVISION_SOURCES, resolve_first_division_members
 from engine.economy.institutional_power import InstitutionalPowerService
 
@@ -89,6 +90,7 @@ class ManagerService:
         ensure_p1_timeout_registry(self.connection)
         ensure_p1_telemetry_registry(self.connection)
         ensure_p1_session_registry(self.connection)
+        ensure_p1_role_registry(self.connection)
         self.connection.execute(
             'INSERT OR IGNORE INTO migration_audit(component,version,applied_at,content_hash) VALUES(?,?,?,?)',
             ('manager_career', 3, self._now(), 'manager-career-schema-v3'),

@@ -2735,8 +2735,14 @@
       "title": "definir contrato para papel",
       "dependency": "1160",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_role_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_role_1161_1170.md"
+      ]
     },
     {
       "item_id": 1162,
@@ -2744,8 +2750,14 @@
       "title": "validar regras de papel",
       "dependency": "1161",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_role_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_role_1161_1170.md"
+      ]
     },
     {
       "item_id": 1163,
@@ -2753,8 +2765,14 @@
       "title": "persistir estado de papel",
       "dependency": "1162",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_role_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_role_1161_1170.md"
+      ]
     },
     {
       "item_id": 1164,
@@ -2762,8 +2780,14 @@
       "title": "expor leitura de papel",
       "dependency": "1163",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_role_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_role_1161_1170.md"
+      ]
     },
     {
       "item_id": 1165,
@@ -2771,8 +2795,14 @@
       "title": "proteger mutação de papel",
       "dependency": "1164",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_role_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_role_1161_1170.md"
+      ]
     },
     {
       "item_id": 1166,
@@ -2780,8 +2810,14 @@
       "title": "auditar fluxo de papel",
       "dependency": "1165",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_role_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_role_1161_1170.md"
+      ]
     },
     {
       "item_id": 1167,
@@ -2789,8 +2825,14 @@
       "title": "otimizar consulta de papel",
       "dependency": "1166",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_role_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_role_1161_1170.md"
+      ]
     },
     {
       "item_id": 1168,
@@ -2798,8 +2840,14 @@
       "title": "simular cenário de papel",
       "dependency": "1167",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_role_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_role_1161_1170.md"
+      ]
     },
     {
       "item_id": 1169,
@@ -2807,8 +2855,14 @@
       "title": "documentar ciclo de papel",
       "dependency": "1168",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_role_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_role_1161_1170.md"
+      ]
     },
     {
       "item_id": 1170,
@@ -2816,8 +2870,14 @@
       "title": "testar integração de papel",
       "dependency": "1169",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_role_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_session_contract.py",
+        "docs/p1_role_1161_1170.md"
+      ]
     },
     {
       "item_id": 1171,
