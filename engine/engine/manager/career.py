@@ -138,6 +138,7 @@ from engine.core.p1_bonus_operacional_contract import ensure_p1_bonus_operaciona
 from engine.core.p1_ledger_contract import ensure_p1_ledger_registry
 from engine.core.p1_orcamento_operacional_contract import ensure_p1_orcamento_operacional_registry
 from engine.core.p1_projecao_contract import ensure_p1_projecao_registry
+from engine.core.p1_estrela_contract import ensure_p1_estrela_registry
 from engine.core.p1_evidencia_contract import ensure_p1_evidencia_registry
 from engine.core.p1_scout_contract import ensure_p1_scout_registry
 from engine.core.p1_specialty_contract import ensure_p1_specialty_registry
@@ -357,6 +358,7 @@ class ManagerService:
         ensure_p1_ledger_registry(self.connection)
         ensure_p1_orcamento_operacional_registry(self.connection)
         ensure_p1_projecao_registry(self.connection)
+        ensure_p1_estrela_registry(self.connection)
         ensure_p1_evidencia_registry(self.connection)
         ensure_p1_scout_registry(self.connection)
         ensure_p1_specialty_registry(self.connection)

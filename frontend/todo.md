@@ -764,8 +764,8 @@
 - [x] Produzir o lote P1 3191–3200: contrato de ledger contábil, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 3201–3210: contrato de orçamento operacional, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 3211–3220: contrato de projeção, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
-- [ ] Produzir o próximo lote P1 pendente identificado no manifesto, mantendo SQL/GameState como fonte única da verdade e validação mínima.
-- [ ] Criar backup do estado atual no repositório GitHub Kyra2214/FutManager antes da correção.
-- [ ] Investigar o contrato-base ausente do lote P1 3251–3260 usando somente módulos, patches e manifesto existentes.
-- [ ] Corrigir o lote P1 3251–3260 sem inventar contrato, regras ou dados; usar apenas uma origem comprovada.
-- [ ] Validar minimamente a correção e retomar a produção sequencial dos lotes P1 pendentes.
+- [x] Identificar o próximo lote P1 após a projeção e registrar sua execução sequencial.
+- [x] Criar backup do estado atual no repositório GitHub Kyra2214/FutManager antes da correção.
+- [x] Investigar o contrato-base ausente do lote P1 3251–3260 usando somente módulos, patches e manifesto existentes; a fonte comprovada foi `engine.economy.sponsorships.STAR_RULES`.
+- [x] Corrigir o lote P1 3251–3260 sem inventar contrato, regras ou dados; adaptador baseado em `STAR_RULES` e `FORMULA_VERSION` existentes.
+- [x] Validar minimamente a correção do lote P1 3251–3260: compilação, auditoria em SQLite temporário e ações do gateway confirmadas.

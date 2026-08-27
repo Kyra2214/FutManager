@@ -65,6 +65,7 @@ from engine.core.p1_ranking_contract import audit_p1_rankings, protect_p1_rankin
 from engine.core.p1_fifa_date_contract import audit_p1_fifa_dates, protect_p1_fifa_date_mutation, read_p1_fifa_dates, read_p1_fifa_date_state, persist_p1_fifa_date, validate_p1_fifa_date
 from engine.core.p1_comissao_operacional_contract import audit_p1_comissao_operacionals, protect_p1_comissao_operacional_mutation, read_p1_comissao_operacionals, read_p1_comissao_operacional_state, persist_p1_comissao_operacional, validate_p1_comissao_operacional
 from engine.core.p1_commission_contract import audit_p1_commissions, protect_p1_commission_mutation, read_p1_commissions, read_p1_commission_state, persist_p1_commission, validate_p1_commission
+from engine.core.p1_estrela_contract import audit_p1_estrelas, protect_p1_estrela_mutation, read_p1_estrelas, read_p1_estrela_state, persist_p1_estrela, validate_p1_estrela
 from engine.core.p1_projecao_contract import audit_p1_projecaos, protect_p1_projecao_mutation, read_p1_projecaos, read_p1_projecao_state, persist_p1_projecao, validate_p1_projecao
 from engine.core.p1_orcamento_operacional_contract import audit_p1_orcamento_operacionals, protect_p1_orcamento_operacional_mutation, read_p1_orcamento_operacionals, read_p1_orcamento_operacional_state, persist_p1_orcamento_operacional, validate_p1_orcamento_operacional
 from engine.core.p1_ledger_contract import audit_p1_ledgers, protect_p1_ledger_mutation, read_p1_ledgers, read_p1_ledger_state, persist_p1_ledger, validate_p1_ledger
@@ -1800,6 +1801,15 @@ def p1_projecao_market(connection: sqlite3.Connection, action: str, payload: dic
     if action == 'p1_projecao_audit': return audit_p1_projecaos(connection)
     raise ValueError('P1_PROJECAO_ACTION_INVALID')
 
+def p1_estrela_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_estrela_contracts': return {'items': read_p1_estrelas(connection), 'read_only': True}
+    if action == 'p1_estrela_state': return {'items': read_p1_estrela_state(connection, payload.get('star_rating')), 'read_only': True}
+    if action == 'p1_estrela_validate': return validate_p1_estrela(connection, int(payload.get('item_id')))
+    if action == 'p1_estrela_persist': return persist_p1_estrela(connection, int(payload.get('star_rating')), dict(payload.get('star_payload') or {}), str(payload.get('actor', '')))
+    if action == 'p1_estrela_protect': return protect_p1_estrela_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_estrela_audit': return audit_p1_estrelas(connection)
+    raise ValueError('P1_ESTRELA_ACTION_INVALID')
+
 def p1_commission_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
     if action == 'p1_commission_contracts': return {'items': read_p1_commissions(connection), 'read_only': True}
     if action == 'p1_commission_state': return {'items': read_p1_commission_state(connection, payload.get('commission_key')), 'read_only': True}
@@ -2114,6 +2124,8 @@ def run(action: str, payload: dict, database_path: Path) -> dict:
             return {"ok": True, **p1_comissao_operacional_market(service.connection, action, payload)}
         if action in {"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit"}:
             return {"ok": True, **p1_commission_market(service.connection, action, payload)}
+        if action in {"p1_estrela_contracts", "p1_estrela_state", "p1_estrela_validate", "p1_estrela_persist", "p1_estrela_protect", "p1_estrela_audit"}:
+            return {"ok": True, **p1_estrela_market(service.connection, action, payload)}
         if action in {"p1_projecao_contracts", "p1_projecao_state", "p1_projecao_validate", "p1_projecao_persist", "p1_projecao_protect", "p1_projecao_audit"}:
             return {"ok": True, **p1_projecao_market(service.connection, action, payload)}
         if action in {"p1_orcamento_operacional_contracts", "p1_orcamento_operacional_state", "p1_orcamento_operacional_validate", "p1_orcamento_operacional_persist", "p1_orcamento_operacional_protect", "p1_orcamento_operacional_audit"}:
