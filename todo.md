@@ -726,3 +726,4 @@
 - [x] Produzir o lote P1 2661–2670: contrato de captação, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2671–2680: contrato de desenvolvimento, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2681–2690: contrato de promoção, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2691–2700: contrato de bolsa, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
