@@ -773,3 +773,4 @@
 - [x] Produzir o lote P1 3271–3280: contrato de audiência derivado da capacidade de estádio e AttendanceService, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3281–3290: contrato comercial, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 3291–3300: contrato de expiração baseado no ciclo `_expire_due` de SponsorshipService, integração ao gateway e validação mínima.
+- [x] Produzir o lote P1 3301–3310: contrato de bônus derivado do contrato operacional existente, integração ao gateway e validação mínima.
