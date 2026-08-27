@@ -897,3 +897,10 @@
 - [x] Criar workflow GitHub Actions obrigatório para push e pull_request sem continue-on-error.
 - [x] Executar CI real no GitHub, corrigir falhas e registrar evidências.
 - [x] Consolidar relatório final com resultados, problemas e arquivos alterados.
+
+# Próxima rodada — rastreabilidade, temporada competitiva e mobile
+
+- [x] Criar matriz de rastreabilidade dos 611 itens em revisão, distinguindo evidência ausente de vínculo estrutural não provado.
+- [x] Expandir a simulação para uma temporada competitiva completa usando somente calendário, partidas e resultados persistidos disponíveis no GameState.
+- [x] Validar manualmente o fluxo de nova carreira em 320px e 375px, corrigindo overflow, legibilidade e ações inacessíveis.
+- [x] Consolidar relatório, testes, screenshots e checkpoint da rodada mobile/competitiva.

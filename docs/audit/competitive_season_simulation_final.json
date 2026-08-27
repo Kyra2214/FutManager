@@ -1,0 +1,161 @@
+{
+  "database": "/tmp/futmanager-competitive-season-i5x31h3v/season.db",
+  "status": "PASS",
+  "steps": [
+    {
+      "name": "create multi-country career",
+      "action": "start",
+      "result": {
+        "ok": true,
+        "started": true,
+        "manager_id": 6,
+        "career_id": 6,
+        "target_type": "club",
+        "target_id": 1,
+        "current_club_id": 1,
+        "engine_version": "1.1",
+        "selected_country_ids": [
+          29,
+          104,
+          65,
+          154
+        ],
+        "combined_league_name": "Brasil + Itália + Espanha + Portugal",
+        "starting_division": 4,
+        "world_mode": null,
+        "parallel_league": {
+          "name": "Competitive Season · Liga Mundial",
+          "total_clubs": 80,
+          "country_count": 4,
+          "division_count": 4,
+          "seed": "a0c73860ea98a3e5",
+          "target_division": 4,
+          "fixture_count": 1520,
+          "season_number": 1
+        }
+      }
+    },
+    {
+      "name": "materialize competitive fixtures",
+      "action": "parallel_snapshot",
+      "result": {
+        "fixture_count": 1520,
+        "league": {
+          "career_id": 6,
+          "manager_id": 6,
+          "name": "Competitive Season · Liga Mundial",
+          "season_id": null,
+          "total_clubs": 80,
+          "source_country_count": 4,
+          "seed": "a0c73860ea98a3e5",
+          "division_count": 4,
+          "created_at": "2026-08-27T19:13:24.821531+00:00"
+        }
+      }
+    },
+    {
+      "name": "played 200 fixtures",
+      "action": "match_engine + parallel_result",
+      "result": {
+        "played": 200
+      }
+    },
+    {
+      "name": "played 400 fixtures",
+      "action": "match_engine + parallel_result",
+      "result": {
+        "played": 400
+      }
+    },
+    {
+      "name": "played 600 fixtures",
+      "action": "match_engine + parallel_result",
+      "result": {
+        "played": 600
+      }
+    },
+    {
+      "name": "played 800 fixtures",
+      "action": "match_engine + parallel_result",
+      "result": {
+        "played": 800
+      }
+    },
+    {
+      "name": "played 1000 fixtures",
+      "action": "match_engine + parallel_result",
+      "result": {
+        "played": 1000
+      }
+    },
+    {
+      "name": "played 1200 fixtures",
+      "action": "match_engine + parallel_result",
+      "result": {
+        "played": 1200
+      }
+    },
+    {
+      "name": "played 1400 fixtures",
+      "action": "match_engine + parallel_result",
+      "result": {
+        "played": 1400
+      }
+    },
+    {
+      "name": "final competitive snapshot",
+      "action": "parallel_snapshot",
+      "result": {
+        "fixture_count": 1520,
+        "played_count": 1520
+      }
+    }
+  ],
+  "invariants": [
+    {
+      "name": "four divisions with 80 clubs",
+      "passed": true,
+      "details": {
+        "career_id": 6,
+        "manager_id": 6,
+        "name": "Competitive Season · Liga Mundial",
+        "season_id": null,
+        "total_clubs": 80,
+        "source_country_count": 4,
+        "seed": "a0c73860ea98a3e5",
+        "division_count": 4,
+        "created_at": "2026-08-27T19:13:24.821531+00:00"
+      }
+    },
+    {
+      "name": "double round-robin fixture volume",
+      "passed": true,
+      "details": 1520
+    },
+    {
+      "name": "all fixtures played",
+      "passed": true,
+      "details": {
+        "fixture_count": 1520,
+        "played_count": 1520
+      }
+    },
+    {
+      "name": "standings have 80 rows",
+      "passed": true,
+      "details": 80
+    },
+    {
+      "name": "sqlite integrity",
+      "passed": true,
+      "details": "ok"
+    },
+    {
+      "name": "foreign keys",
+      "passed": true,
+      "details": null
+    }
+  ],
+  "fixture_count": 1520,
+  "played_count": 1520
+}
