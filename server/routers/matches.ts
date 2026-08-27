@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { compareCompetitions, getCompetitionHistory, getMatchesDashboard, getPlayerSeasonTotals, previewClassification } from "../engineState";
-import { getTravelSummary, previewTravelCost } from "../careerGateway";
+import { getTravelSummary, playControlledMatch, previewTravelCost } from "../careerGateway";
 import { publicProcedure, router } from "../_core/trpc";
 
 export const matchesRouter = router({
@@ -19,4 +19,7 @@ export const matchesRouter = router({
   travelSummary: publicProcedure
     .input(z.object({ season: z.number().int().positive().optional() }).optional())
     .query(({ input }) => getTravelSummary(input?.season)),
+  playControlled: publicProcedure
+    .input(z.object({ matchId: z.number().int().positive(), seed: z.number().int().optional() }))
+    .mutation(({ input }) => playControlledMatch(input.matchId, input.seed)),
 });

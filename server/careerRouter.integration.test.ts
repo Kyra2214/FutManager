@@ -43,5 +43,9 @@ describe("careerRouter integration", () => {
     const started = await caller.career.start({ managerName: "Manager Router", nationality: "BR", age: 30, careerName: "Integração", targetType: "club", targetId: 2009, selectedCountryIds: [29, 104, 65, 154] });
     expect(started).toMatchObject({ started: true, target_id: 2009, starting_division: 4, selected_country_ids: [29, 104, 65, 154], parallel_league: { total_clubs: 80, division_count: 4, target_division: 4 } });
     expect(await caller.career.current()).toMatchObject({ started: true, managerName: "Manager Router", targetType: "club", targetId: 2009, targetName: "RB Bragantino", startingDivision: 4, selectedCountryIds: [29, 65, 104, 154], combinedLeagueName: "Brasil + Itália + Espanha + Portugal", parallelLeague: { totalClubs: 80, divisionCount: 4 } });
+
+    const weekly = await caller.career.advanceWeek({ seed: 11 });
+    expect(weekly).toMatchObject({ status: "COMPLETED", week: expect.any(Number), season: expect.any(Number), controlled_club_id: 2009 });
+    expect((weekly as { skipped_controlled_matches: number }).skipped_controlled_matches).toBeGreaterThanOrEqual(0);
   });
 });

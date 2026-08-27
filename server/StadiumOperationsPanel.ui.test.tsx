@@ -46,19 +46,20 @@ describe("StadiumOperationsPanel", () => {
     render(<StadiumOperationsPanel />);
     expect(screen.getByText("Maracanã")).toBeTruthy();
     expect(screen.getByText("Arquibancada")).toBeTruthy();
-    expect(screen.getByRole("button", { name: /Avançar uma semana/i })).toBeTruthy();
+    expect(screen.getByText("Ciclo semanal automático")).toBeTruthy();
+    expect(screen.queryByRole("button", { name: /Avançar uma semana/i })).toBeNull();
     expect(screen.getByText("12.600")).toBeTruthy();
   });
 
-  it("envia upgrade, preço e avanço semanal por tRPC", () => {
+  it("envia upgrade e preço por tRPC sem abrir simulação manual", () => {
     render(<StadiumOperationsPanel />);
     fireEvent.click(screen.getAllByRole("button", { name: /Ver impacto/i })[0]);
     fireEvent.click(screen.getByRole("button", { name: "Confirmar evolução" }));
     fireEvent.click(screen.getByRole("button", { name: "Salvar preço" }));
-    fireEvent.click(screen.getByRole("button", { name: /Avançar uma semana/i }));
+    expect(screen.queryByRole("button", { name: /Avançar uma semana/i })).toBeNull();
     expect(mutations.upgrade).toHaveBeenCalledWith({ component: "arquibancada" });
     expect(mutations.ticket).toHaveBeenCalledWith({ basePrice: 42 });
-    expect(mutations.advance).toHaveBeenCalledWith({});
+    expect(mutations.advance).not.toHaveBeenCalled();
   });
 
   it("oferece preparação explícita quando não há estádio econômico", () => {

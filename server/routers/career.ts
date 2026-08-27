@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { getCurrentCareer, getParallelLeaguePreview, listCareerTargets, listWorldCountries, startCareer } from "../careerGateway";
+import { advanceWorldWeek, getCurrentCareer, getParallelLeaguePreview, listCareerTargets, listWorldCountries, startCareer } from "../careerGateway";
 import { publicProcedure, router } from "../_core/trpc";
 
 function toTrpcError(error: unknown) {
@@ -40,6 +40,15 @@ export const careerRouter = router({
     .query(({ input }) => {
       try {
         return getParallelLeaguePreview(input.selectedCountryIds, input.targetType, input.targetId);
+      } catch (error) {
+        throw toTrpcError(error);
+      }
+    }),
+  advanceWeek: publicProcedure
+    .input(z.object({ seed: z.number().int().optional() }).optional())
+    .mutation(({ input }) => {
+      try {
+        return advanceWorldWeek(input?.seed);
       } catch (error) {
         throw toTrpcError(error);
       }

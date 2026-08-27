@@ -3,15 +3,19 @@ import React from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const mocks = vi.hoisted(() => ({ workspace: vi.fn(), toast: vi.fn(), useUtils: vi.fn(), summary: vi.fn(), catalog: vi.fn(), departmentOffers: vi.fn(), hire: vi.fn(), upgradeDepartment: vi.fn() }));
+const mocks = vi.hoisted(() => ({ workspace: vi.fn(), financeLedger: vi.fn(), financeAlert: vi.fn(), financeHistory: vi.fn(), matchesDashboard: vi.fn(), playerStats: vi.fn(), trainingDepartments: vi.fn(), trainingDevelopment: vi.fn(), health: vi.fn(), toast: vi.fn(), useUtils: vi.fn(), summary: vi.fn(), catalog: vi.fn(), departmentOffers: vi.fn(), hire: vi.fn(), upgradeDepartment: vi.fn() }));
 
 vi.mock("@/lib/trpc", () => ({ trpc: {
   useUtils: mocks.useUtils,
-  club: { workspace: { useQuery: mocks.workspace } },
+  club: { workspace: { useQuery: mocks.workspace }, financeLedger: { useQuery: mocks.financeLedger }, financeAlert: { useQuery: mocks.financeAlert }, financeHistory: { useQuery: mocks.financeHistory } },
+  matches: { dashboard: { useQuery: mocks.matchesDashboard }, playerStats: { useQuery: mocks.playerStats } },
   staffMarket: {
     summary: { useQuery: mocks.summary },
     catalog: { useQuery: mocks.catalog },
     departmentOffers: { useQuery: mocks.departmentOffers },
+    trainingDepartments: { useQuery: mocks.trainingDepartments },
+    trainingDevelopment: { useQuery: mocks.trainingDevelopment },
+    health: { useQuery: mocks.health },
     hire: { useMutation: mocks.hire },
     upgradeDepartment: { useMutation: mocks.upgradeDepartment },
   },
@@ -39,6 +43,14 @@ describe("Atalhos de contratação do CT", () => {
 
   beforeEach(() => {
     mocks.workspace.mockReturnValue({ data: emptyWorkspace, isLoading: false });
+    mocks.financeLedger.mockReturnValue({ data: [], isLoading: false });
+    mocks.financeAlert.mockReturnValue({ data: { status: "OK" }, isLoading: false });
+    mocks.financeHistory.mockReturnValue({ data: null, isLoading: false });
+    mocks.matchesDashboard.mockReturnValue({ data: undefined, isLoading: false });
+    mocks.playerStats.mockReturnValue({ data: { players: [] }, isLoading: false });
+    mocks.trainingDepartments.mockReturnValue({ data: [], isLoading: false });
+    mocks.trainingDevelopment.mockReturnValue({ data: [], isLoading: false });
+    mocks.health.mockReturnValue({ data: [], isLoading: false });
     mocks.toast.mockReset();
     mocks.useUtils.mockReturnValue({ staffMarket: { summary: { invalidate: vi.fn() }, catalog: { invalidate: vi.fn() }, departmentOffers: { invalidate: vi.fn() } }, club: { workspace: { invalidate: vi.fn() } } });
     mocks.summary.mockReturnValue({ data: undefined, isLoading: false });
