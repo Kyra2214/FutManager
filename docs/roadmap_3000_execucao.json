@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 890,
-    "pending": 2110,
+    "done": 900,
+    "pending": 2100,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -10355,8 +10355,12 @@
       "title": "definir contrato para grupo",
       "dependency": "1760",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_group_contract.py::test_group_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1762,
@@ -10364,8 +10368,12 @@
       "title": "validar regras de grupo",
       "dependency": "1761",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_group_contract.py::test_group_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1763,
@@ -10373,8 +10381,12 @@
       "title": "persistir estado de grupo",
       "dependency": "1762",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_group_contract.py::test_group_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1764,
@@ -10382,8 +10394,12 @@
       "title": "expor leitura de grupo",
       "dependency": "1763",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_group_contract.py::test_group_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1765,
@@ -10391,8 +10407,12 @@
       "title": "proteger mutação de grupo",
       "dependency": "1764",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_group_contract.py::test_group_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1766,
@@ -10400,8 +10420,12 @@
       "title": "auditar fluxo de grupo",
       "dependency": "1765",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_group_contract.py::test_group_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1767,
@@ -10409,8 +10433,12 @@
       "title": "otimizar consulta de grupo",
       "dependency": "1766",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_group_contract.py::test_group_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1768,
@@ -10418,8 +10446,12 @@
       "title": "simular cenário de grupo",
       "dependency": "1767",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_group_contract.py::test_group_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1769,
@@ -10427,8 +10459,12 @@
       "title": "documentar ciclo de grupo",
       "dependency": "1768",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_group_contract.py::test_group_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1770,
@@ -10436,8 +10472,12 @@
       "title": "testar integração de grupo",
       "dependency": "1769",
       "criterion": "teste/fixture do domínio 09, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_group_contract.py::test_group_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1771,
