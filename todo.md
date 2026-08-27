@@ -578,9 +578,11 @@
 - [x] Completar vagas com clubes canônicos adicionais do SQL, sem placeholders ou clubes fictícios.
 - [x] Liberar todos os países com membership oficial válido no catálogo de seleção.
 - [ ] Importar memberships oficiais para Inglaterra, Alemanha, França, Argentina, Turquia e demais países com fonte validada.
+- [x] Ocultar da interface a distinção entre membership oficial e seleção por overall, mantendo-a apenas internamente.
 - [ ] Registrar fonte, temporada, checksum e evidência de cada membership importado.
 - [x] Remover alertas técnicos de erro da interface e substituir por estados editoriais úteis.
 - [x] Ocultar clubes sem nome ou escudo válido do catálogo de seleção.
+- [x] Selecionar clubes de países sem membership declarada pelo maior overall institucional persistido no SQL, com desempate determinístico.
 - [x] Completar e explicar a distribuição das divisões usando somente clubes canônicos do SQL.
 - [x] Atualizar testes legados de ligas paralelas para a regra fixa 80 clubes e calendários de 20 clubes por divisão.
 - [x] Consolidar todos os itens P0 restantes do roadmap 941–3940 antes de liberar o P1_GLOBAL_GATE.
