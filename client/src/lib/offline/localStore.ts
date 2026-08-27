@@ -93,6 +93,20 @@ export async function writeLocalGameState<T>(state: T) {
   );
 }
 
+export async function exportLocalDatabase() {
+  const db = await getDatabase();
+  return db.exportToJson("full", false);
+}
+
+export async function importLocalDatabase(jsonString: string) {
+  const db = await getDatabase();
+  const validation = await CapacitorSQLite.isJsonValid({ jsonstring: jsonString });
+  if (!validation.result) {
+    throw new Error("O arquivo de backup não é um banco FutManager válido.");
+  }
+  await CapacitorSQLite.importFromJson({ jsonstring: jsonString });
+}
+
 export async function closeLocalGameState() {
   if (!database) return;
   await database.close();

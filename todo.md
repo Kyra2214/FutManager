@@ -995,3 +995,5 @@
 - [x] Instalar/configurar Android SDK para gerar o APK debug neste ambiente.
 - [x] Gerar APK debug com o shell Capacitor e assets offline preparados.
 - [ ] Assinar o APK release e definir keystore seguro para distribuição.
+- [x] Criar API local de exportação, compartilhamento e restauração de carreira via SQLite/Filesystem.
+- [x] Validar os tipos do backup e a compilação TypeScript no preview web.
