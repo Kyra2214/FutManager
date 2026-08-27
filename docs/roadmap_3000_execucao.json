@@ -3335,8 +3335,14 @@
       "title": "definir contrato para MFA",
       "dependency": "1200",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_mfa_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_mfa_contract.py",
+        "docs/p1_mfa_1201_1210.md"
+      ]
     },
     {
       "item_id": 1202,
@@ -3344,8 +3350,14 @@
       "title": "validar regras de MFA",
       "dependency": "1201",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_mfa_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_mfa_contract.py",
+        "docs/p1_mfa_1201_1210.md"
+      ]
     },
     {
       "item_id": 1203,
@@ -3353,8 +3365,14 @@
       "title": "persistir estado de MFA",
       "dependency": "1202",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_mfa_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_mfa_contract.py",
+        "docs/p1_mfa_1201_1210.md"
+      ]
     },
     {
       "item_id": 1204,
@@ -3362,8 +3380,14 @@
       "title": "expor leitura de MFA",
       "dependency": "1203",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_mfa_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_mfa_contract.py",
+        "docs/p1_mfa_1201_1210.md"
+      ]
     },
     {
       "item_id": 1205,
@@ -3371,8 +3395,14 @@
       "title": "proteger mutação de MFA",
       "dependency": "1204",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_mfa_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_mfa_contract.py",
+        "docs/p1_mfa_1201_1210.md"
+      ]
     },
     {
       "item_id": 1206,
@@ -3380,8 +3410,14 @@
       "title": "auditar fluxo de MFA",
       "dependency": "1205",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_mfa_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_mfa_contract.py",
+        "docs/p1_mfa_1201_1210.md"
+      ]
     },
     {
       "item_id": 1207,
@@ -3389,8 +3425,14 @@
       "title": "otimizar consulta de MFA",
       "dependency": "1206",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_mfa_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_mfa_contract.py",
+        "docs/p1_mfa_1201_1210.md"
+      ]
     },
     {
       "item_id": 1208,
@@ -3398,8 +3440,14 @@
       "title": "simular cenário de MFA",
       "dependency": "1207",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_mfa_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_mfa_contract.py",
+        "docs/p1_mfa_1201_1210.md"
+      ]
     },
     {
       "item_id": 1209,
@@ -3407,8 +3455,14 @@
       "title": "documentar ciclo de MFA",
       "dependency": "1208",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_mfa_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_mfa_contract.py",
+        "docs/p1_mfa_1201_1210.md"
+      ]
     },
     {
       "item_id": 1210,
@@ -3416,8 +3470,14 @@
       "title": "testar integração de MFA",
       "dependency": "1209",
       "criterion": "teste/fixture do domínio 03, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_mfa_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_mfa_contract.py",
+        "docs/p1_mfa_1201_1210.md"
+      ]
     },
     {
       "item_id": 1211,
