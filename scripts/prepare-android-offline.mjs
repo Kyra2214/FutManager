@@ -20,6 +20,12 @@ if (!engineRoot) {
 
 const database = join(engineRoot, "data/state/game.db");
 const shields = join(engineRoot, "assets/escudos");
+const assetRoots = [
+  process.env.FUTMANAGER_ASSET_ROOT,
+  resolve(projectRoot, "../FutManager/assets"),
+  "/home/ubuntu/webdev-static-assets",
+  join(engineRoot, "assets"),
+].filter(Boolean);
 if (!existsSync(database)) {
   throw new Error(`GameState canônico não encontrado em ${database}`);
 }
@@ -28,12 +34,25 @@ if (!existsSync(shields)) {
 }
 
 const targetRoot = join(projectRoot, "android/app/src/main/assets/public/assets");
+const appAssetsTarget = join(targetRoot, "app");
+const editorialAssets = [
+  "futmanager-program-texture.jpg",
+  "futmanager-stadium-editorial.jpg",
+  "futmanager-training.jpg",
+  "futmanager-mark.png",
+];
 const databaseTarget = join(targetRoot, "databases");
 const shieldsTarget = join(targetRoot, "escudos");
 mkdirSync(databaseTarget, { recursive: true });
 mkdirSync(shieldsTarget, { recursive: true });
+mkdirSync(appAssetsTarget, { recursive: true });
 cpSync(database, join(databaseTarget, "game.db"));
 cpSync(shields, shieldsTarget, { recursive: true });
+for (const assetName of editorialAssets) {
+  const source = assetRoots.map((root) => join(root, assetName)).find((candidate) => existsSync(candidate));
+  if (!source) throw new Error(`Asset editorial não encontrado: ${assetName}`);
+  cpSync(source, join(appAssetsTarget, assetName));
+}
 
 const hash = createHash("sha256");
 hash.update(await readFile(join(databaseTarget, "game.db")));

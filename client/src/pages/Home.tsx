@@ -4,6 +4,7 @@
  * jogadores, caixa, resultados ou regras; dados ausentes são mostrados como estados honestos.
  */
 import React, { useEffect, useMemo, useState } from "react";
+import { Capacitor } from "@capacitor/core";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import { getEntityAssetPresentation } from "@/lib/entityAsset";
@@ -45,12 +46,21 @@ import {
 } from "lucide-react";
 import type { AppSection } from "../App";
 
-const ASSETS = {
+const LOCAL_ASSETS = {
+  mark: "/assets/app/futmanager-mark.png",
+  stadium: "/assets/app/futmanager-stadium-editorial.jpg",
+  texture: "/assets/app/futmanager-program-texture.jpg",
+  training: "/assets/app/futmanager-training.jpg",
+};
+
+const REMOTE_ASSETS = {
   mark: "/manus-storage/futmanager-mark_e2de4349.png",
   stadium: "/manus-storage/futmanager-stadium-editorial_daa6aae8.jpg",
   texture: "/manus-storage/futmanager-program-texture_81ce0f48.jpg",
   training: "/manus-storage/futmanager-training_e0636498.jpg",
 };
+
+const ASSETS = Capacitor.isNativePlatform() ? LOCAL_ASSETS : REMOTE_ASSETS;
 
 const navItems: { id: AppSection; label: string; short: string; icon: typeof LayoutDashboard }[] = [
   { id: "clube", label: "Seu Clube", short: "01", icon: LayoutDashboard },

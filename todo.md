@@ -1001,3 +1001,5 @@
 - [ ] Portar o primeiro grupo P0: catálogo, carreira, avanço semanal, viagem, partidas, eventos e assets.
 - [x] Corrigir a ordem do pipeline para preservar os assets offline após o Capacitor sync.
 - [x] Verificar no APK a presença do GameState/escudos e a ausência da permissão INTERNET.
+- [x] Embarcar escudos, banco-base e assets editoriais locais no pacote Android.
+- [x] Verificar no APK final o GameState, imagens editoriais, metadados Android e ausência de INTERNET.
