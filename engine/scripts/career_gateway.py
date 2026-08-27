@@ -41,6 +41,7 @@ from engine.core.p1_role_contract import audit_p1_roles, protect_p1_role_mutatio
 from engine.core.p1_invite_contract import audit_p1_invites, protect_p1_invite_mutation, read_p1_invites, read_p1_invite_state, persist_p1_invite, validate_p1_invite
 from engine.core.p1_scope_contract import audit_p1_scopes, protect_p1_scope_mutation, read_p1_scopes, read_p1_scope_state, persist_p1_scope, validate_p1_scope
 from engine.core.p1_revocation_contract import audit_p1_revocations, protect_p1_revocation_mutation, read_p1_revocations, read_p1_revocation_state, persist_p1_revocation, validate_p1_revocation
+from engine.core.p1_mfa_contract import audit_p1_mfas, protect_p1_mfa_mutation, read_p1_mfas, read_p1_mfa_state, persist_p1_mfa, validate_p1_mfa
 from engine.social.attendance import AttendanceService
 from engine.social.stadium_fans import SocialService
 from engine.stadiums.service import StadiumService
@@ -530,6 +531,15 @@ def p1_domain_version_market(connection: sqlite3.Connection, action: str, payloa
     raise ValueError('P1_DOMAIN_VERSION_ACTION_INVALID')
 
 
+def p1_mfa_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_mfa_contracts': return {'items': read_p1_mfas(connection), 'read_only': True}
+    if action == 'p1_mfa_state': return {'items': read_p1_mfa_state(connection, payload.get('mfa_key')), 'read_only': True}
+    if action == 'p1_mfa_validate': return validate_p1_mfa(connection, int(payload.get('item_id')))
+    if action == 'p1_mfa_persist': return persist_p1_mfa(connection, str(payload.get('mfa_key', '')), dict(payload.get('mfa_payload') or {}), payload.get('career_id'), payload.get('subject_id'), str(payload.get('method', 'TOTP')), str(payload.get('status', 'ENABLED')), str(payload.get('actor', '')))
+    if action == 'p1_mfa_protect': return protect_p1_mfa_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_mfa_audit': return audit_p1_mfas(connection)
+    raise ValueError('P1_MFA_ACTION_INVALID')
+
 def p1_revocation_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
     if action == 'p1_revocation_contracts': return {'items': read_p1_revocations(connection), 'read_only': True}
     if action == 'p1_revocation_state': return {'items': read_p1_revocation_state(connection, payload.get('revocation_key')), 'read_only': True}
@@ -638,6 +648,8 @@ def run(action: str, payload: dict, database_path: Path) -> dict:
             return {"ok": True, **p1_scope_market(service.connection, action, payload)}
         if action in {"p1_revocation_contracts", "p1_revocation_state", "p1_revocation_validate", "p1_revocation_persist", "p1_revocation_protect", "p1_revocation_audit"}:
             return {"ok": True, **p1_revocation_market(service.connection, action, payload)}
+        if action in {"p1_mfa_contracts", "p1_mfa_state", "p1_mfa_validate", "p1_mfa_persist", "p1_mfa_protect", "p1_mfa_audit"}:
+            return {"ok": True, **p1_mfa_market(service.connection, action, payload)}
         if action == "parallel_preview":
             return {"ok": True, **service.preview_parallel_league([int(value) for value in payload.get('selected_country_ids', [])], str(payload.get('target_type', 'club')), int(payload.get('target_id')))}
         if action in {"parallel_snapshot", "parallel_result", "parallel_close"}:
