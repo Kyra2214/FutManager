@@ -16,7 +16,7 @@ import { MatchesPage } from "../client/src/pages/Home";
 
 describe("MatchesPage em carregamento", () => {
   it.each([
-    ["competicoes", "Lendo o estado esportivo"],
+    ["competicoes", "Atualizando a temporada"],
     ["tabela", "Consultando o estado oficial do motor"],
     ["calendario", "Consultando o estado oficial do motor"],
     ["resultados", "Consultando o estado oficial do motor"],
