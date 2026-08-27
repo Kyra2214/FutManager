@@ -622,3 +622,4 @@
 - [x] Implementar e validar o lote P1 1281–1290: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de perfil.
 - [x] Implementar e validar o lote P1 1291–1300: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de preferências.
 - [x] Corrigir construções de edifícios para persistir prazo, estado em andamento, conclusão no avanço semanal e rollback transacional.
+- [x] Exibir no CT o estado editorial da obra, duração e data prevista, bloqueando nova ação no departamento em construção.

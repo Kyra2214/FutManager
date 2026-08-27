@@ -27,6 +27,7 @@ export function StaffEconomyPanel({ mode, onNavigateToMarket }: { mode: Mode; on
   const utils = trpc.useUtils();
   const [role, setRole] = useState<(typeof roles)[number][0]>("todos");
   const [minimumLevel, setMinimumLevel] = useState<number | undefined>(undefined);
+  const [activeConstruction, setActiveConstruction] = useState<{ department: string; label: string; target_level: number; completion_at: string; duration_weeks: number } | null>(null);
   const selectedRole = role === "todos" ? undefined : role;
   const catalogInput = useMemo(() => ({ role: selectedRole, minLevel: minimumLevel }), [selectedRole, minimumLevel]);
   const economyQuery = trpc.staffMarket.summary.useQuery(undefined, { retry: 1 });
@@ -48,13 +49,14 @@ export function StaffEconomyPanel({ mode, onNavigateToMarket }: { mode: Mode; on
   });
   const departmentMutation = trpc.staffMarket.upgradeDepartment.useMutation({
     onSuccess: (result) => {
-      toast.success(`${result.label} evoluiu para o nível ${result.target_level}.`);
+      setActiveConstruction({ department: result.department, label: result.label, target_level: result.target_level, completion_at: result.completion_at, duration_weeks: result.duration_weeks });
+      toast.success(`${result.label} entrou em obras. Conclusão prevista para ${new Date(`${result.completion_at}T12:00:00`).toLocaleDateString("pt-BR")}.`);
       void utils.staffMarket.summary.invalidate();
       void utils.staffMarket.catalog.invalidate();
       void utils.staffMarket.departmentOffers.invalidate();
       void utils.club.workspace.invalidate();
     },
-    onError: (error) => toast.error(error.message === "INSUFFICIENT_CASH" ? "O caixa não cobre esta evolução." : error.message === "DEPARTMENT_MAX_LEVEL" ? "Este departamento já está no nível máximo." : "Não foi possível evoluir o departamento."),
+    onError: (error) => toast.error(error.message === "INSUFFICIENT_CASH" ? "O caixa não cobre esta evolução." : error.message === "DEPARTMENT_MAX_LEVEL" ? "Este departamento já está no nível máximo." : error.message.includes("DEPARTMENT_CONSTRUCTION_IN_PROGRESS") ? "Este departamento já está em obras." : "Não foi possível evoluir o departamento."),
   });
   const economy = economyQuery.data;
   const loading = economyQuery.isLoading;
@@ -110,12 +112,13 @@ export function StaffEconomyPanel({ mode, onNavigateToMarket }: { mode: Mode; on
           {trainingDepartmentsQuery?.data?.length ? <div className="ct-training-readout"><div><span className="eyebrow">TREINAMENTO / INVENTÁRIO PERSISTIDO</span><h3>Estrutura que sustenta a evolução</h3></div><div className="ct-training-grid">{trainingDepartmentsQuery.data.map((department) => <div key={department.department}><b>{department.label}</b><small>Nível {department.level}/{department.max_level} · capacidade {department.capacity}</small><strong>{(department.efficiency * 100).toFixed(0)}% eficiência</strong></div>)}</div><p>{trainingDevelopmentQuery?.isLoading ? "Lendo evolução individual…" : `${trainingDevelopmentQuery?.data?.length ?? 0} atleta(s) disponíveis para um plano de desenvolvimento baseado no estado persistido.`}</p></div> : null}
           <div className="ct-health-readout"><div><span className="eyebrow">DEPARTAMENTO MÉDICO / ESTADO OFICIAL</span><h3>{healthQuery?.isLoading ? "Consultando saúde…" : healthQuery?.data?.length ? `${healthQuery.data.length} lesão(ões) ativa(s)` : "Nenhuma lesão ativa registrada"}</h3></div>{healthQuery?.data?.length ? <div className="ct-health-list">{healthQuery.data.slice(0, 4).map((injury) => <div key={injury.injury_id}><b>{injury.player_name}</b><small>{injury.injury_type} · {injury.severity}</small><strong>{injury.estimated_days} dias estimados</strong></div>)}</div> : <p>O motor não registra lesões ativas para o clube controlado.</p>}</div>
           <div className="market-command-toolbar"><div><span className="eyebrow">DEPARTAMENTOS DO CT</span><h3>Comprar ou evoluir estrutura</h3></div><button type="button" className="economy-market-link" onClick={onNavigateToMarket}>Ver profissionais <ArrowUpRight size={15} /></button></div>
+          {activeConstruction ? <div className="ct-construction-banner" role="status"><span className="eyebrow">OBRA EM ANDAMENTO</span><strong>{activeConstruction.label} · nível {activeConstruction.target_level}</strong><p>Prazo de {activeConstruction.duration_weeks} semana(s). Previsão de conclusão: {new Date(`${activeConstruction.completion_at}T12:00:00`).toLocaleDateString("pt-BR")}.</p></div> : null}
           {departmentQuery.isLoading ? <div className="economy-empty">Calculando ofertas de estrutura…</div> : departmentQuery.data?.length ? <div className="department-offer-grid">
             {departmentQuery.data.map((department) => <article className="department-offer-card" key={department.department}>
               <div className="department-icon">{department.department === "medicina" ? <HeartPulse size={22} /> : <Building2 size={22} />}</div>
               <span>{department.label.toUpperCase()}</span><h3>Nível {department.target_level}</h3><p>Capacidade projetada: {department.capacity}</p>
               <dl><div><dt>INVESTIMENTO</dt><dd>{cash(department.cost)}</dd></div><div><dt>MANUTENÇÃO / SEMANA</dt><dd>{cash(department.maintenance)}</dd></div></dl>
-              <button type="button" onClick={() => departmentMutation.mutate({ department: department.department as "base" | "medicina" | "preparacao_fisica" | "analise" })} disabled={departmentMutation.isPending}>{departmentMutation.isPending ? "Processando…" : department.target_level === 1 ? "Comprar" : "Evoluir"}<ArrowUpRight size={15} /></button>
+              <button type="button" onClick={() => departmentMutation.mutate({ department: department.department as "base" | "medicina" | "preparacao_fisica" | "analise" })} disabled={departmentMutation.isPending || activeConstruction?.department === department.department}>{activeConstruction?.department === department.department ? "Em obras…" : departmentMutation.isPending ? "Processando…" : department.target_level === 1 ? "Comprar" : "Evoluir"}<ArrowUpRight size={15} /></button>
             </article>)}
           </div> : <div className="economy-empty">Não há oferta de departamento disponível.</div>}
         </div>
