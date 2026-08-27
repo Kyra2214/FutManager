@@ -1,11 +1,12 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { copyFileSync, mkdtempSync, rmSync } from "node:fs";
+import { copyFileSync, existsSync, mkdtempSync, rmSync } from "node:fs";
 import { createRequire } from "node:module";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { appRouter } from "./routers";
 
-const ENGINE_STATE = "/home/ubuntu/brasfoot_engine/data/state/game.db";
+const MANAGED_ENGINE_STATE = "/home/ubuntu/brasfoot_engine/data/state/game.db";
+const ENGINE_STATE = process.env.FUTMANAGER_ENGINE_STATE_PATH || (existsSync(MANAGED_ENGINE_STATE) ? MANAGED_ENGINE_STATE : resolve(process.cwd(), "../engine/data/state/game.db"));
 const folders: string[] = [];
 const originalStatePath = process.env.FUTMANAGER_ENGINE_STATE_PATH;
 type WritableDb = { close: () => void; exec: (sql: string) => void };

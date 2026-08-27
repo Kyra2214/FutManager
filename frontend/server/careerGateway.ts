@@ -1,6 +1,10 @@
 import { execFileSync } from "node:child_process";
+import { existsSync } from "node:fs";
+import path from "node:path";
 
-const ENGINE_ROOT = "/home/ubuntu/brasfoot_engine";
+const MANAGED_ENGINE_ROOT = "/home/ubuntu/brasfoot_engine";
+const REPOSITORY_ENGINE_ROOT = path.resolve(process.cwd(), "../engine");
+const ENGINE_ROOT = process.env.FUTMANAGER_ENGINE_ROOT || (existsSync(MANAGED_ENGINE_ROOT) ? MANAGED_ENGINE_ROOT : REPOSITORY_ENGINE_ROOT);
 const GATEWAY_PATH = `${ENGINE_ROOT}/scripts/career_gateway.py`;
 const DEFAULT_ENGINE_STATE_PATH = `${ENGINE_ROOT}/data/state/game.db`;
 

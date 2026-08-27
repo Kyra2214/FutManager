@@ -73,9 +73,20 @@ jobs:
           corepack prepare pnpm@10.4.1 --activate
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Prepare frontend GameState fixture
+        working-directory: .
+        run: |
+          mkdir -p engine/data/state
+          gunzip -c engine/data/state/game.db.gz > engine/data/state/game.db
       - name: Typecheck
+        env:
+          FUTMANAGER_ENGINE_ROOT: ${{ github.workspace }}/engine
+          FUTMANAGER_ENGINE_STATE_PATH: ${{ github.workspace }}/engine/data/state/game.db
         run: pnpm check
       - name: Test frontend
+        env:
+          FUTMANAGER_ENGINE_ROOT: ${{ github.workspace }}/engine
+          FUTMANAGER_ENGINE_STATE_PATH: ${{ github.workspace }}/engine/data/state/game.db
         run: pnpm test
       - name: Build frontend
         run: pnpm build
