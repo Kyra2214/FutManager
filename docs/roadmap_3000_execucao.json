@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 970,
-    "pending": 2030,
+    "done": 980,
+    "pending": 2020,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -11715,8 +11715,12 @@
       "title": "definir contrato para conflito",
       "dependency": "1870",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_conflict_contract.py::test_conflict_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1872,
@@ -11724,8 +11728,12 @@
       "title": "validar regras de conflito",
       "dependency": "1871",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_conflict_contract.py::test_conflict_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1873,
@@ -11733,8 +11741,12 @@
       "title": "persistir estado de conflito",
       "dependency": "1872",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_conflict_contract.py::test_conflict_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1874,
@@ -11742,8 +11754,12 @@
       "title": "expor leitura de conflito",
       "dependency": "1873",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_conflict_contract.py::test_conflict_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1875,
@@ -11751,8 +11767,12 @@
       "title": "proteger mutação de conflito",
       "dependency": "1874",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_conflict_contract.py::test_conflict_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1876,
@@ -11760,8 +11780,12 @@
       "title": "auditar fluxo de conflito",
       "dependency": "1875",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_conflict_contract.py::test_conflict_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1877,
@@ -11769,8 +11793,12 @@
       "title": "otimizar consulta de conflito",
       "dependency": "1876",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_conflict_contract.py::test_conflict_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1878,
@@ -11778,8 +11806,12 @@
       "title": "simular cenário de conflito",
       "dependency": "1877",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_conflict_contract.py::test_conflict_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1879,
@@ -11787,8 +11819,12 @@
       "title": "documentar ciclo de conflito",
       "dependency": "1878",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_conflict_contract.py::test_conflict_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1880,
@@ -11796,8 +11832,12 @@
       "title": "testar integração de conflito",
       "dependency": "1879",
       "criterion": "teste/fixture do domínio 10, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_conflict_contract.py::test_conflict_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1881,
