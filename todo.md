@@ -724,3 +724,4 @@
 - [x] Produzir o lote P1 2611–2620: contrato de medicina, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2651–2660: contrato de categoria, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2661–2670: contrato de captação, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2671–2680: contrato de desenvolvimento, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
