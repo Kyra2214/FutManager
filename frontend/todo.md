@@ -941,3 +941,10 @@
 - [x] Manter na tela exclusiva somente placar, campo, eventos, pausa e decisões táticas.
 - [x] Validar navegação desktop/mobile, acessibilidade e persistência das decisões no modo dedicado.
 - [x] Salvar checkpoint e sincronizar a alteração no GitHub.
+
+# Refinamento visual do modo partida
+- [x] Manter todas as opções táticas disponíveis sem reduzir o conjunto de comandos.
+- [x] Reorganizar as opções em janelas/abas compactas para evitar lista vertical extensa.
+- [x] Ampliar o campo da partida e dar prioridade visual ao placar e aos eventos.
+- [x] Remover o alerta de identificador quando a partida exibida já possui uma partida válida selecionada.
+- [x] Validar o novo layout em 375px e desktop, com testes de interação e checkpoint.
