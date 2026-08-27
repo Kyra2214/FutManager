@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 600,
-    "pending": 2400,
+    "done": 610,
+    "pending": 2390,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -5305,8 +5305,12 @@
       "title": "definir contrato para posição",
       "dependency": "P0_GLOBAL_GATE + passo anterior do domínio",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_position_contract.py::test_position_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1352,
@@ -5314,8 +5318,12 @@
       "title": "validar regras de posição",
       "dependency": "1351",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_position_contract.py::test_position_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1353,
@@ -5323,8 +5331,12 @@
       "title": "persistir estado de posição",
       "dependency": "1352",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_position_contract.py::test_position_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1354,
@@ -5332,8 +5344,12 @@
       "title": "expor leitura de posição",
       "dependency": "1353",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_position_contract.py::test_position_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1355,
@@ -5341,8 +5357,12 @@
       "title": "proteger mutação de posição",
       "dependency": "1354",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_position_contract.py::test_position_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1356,
@@ -5350,8 +5370,12 @@
       "title": "auditar fluxo de posição",
       "dependency": "1355",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_position_contract.py::test_position_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1357,
@@ -5359,8 +5383,12 @@
       "title": "otimizar consulta de posição",
       "dependency": "1356",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_position_contract.py::test_position_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1358,
@@ -5368,8 +5396,12 @@
       "title": "simular cenário de posição",
       "dependency": "1357",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_position_contract.py::test_position_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1359,
@@ -5377,8 +5409,12 @@
       "title": "documentar ciclo de posição",
       "dependency": "1358",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_position_contract.py::test_position_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1360,
@@ -5386,8 +5422,12 @@
       "title": "testar integração de posição",
       "dependency": "1359",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_position_contract.py::test_position_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1361,
