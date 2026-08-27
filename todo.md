@@ -702,3 +702,4 @@
 - [x] Produzir o lote P1 2301–2310: contrato de inscrição, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2311–2320: contrato de coesão, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2351–2360: contrato de duração, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2361–2370: contrato de bônus, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
