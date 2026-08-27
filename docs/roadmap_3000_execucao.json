@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 530,
-    "pending": 2470,
+    "done": 540,
+    "pending": 2460,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -4225,8 +4225,13 @@
       "title": "definir contrato para identidade",
       "dependency": "1270",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_identity_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_identity_contract.py"
+      ]
     },
     {
       "item_id": 1272,
@@ -4234,8 +4239,13 @@
       "title": "validar regras de identidade",
       "dependency": "1271",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_identity_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_identity_contract.py"
+      ]
     },
     {
       "item_id": 1273,
@@ -4243,8 +4253,13 @@
       "title": "persistir estado de identidade",
       "dependency": "1272",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_identity_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_identity_contract.py"
+      ]
     },
     {
       "item_id": 1274,
@@ -4252,8 +4267,13 @@
       "title": "expor leitura de identidade",
       "dependency": "1273",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_identity_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_identity_contract.py"
+      ]
     },
     {
       "item_id": 1275,
@@ -4261,8 +4281,13 @@
       "title": "proteger mutação de identidade",
       "dependency": "1274",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_identity_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_identity_contract.py"
+      ]
     },
     {
       "item_id": 1276,
@@ -4270,8 +4295,13 @@
       "title": "auditar fluxo de identidade",
       "dependency": "1275",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_identity_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_identity_contract.py"
+      ]
     },
     {
       "item_id": 1277,
@@ -4279,8 +4309,13 @@
       "title": "otimizar consulta de identidade",
       "dependency": "1276",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_identity_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_identity_contract.py"
+      ]
     },
     {
       "item_id": 1278,
@@ -4288,8 +4323,13 @@
       "title": "simular cenário de identidade",
       "dependency": "1277",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_identity_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_identity_contract.py"
+      ]
     },
     {
       "item_id": 1279,
@@ -4297,8 +4337,13 @@
       "title": "documentar ciclo de identidade",
       "dependency": "1278",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_identity_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_identity_contract.py"
+      ]
     },
     {
       "item_id": 1280,
@@ -4306,8 +4351,13 @@
       "title": "testar integração de identidade",
       "dependency": "1279",
       "criterion": "teste/fixture do domínio 04, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_identity_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_identity_contract.py"
+      ]
     },
     {
       "item_id": 1281,
