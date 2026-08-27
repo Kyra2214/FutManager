@@ -1,4 +1,5 @@
 import { trpc } from "@/lib/trpc";
+import { Capacitor } from "@capacitor/core";
 import { COOKIE_NAME, UNAUTHED_ERR_MSG } from '@shared/const';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink, TRPCClientError } from "@trpc/client";
@@ -12,7 +13,7 @@ const queryClient = new QueryClient();
 
 const redirectToLoginIfUnauthorized = (error: unknown) => {
   if (!(error instanceof TRPCClientError)) return;
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || Capacitor.isNativePlatform()) return;
 
   const isUnauthorized = error.message === UNAUTHED_ERR_MSG;
 
