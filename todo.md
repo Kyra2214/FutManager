@@ -852,3 +852,4 @@
 - [x] Produzir o lote P2 2121–2130: contrato de defesa derivado da tática existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 2131–2140: contrato de relatório derivado da implementação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 2221–2230: contrato de risco do domínio 50 derivado da implementação existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 2231–2240: contrato de explicação derivado da evidência existente, integração ao serviço e validação mínima.
