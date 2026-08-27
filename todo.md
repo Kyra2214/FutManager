@@ -775,3 +775,4 @@
 - [x] Produzir o lote P1 3291–3300: contrato de expiração baseado no ciclo `_expire_due` de SponsorshipService, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3301–3310: contrato de bônus derivado do contrato operacional existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3311–3320: contrato de inventário derivado do contrato de registro existente, integração ao gateway e validação mínima.
+- [x] Produzir o lote P1 3351–3360: contrato de setor derivado do contrato de divisão existente, integração ao gateway e validação mínima.
