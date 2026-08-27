@@ -663,3 +663,4 @@
 - [x] Implementar e validar o lote P1 1781–1790: contrato de sorteio do domínio 08, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1791–1800: contrato de coeficiente, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1801–1810: contrato de registro do domínio 08, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1811–1820: contrato de premiação, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
