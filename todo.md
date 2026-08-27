@@ -928,3 +928,9 @@
 - [x] Construir central visual com animações elaboradas, balões de informação e feed sincronizado.
 - [x] Adicionar testes de domínio, integração, UI, acessibilidade e responsividade mobile para o fluxo interativo.
 - [x] Validar o fluxo completo e salvar checkpoint publicado.
+
+# Correção — iniciar partida no mobile
+- [x] Reproduzir o clique que não inicia a transmissão em viewport móvel e identificar a causa.
+- [x] Corrigir a transição do botão “Iniciar partida” para o estado ao vivo, sem bloquear por dados opcionais.
+- [x] Cobrir o clique mobile com teste de UI e validar animação, pausas e registro posterior.
+- [x] Salvar checkpoint corrigido e sincronizar a correção no GitHub.
