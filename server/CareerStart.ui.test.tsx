@@ -18,6 +18,7 @@ vi.mock("@/lib/trpc", () => ({
     useUtils: () => ({ career: { current: { invalidate: mocks.invalidate } } }),
     career: {
       catalog: { useQuery: mocks.catalog },
+      worldCountries: { useQuery: () => ({ data: { items: [{ countryId: 29, name: "Brasil", code: "BRA", clubCount: 10 }] }, isLoading: false, isError: false }) },
       current: { useQuery: () => ({ data: mocks.current, isLoading: false }) },
       start: { useMutation: (options: { onSuccess?: () => void }) => {
         mocks.mutationOptions = options;
@@ -29,7 +30,7 @@ vi.mock("@/lib/trpc", () => ({
 
 import CareerStart from "../client/src/pages/CareerStart";
 
-const club = { entityId: 7, name: "Clube Exemplo", mappingStatus: "COMPLETE", assetUrl: "/engine-assets/escudos/clubes/exemplo.png", assetKind: "crest" as const };
+const club = { entityId: 7, name: "Clube Exemplo", countryId: 29, mappingStatus: "COMPLETE", assetUrl: "/engine-assets/escudos/clubes/exemplo.png", assetKind: "crest" as const };
 const selection = { entityId: 4, name: "Argentina", mappingStatus: "SOURCE_NOT_PROVIDED", assetUrl: "/engine-assets/selecoes/camisas/ARG.png", assetKind: "kit" as const };
 
 function Harness() {
@@ -56,12 +57,22 @@ describe("CareerStart UI", () => {
     const user = userEvent.setup();
     render(<Harness />);
     await user.type(screen.getByPlaceholderText("Como o manager será chamado?"), "Ana");
+    await user.click(screen.getByRole("button", { name: /Brasil/i }));
     await user.click(screen.getByRole("button", { name: /Clube Exemplo/i }));
     await user.click(screen.getByRole("button", { name: /Começar carreira/i }));
 
-    expect(mocks.mutate).toHaveBeenCalledWith(expect.objectContaining({ managerName: "Ana", targetType: "club", targetId: 7 }));
+    expect(mocks.mutate).toHaveBeenCalledWith(expect.objectContaining({ managerName: "Ana", targetType: "club", targetId: 7, selectedCountryIds: [29] }));
     expect(mocks.invalidate).toHaveBeenCalled();
     expect(screen.getByText("Dashboard liberado")).toBeTruthy();
+  });
+
+  it("bloqueia o início quando nenhuma liga foi selecionada", async () => {
+    const user = userEvent.setup();
+    render(<CareerStart onStarted={vi.fn()} />);
+    await user.type(screen.getByPlaceholderText("Como o manager será chamado?"), "Ana");
+    await user.click(screen.getByRole("button", { name: /Clube Exemplo/i }));
+    expect((screen.getByRole("button", { name: /Começar carreira/i }) as HTMLButtonElement).disabled).toBe(true);
+    expect(screen.getByText("Escolha pelo menos uma liga para liberar o início da carreira.")).toBeTruthy();
   });
 
   it("mostra camisa e aviso honesto quando a seleção não possui escudo de origem", async () => {
@@ -82,8 +93,9 @@ describe("CareerStart UI", () => {
     await user.click(screen.getByRole("button", { name: /Continuar save/i }));
     expect(onContinue).toHaveBeenCalledOnce();
     await user.type(screen.getByPlaceholderText("Como o manager será chamado?"), "Novo Manager");
+    await user.click(screen.getByRole("button", { name: /Brasil/i }));
     await user.click(screen.getByRole("button", { name: /Clube Exemplo/i }));
     await user.click(screen.getByRole("button", { name: /Começar carreira/i }));
-    expect(mocks.mutate).toHaveBeenCalledWith(expect.objectContaining({ managerName: "Novo Manager", targetId: 7 }));
+    expect(mocks.mutate).toHaveBeenCalledWith(expect.objectContaining({ managerName: "Novo Manager", targetId: 7, selectedCountryIds: [29] }));
   });
 });

@@ -35,11 +35,13 @@ describe("careerRouter integration", () => {
 
     const caller = appRouter.createCaller({} as never);
     const catalog = await caller.career.catalog({ targetType: "club", search: "07 Vestur", limit: 4 });
-    expect(catalog[0]).toMatchObject({ entityId: 1, name: "07 Vestur" });
+    expect(catalog[0]).toMatchObject({ entityId: 1, name: "07 Vestur", countryId: 92 });
+    const countries = await caller.career.worldCountries({ search: "", limit: 96 });
+    expect(countries.items).toContainEqual(expect.objectContaining({ countryId: 29, name: "Brasil" }));
     expect(await caller.career.current()).toMatchObject({ started: false });
 
-    const started = await caller.career.start({ managerName: "Manager Router", nationality: "BR", age: 30, careerName: "Integração", targetType: "club", targetId: 1 });
-    expect(started).toMatchObject({ started: true, target_id: 1 });
-    expect(await caller.career.current()).toMatchObject({ started: true, managerName: "Manager Router", targetType: "club", targetId: 1, targetName: "07 Vestur" });
+    const started = await caller.career.start({ managerName: "Manager Router", nationality: "BR", age: 30, careerName: "Integração", targetType: "club", targetId: 1, selectedCountryIds: [92, 29, 104, 65] });
+    expect(started).toMatchObject({ started: true, target_id: 1, starting_division: 4, selected_country_ids: [92, 29, 104, 65] });
+    expect(await caller.career.current()).toMatchObject({ started: true, managerName: "Manager Router", targetType: "club", targetId: 1, targetName: "07 Vestur", startingDivision: 4, selectedCountryIds: [29, 65, 92, 104], combinedLeagueName: "País ID 92 + Brasil + Itália + Espanha" });
   });
 });

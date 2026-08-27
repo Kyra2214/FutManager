@@ -403,3 +403,37 @@ html, body, #root { max-width: 100%; overflow-x: hidden; }
   .career-start-hero h1 { font-size: 42px; }
   .career-start-panel { padding-inline: 16px; }
 }
+
+/* Career world configuration */
+.career-world-config { margin-top: 34px; padding: 16px; border: 1px solid var(--line); border-top: 3px solid var(--cobalt); background: rgba(255,255,255,.36); }
+.career-world-config .career-target-head { margin-top: 0; align-items: center; }
+.career-division-badge { flex: 0 0 auto; padding: 8px 10px; color: var(--ink); background: var(--grass); font: 800 10px "Space Grotesk", sans-serif; letter-spacing: .08em; }
+.career-world-note { max-width: 620px; margin: 11px 0 0; color: #777970; font-size: 10px; line-height: 1.45; }
+.career-world-note b { color: var(--ink); }
+.career-world-search { margin: 14px 0 9px; }
+.career-world-countries { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; max-height: 210px; overflow-y: auto; border-top: 1px solid var(--line); border-left: 1px solid var(--line); background: var(--line); }
+.career-world-country { display: flex; align-items: center; justify-content: space-between; gap: 7px; min-width: 0; min-height: 54px; padding: 9px 10px; border: 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(255,255,255,.62); color: var(--ink); text-align: left; cursor: pointer; transition: background .16s var(--ease-out, ease-out), transform .16s var(--ease-out, ease-out); }
+.career-world-country:hover { background: #fff; }
+.career-world-country:active { transform: scale(.985); }
+.career-world-country.selected { background: #edf3d8; box-shadow: inset 3px 0 var(--grass); }
+.career-world-country > span { display: grid; min-width: 0; gap: 3px; }
+.career-world-country b { overflow: hidden; font: 600 11px "Space Grotesk", sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+.career-world-country small { overflow: hidden; color: #777970; font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+.career-world-country > svg { flex: 0 0 auto; color: #547915; }
+.career-world-summary { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-top: 12px; color: #777970; font-size: 9px; }
+.career-world-summary b { color: var(--ink); font: 600 11px "Space Grotesk", sans-serif; text-align: right; }
+.career-world-validation { margin: 13px 0 0; color: #9e4234; font-size: 10px; }
+.career-field-hint { color: #92938a; font-size: 8px; }
+@media (max-width: 640px) {
+  .career-world-config { padding: 13px; }
+  .career-world-config .career-target-head { flex-direction: row; align-items: center; }
+  .career-world-config .career-target-head h3 { font-size: 19px; }
+  .career-world-countries { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .career-world-summary { align-items: flex-start; flex-direction: column; gap: 5px; }
+  .career-world-summary b { text-align: left; }
+}
+@media (max-width: 360px) {
+  .career-world-config .career-target-head { align-items: flex-start; flex-direction: column; }
+  .career-division-badge { align-self: flex-start; }
+  .career-world-countries { grid-template-columns: 1fr; }
+}

@@ -9,10 +9,13 @@ export type CareerTargetType = "club" | "selection";
 export type CareerCatalogItem = {
   entityId: number;
   name: string;
+  countryId?: number | null;
   mappingStatus: string;
   assetUrl: string | null;
   assetKind: "crest" | "kit" | null;
 };
+
+export type WorldCountry = { countryId: number; name: string; code: string | null; clubCount: number };
 
 type GatewayResult = { ok: boolean; error?: string } & Record<string, unknown>;
 export type GatewayAction = "catalog" | "current" | "start" | "contract_renew_approve" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "finance_revenue" | "finance_expense" | "finance_budget" | "finance_expense_preview" | "finance_post_match_preview" | "finance_projection" | "finance_alert" | "finance_world_report" | "finance_audit" | "finance_monthly_close" | "finance_reconciliation" | "finance_media_summary" | "travel_preview" | "travel_summary" | "training_departments" | "morale_summary" | "morale_match" | "weekly_training" | "opponent_preparation" | "weekly_load" | "form_recommendations" | "health_list" | "health_alerts" | "health_injury" | "health_recover" | "health_suspension" | "ai_diagnosis" | "ai_history" | "ai_training" | "ai_market" | "ai_weekly" | "ai_lineup" | "ai_tactic" | "ai_objective_progress" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_preview" | "stadium_upgrade" | "ticket_price" | "ticket_price_preview" | "fan_segments" | "social_timeline" | "weekly_advance" | "events_list" | "events_mark_read" | "transferable_players" | "transfer_open_window" | "transfer_preview" | "transfer_offer" | "transfer_counter" | "transfer_accept" | "transfer_approve" | "transfer_loan" | "transfer_complete" | "simulation_configure" | "simulation_batch" | "simulation_progress" | "simulation_checkpoint" | "simulation_divergence" | "simulation_benchmark" | "simulation_resume" | "simulation_metrics" | "simulation_failure_report" | "scout_regions" | "scout_create_region" | "scout_mission" | "scout_start" | "scout_complete" | "scout_opportunities" | "scout_compare" | "scout_confirm" | "academy_enroll" | "academy_progress" | "academy_promote" | "academy_maintenance" | "sponsor_weekly" | "training_objective" | "training_preview" | "training_approve" | "training_cancel" | "transfer_history" | "transfer_alerts" | "transfer_expire" | "ai_preview" | "ai_approve" | "ai_risk_limit" | "ai_budget_alerts" | "health_return_protocol" | "health_eligibility" | "health_treatment" | "health_audit" | "training_microcycle" | "training_overtraining" | "training_audit" | "career_snapshot" | "career_snapshot_list" | "career_snapshot_hash" | "career_snapshot_compare" | "career_snapshot_restore" | "career_snapshot_audit" | "gateway_audit";
@@ -38,6 +41,12 @@ export function runCareerGatewayAction<T extends GatewayResult = GatewayResult>(
   return result;
 }
 
+export function listWorldCountries(search = "", limit = 48, databasePath?: string) {
+  const result = callGateway<{ ok: boolean; error?: string; items?: WorldCountry[] }>("catalog", { entity_type: "world_country", search, limit }, databasePath);
+  if (!result.ok) throw new Error(result.error || "WORLD_COUNTRY_CATALOG_UNAVAILABLE");
+  return result.items || [];
+}
+
 export function listCareerTargets(targetType: CareerTargetType, search: string, limit: number, databasePath?: string) {
   const result = callGateway<{ ok: boolean; error?: string; items?: CareerCatalogItem[] }>("catalog", {
     entity_type: targetType,
@@ -61,6 +70,7 @@ export function startCareer(input: {
   careerName: string;
   targetType: CareerTargetType;
   targetId: number;
+  selectedCountryIds?: number[];
 }, databasePath?: string) {
   const result = callGateway<GatewayResult & { started?: boolean }>("start", {
     manager_name: input.managerName,
@@ -69,6 +79,7 @@ export function startCareer(input: {
     career_name: input.careerName,
     target_type: input.targetType,
     target_id: input.targetId,
+    selected_country_ids: input.selectedCountryIds,
   }, databasePath);
   if (!result.ok) throw new Error(result.error || "CAREER_START_UNAVAILABLE");
   return result;

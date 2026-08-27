@@ -547,3 +547,8 @@
 - [x] Garantir que dashboard, Operações e restauração de snapshots só sejam liberados após save ativo persistido.
 - [x] Adicionar testes focados para seleção, criação de save e bloqueio do dashboard sem carreira.
 - [x] Corrigir overflow horizontal da tela de entrada para manter o layout fixo no viewport de celulares e validar em 375px/320px.
+- [x] Mapear o catálogo canônico de ligas/países e divisões disponíveis no GameState para configuração de carreira.
+- [x] Persistir a seleção de ligas participantes no GameState como configuração oficial do save.
+- [x] Aplicar no motor a regra de que o time escolhido começa na 4ª divisão do universo combinado.
+- [x] Integrar na primeira página a escolha de uma ou mais ligas/países antes da criação do save.
+- [x] Validar seleção de ligas, início na 4ª divisão, múltiplos saves e bloqueio de estado paralelo com testes focados.
