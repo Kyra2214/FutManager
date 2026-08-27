@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 660,
-    "pending": 2340,
+    "done": 670,
+    "pending": 2330,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -6085,8 +6085,12 @@
       "title": "definir contrato para histórico",
       "dependency": "1410",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_history_contract.py::test_history_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1412,
@@ -6094,8 +6098,12 @@
       "title": "validar regras de histórico",
       "dependency": "1411",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_history_contract.py::test_history_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1413,
@@ -6103,8 +6111,12 @@
       "title": "persistir estado de histórico",
       "dependency": "1412",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_history_contract.py::test_history_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1414,
@@ -6112,8 +6124,12 @@
       "title": "expor leitura de histórico",
       "dependency": "1413",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_history_contract.py::test_history_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1415,
@@ -6121,8 +6137,12 @@
       "title": "proteger mutação de histórico",
       "dependency": "1414",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_history_contract.py::test_history_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1416,
@@ -6130,8 +6150,12 @@
       "title": "auditar fluxo de histórico",
       "dependency": "1415",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_history_contract.py::test_history_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1417,
@@ -6139,8 +6163,12 @@
       "title": "otimizar consulta de histórico",
       "dependency": "1416",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_history_contract.py::test_history_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1418,
@@ -6148,8 +6176,12 @@
       "title": "simular cenário de histórico",
       "dependency": "1417",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_history_contract.py::test_history_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1419,
@@ -6157,8 +6189,12 @@
       "title": "documentar ciclo de histórico",
       "dependency": "1418",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_history_contract.py::test_history_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1420,
@@ -6166,8 +6202,12 @@
       "title": "testar integração de histórico",
       "dependency": "1419",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_history_contract.py::test_history_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1421,
