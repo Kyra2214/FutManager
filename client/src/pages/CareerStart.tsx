@@ -1,5 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ArrowRight, Check, Search, Shield, UserRound } from "lucide-react";
+import { Capacitor } from "@capacitor/core";
+import { localDomain } from "@/lib/offline/localDomain";
 import { trpc } from "@/lib/trpc";
 import { getCareerStartErrorMessage } from "@/lib/careerErrors";
 
@@ -17,21 +19,33 @@ export default function CareerStart({ onStarted, onContinue }: { onStarted: () =
   const [careerName, setCareerName] = useState("Minha carreira");
   const [age, setAge] = useState("30");
   const [nationality, setNationality] = useState("");
+  const isNative = Capacitor.isNativePlatform();
+  const [localCatalog, setLocalCatalog] = useState<Array<{ entityId: number; name: string; countryId?: number | null; assetUrl: string | null; assetKind: "crest" | "kit" | null }>>([]);
+  const [localCatalogLoading, setLocalCatalogLoading] = useState(false);
   const utils = trpc.useUtils();
-  const currentCareer = trpc.career.current.useQuery(undefined, { retry: 1 });
+  const currentCareer = trpc.career.current.useQuery(undefined, { retry: 1, enabled: !isNative });
   const catalogInput = useMemo(() => ({ targetType, search, limit: 48 }), [targetType, search]);
-  const catalogQuery = trpc.career.catalog.useQuery(catalogInput, { retry: 1 });
-  const worldCountriesQuery = trpc.career.worldCountries.useQuery({ search: worldSearch, limit: 48 }, { retry: 1 });
+  const catalogQuery = trpc.career.catalog.useQuery(catalogInput, { retry: 1, enabled: !isNative });
+  useEffect(() => {
+    if (!isNative) return;
+    let active = true;
+    setLocalCatalogLoading(true);
+    const loader = targetType === "club" ? localDomain.listClubs(search, 48) : localDomain.listSelections(search, 48);
+    loader.then((items) => active && setLocalCatalog(items)).catch(() => active && setLocalCatalog([])).finally(() => active && setLocalCatalogLoading(false));
+    return () => { active = false; };
+  }, [isNative, search, targetType]);
+  const worldCountriesQuery = trpc.career.worldCountries.useQuery({ search: worldSearch, limit: 48 }, { retry: 1, enabled: !isNative });
   const startMutation = trpc.career.start.useMutation({
     onSuccess: async () => {
       await utils.career.current.invalidate();
       onStarted();
     },
   });
-  const selectedTarget = catalogQuery.data?.find((item) => item.entityId === selectedId) ?? null;
+  const catalogItems = isNative ? localCatalog : catalogQuery.data ?? [];
+  const selectedTarget = catalogItems.find((item) => item.entityId === selectedId) ?? null;
   const selectedCountries = (worldCountriesQuery.data?.items ?? []) as WorldCountry[];
   const parallelPreviewInput = useMemo(() => ({ selectedCountryIds, targetType, targetId: selectedId ?? 0 }), [selectedCountryIds, targetType, selectedId]);
-  const parallelPreview = trpc.career.parallelPreview.useQuery(parallelPreviewInput, { enabled: selectedCountryIds.length > 0 && selectedId !== null, retry: 0 });
+  const parallelPreview = trpc.career.parallelPreview.useQuery(parallelPreviewInput, { enabled: !isNative && selectedCountryIds.length > 0 && selectedId !== null, retry: 0 });
   const parallelPreviewData = parallelPreview.data as { mode?: "NATIONAL" | "PARALLEL"; competition_name?: string; total_clubs?: number; seed?: string | null; target_division?: number | null; divisions?: Array<{ division: number; clubs: Array<{ club_id: number; name?: string }> }> } | undefined;
   const canStart = Boolean(selectedTarget && selectedCountryIds.length > 0 && managerName.trim() && careerName.trim() && Number(age) >= 18 && !startMutation.isPending);
 
@@ -74,8 +88,8 @@ export default function CareerStart({ onStarted, onContinue }: { onStarted: () =
       </section>
       <div className="career-target-head"><div><span className="eyebrow">SEU COMANDO</span><h3>Escolha seu clube ou seleção</h3></div><div className="career-type-toggle"><button type="button" className={targetType === "club" ? "active" : ""} onClick={() => selectTargetType("club")}><Shield size={14} /> Clube</button><button type="button" className={targetType === "selection" ? "active" : ""} onClick={() => selectTargetType("selection")}><UserRound size={14} /> Seleção</button></div></div>
       <label className="career-search"><Search size={17} /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder={targetType === "club" ? "Buscar clube por nome" : "Buscar seleção por nome ou código"} /></label>
-      <div className="career-targets" aria-live="polite">{catalogQuery.isLoading && <div className="career-target-loading">Carregando entidades oficiais…</div>}{catalogQuery.isError && <div className="career-target-loading error">Não foi possível carregar os clubes agora.</div>}{!catalogQuery.isLoading && !catalogQuery.isError && (catalogQuery.data ?? []).filter((item) => targetType !== "club" || (Boolean(item.name?.trim()) && Boolean(item.assetUrl))).length === 0 && <div className="career-target-loading">Nenhuma entidade oficial com nome e escudo foi encontrada para essa busca.</div>}
-{catalogQuery.data?.filter((item) => targetType !== "club" || (Boolean(item.name?.trim()) && Boolean(item.assetUrl))).map((item) => { const presentation = { label: item.assetKind === "kit" ? "Camisa oficial" : "Escudo oficial" };
+      <div className="career-targets" aria-live="polite">{(isNative ? localCatalogLoading : catalogQuery.isLoading) && <div className="career-target-loading">Carregando entidades oficiais…</div>}{!isNative && catalogQuery.isError && <div className="career-target-loading error">Não foi possível carregar os clubes agora.</div>}{!(isNative ? localCatalogLoading : catalogQuery.isLoading) && (isNative || !catalogQuery.isError) && catalogItems.filter((item) => targetType !== "club" || (Boolean(item.name?.trim()) && Boolean(item.assetUrl))).length === 0 && <div className="career-target-loading">Nenhuma entidade oficial com nome e escudo foi encontrada para essa busca.</div>}
+{catalogItems.filter((item) => targetType !== "club" || (Boolean(item.name?.trim()) && Boolean(item.assetUrl))).map((item) => { const presentation = { label: item.assetKind === "kit" ? "Camisa oficial" : "Escudo oficial" };
  const selected = item.entityId === selectedId; return <button type="button" key={item.entityId} className={`career-target-card ${selected ? "selected" : ""}`} onClick={() => setSelectedId(item.entityId)}><span className="career-target-asset">{item.assetUrl ? <img src={item.assetUrl} alt={item.assetKind === "kit" ? `Camisa de ${item.name}` : `Escudo de ${item.name}`} /> : <span>?</span>}</span><span className="career-target-copy"><b>{item.name}</b><small>{presentation.label}</small></span>{selected && <span className="career-selected"><Check size={15} /></span>}</button>; })}</div>
       {selectedTarget && <div className="career-confirm-target"><span className="eyebrow">ESCOLHIDO</span><strong>{selectedTarget.name}</strong><span>{targetType === "club" ? "Clube escolhido" : "Seleção escolhida"}</span></div>}
       {selectedCountryIds.length === 0 && <p className="career-world-validation">Escolha pelo menos uma liga para liberar o início da carreira.</p>}

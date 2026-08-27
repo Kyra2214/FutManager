@@ -1012,3 +1012,5 @@
 - [x] Mapear as tabelas reais do GameState para carreira, clubes, seleções, temporadas e partidas.
 - [x] Expor catálogo local de clubes, seleções e assets pelo localDomain.
 - [x] Validar o catálogo local sem regressões nos 67 testes frontend.
+- [x] Ligar a CareerStart ao catálogo local de clubes e seleções no runtime Android.
+- [x] Desativar consultas remotas de carreira/catálogo/prévia no runtime nativo e validar o typecheck.
