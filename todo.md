@@ -793,3 +793,4 @@
 - [x] Produzir o lote P1 3551–3560: contrato de lote derivado do contrato de grupo existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3561–3570: contrato de seed derivado do contrato de fixture existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3571–3580: contrato de checkpoint derivado do contrato de histórico existente, integração ao gateway e validação mínima.
+- [x] Produzir o lote P1 3581–3590: contrato de throughput derivado do contrato de capacidade existente, integração ao gateway e validação mínima.
