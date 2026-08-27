@@ -630,3 +630,4 @@
 - [x] Implementar e validar o lote P1 1331–1340: contrato de infraestrutura do estádio, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1331–1340: contrato de infraestrutura do estádio, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1351–1360: contrato de posição, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1361–1370: contrato de atributo, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.

@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 610,
-    "pending": 2390,
+    "done": 620,
+    "pending": 2380,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -5435,8 +5435,12 @@
       "title": "definir contrato para atributo",
       "dependency": "1360",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_attribute_contract.py::test_attribute_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1362,
@@ -5444,8 +5448,12 @@
       "title": "validar regras de atributo",
       "dependency": "1361",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_attribute_contract.py::test_attribute_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1363,
@@ -5453,8 +5461,12 @@
       "title": "persistir estado de atributo",
       "dependency": "1362",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_attribute_contract.py::test_attribute_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1364,
@@ -5462,8 +5474,12 @@
       "title": "expor leitura de atributo",
       "dependency": "1363",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_attribute_contract.py::test_attribute_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1365,
@@ -5471,8 +5487,12 @@
       "title": "proteger mutação de atributo",
       "dependency": "1364",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_attribute_contract.py::test_attribute_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1366,
@@ -5480,8 +5500,12 @@
       "title": "auditar fluxo de atributo",
       "dependency": "1365",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_attribute_contract.py::test_attribute_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1367,
@@ -5489,8 +5513,12 @@
       "title": "otimizar consulta de atributo",
       "dependency": "1366",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_attribute_contract.py::test_attribute_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1368,
@@ -5498,8 +5526,12 @@
       "title": "simular cenário de atributo",
       "dependency": "1367",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_attribute_contract.py::test_attribute_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1369,
@@ -5507,8 +5539,12 @@
       "title": "documentar ciclo de atributo",
       "dependency": "1368",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_attribute_contract.py::test_attribute_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1370,
@@ -5516,8 +5552,12 @@
       "title": "testar integração de atributo",
       "dependency": "1369",
       "criterion": "teste/fixture do domínio 05, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_attribute_contract.py::test_attribute_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1371,
