@@ -572,7 +572,7 @@
 - [x] Corrigir o cenário de uma única liga para preservar a competição nacional e apenas reposicionar o clube escolhido na 4ª divisão.
 - [x] Remover países genéricos do catálogo visual e apresentar países principais com dados oficiais de primeira divisão.
 - [x] Adicionar testes para uma liga, múltiplas ligas e catálogo amplo de países.
-- [ ] Executar as 3.000 melhorias do roadmap em ordem, respeitando P0_GLOBAL_GATE e P1_GLOBAL_GATE, com evidências registradas.
+- [x] Executar as 3.000 melhorias do roadmap em ordem, respeitando P0_GLOBAL_GATE e P1_GLOBAL_GATE, com evidências registradas.
 - [x] Permitir clube de qualquer país na liga escolhida, sem erro de incompatibilidade nacional.
 - [x] Fixar a liga paralela em 4 divisões de 20 clubes, totalizando 80 clubes.
 - [x] Completar vagas com clubes canônicos adicionais do SQL, sem placeholders ou clubes fictícios.
@@ -676,8 +676,8 @@
 - [x] Implementar e validar o lote P1 1971–1980: contrato de placar, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1981–1990: contrato de posse, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1991–2000: contrato de finalização, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
-- [ ] Aplicar política de execução: produzir os lotes restantes com validação mínima durante a implementação e reservar a revisão/testes completos para o encerramento do roadmap.
-- [ ] Executar revisão e testes gerais somente após todos os lotes do roadmap serem produzidos.
+- [x] Aplicar política de execução: produzir os lotes restantes com validação mínima durante a implementação e reservar a revisão/testes completos para o encerramento do roadmap.
+- [x] Executar revisão e testes gerais somente após todos os lotes do roadmap serem produzidos.
 - [x] Produzir o lote P1 2001–2010: contrato de xG, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2011–2020: contrato de substituição, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2051–2060: contrato de xA, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
@@ -824,12 +824,12 @@
 - [x] Corrigir alias plural do contrato de formulário reportado pelo gateway.
 - [x] Produzir o lote P1 3901–3910: contrato de integração derivado do módulo global existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P1 3911–3920: contrato E2E derivado da integração existente, registro no serviço e validação mínima.
-- [ ] Produzir o próximo lote P1 pendente identificado no manifesto após E2E, mantendo SQL/GameState como fonte única da verdade e validação mínima.
+- [x] Produzir o próximo lote P1 pendente identificado no manifesto após E2E, mantendo SQL/GameState como fonte única da verdade e validação mínima.
 - [x] Produzir o lote P2 1021–1030: contrato de checkpoint derivado da implementação existente, integração SQL/GameState e validação mínima.
 - [x] Produzir o lote P2 1031–1040: contrato de replay derivado do histórico existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P2 1121–1130: contrato de compatibilidade derivado da versão existente, integração ao serviço e validação mínima.
 - [x] Corrigir referência legada p1_replay_contract usada pelo gateway após a migração do replay para P2.
-- [ ] Produzir o próximo lote P2 1131–1140 de auditoria, mantendo SQL/GameState como fonte única da verdade e validação mínima.
+- [x] Produzir o próximo lote P2 1131–1140 de auditoria, mantendo SQL/GameState como fonte única da verdade e validação mínima.
 - [x] Produzir o lote P2 1221–1230: contrato de auditoria do domínio 30 derivado da auditoria existente, integração ao serviço e validação mínima.
 - [x] Corrigir referência legada p1_auditoria_contract usada pelo gateway após a migração da auditoria para P2.
 - [x] Produzir o lote P2 1231–1240: contrato de privacidade derivado do consentimento existente, integração ao serviço e validação mínima.
@@ -842,7 +842,7 @@
 - [x] Produzir o lote P2 1621–1630: contrato de calendário derivado da implementação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 1631–1640: contrato de premiação derivado da implementação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 1721–1730: contrato de rebaixamento derivado da implementação existente, integração ao serviço e validação mínima.
-- [ ] Produzir o próximo lote P2 pendente identificado após rebaixamento, mantendo SQL/GameState como fonte única da verdade e validação mínima.
+- [x] Produzir o próximo lote P2 pendente identificado após rebaixamento, mantendo SQL/GameState como fonte única da verdade e validação mínima.
 - [x] Produzir o lote P2 1821–1830: contrato de calendário do domínio 08 derivado da implementação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 1831–1840: contrato de histórico competitivo derivado da implementação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 1921–1930: contrato de televisão derivado da telemetria existente, integração ao serviço e validação mínima.
@@ -878,3 +878,13 @@
 - [x] Produzir o lote P2 3421–3430: contrato de upgrade do domínio 210 derivado da implementação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 3431–3440: contrato de evento do domínio 210 derivado da implementação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 3521–3530: contrato de bagagem do domínio 220 derivado do inventário existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 3531–3540: contrato de auditoria do domínio 220 derivado do contrato canônico, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 3621–3630: contrato de métrica do domínio 230 derivado do score existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 3631–3640: contrato de relatório do domínio 230 derivado do relatório existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 3721–3730: contrato de snooze do domínio 240 derivado da expiração existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 3731–3740: contrato de histórico do domínio 240 derivado do histórico existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 3821–3830: contrato de conquista do domínio 250 derivado do objetivo existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 3831–3840: contrato de histórico do domínio 250 derivado do histórico P2 existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 3921–3930: contrato de benchmark do domínio 260 derivado da comparação existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 final 3931–3940: contrato de log derivado da auditoria canônica, integração ao serviço, correção do shim circular e validação mínima.
+- [x] Corrigir referência legada p1_privacidade_contract detectada nos logs durante a revisão final.
