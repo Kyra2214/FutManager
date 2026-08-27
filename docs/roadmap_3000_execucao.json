@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 790,
-    "pending": 2210,
+    "done": 800,
+    "pending": 2200,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -8415,8 +8415,12 @@
       "title": "definir contrato para rebaixamento",
       "dependency": "1600",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_relegation_contract.py::test_relegation_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1602,
@@ -8424,8 +8428,12 @@
       "title": "validar regras de rebaixamento",
       "dependency": "1601",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_relegation_contract.py::test_relegation_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1603,
@@ -8433,8 +8441,12 @@
       "title": "persistir estado de rebaixamento",
       "dependency": "1602",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_relegation_contract.py::test_relegation_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1604,
@@ -8442,8 +8454,12 @@
       "title": "expor leitura de rebaixamento",
       "dependency": "1603",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_relegation_contract.py::test_relegation_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1605,
@@ -8451,8 +8467,12 @@
       "title": "proteger mutação de rebaixamento",
       "dependency": "1604",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_relegation_contract.py::test_relegation_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1606,
@@ -8460,8 +8480,12 @@
       "title": "auditar fluxo de rebaixamento",
       "dependency": "1605",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_relegation_contract.py::test_relegation_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1607,
@@ -8469,8 +8493,12 @@
       "title": "otimizar consulta de rebaixamento",
       "dependency": "1606",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_relegation_contract.py::test_relegation_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1608,
@@ -8478,8 +8506,12 @@
       "title": "simular cenário de rebaixamento",
       "dependency": "1607",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_relegation_contract.py::test_relegation_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1609,
@@ -8487,8 +8519,12 @@
       "title": "documentar ciclo de rebaixamento",
       "dependency": "1608",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_relegation_contract.py::test_relegation_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1610,
@@ -8496,8 +8532,12 @@
       "title": "testar integração de rebaixamento",
       "dependency": "1609",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_relegation_contract.py::test_relegation_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1611,
