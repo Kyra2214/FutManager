@@ -3,7 +3,7 @@
   "policy": "P0_GLOBAL_GATE -> P1_GLOBAL_GATE -> P2; SQL/GameState is the source of truth",
   "gates": {
     "P0_GLOBAL_GATE": "OPEN",
-    "P1_GLOBAL_GATE": "CLOSED"
+    "P1_GLOBAL_GATE": "OPEN"
   },
   "summary": {
     "total": 3000,

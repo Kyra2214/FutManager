@@ -617,3 +617,5 @@
 - [x] Validar a nova experiência em desktop e mobile com testes de interface, typecheck e build.
 - [x] Atualizar testes de interface afetados pela nova linguagem editorial do Dia do Jogo e da prévia de ligas, mantendo cobertura funcional.
 - [x] Implementar e validar o lote P1 1261–1270: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de cidade.
+- [x] Registrar a abertura controlada do P1_GLOBAL_GATE após autorização explícita do usuário, mantendo P2 bloqueado.
+- [ ] Implementar e validar o lote P1 1271–1280: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de identidade.
