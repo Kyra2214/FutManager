@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 780,
-    "pending": 2220,
+    "done": 790,
+    "pending": 2210,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -8285,8 +8285,12 @@
       "title": "definir contrato para promoção",
       "dependency": "1590",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_promotion_contract.py::test_promotion_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; SQL syntax corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1592,
@@ -8294,8 +8298,12 @@
       "title": "validar regras de promoção",
       "dependency": "1591",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_promotion_contract.py::test_promotion_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; SQL syntax corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1593,
@@ -8303,8 +8311,12 @@
       "title": "persistir estado de promoção",
       "dependency": "1592",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_promotion_contract.py::test_promotion_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; SQL syntax corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1594,
@@ -8312,8 +8324,12 @@
       "title": "expor leitura de promoção",
       "dependency": "1593",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_promotion_contract.py::test_promotion_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; SQL syntax corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1595,
@@ -8321,8 +8337,12 @@
       "title": "proteger mutação de promoção",
       "dependency": "1594",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_promotion_contract.py::test_promotion_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; SQL syntax corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1596,
@@ -8330,8 +8350,12 @@
       "title": "auditar fluxo de promoção",
       "dependency": "1595",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_promotion_contract.py::test_promotion_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; SQL syntax corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1597,
@@ -8339,8 +8363,12 @@
       "title": "otimizar consulta de promoção",
       "dependency": "1596",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_promotion_contract.py::test_promotion_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; SQL syntax corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1598,
@@ -8348,8 +8376,12 @@
       "title": "simular cenário de promoção",
       "dependency": "1597",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_promotion_contract.py::test_promotion_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; SQL syntax corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1599,
@@ -8357,8 +8389,12 @@
       "title": "documentar ciclo de promoção",
       "dependency": "1598",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_promotion_contract.py::test_promotion_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; SQL syntax corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1600,
@@ -8366,8 +8402,12 @@
       "title": "testar integração de promoção",
       "dependency": "1599",
       "criterion": "teste/fixture do domínio 07, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_promotion_contract.py::test_promotion_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; SQL syntax corrected and retested",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1601,
