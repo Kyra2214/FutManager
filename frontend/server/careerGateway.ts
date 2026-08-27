@@ -1,10 +1,6 @@
 import { execFileSync } from "node:child_process";
-import { existsSync } from "node:fs";
-import path from "node:path";
 
-const MANAGED_ENGINE_ROOT = "/home/ubuntu/brasfoot_engine";
-const REPOSITORY_ENGINE_ROOT = path.resolve(process.cwd(), "../engine");
-const ENGINE_ROOT = process.env.FUTMANAGER_ENGINE_ROOT || (existsSync(MANAGED_ENGINE_ROOT) ? MANAGED_ENGINE_ROOT : REPOSITORY_ENGINE_ROOT);
+const ENGINE_ROOT = process.env.FUTMANAGER_ENGINE_ROOT || "/home/ubuntu/brasfoot_engine";
 const GATEWAY_PATH = `${ENGINE_ROOT}/scripts/career_gateway.py`;
 const DEFAULT_ENGINE_STATE_PATH = `${ENGINE_ROOT}/data/state/game.db`;
 
@@ -24,19 +20,20 @@ export type WorldCountry = { countryId: number; name: string; code: string | nul
 type GatewayResult = { ok: boolean; error?: string } & Record<string, unknown>;
 export type ParallelLeagueSnapshot = { league: { career_id: number; name: string; total_clubs: number; source_country_count: number; seed: string; division_count: number }; season_number: number; fixture_count: number; played_count: number; standings: Array<Record<string, unknown>>; fixtures: Array<Record<string, unknown>> };
 
-export type GatewayAction = "p0_contracts" | "p0_contract_validate" | "p0_contract_audit" | "p1_procedure_contracts" | "p1_procedure_validate" | "p1_procedure_audit" | "parallel_preview" | "parallel_snapshot" | "parallel_result" | "parallel_close" | "catalog" | "current" | "start" | "contract_renew_approve" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "finance_revenue" | "finance_expense" | "finance_budget" | "finance_expense_preview" | "finance_post_match_preview" | "finance_projection" | "finance_alert" | "finance_world_report" | "finance_audit" | "finance_monthly_close" | "finance_reconciliation" | "finance_media_summary" | "travel_preview" | "travel_summary" | "training_departments" | "morale_summary" | "morale_match" | "weekly_training" | "opponent_preparation" | "weekly_load" | "form_recommendations" | "health_list" | "health_alerts" | "health_injury" | "health_recover" | "health_suspension" | "ai_diagnosis" | "ai_history" | "ai_training" | "ai_market" | "ai_weekly" | "ai_lineup" | "ai_tactic" | "ai_objective_progress" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_preview" | "stadium_upgrade" | "ticket_price" | "ticket_price_preview" | "fan_segments" | "social_timeline" | "weekly_advance" | "events_list" | "events_mark_read" | "transferable_players" | "transfer_open_window" | "transfer_preview" | "transfer_offer" | "transfer_counter" | "transfer_accept" | "transfer_approve" | "transfer_loan" | "transfer_complete" | "simulation_configure" | "simulation_batch" | "simulation_progress" | "simulation_checkpoint" | "simulation_divergence" | "simulation_benchmark" | "simulation_resume" | "simulation_metrics" | "simulation_failure_report" | "scout_regions" | "scout_create_region" | "scout_mission" | "scout_start" | "scout_complete" | "scout_opportunities" | "scout_compare" | "scout_confirm" | "academy_enroll" | "academy_progress" | "academy_promote" | "academy_maintenance" | "sponsor_weekly" | "training_objective" | "training_preview" | "training_approve" | "training_cancel" | "transfer_history" | "transfer_alerts" | "transfer_expire" | "ai_preview" | "ai_approve" | "ai_risk_limit" | "ai_budget_alerts" | "health_return_protocol" | "health_eligibility" | "health_treatment" | "health_audit" | "training_microcycle" | "training_overtraining" | "training_audit" | "career_snapshot" | "career_snapshot_list" | "career_snapshot_hash" | "career_snapshot_compare" | "career_snapshot_restore" | "career_snapshot_audit" | "gateway_audit";
+export type GatewayAction = "p0_contracts" | "p0_contract_validate" | "p0_contract_audit" | "p1_procedure_contracts" | "p1_procedure_validate" | "p1_procedure_audit" | "parallel_preview" | "parallel_snapshot" | "parallel_result" | "parallel_close" | "catalog" | "current" | "start" | "contract_renew_approve" | "economy_bootstrap" | "economy_summary" | "staff_catalog" | "staff_hire" | "staff_contract" | "staff_terminate" | "staff_replace" | "department_offers" | "department_upgrade" | "economy_weekly" | "finance_revenue" | "finance_expense" | "finance_budget" | "finance_expense_preview" | "finance_post_match_preview" | "finance_projection" | "finance_alert" | "finance_world_report" | "finance_audit" | "finance_monthly_close" | "finance_reconciliation" | "finance_media_summary" | "travel_preview" | "travel_summary" | "training_departments" | "morale_summary" | "morale_match" | "weekly_training" | "opponent_preparation" | "weekly_load" | "form_recommendations" | "health_list" | "health_alerts" | "health_injury" | "health_recover" | "health_suspension" | "ai_diagnosis" | "ai_history" | "ai_training" | "ai_market" | "ai_weekly" | "ai_lineup" | "ai_tactic" | "ai_objective_progress" | "training_budget" | "training_plan" | "training_development" | "training_alerts" | "sponsor_bootstrap" | "sponsor_summary" | "sponsor_offers" | "sponsor_accept" | "stadium_bootstrap" | "stadium_summary" | "stadium_preview" | "stadium_upgrade" | "ticket_price" | "ticket_price_preview" | "fan_segments" | "social_timeline" | "weekly_advance" | "play_controlled_match" | "events_list" | "events_mark_read" | "transferable_players" | "transfer_open_window" | "transfer_preview" | "transfer_offer" | "transfer_counter" | "transfer_accept" | "transfer_approve" | "transfer_loan" | "transfer_complete" | "simulation_configure" | "simulation_batch" | "simulation_progress" | "simulation_checkpoint" | "simulation_divergence" | "simulation_benchmark" | "simulation_resume" | "simulation_metrics" | "simulation_failure_report" | "scout_regions" | "scout_create_region" | "scout_mission" | "scout_start" | "scout_complete" | "scout_opportunities" | "scout_compare" | "scout_confirm" | "academy_enroll" | "academy_progress" | "academy_promote" | "academy_maintenance" | "sponsor_weekly" | "training_objective" | "training_preview" | "training_approve" | "training_cancel" | "transfer_history" | "transfer_alerts" | "transfer_expire" | "ai_preview" | "ai_approve" | "ai_risk_limit" | "ai_budget_alerts" | "health_return_protocol" | "health_eligibility" | "health_treatment" | "health_audit" | "training_microcycle" | "training_overtraining" | "training_audit" | "career_snapshot" | "career_snapshot_list" | "career_snapshot_hash" | "career_snapshot_compare" | "career_snapshot_restore" | "career_snapshot_audit" | "gateway_audit";
 
 function callGateway<T extends GatewayResult>(action: GatewayAction, payload: Record<string, unknown>, databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH): T {
   try {
     const output = execFileSync("python3", [GATEWAY_PATH, action, "--database", databasePath], {
       input: JSON.stringify(payload),
       encoding: "utf8",
-      timeout: 10_000,
-      maxBuffer: 1024 * 1024,
+      timeout: 60_000,
+      maxBuffer: 8 * 1024 * 1024,
     });
     return JSON.parse(output) as T;
   } catch (error) {
-    console.error("[Career gateway] Falha ao executar ação de carreira:", error);
+    const detail = error instanceof Error ? error.message : String(error);
+    console.warn(`[Career gateway] Ação ${action} indisponível: ${detail.slice(0, 180)}`);
     return { ok: false, error: "CAREER_GATEWAY_UNAVAILABLE" } as T;
   }
 }
@@ -374,7 +371,11 @@ export function configureClubTicketPrice(basePrice: number, databasePath?: strin
 }
 
 export function advanceWorldWeek(seed?: number, databasePath?: string) {
-  return staffMarketAction<GatewayResult & { status: string; season: number; week: number; matches?: number }>("weekly_advance", { seed }, databasePath);
+  return staffMarketAction<GatewayResult & { status: string; season: number; week: number; matches: number; controlled_club_id: number | null; skipped_controlled_matches: number; match_details: Array<Record<string, unknown>> }>("weekly_advance", { seed }, databasePath);
+}
+
+export function playControlledMatch(matchId: number, seed?: number, databasePath?: string) {
+  return staffMarketAction<GatewayResult & { status: string; match_id: number; controlled_club_id: number; home_club_id: number; away_club_id: number; home_goals: number; away_goals: number; seed: number | null }>("play_controlled_match", { match_id: matchId, seed }, databasePath);
 }
 
 export type ClubEvent = {

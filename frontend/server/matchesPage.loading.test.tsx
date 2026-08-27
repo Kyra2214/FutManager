@@ -4,10 +4,13 @@ import { describe, expect, it, vi } from "vitest";
 
 vi.mock("@/lib/trpc", () => ({
   trpc: {
+    useUtils: () => ({ career: { current: { invalidate: vi.fn() } }, matches: { dashboard: { invalidate: vi.fn() } }, events: { list: { invalidate: vi.fn() } } }),
+    career: { advanceWeek: { useMutation: () => ({ mutate: vi.fn(), isPending: false }) } },
     matches: {
       dashboard: {
         useQuery: () => ({ data: undefined, error: null, isLoading: true }),
       },
+      playControlled: { useMutation: () => ({ mutate: vi.fn(), isPending: false }) },
     },
     events: {
       list: {

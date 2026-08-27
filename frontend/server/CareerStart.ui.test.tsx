@@ -84,7 +84,7 @@ describe("CareerStart UI", () => {
     await user.click(screen.getByRole("button", { name: /Seleção/i }));
 
     expect(screen.getByRole("button", { name: /Argentina/i })).toBeTruthy();
-    expect(screen.getByText("Escudo da seleção não fornecido; camisa disponível")).toBeTruthy();
+    expect(screen.getByText("Camisa oficial")).toBeTruthy();
   });
 
   it("oferece continuar o save ativo ou criar um novo save", async () => {

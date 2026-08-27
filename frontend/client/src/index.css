@@ -184,7 +184,7 @@ button:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 3px; }
 .club-lines div { border-left: 1px solid rgba(244,241,233,.2); padding-left: 9px; }.club-lines span, .club-lines b { display: block; }.club-lines span { color: rgba(244,241,233,.46); font-size: 8px; letter-spacing: .12em; }.club-lines b { color: var(--grass); font: 600 21px "Space Grotesk", sans-serif; margin-top: 7px; }
 .secondary-action { background: transparent; border-top: 1px solid rgba(244,241,233,.19); color: var(--paper); width: 100%; justify-content: space-between; padding: 14px 0 0; font-size: 10px; font-weight: 800; }
 .secondary-action:hover { color: var(--grass); }
-.read-card { margin-top: 21px; min-height: 200px; padding: 21px; background-size: cover; background-position: center; position: relative; overflow: hidden; color: var(--ink); }
+.read-card { margin-top: 21px; min-height: 200px; padding: 21px; background-size: cover; background-position: center; position: relative; overflow: hidden; color: var(--ink); border: 0; width: 100%; display: block; text-align: left; font: inherit; cursor: pointer; }
 .read-card::before { content: ""; position: absolute; inset: 0; background: rgba(244,241,233,.82); }
 .read-card > * { position: relative; }
 .read-card h3 { font: 600 26px/.98 "Space Grotesk", sans-serif; letter-spacing: -.06em; margin: 24px 0 0; }
@@ -520,3 +520,15 @@ html, body, #root { max-width: 100%; overflow-x: hidden; }
 .matchday-events .status-pip { flex: 0 0 auto; margin-top: 4px; }
 .primary-action.compact { min-height: 40px; padding: 0 14px; font-size: 9px; }
 @media (max-width: 680px) { .matchday-simulation-head { align-items: flex-start; flex-direction: column; padding: 18px; } .matchday-simulation-head .primary-action { width: 100%; justify-content: center; } .matchday-simulation-body { grid-template-columns: 1fr; } .matchday-events { grid-column: auto; grid-template-columns: 1fr; } .matchday-pitch { min-height: 150px; } }
+
+/* Weekly career flow: visible actions belong to the manager, not to world simulation. */
+.matchday-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.matchday-actions .compact { min-height: 40px; }
+.stadium-cycle-note { display: inline-flex; align-items: center; gap: 7px; flex: 0 0 auto; color: var(--cobalt); font: 700 9px "Space Grotesk", sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+@media (max-width: 560px) {
+  .matchday-simulation-head { align-items: stretch; flex-direction: column; }
+  .matchday-actions { justify-content: stretch; }
+  .matchday-actions button { flex: 1 1 150px; justify-content: center; }
+  .stadium-cycle-note { margin-top: 4px; }
+  .stadium-operations-head { align-items: flex-start; flex-direction: column; }
+}

@@ -33,10 +33,10 @@ export function StaffEconomyPanel({ mode, onNavigateToMarket }: { mode: Mode; on
   const economyQuery = trpc.staffMarket.summary.useQuery(undefined, { retry: 1 });
   const catalogQuery = trpc.staffMarket.catalog.useQuery(catalogInput, { enabled: mode === "market", retry: 1 });
   const departmentQuery = trpc.staffMarket.departmentOffers.useQuery(undefined, { enabled: mode === "ct", retry: 1 });
-  const workspaceQuery = trpc.club?.workspace?.useQuery?.(undefined, { enabled: mode === "ct", retry: 1 }) ?? { data: undefined, isLoading: false, error: undefined };
-  const trainingDepartmentsQuery = trpc.staffMarket?.trainingDepartments?.useQuery?.(undefined, { enabled: mode === "ct", retry: 1 });
-  const trainingDevelopmentQuery = trpc.staffMarket?.trainingDevelopment?.useQuery?.(undefined, { enabled: mode === "ct", retry: 1 });
-  const healthQuery = trpc.staffMarket?.health?.useQuery?.(undefined, { enabled: mode === "ct", retry: 1 });
+  const workspaceQuery = trpc.club.workspace.useQuery(undefined, { enabled: mode === "ct", retry: 1 });
+  const trainingDepartmentsQuery = trpc.staffMarket.trainingDepartments.useQuery(undefined, { enabled: mode === "ct", retry: 1 });
+  const trainingDevelopmentQuery = trpc.staffMarket.trainingDevelopment.useQuery(undefined, { enabled: mode === "ct", retry: 1 });
+  const healthQuery = trpc.staffMarket.health.useQuery(undefined, { enabled: mode === "ct", retry: 1 });
   const hireMutation = trpc.staffMarket.hire.useMutation({
     onSuccess: (result) => {
       toast.success(`${result.name} contratado(a) por ${cash(result.weekly_salary)} por semana.`);

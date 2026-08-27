@@ -897,3 +897,23 @@
 - [x] Criar workflow GitHub Actions obrigatório para push e pull_request sem continue-on-error.
 - [x] Executar CI real no GitHub, corrigir falhas e registrar evidências.
 - [x] Consolidar relatório final com resultados, problemas e arquivos alterados.
+
+# Próxima rodada — rastreabilidade, temporada competitiva e mobile
+
+- [x] Criar matriz de rastreabilidade dos 611 itens em revisão, distinguindo evidência ausente de vínculo estrutural não provado.
+- [x] Expandir a simulação para uma temporada competitiva completa usando somente calendário, partidas e resultados persistidos disponíveis no GameState.
+- [x] Validar manualmente o fluxo de nova carreira em 320px e 375px, corrigindo overflow, legibilidade e ações inacessíveis.
+- [x] Consolidar relatório, testes, screenshots e checkpoint da rodada mobile/competitiva.
+
+# Correção de regra — simulação automática por semana
+
+- [x] Remover a simulação competitiva manual/visível da liga controlada pelo manager.
+- [x] Avançar automaticamente as competições não controladas até a semana corrente da carreira, persistindo somente resultados consolidados.
+- [x] Ocultar fila, botão e tela de simulação das ligas não controladas no frontend.
+- [x] Exibir na carreira apenas o resumo de resultados externos sincronizado com a semana atual.
+- [x] Adicionar testes de sincronização semanal, idempotência e separação entre liga controlada e ligas externas.
+- [x] Integrar o avanço semanal da carreira com a simulação automática das ligas externas, sem processar a liga controlada.
+- [x] Remover definitivamente controles manuais de simulação/avanço semanal da interface.
+- [x] Corrigir o erro ENOBUFS do gateway e impedir vazamento de detalhes técnicos no frontend.
+- [x] Corrigir sobreposição e textos técnicos na interface mobile, incluindo a tela de início de carreira.
+- [x] Validar o fluxo ponta a ponta: avançar semana, consultar resultados externos e jogar partida do clube controlado.

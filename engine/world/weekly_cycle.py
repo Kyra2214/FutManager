@@ -74,6 +74,18 @@ class WeeklyWorldCycleService:
     def _audit(self, context: WorldTickContext, step: str, payload: dict) -> None:
         self.connection.execute("INSERT OR REPLACE INTO weekly_world_audit(season,week,step,payload,created_at) VALUES(?,?,?,?,?)", (context.season, context.week, step, json.dumps(payload, sort_keys=True), context.current_date.isoformat()))
 
+    def _controlled_club_id(self) -> int | None:
+        """Obtém o clube ativo do manager; ausência de carreira mantém o modo mundo legado."""
+        try:
+            row = self.connection.execute(
+                "SELECT current_club_id FROM manager_careers WHERE status='ACTIVE' ORDER BY updated_at DESC, career_id DESC LIMIT 1"
+            ).fetchone()
+        except sqlite3.Error:
+            return None
+        if row is None or row[0] is None:
+            return None
+        return int(row[0])
+
     def advance_week(self, seed: int | None = None) -> dict:
         context = self._next_context(seed)
         return self.process_week(context.season, context.week, seed=seed)
@@ -93,9 +105,20 @@ class WeeklyWorldCycleService:
             self.connection.execute("BEGIN IMMEDIATE")
             self.clock.commit_tick(context)
             construction_result = self.staff.complete_department_constructions(context.current_date, managed_transaction=False)
-            due = self.connection.execute("SELECT * FROM matches WHERE status='SCHEDULED' AND match_date<=? ORDER BY match_date,match_id", (context.current_date.isoformat(),)).fetchall()
+            controlled_club_id = self._controlled_club_id()
+            due_query = "SELECT * FROM matches WHERE status='SCHEDULED' AND match_date<=?"
+            due_params: tuple[object, ...] = (context.current_date.isoformat(),)
+            if controlled_club_id is not None:
+                due_query += " AND home_club_id<>? AND away_club_id<>?"
+                due_params += (controlled_club_id, controlled_club_id)
+            due_query += " ORDER BY match_date,match_id"
+            due = self.connection.execute(due_query, due_params).fetchall()
             processed_matches = []
             match_snapshots = {int(match['match_id']): dict(match) for match in due}
+            skipped_controlled_matches = int(self.connection.execute(
+                "SELECT COUNT(*) FROM matches WHERE status='SCHEDULED' AND match_date<=?" + (" AND (home_club_id=? OR away_club_id=?)" if controlled_club_id is not None else ""),
+                (context.current_date.isoformat(), controlled_club_id, controlled_club_id) if controlled_club_id is not None else (context.current_date.isoformat(),),
+            ).fetchone()[0])
             for match in due:
                 result = self.matches.play(int(match["match_id"]), seed=(seed or 0) + int(match["match_id"]), managed_transaction=False)
                 importance = min(100, 40 + int(match["round"]) * 4)
@@ -172,8 +195,8 @@ class WeeklyWorldCycleService:
                     managed_transaction=False,
                 )
             ledger_close = self.ledger.close_week(context)
-            result = {"matches": len(processed_matches), "match_details": processed_matches, "prizes": prizes, "sponsorship": sponsor_result, "payroll": payroll_result, "constructions": construction_result, "ledger_close": ledger_close}
-            self._audit(context, "MATCHES", {"processed": len(processed_matches)})
+            result = {"matches": len(processed_matches), "match_details": processed_matches, "controlled_club_id": controlled_club_id, "skipped_controlled_matches": skipped_controlled_matches, "prizes": prizes, "sponsorship": sponsor_result, "payroll": payroll_result, "constructions": construction_result, "ledger_close": ledger_close}
+            self._audit(context, "MATCHES", {"processed": len(processed_matches), "controlled_club_id": controlled_club_id, "skipped_controlled_matches": skipped_controlled_matches})
             self._audit(context, "PRIZES", {"competitions": len(prizes)})
             self._audit(context, "SPONSORSHIPS", sponsor_result)
             self._audit(context, "PAYROLL", payroll_result)

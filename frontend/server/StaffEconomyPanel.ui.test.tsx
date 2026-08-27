@@ -4,15 +4,19 @@ import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/re
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
-  useUtils: vi.fn(), summary: vi.fn(), catalog: vi.fn(), departmentOffers: vi.fn(), hire: vi.fn(), upgradeDepartment: vi.fn(), toastSuccess: vi.fn(), toastError: vi.fn(),
+  useUtils: vi.fn(), summary: vi.fn(), catalog: vi.fn(), departmentOffers: vi.fn(), workspace: vi.fn(), trainingDepartments: vi.fn(), trainingDevelopment: vi.fn(), health: vi.fn(), hire: vi.fn(), upgradeDepartment: vi.fn(), toastSuccess: vi.fn(), toastError: vi.fn(),
 }));
 
 vi.mock("@/lib/trpc", () => ({ trpc: {
   useUtils: mocks.useUtils,
+  club: { workspace: { useQuery: mocks.workspace } },
   staffMarket: {
     summary: { useQuery: mocks.summary },
     catalog: { useQuery: mocks.catalog },
     departmentOffers: { useQuery: mocks.departmentOffers },
+    trainingDepartments: { useQuery: mocks.trainingDepartments },
+    trainingDevelopment: { useQuery: mocks.trainingDevelopment },
+    health: { useQuery: mocks.health },
     hire: { useMutation: mocks.hire },
     upgradeDepartment: { useMutation: mocks.upgradeDepartment },
   },
@@ -39,6 +43,10 @@ describe("StaffEconomyPanel", () => {
     mocks.summary.mockReturnValue({ data: economy, isLoading: false });
     mocks.catalog.mockReturnValue({ data: [{ staff_id: 7, name: "Dra. Renata Moura", role: "medico", age: 44, experience: 100, reputation: 80, level: 8, potential: 78, specialization: "medicina esportiva", weekly_salary: 8277 }], isLoading: false });
     mocks.departmentOffers.mockReturnValue({ data: [{ department: "medicina", label: "Medicina", target_level: 1, cost: 162235, maintenance: 2438, capacity: 10 }], isLoading: false });
+    mocks.workspace.mockReturnValue({ data: { staff: { members: [], averageLevel: 0, history: [], departments: [] } }, isLoading: false, error: null });
+    mocks.trainingDepartments.mockReturnValue({ data: [], isLoading: false });
+    mocks.trainingDevelopment.mockReturnValue({ data: [], isLoading: false });
+    mocks.health.mockReturnValue({ data: [], isLoading: false });
     mocks.hire.mockImplementation((options) => { hireOptions = options; return { mutate: hireMutate, isPending: false }; });
     mocks.upgradeDepartment.mockImplementation((options) => { departmentOptions = options; return { mutate: departmentMutate, isPending: false }; });
     mocks.useUtils.mockReturnValue({ staffMarket: { summary: { invalidate: invalidates.summary }, catalog: { invalidate: invalidates.catalog }, departmentOffers: { invalidate: invalidates.departments } }, club: { workspace: { invalidate: invalidates.workspace } } });
