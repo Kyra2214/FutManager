@@ -40,8 +40,8 @@ describe("careerRouter integration", () => {
     expect(countries.items).toContainEqual(expect.objectContaining({ countryId: 29, name: "Brasil" }));
     expect(await caller.career.current()).toMatchObject({ started: false });
 
-    const started = await caller.career.start({ managerName: "Manager Router", nationality: "BR", age: 30, careerName: "Integração", targetType: "club", targetId: 1, selectedCountryIds: [92, 29, 104, 65] });
-    expect(started).toMatchObject({ started: true, target_id: 1, starting_division: 4, selected_country_ids: [92, 29, 104, 65] });
-    expect(await caller.career.current()).toMatchObject({ started: true, managerName: "Manager Router", targetType: "club", targetId: 1, targetName: "07 Vestur", startingDivision: 4, selectedCountryIds: [29, 65, 92, 104], combinedLeagueName: "País ID 92 + Brasil + Itália + Espanha" });
+    const started = await caller.career.start({ managerName: "Manager Router", nationality: "BR", age: 30, careerName: "Integração", targetType: "club", targetId: 2009, selectedCountryIds: [29, 104, 65, 154] });
+    expect(started).toMatchObject({ started: true, target_id: 2009, starting_division: 4, selected_country_ids: [29, 104, 65, 154], parallel_league: { total_clubs: 78, division_count: 4, target_division: 4 } });
+    expect(await caller.career.current()).toMatchObject({ started: true, managerName: "Manager Router", targetType: "club", targetId: 2009, targetName: "RB Bragantino", startingDivision: 4, selectedCountryIds: [29, 65, 104, 154], combinedLeagueName: "Brasil + Itália + Espanha + Portugal", parallelLeague: { totalClubs: 78, divisionCount: 4 } });
   });
 });

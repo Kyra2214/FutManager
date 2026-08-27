@@ -552,3 +552,15 @@
 - [x] Aplicar no motor a regra de que o time escolhido começa na 4ª divisão do universo combinado.
 - [x] Integrar na primeira página a escolha de uma ou mais ligas/países antes da criação do save.
 - [x] Validar seleção de ligas, início na 4ª divisão, múltiplos saves e bloqueio de estado paralelo com testes focados.
+- [x] Revisar a regra inicialmente prevista de 20 clubes por país e substituí-la pela quantidade oficial da primeira divisão.
+- [x] Persistir seed e clubes sorteados por carreira para impedir mudanças ao recarregar o save.
+- [x] Distribuir os clubes da primeira divisão nas quatro divisões da competição paralela, sem alterar suas ligas nacionais de origem.
+- [x] Exibir na primeira página a prévia da quantidade total de clubes da primeira divisão que formarão a liga paralela.
+- [x] Testar cenários com 1, 2, 3 e 4 países, incluindo persistência, separação do mundo original e divisão inicial.
+- [x] Usar listas reais das primeiras divisões como fonte autorizada para mapear clubes de Brasil, Itália, Espanha e Portugal.
+- [x] Validar que cada clube mapeado da primeira divisão corresponde a uma única entidade canônica em times, sem duplicidade.
+- [x] Persistir o catálogo oficial de primeira divisão e a origem do mapeamento no GameState SQLite.
+- [x] Aplicar a regra final confirmada: usar todos os clubes da primeira divisão oficial de cada país selecionado, sem completar ou limitar artificialmente a 20.
+- [x] Registrar Portugal com 18 clubes e permitir totais variáveis na liga paralela, como 78 clubes para Brasil + Itália + Espanha + Portugal.
+- [x] Usar listas reais de primeira divisão como entrada de importação, sem expor essa fonte diretamente ao frontend.
+- [x] Normalizar cada clube externo para um único time_id canônico do GameState e gerar relatório de correspondências não encontradas.
