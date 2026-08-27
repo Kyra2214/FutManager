@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 710,
-    "pending": 2290,
+    "done": 720,
+    "pending": 2280,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -7055,8 +7055,12 @@
       "title": "definir contrato para torneio",
       "dependency": "1490",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tournament_contract.py::test_tournament_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1492,
@@ -7064,8 +7068,12 @@
       "title": "validar regras de torneio",
       "dependency": "1491",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tournament_contract.py::test_tournament_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1493,
@@ -7073,8 +7081,12 @@
       "title": "persistir estado de torneio",
       "dependency": "1492",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tournament_contract.py::test_tournament_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1494,
@@ -7082,8 +7094,12 @@
       "title": "expor leitura de torneio",
       "dependency": "1493",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tournament_contract.py::test_tournament_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1495,
@@ -7091,8 +7107,12 @@
       "title": "proteger mutação de torneio",
       "dependency": "1494",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tournament_contract.py::test_tournament_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1496,
@@ -7100,8 +7120,12 @@
       "title": "auditar fluxo de torneio",
       "dependency": "1495",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tournament_contract.py::test_tournament_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1497,
@@ -7109,8 +7133,12 @@
       "title": "otimizar consulta de torneio",
       "dependency": "1496",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tournament_contract.py::test_tournament_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1498,
@@ -7118,8 +7146,12 @@
       "title": "simular cenário de torneio",
       "dependency": "1497",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tournament_contract.py::test_tournament_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1499,
@@ -7127,8 +7159,12 @@
       "title": "documentar ciclo de torneio",
       "dependency": "1498",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tournament_contract.py::test_tournament_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1500,
@@ -7136,8 +7172,12 @@
       "title": "testar integração de torneio",
       "dependency": "1499",
       "criterion": "teste/fixture do domínio 06, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_tournament_contract.py::test_tournament_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1501,
