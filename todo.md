@@ -574,3 +574,4 @@
 - [x] Adicionar testes para uma liga, múltiplas ligas e catálogo amplo de países.
 - [ ] Executar as 3.000 melhorias do roadmap em ordem, respeitando P0_GLOBAL_GATE e P1_GLOBAL_GATE, com evidências registradas.
 - [x] Implementar lote P0 1041–1050: contrato, validação, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de payload.
+- [x] Integrar o guard real do career_gateway.py ao manifesto 941–3940, mantendo o guard legado para fronts 1–25 e bloqueando P1/P2 pelos gates globais.
