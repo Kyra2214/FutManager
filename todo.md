@@ -576,7 +576,7 @@
 - [x] Permitir clube de qualquer país na liga escolhida, sem erro de incompatibilidade nacional.
 - [x] Fixar a liga paralela em 4 divisões de 20 clubes, totalizando 80 clubes.
 - [x] Completar vagas com clubes canônicos adicionais do SQL, sem placeholders ou clubes fictícios.
-- [ ] Liberar todos os países com membership oficial válido no catálogo de seleção.
+- [x] Liberar todos os países com membership oficial válido no catálogo de seleção.
 - [ ] Importar memberships oficiais para Inglaterra, Alemanha, França, Argentina, Turquia e demais países com fonte validada.
 - [ ] Registrar fonte, temporada, checksum e evidência de cada membership importado.
 - [x] Remover alertas técnicos de erro da interface e substituir por estados editoriais úteis.

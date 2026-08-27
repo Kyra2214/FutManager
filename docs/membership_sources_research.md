@@ -8,3 +8,7 @@ Essas fontes servem como referência de temporada e nomenclatura. A persistênci
 A página oficial da Ligue 1 lista os clubes da competição e os links oficiais de cada equipe, incluindo Angers, Auxerre, Monaco, Brest, Lorient, Le Havre, Lille, Nice, Lyon, Marseille, Paris FC, PSG, Lens, Rennes, Strasbourg e Toulouse: https://ligue1.com/en.
 
 A página consultada da Federação Turca de Futebol (TFF) é a fonte institucional para a classificação da primeira divisão turca: https://www.tff.org/Default.aspx?pageID=449. A renderização da página foi limitada no navegador, então nenhum nome turco será persistido sem resolver a lista diretamente contra o SQL e validar a fonte/temporada.
+
+## Importações concluídas nesta correção
+
+A fonte oficial da Bundesliga 2026/27 foi mapeada ao país SQL `3` (Alemanha) e a fonte oficial da Ligue 1 2026/27 ao país SQL `72` (França). O resolver canônico encontrou 18/18 clubes em cada fonte, sem nomes não correspondentes ou ambiguidades; a função de inicialização persistiu os vínculos na tabela `first_division_membership` do GameState. Inglaterra, Argentina e Turquia continuam como pools SQL elegíveis, mas aguardam fonte oficial com lista integralmente mapeável antes de serem classificados como membership oficial.
