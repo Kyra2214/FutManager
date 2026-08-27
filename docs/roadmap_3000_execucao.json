@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 810,
-    "pending": 2190,
+    "done": 820,
+    "pending": 2180,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -8995,8 +8995,12 @@
       "title": "definir contrato para membership",
       "dependency": "P0_GLOBAL_GATE + passo anterior do domínio",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_membership_domain08_contract.py::test_membership_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; domain 08 criterion corrected",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1652,
@@ -9004,8 +9008,12 @@
       "title": "validar regras de membership",
       "dependency": "1651",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_membership_domain08_contract.py::test_membership_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; domain 08 criterion corrected",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1653,
@@ -9013,8 +9021,12 @@
       "title": "persistir estado de membership",
       "dependency": "1652",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_membership_domain08_contract.py::test_membership_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; domain 08 criterion corrected",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1654,
@@ -9022,8 +9034,12 @@
       "title": "expor leitura de membership",
       "dependency": "1653",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_membership_domain08_contract.py::test_membership_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; domain 08 criterion corrected",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1655,
@@ -9031,8 +9047,12 @@
       "title": "proteger mutação de membership",
       "dependency": "1654",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_membership_domain08_contract.py::test_membership_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; domain 08 criterion corrected",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1656,
@@ -9040,8 +9060,12 @@
       "title": "auditar fluxo de membership",
       "dependency": "1655",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_membership_domain08_contract.py::test_membership_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; domain 08 criterion corrected",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1657,
@@ -9049,8 +9073,12 @@
       "title": "otimizar consulta de membership",
       "dependency": "1656",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_membership_domain08_contract.py::test_membership_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; domain 08 criterion corrected",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1658,
@@ -9058,8 +9086,12 @@
       "title": "simular cenário de membership",
       "dependency": "1657",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_membership_domain08_contract.py::test_membership_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; domain 08 criterion corrected",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1659,
@@ -9067,8 +9099,12 @@
       "title": "documentar ciclo de membership",
       "dependency": "1658",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_membership_domain08_contract.py::test_membership_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; domain 08 criterion corrected",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1660,
@@ -9076,8 +9112,12 @@
       "title": "testar integração de membership",
       "dependency": "1659",
       "criterion": "teste/fixture do domínio 08, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_membership_domain08_contract.py::test_membership_domain08_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present; domain 08 criterion corrected",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1661,
