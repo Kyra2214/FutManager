@@ -643,3 +643,4 @@
 - [x] Implementar e validar o lote P1 1491–1500: contrato de torneio, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1501–1510: contrato de elegibilidade, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1511–1520: contrato de calendário, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
+- [x] Implementar e validar o lote P1 1551–1560: contrato de membership, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
