@@ -854,3 +854,4 @@
 - [x] Produzir o lote P2 2221–2230: contrato de risco do domínio 50 derivado da implementação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 2231–2240: contrato de explicação derivado da evidência existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 2321–2330: contrato de profundidade derivado da capacidade existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 2331–2340: contrato de relatório do domínio 60 derivado da implementação existente, integração ao serviço e validação mínima.
