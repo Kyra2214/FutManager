@@ -629,3 +629,20 @@ html, body, #root { max-width: 100%; overflow-x: hidden; }
 .launch-kicker { color: var(--grass); font: 800 9px "Space Grotesk", sans-serif; letter-spacing: .14em; }
 @media (max-width: 760px) { .match-only-page { min-height: 100vh; margin: 0; padding: 16px 14px 36px; } .match-only-header { padding-bottom: 16px; } .match-only-brand { font-size: 10px; } .match-only-round { font-size: 8px; } .match-only-heading { margin-top: 30px; } .match-only-heading h1 { font-size: 48px; } .match-only-page .interactive-match-center { margin-top: 24px; } }
 @media (max-width: 420px) { .match-only-header { align-items: flex-start; } .match-only-brand { justify-items: end; } .match-only-brand .live-badge { display: none; } .match-only-heading h1 { font-size: 42px; } .matchday-launch-body { padding: 18px; } .matchday-launch-body strong { font-size: 21px; } }
+
+/* Compact tactical windows and larger match field */
+.interactive-stage { min-height: 360px; margin: 18px 0 14px; }
+.interactive-stage:before { inset: 18px; }
+.interactive-stage:after { inset: 54px 50%; }
+.interactive-stage .pitch-ball { width: 50px; height: 50px; }
+.interactive-grid { grid-template-columns: minmax(0, 1.4fr) minmax(250px, .6fr); align-items: start; }
+.tactical-console { padding: 14px; }
+.tactical-window-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin: 12px 0; padding: 4px; background: #eeece3; }
+.tactical-window-tabs button { min-width: 0; padding: 9px 5px; border: 0; color: #777970; background: transparent; font: 800 9px "Space Grotesk", sans-serif; cursor: pointer; }
+.tactical-window-tabs button.selected { color: var(--ink); background: #fffefa; box-shadow: 0 2px 8px rgba(31,34,34,.08); }
+.tactical-window { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; padding: 10px; border: 1px solid var(--line); background: #fffefa; animation: decisionIn .18s var(--ease-out, ease-out) both; }
+.tactical-window .tactic-check { grid-column: 1 / -1; }
+.tactical-window-note { grid-column: 1 / -1; margin: 0; color: #777970; font-size: 10px; line-height: 1.4; }
+.match-not-ready { display: inline-flex; align-items: center; gap: 8px; color: #8b8d83; font: 700 10px "Space Grotesk", sans-serif; }
+@media (max-width: 700px) { .interactive-stage { min-height: 310px; } .interactive-grid { grid-template-columns: 1fr; } .tactical-window { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 420px) { .interactive-stage { min-height: 285px; } .tactical-window { gap: 7px; padding: 9px; } .tactical-window-tabs button { font-size: 8px; } }
