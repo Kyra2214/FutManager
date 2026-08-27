@@ -598,3 +598,4 @@
 - [x] Integrar o guard real do career_gateway.py ao manifesto 941–3940, mantendo o guard legado para fronts 1–25 e bloqueando P1/P2 pelos gates globais.
 - [x] Implementar e validar o lote P1 1111–1120: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de telemetria.
 - [x] Implementar e validar o lote P1 1151–1160: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de sessão.
+- [x] Implementar e validar o lote P1 1161–1170: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de papel.
