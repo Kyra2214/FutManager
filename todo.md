@@ -888,3 +888,12 @@
 - [x] Produzir o lote P2 3921–3930: contrato de benchmark do domínio 260 derivado da comparação existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P2 final 3931–3940: contrato de log derivado da auditoria canônica, integração ao serviço, correção do shim circular e validação mínima.
 - [x] Corrigir referência legada p1_privacidade_contract detectada nos logs durante a revisão final.
+
+# Missão pós-roadmap — auditoria, simulação e CI
+
+- [x] Auditar os 3.000 itens quanto a implementação, integração, persistência, contratos, idempotência, segurança e ausência de mocks indevidos.
+- [x] Criar simulação automatizada de temporada completa com invariantes e relatório persistido.
+- [x] Criar E2E backend, frontend, full-stack e isolamento de escopos.
+- [x] Criar workflow GitHub Actions obrigatório para push e pull_request sem continue-on-error.
+- [x] Executar CI real no GitHub, corrigir falhas e registrar evidências.
+- [x] Consolidar relatório final com resultados, problemas e arquivos alterados.
