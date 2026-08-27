@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 1030,
-    "pending": 1970,
+    "done": 1040,
+    "pending": 1960,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -12815,8 +12815,12 @@
       "title": "definir contrato para evento",
       "dependency": "1960",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_event_contract.py::test_event_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1962,
@@ -12824,8 +12828,12 @@
       "title": "validar regras de evento",
       "dependency": "1961",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_event_contract.py::test_event_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1963,
@@ -12833,8 +12841,12 @@
       "title": "persistir estado de evento",
       "dependency": "1962",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_event_contract.py::test_event_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1964,
@@ -12842,8 +12854,12 @@
       "title": "expor leitura de evento",
       "dependency": "1963",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_event_contract.py::test_event_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1965,
@@ -12851,8 +12867,12 @@
       "title": "proteger mutação de evento",
       "dependency": "1964",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_event_contract.py::test_event_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1966,
@@ -12860,8 +12880,12 @@
       "title": "auditar fluxo de evento",
       "dependency": "1965",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_event_contract.py::test_event_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1967,
@@ -12869,8 +12893,12 @@
       "title": "otimizar consulta de evento",
       "dependency": "1966",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_event_contract.py::test_event_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1968,
@@ -12878,8 +12906,12 @@
       "title": "simular cenário de evento",
       "dependency": "1967",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_event_contract.py::test_event_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1969,
@@ -12887,8 +12919,12 @@
       "title": "documentar ciclo de evento",
       "dependency": "1968",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_event_contract.py::test_event_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1970,
@@ -12896,8 +12932,12 @@
       "title": "testar integração de evento",
       "dependency": "1969",
       "criterion": "teste/fixture do domínio 11, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": {
+        "test": "brasfoot_engine/tests/test_p1_event_contract.py::test_event_contract_is_idempotent_and_protected",
+        "validation": "1 passed; py_compile; gateway argparse action present",
+        "source_of_truth": "SQL_GAMESTATE"
+      }
     },
     {
       "item_id": 1971,
