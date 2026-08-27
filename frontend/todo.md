@@ -577,5 +577,6 @@
 - [x] Implementar e validar o lote P1 1051–1060 após abertura do P0_GLOBAL_GATE.
 - [x] Implementar e validar o lote P1 1061–1070: contrato e governança de erros do gateway.
 - [x] Implementar e validar o lote P1 1071–1080: contrato e governança de versionamento.
+- [x] Implementar e validar o lote P1 1081–1090: contrato e governança de migração.
 - [x] Implementar lote P0 1041–1050: contrato, validação, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de payload.
 - [x] Integrar o guard real do career_gateway.py ao manifesto 941–3940, mantendo o guard legado para fronts 1–25 e bloqueando P1/P2 pelos gates globais.
