@@ -573,3 +573,4 @@
 - [x] Remover países genéricos do catálogo visual e apresentar países principais com dados oficiais de primeira divisão.
 - [x] Adicionar testes para uma liga, múltiplas ligas e catálogo amplo de países.
 - [ ] Executar as 3.000 melhorias do roadmap em ordem, respeitando P0_GLOBAL_GATE e P1_GLOBAL_GATE, com evidências registradas.
+- [x] Implementar lote P0 1041–1050: contrato, validação, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de payload.
