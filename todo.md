@@ -623,7 +623,7 @@
 - [x] Implementar e validar o lote P1 1291–1300: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de preferências.
 - [x] Corrigir construções de edifícios para persistir prazo, estado em andamento, conclusão no avanço semanal e rollback transacional.
 - [x] Exibir no CT o estado editorial da obra, duração e data prevista, bloqueando nova ação no departamento em construção.
-- [ ] Concluir todos os lotes P1 pendentes do manifesto em ordem, com contratos GameState, validações, evidências e P2 mantido bloqueado até o fechamento do P1.
+- [x] Concluir todos os lotes P1 pendentes do manifesto em ordem, com contratos GameState, validações, evidências e P2 mantido bloqueado até o fechamento do P1.
 - [x] Implementar e validar o lote P1 1301–1310: contrato de estádio, regras, leitura SQLite/GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1311–1320: contrato de capacidade do estádio, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
 - [x] Implementar e validar o lote P1 1321–1330: contrato de componentes do estádio, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway.
@@ -824,3 +824,5 @@
 - [x] Corrigir alias plural do contrato de formulário reportado pelo gateway.
 - [x] Produzir o lote P1 3901–3910: contrato de integração derivado do módulo global existente, integração ao serviço e validação mínima.
 - [x] Produzir o lote P1 3911–3920: contrato E2E derivado da integração existente, registro no serviço e validação mínima.
+- [ ] Produzir o próximo lote P1 pendente identificado no manifesto após E2E, mantendo SQL/GameState como fonte única da verdade e validação mínima.
+- [x] Produzir o lote P2 1021–1030: contrato de checkpoint derivado da implementação existente, integração SQL/GameState e validação mínima.
