@@ -821,3 +821,4 @@
 - [x] Corrigir alias plural de leitura do contrato de navegação reportado pelo gateway.
 - [x] Produzir o lote P1 3881–3890: contrato de formulário derivado da identidade existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3891–3900: contrato unitário derivado do valor existente, integração ao gateway e validação mínima.
+- [x] Corrigir alias plural do contrato de formulário reportado pelo gateway.
