@@ -750,3 +750,4 @@
 - [x] Produzir o lote P1 2991–3000: contrato de empréstimo, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 3001–3010: contrato de opção, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 3011–3020: contrato de registro adicional, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 3051–3060: contrato de região, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
