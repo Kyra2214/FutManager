@@ -798,3 +798,4 @@
 - [x] Produzir o lote P1 3601–3610: contrato de retomada derivado do contrato de retorno existente, integração ao gateway e validação mínima.
 - [x] Corrigir aliases públicos ausentes no contrato de falha apontados pelo runtime, sem alterar as regras do contrato de erro existente.
 - [x] Corrigir o alias de persistência ausente no contrato de falha apontado pelo runtime, sem alterar a implementação existente.
+- [x] Produzir o lote P1 3611–3620: contrato de prioridade derivado do contrato de ranking existente, integração ao gateway e validação mínima.
