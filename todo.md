@@ -782,3 +782,4 @@
 - [x] Produzir o lote P1 3391–3400: contrato de reputação derivado do ReputationService existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3401–3410: contrato de segurança derivado do contrato existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3411–3420: contrato de concessão derivado do contrato genérico existente, integração ao gateway e validação mínima.
+- [x] Produzir o lote P1 3451–3460: contrato de distância ancorado no TravelCostService e nas tabelas de viagem existentes, integração ao gateway e validação mínima.
