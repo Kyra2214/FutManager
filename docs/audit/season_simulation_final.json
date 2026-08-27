@@ -1,0 +1,815 @@
+{
+  "database": "/tmp/futmanager-season-__8ltfw9/season.db",
+  "steps": [
+    {
+      "name": "create career",
+      "action": "start",
+      "result": {
+        "ok": true,
+        "started": true,
+        "manager_id": 6,
+        "career_id": 6,
+        "target_type": "club",
+        "target_id": 1,
+        "current_club_id": 1,
+        "engine_version": "1.1",
+        "selected_country_ids": [
+          29
+        ],
+        "combined_league_name": "Brasil",
+        "starting_division": null,
+        "world_mode": "NATIONAL",
+        "parallel_league": {
+          "mode": "NATIONAL",
+          "name": "Campeonato Brasileiro Série A",
+          "total_clubs": 20,
+          "country_count": 1,
+          "division_count": 4,
+          "seed": null,
+          "target_division": null,
+          "fixture_count": 0,
+          "season_number": 1,
+          "preserved_national_competition": true
+        }
+      }
+    },
+    {
+      "name": "load economy",
+      "action": "economy_summary",
+      "result": {
+        "ok": true,
+        "club_id": 1,
+        "cash": 42586220,
+        "budget": 43706910,
+        "payroll": 1120690,
+        "expense_accumulated": 1120690,
+        "weekly_player_payroll": 1120690,
+        "weekly_staff_payroll": 0,
+        "weekly_department_maintenance": 0,
+        "weekly_total": 1120690,
+        "initial_cash": 43706910,
+        "team_power": 76.90476190476191,
+        "country_factor": 0.9946981665482882,
+        "base_level": 0
+      }
+    },
+    {
+      "name": "load roster",
+      "action": "current",
+      "result": {
+        "ok": true,
+        "started": true,
+        "careerId": 6,
+        "managerId": 6,
+        "managerName": "CI Manager",
+        "careerName": "CI Season",
+        "targetType": "club",
+        "targetId": 1,
+        "targetName": "07 Vestur",
+        "combinedLeagueName": "Brasil",
+        "selectedCountryIds": [
+          29
+        ],
+        "selectedCountries": [
+          {
+            "countryId": 29,
+            "name": "Brasil",
+            "code": "BRA"
+          }
+        ],
+        "startingDivision": 4,
+        "parallelLeague": null
+      }
+    },
+    {
+      "name": "bootstrap stadium",
+      "action": "stadium_bootstrap",
+      "result": {
+        "ok": true,
+        "stadium_id": 1,
+        "club_id": 1,
+        "name": "Á Dungasandi",
+        "base_capacity": 12000,
+        "capacity": 12000,
+        "maintenance": 4500,
+        "matchday_quality": 10.0,
+        "components": [
+          {
+            "component": "arquibancada",
+            "level": 1,
+            "next_level": 2,
+            "upgrade_cost": 155000,
+            "maintenance": 1400
+          },
+          {
+            "component": "campo",
+            "level": 1,
+            "next_level": 2,
+            "upgrade_cost": 95000,
+            "maintenance": 900
+          },
+          {
+            "component": "estrutura",
+            "level": 1,
+            "next_level": 2,
+            "upgrade_cost": 130000,
+            "maintenance": 1150
+          },
+          {
+            "component": "equipes",
+            "level": 1,
+            "next_level": 2,
+            "upgrade_cost": 84000,
+            "maintenance": 1050
+          }
+        ],
+        "history": []
+      }
+    },
+    {
+      "name": "bootstrap sponsorship",
+      "action": "sponsor_bootstrap",
+      "result": {
+        "ok": true,
+        "club_id": 1,
+        "overall_score": 49.892857142857146,
+        "sponsor_stars": 3,
+        "offers": [
+          {
+            "offer_id": 2,
+            "star_rating": 3,
+            "minimum_overall": 36.0,
+            "upfront_payment": 329728,
+            "weekly_payment": 82432,
+            "mission_bonus": 283360,
+            "contract_weeks": 6,
+            "status": "PENDING",
+            "name": "Órbita",
+            "industry": "telecom",
+            "expires_season": 2026,
+            "expires_week": 3,
+            "source_overall": 49.892857142857146,
+            "source_stars": 3
+          },
+          {
+            "offer_id": 3,
+            "star_rating": 3,
+            "minimum_overall": 36.0,
+            "upfront_payment": 350647,
+            "weekly_payment": 87662,
+            "mission_bonus": 301337,
+            "contract_weeks": 6,
+            "status": "PENDING",
+            "name": "Verve",
+            "industry": "bebidas",
+            "expires_season": 2026,
+            "expires_week": 3,
+            "source_overall": 49.892857142857146,
+            "source_stars": 3
+          },
+          {
+            "offer_id": 1,
+            "star_rating": 2,
+            "minimum_overall": 16.0,
+            "upfront_payment": 141859,
+            "weekly_payment": 33100,
+            "mission_bonus": 118216,
+            "contract_weeks": 6,
+            "status": "PENDING",
+            "name": "Safira",
+            "industry": "varejo",
+            "expires_season": 2026,
+            "expires_week": 3,
+            "source_overall": 49.892857142857146,
+            "source_stars": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "read sponsorship offers",
+      "action": "sponsor_summary",
+      "result": {
+        "ok": true,
+        "club_id": 1,
+        "institutional_overall": 49.892857142857146,
+        "sponsor_stars": 3,
+        "institutional_profile": {
+          "squad_score": 76.90476190476191,
+          "ct_score": 0.0,
+          "stadium_score": 25.0,
+          "squad_available": true,
+          "ct_available": false,
+          "stadium_available": false
+        },
+        "active_contract": null,
+        "offers": [
+          {
+            "offer_id": 2,
+            "star_rating": 3,
+            "minimum_overall": 36.0,
+            "upfront_payment": 329728,
+            "weekly_payment": 82432,
+            "mission_bonus": 283360,
+            "contract_weeks": 6,
+            "status": "PENDING",
+            "name": "Órbita",
+            "industry": "telecom",
+            "expires_season": 2026,
+            "expires_week": 3,
+            "source_overall": 49.892857142857146,
+            "source_stars": 3
+          },
+          {
+            "offer_id": 3,
+            "star_rating": 3,
+            "minimum_overall": 36.0,
+            "upfront_payment": 350647,
+            "weekly_payment": 87662,
+            "mission_bonus": 301337,
+            "contract_weeks": 6,
+            "status": "PENDING",
+            "name": "Verve",
+            "industry": "bebidas",
+            "expires_season": 2026,
+            "expires_week": 3,
+            "source_overall": 49.892857142857146,
+            "source_stars": 3
+          },
+          {
+            "offer_id": 1,
+            "star_rating": 2,
+            "minimum_overall": 16.0,
+            "upfront_payment": 141859,
+            "weekly_payment": 33100,
+            "mission_bonus": 118216,
+            "contract_weeks": 6,
+            "status": "PENDING",
+            "name": "Safira",
+            "industry": "varejo",
+            "expires_season": 2026,
+            "expires_week": 3,
+            "source_overall": 49.892857142857146,
+            "source_stars": 3
+          }
+        ],
+        "missions": []
+      }
+    },
+    {
+      "name": "accept sponsorship",
+      "action": "sponsor_accept",
+      "result": {
+        "ok": true,
+        "contract_id": 1,
+        "sponsor": "Órbita",
+        "star_rating": 3,
+        "upfront_payment": 329728,
+        "weekly_payment": 82432,
+        "end_season": 2026,
+        "end_week": 7
+      }
+    },
+    {
+      "name": "read CT offers",
+      "action": "department_offers",
+      "result": {
+        "ok": true,
+        "items": [
+          {
+            "department": "base",
+            "label": "Base",
+            "target_level": 1,
+            "cost": 123177,
+            "maintenance": 1989,
+            "capacity": 18
+          },
+          {
+            "department": "medicina",
+            "label": "Medicina",
+            "target_level": 1,
+            "cost": 140773,
+            "maintenance": 2387,
+            "capacity": 10
+          },
+          {
+            "department": "preparacao_fisica",
+            "label": "Preparação física",
+            "target_level": 1,
+            "cost": 131975,
+            "maintenance": 2188,
+            "capacity": 14
+          },
+          {
+            "department": "analise",
+            "label": "Análise",
+            "target_level": 1,
+            "cost": 105580,
+            "maintenance": 1790,
+            "capacity": 12
+          }
+        ]
+      }
+    },
+    {
+      "name": "start CT improvement",
+      "action": "department_upgrade",
+      "result": {
+        "ok": true,
+        "department": "base",
+        "label": "Base",
+        "target_level": 1,
+        "cost": 123177,
+        "maintenance": 1989,
+        "capacity": 18,
+        "status": "IN_PROGRESS",
+        "started_at": "2026-01-08",
+        "completion_at": "2026-01-15",
+        "duration_weeks": 1
+      }
+    },
+    {
+      "name": "economy after actions",
+      "action": "economy_summary",
+      "result": {
+        "ok": true,
+        "club_id": 1,
+        "cash": 42792771,
+        "budget": 44036638,
+        "payroll": 1120690,
+        "expense_accumulated": 1243867,
+        "weekly_player_payroll": 1120690,
+        "weekly_staff_payroll": 0,
+        "weekly_department_maintenance": 0,
+        "weekly_total": 1120690,
+        "initial_cash": 43706910,
+        "team_power": 76.90476190476191,
+        "country_factor": 0.9946981665482882,
+        "base_level": 0
+      }
+    },
+    {
+      "name": "weekly training",
+      "action": "weekly_training",
+      "result": {
+        "ok": true,
+        "club_id": 1,
+        "season": 2026,
+        "week": 1,
+        "plan_type": "GENERAL",
+        "load": 50,
+        "changes": [
+          {
+            "player_id": 1,
+            "form_delta": 0,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 2,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 3,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 4,
+            "form_delta": 0,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 5,
+            "form_delta": 0,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 6,
+            "form_delta": 1,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 7,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 8,
+            "form_delta": 1,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 9,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 10,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 11,
+            "form_delta": 0,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 12,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 13,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 14,
+            "form_delta": 0,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 15,
+            "form_delta": 0,
+            "fatigue_delta": 4,
+            "effective_load": 48,
+            "adherence": 96
+          },
+          {
+            "player_id": 16,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 17,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 18,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 19,
+            "form_delta": 1,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 20,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 21,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 22,
+            "form_delta": 0,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 23,
+            "form_delta": 1,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 24,
+            "form_delta": 1,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 25,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 26,
+            "form_delta": 0,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 27,
+            "form_delta": 1,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 28,
+            "form_delta": 1,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 29,
+            "form_delta": 0,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 30,
+            "form_delta": 1,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 31,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 32,
+            "form_delta": 0,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 33,
+            "form_delta": 1,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 34,
+            "form_delta": 0,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 35,
+            "form_delta": 1,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 36,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 37,
+            "form_delta": 0,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 38,
+            "form_delta": 0,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 39,
+            "form_delta": 2,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          },
+          {
+            "player_id": 40,
+            "form_delta": 0,
+            "fatigue_delta": 4,
+            "effective_load": 50,
+            "adherence": 100
+          }
+        ],
+        "collective_morale": {
+          "club_id": 1,
+          "average": 50.0,
+          "members": 40,
+          "lowest": 50,
+          "highest": 50
+        }
+      }
+    },
+    {
+      "name": "health alerts",
+      "action": "health_alerts",
+      "result": {
+        "ok": true,
+        "items": []
+      }
+    },
+    {
+      "name": "travel summary",
+      "action": "travel_summary",
+      "result": {
+        "ok": true,
+        "club_id": 1,
+        "season": null,
+        "trips": 0,
+        "total_cost": 0,
+        "currency": "BRL",
+        "source": "financial_ledger"
+      }
+    },
+    {
+      "name": "weekly advance",
+      "action": "weekly_advance",
+      "result": {
+        "ok": true,
+        "status": "COMPLETED",
+        "tick_id": "weekly-world:2026:3",
+        "season": 2026,
+        "week": 3,
+        "matches": 0,
+        "match_details": [],
+        "prizes": [],
+        "sponsorship": {
+          "clubs_total": 8399,
+          "processed": 8399,
+          "already_processed": 0
+        },
+        "payroll": {
+          "clubs_total": 8399,
+          "processed": 8399,
+          "already_processed": 0,
+          "insufficient_cash_club_ids": []
+        },
+        "constructions": {
+          "completed": 1,
+          "items": [
+            {
+              "construction_id": 1,
+              "club_id": 1,
+              "department": "base",
+              "target_level": 1,
+              "cost": 123177,
+              "capacity": 18,
+              "maintenance": 1989,
+              "efficiency": 0.1,
+              "started_at": "2026-01-08",
+              "completion_at": "2026-01-15",
+              "status": "IN_PROGRESS",
+              "completed_at": null
+            }
+          ]
+        },
+        "ledger_close": {
+          "season": 2026,
+          "week": 3,
+          "currency": "BRL",
+          "entries": 25198,
+          "net": -7893412399
+        }
+      }
+    },
+    {
+      "name": "events",
+      "action": "events_list",
+      "result": {
+        "ok": true,
+        "unread_count": 1,
+        "items": [
+          {
+            "event_id": 1,
+            "club_id": 1,
+            "type": "PATROCINIO",
+            "origin": "sponsorship_service",
+            "severity": "NORMAL",
+            "event_date": "2026-01-08",
+            "title": "Contrato firmado com Órbita",
+            "description": "O sinal de R$ 329,728 e a receita semanal foram registrados no caixa.",
+            "impact": "SPONSOR_CONTRACT_ACCEPTED",
+            "status": "OPEN",
+            "is_read": false,
+            "reference": "event:sponsor-contract:1"
+          }
+        ]
+      }
+    },
+    {
+      "name": "career snapshot",
+      "action": "career_snapshot",
+      "result": {
+        "ok": true,
+        "snapshot_id": 1
+      }
+    }
+  ],
+  "invariants": [
+    {
+      "name": "career owns the selected club",
+      "passed": true,
+      "details": {
+        "ok": true,
+        "club_id": 1,
+        "cash": 42792771,
+        "budget": 44036638,
+        "payroll": 1120690,
+        "expense_accumulated": 1243867,
+        "weekly_player_payroll": 1120690,
+        "weekly_staff_payroll": 0,
+        "weekly_department_maintenance": 0,
+        "weekly_total": 1120690,
+        "initial_cash": 43706910,
+        "team_power": 76.90476190476191,
+        "country_factor": 0.9946981665482882,
+        "base_level": 0
+      }
+    },
+    {
+      "name": "cash change has economic state",
+      "passed": true,
+      "details": {
+        "ok": true,
+        "club_id": 1,
+        "cash": 42792771,
+        "budget": 44036638,
+        "payroll": 1120690,
+        "expense_accumulated": 1243867,
+        "weekly_player_payroll": 1120690,
+        "weekly_staff_payroll": 0,
+        "weekly_department_maintenance": 0,
+        "weekly_total": 1120690,
+        "initial_cash": 43706910,
+        "team_power": 76.90476190476191,
+        "country_factor": 0.9946981665482882,
+        "base_level": 0
+      }
+    },
+    {
+      "name": "sqlite integrity",
+      "passed": true,
+      "details": "ok"
+    },
+    {
+      "name": "foreign keys",
+      "passed": true,
+      "details": 0
+    }
+  ],
+  "status": "PASS",
+  "club_id": 1,
+  "final_integrity": {
+    "integrity_check": "ok",
+    "foreign_key_errors": 0
+  }
+}

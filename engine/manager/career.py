@@ -26,6 +26,253 @@ from engine.core.p1_mfa_contract import ensure_p1_mfa_registry
 from engine.core.p1_consent_contract import ensure_p1_consent_registry
 from engine.core.p1_country_contract import ensure_p1_country_registry
 from engine.core.p1_city_contract import ensure_p1_city_registry
+from engine.core.p1_identity_contract import ensure_p1_identity_registry
+from engine.core.p1_profile_contract import ensure_p1_profile_registry
+from engine.core.p1_preferences_contract import ensure_p1_preferences_registry
+from engine.core.p1_stadium_contract import ensure_p1_stadium_registry
+from engine.core.p1_stadium_capacity_contract import ensure_p1_stadium_capacity_registry
+from engine.core.p1_stadium_components_contract import ensure_p1_stadium_components_registry
+from engine.core.p1_stadium_infrastructure_contract import ensure_p1_stadium_infrastructure_registry
+from engine.core.p1_position_contract import ensure_p1_position_registry
+from engine.core.p1_attribute_contract import ensure_p1_attribute_registry
+from engine.core.p1_potential_contract import ensure_p1_potential_registry
+from engine.core.p1_age_contract import ensure_p1_age_registry
+from engine.core.p1_alias_contract import ensure_p1_alias_registry
+from engine.core.p1_nationality_contract import ensure_p1_nationality_registry
+from engine.core.p1_history_contract import ensure_p1_history_registry
+from engine.core.p1_callup_contract import ensure_p1_callup_registry
+from engine.core.p1_ranking_contract import ensure_p1_ranking_registry
+from engine.core.p1_fifa_date_contract import ensure_p1_fifa_date_registry
+from engine.core.p1_commission_contract import ensure_p1_commission_registry
+from engine.core.p1_tournament_contract import ensure_p1_tournament_registry
+from engine.core.p1_eligibility_contract import ensure_p1_eligibility_registry
+from engine.core.p1_calendar_contract import ensure_p1_calendar_registry
+from engine.core.p1_membership_contract import ensure_p1_membership_registry
+from engine.core.p1_regulation_contract import ensure_p1_regulation_registry
+from engine.core.p1_round_contract import ensure_p1_round_registry
+from engine.core.p1_table_contract import ensure_p1_table_registry
+from engine.core.p1_promotion_contract import ensure_p1_promotion_registry
+from engine.core.p1_relegation_contract import ensure_p1_relegation_registry
+from engine.core.p1_record_contract import ensure_p1_record_registry
+from engine.core.p1_membership_domain08_contract import ensure_p1_membership_domain08_registry
+from engine.core.p1_draw_contract import ensure_p1_draw_registry
+from engine.core.p1_division_contract import ensure_p1_division_registry
+from engine.core.p1_fixture_contract import ensure_p1_fixture_registry
+from engine.core.p1_round_domain08_contract import ensure_p1_round_domain08_registry
+from engine.core.p1_table_domain08_contract import ensure_p1_table_domain08_registry
+from engine.core.p1_promotion_domain08_contract import ensure_p1_promotion_domain08_registry
+from engine.core.p1_pot_contract import ensure_p1_pot_registry
+from engine.core.p1_group_contract import ensure_p1_group_registry
+from engine.core.p1_knockout_contract import ensure_p1_knockout_registry
+from engine.core.p1_draw_domain08_contract import ensure_p1_draw_domain08_registry
+from engine.core.p1_coefficient_contract import ensure_p1_coefficient_registry
+from engine.core.p1_record_domain08_contract import ensure_p1_record_domain08_registry
+from engine.core.p1_prize_contract import ensure_p1_prize_registry
+from engine.core.p1_holiday_contract import ensure_p1_holiday_registry
+from engine.core.p1_window_contract import ensure_p1_window_registry
+from engine.core.p1_conflict_contract import ensure_p1_conflict_registry
+from engine.core.p1_reschedule_contract import ensure_p1_reschedule_registry
+from engine.core.p1_timezone_contract import ensure_p1_timezone_registry
+from engine.core.p1_climate_contract import ensure_p1_climate_registry
+from engine.core.p1_security_contract import ensure_p1_security_registry
+from engine.core.p1_tactic_contract import ensure_p1_tactic_registry
+from engine.core.p1_event_contract import ensure_p1_event_registry
+from engine.core.p1_score_contract import ensure_p1_score_registry
+from engine.core.p1_pass_contract import ensure_p1_pass_registry
+from engine.core.p1_training_contract import ensure_p1_training_registry
+from engine.core.p1_budget_contract import ensure_p1_budget_registry
+from engine.core.p1_leadership_contract import ensure_p1_leadership_registry
+from engine.core.p1_promise_contract import ensure_p1_promise_registry
+from engine.core.p1_minutes_contract import ensure_p1_minutes_registry
+from engine.core.p1_shirt_contract import ensure_p1_shirt_registry
+from engine.core.p1_registration_contract import ensure_p1_registration_registry
+from engine.core.p1_cohesion_contract import ensure_p1_cohesion_registry
+from engine.core.p1_duration_contract import ensure_p1_duration_registry
+from engine.core.p1_bonus_contract import ensure_p1_bonus_registry
+from engine.core.p1_clause_contract import ensure_p1_clause_registry
+from engine.core.p1_renewal_contract import ensure_p1_renewal_registry
+from engine.core.p1_termination_contract import ensure_p1_termination_registry
+from engine.core.p1_loan_contract import ensure_p1_loan_registry
+from engine.core.p1_option_contract import ensure_p1_option_registry
+from engine.core.p1_assistant_contract import ensure_p1_assistant_registry
+from engine.core.p1_doctor_contract import ensure_p1_doctor_registry
+from engine.core.p1_medicine_contract import ensure_p1_medicine_registry
+from engine.core.p1_category_domain10_contract import ensure_p1_category_domain10_registry
+from engine.core.p1_captacao_contract import ensure_p1_captacao_registry
+from engine.core.p1_desenvolvimento_contract import ensure_p1_desenvolvimento_registry
+from engine.core.p1_promocao_contract import ensure_p1_promocao_registry
+from engine.core.p1_bolsa_contract import ensure_p1_bolsa_registry
+from engine.core.p1_educacao_contract import ensure_p1_educacao_registry
+from engine.core.p1_minutos_contract import ensure_p1_minutos_registry
+from engine.core.p1_diagnostico_contract import ensure_p1_diagnostico_registry
+from engine.core.p1_tratamento_contract import ensure_p1_tratamento_registry
+from engine.core.p1_fisioterapia_contract import ensure_p1_fisioterapia_registry
+from engine.core.p1_retorno_contract import ensure_p1_retorno_registry
+from engine.core.p1_risco_contract import ensure_p1_risco_registry
+from engine.core.p1_carga_contract import ensure_p1_carga_registry
+from engine.core.p1_suspensao_contract import ensure_p1_suspensao_registry
+from engine.core.p1_carga_operacional_contract import ensure_p1_carga_operacional_registry
+from engine.core.p1_objetivo_operacional_contract import ensure_p1_objetivo_operacional_registry
+from engine.core.p1_intensidade_contract import ensure_p1_intensidade_registry
+from engine.core.p1_descanso_contract import ensure_p1_descanso_registry
+from engine.core.p1_tatica_contract import ensure_p1_tatica_registry
+from engine.core.p1_atributo_contract import ensure_p1_atributo_registry
+from engine.core.p1_potencial_contract import ensure_p1_potencial_registry
+from engine.core.p1_proposta_contract import ensure_p1_proposta_registry
+from engine.core.p1_contraproposta_contract import ensure_p1_contraproposta_registry
+from engine.core.p1_valor_contract import ensure_p1_valor_registry
+from engine.core.p1_comissao_operacional_contract import ensure_p1_comissao_operacional_registry
+from engine.core.p1_emprestimo_contract import ensure_p1_emprestimo_registry
+from engine.core.p1_opcao_contract import ensure_p1_opcao_registry
+from engine.core.p1_registro_adicional_contract import ensure_p1_registro_adicional_registry
+from engine.core.p1_regiao_contract import ensure_p1_regiao_registry
+from engine.core.p1_posicao_contract import ensure_p1_posicao_registry
+from engine.core.p1_filtro_contract import ensure_p1_filtro_registry
+from engine.core.p1_confianca_contract import ensure_p1_confianca_registry
+from engine.core.p1_comparacao_contract import ensure_p1_comparacao_registry
+from engine.core.p1_relatorio_contract import ensure_p1_relatorio_registry
+from engine.core.p1_receita_contract import ensure_p1_receita_registry
+from engine.core.p1_despesa_contract import ensure_p1_despesa_registry
+from engine.core.p1_salario_contract import ensure_p1_salario_registry
+from engine.core.p1_bonus_operacional_contract import ensure_p1_bonus_operacional_registry
+from engine.core.p1_ledger_contract import ensure_p1_ledger_registry
+from engine.core.p1_orcamento_operacional_contract import ensure_p1_orcamento_operacional_registry
+from engine.core.p1_projecao_contract import ensure_p1_projecao_registry
+from engine.core.p1_estrela_contract import ensure_p1_estrela_registry
+from engine.core.p1_missao_contract import ensure_p1_missao_registry
+from engine.core.p1_audiencia_contract import ensure_p1_audiencia_registry
+from engine.core.p1_contrato_comercial_contract import ensure_p1_contrato_comercial_registry
+from engine.core.p1_expiracao_contract import ensure_p1_expiracao_registry
+from engine.core.p1_bonus_patrocinio_contract import ensure_p1_bonus_patrocinio_registry
+from engine.core.p1_inventario_contract import ensure_p1_inventario_registry
+from engine.core.p1_setor_contract import ensure_p1_setor_registry
+from engine.core.p1_ingresso_contract import ensure_p1_ingresso_registry
+from engine.core.p1_ocupacao_contract import ensure_p1_ocupacao_registry
+from engine.core.p1_torcida_contract import ensure_p1_torcida_registry
+from engine.core.p1_reputacao_contract import ensure_p1_reputacao_registry
+from engine.core.p1_seguranca_domain24_contract import ensure_p1_seguranca_domain24_registry
+from engine.core.p1_security_followup_contract import ensure_p1_security_followup_registry
+from engine.core.p1_concessao_contract import ensure_p1_concessao_registry
+from engine.core.p1_distancia_contract import ensure_p1_distancia_registry
+from engine.core.p1_custo_contract import ensure_p1_custo_registry
+from engine.core.p1_hotel_contract import ensure_p1_hotel_registry
+from engine.core.p1_voo_contract import ensure_p1_voo_registry
+from engine.core.p1_onibus_contract import ensure_p1_onibus_registry
+from engine.core.p1_descanso_operacional_contract import ensure_p1_descanso_operacional_registry
+from engine.core.p1_lote_contract import ensure_p1_lote_registry
+from engine.core.p1_seed_contract import ensure_p1_seed_registry
+from engine.core.p1_checkpoint_contract import ensure_p1_checkpoint_registry
+from engine.core.p1_throughput_contract import ensure_p1_throughput_registry
+from engine.core.p1_falha_contract import ensure_p1_falha_registry
+from engine.core.p1_prioridade_contract import ensure_p1_prioridade_registry
+from engine.core.p1_evento_contract import ensure_p1_evento_registry
+from engine.core.p1_feed_contract import ensure_p1_feed_registry
+from engine.core.p1_severidade_contract import ensure_p1_severidade_registry
+from engine.core.p1_filter_contract import ensure_p1_filter_registry
+from engine.core.p1_paginacao_contract import ensure_p1_paginacao_registry
+from engine.core.p1_arquivamento_contract import ensure_p1_arquivamento_registry
+from engine.core.p1_preferencia_contract import ensure_p1_preferencia_registry
+from engine.core.p1_objetivo_contract import ensure_p1_objetivo_registry
+from engine.core.p1_reputacao_institucional_contract import ensure_p1_reputacao_institucional_registry
+from engine.core.p1_experiencia_contract import ensure_p1_experiencia_registry
+from engine.core.p1_oferta_contract import ensure_p1_oferta_registry
+from engine.core.p1_troca_contract import ensure_p1_troca_registry
+from engine.core.p1_aposentadoria_contract import ensure_p1_aposentadoria_registry
+from engine.core.p1_legado_contract import ensure_p1_legado_registry
+from engine.core.p1_navegacao_contract import ensure_p1_navegacao_registry
+from engine.core.p1_tabela_contract import ensure_p1_tabela_registry
+from engine.core.p1_filtro_domain30_contract import ensure_p1_filtro_domain30_registry
+from engine.core.p1_formulario_contract import ensure_p1_formulario_registry
+from engine.core.p1_unitario_contract import ensure_p1_unitario_registry
+from engine.core.p1_integracao_contract import ensure_p1_integracao_registry
+from engine.core.p2_checkpoint_contract import ensure_p2_checkpoint_registry
+from engine.core.p2_replay_contract import ensure_p2_replay_registry
+from engine.core.p2_compatibilidade_contract import ensure_p2_compatibilidade_registry
+from engine.core.p2_auditoria_contract import ensure_p2_auditoria_registry
+from engine.core.p2_auditoria_domain30_contract import ensure_p2_auditoria_domain30_registry
+from engine.core.p2_privacidade_contract import ensure_p2_privacidade_registry
+from engine.core.p2_unicidade_contract import ensure_p2_unicidade_registry
+from engine.core.p2_origem_contract import ensure_p2_origem_registry
+from engine.core.p2_lesao_contract import ensure_p2_lesao_registry
+from engine.core.p2_historico_contract import ensure_p2_historico_registry
+from engine.core.p2_calendario_contract import ensure_p2_calendario_registry
+from engine.core.p2_historico_domain30_contract import ensure_p2_historico_domain30_registry
+from engine.core.p2_premiacao_contract import ensure_p2_premiacao_registry
+from engine.core.p2_calendario_domain08_contract import ensure_p2_calendario_domain08_registry
+from engine.core.p2_historico_competicao_contract import ensure_p2_historico_competicao_registry
+from engine.core.p2_televisao_contract import ensure_p2_televisao_registry
+from engine.core.p2_auditoria_domain40_contract import ensure_p2_auditoria_domain40_registry
+from engine.core.p2_arbitro_contract import ensure_p2_arbitro_registry
+from engine.core.p2_reprocessamento_contract import ensure_p2_reprocessamento_registry
+from engine.core.p2_defesa_contract import ensure_p2_defesa_registry
+from engine.core.p2_relatorio_contract import ensure_p2_relatorio_registry
+from engine.core.p2_risco_domain50_contract import ensure_p2_risco_domain50_registry
+from engine.core.p2_explicacao_contract import ensure_p2_explicacao_registry
+from engine.core.p2_profundidade_contract import ensure_p2_profundidade_registry
+from engine.core.p2_relatorio_domain60_contract import ensure_p2_relatorio_domain60_registry
+from engine.core.p2_historico_domain70_contract import ensure_p2_historico_domain70_registry
+from engine.core.p2_auditoria_domain80_contract import ensure_p2_auditoria_domain80_registry
+from engine.core.p2_salario_domain90_contract import ensure_p2_salario_domain90_registry
+from engine.core.p2_organograma_contract import ensure_p2_organograma_registry
+from engine.core.p2_scouting_domain100_contract import ensure_p2_scouting_domain100_registry
+from engine.core.p2_auditoria_domain100_contract import ensure_p2_auditoria_domain100_registry
+from engine.core.p2_contrato_domain110_contract import ensure_p2_contrato_domain110_registry
+from engine.core.p2_relatorio_domain120_contract import ensure_p2_relatorio_domain120_registry
+from engine.core.p2_disponibilidade_domain130_contract import ensure_p2_disponibilidade_domain130_registry
+from engine.core.p2_auditoria_domain130_contract import ensure_p2_auditoria_domain130_registry
+from engine.core.p2_overtraining_domain140_contract import ensure_p2_overtraining_domain140_registry
+from engine.core.p2_avaliacao_domain150_contract import ensure_p2_avaliacao_domain150_registry
+from engine.core.p2_shortlist_domain160_contract import ensure_p2_shortlist_domain160_registry
+from engine.core.p2_historico_domain170_contract import ensure_p2_historico_domain170_registry
+from engine.core.p2_expiracao_domain180_contract import ensure_p2_expiracao_domain180_registry
+from engine.core.p2_aprovacao_domain180_contract import ensure_p2_aprovacao_domain180_registry
+from engine.core.p2_deficit_domain190_contract import ensure_p2_deficit_domain190_registry
+from engine.core.p2_fechamento_domain190_contract import ensure_p2_fechamento_domain190_registry
+from engine.core.p2_ativacao_domain200_contract import ensure_p2_ativacao_domain200_registry
+from engine.core.p2_relatorio_domain200_contract import ensure_p2_relatorio_domain200_registry
+from engine.core.p2_upgrade_domain210_contract import ensure_p2_upgrade_domain210_registry
+from engine.core.p2_evento_domain210_contract import ensure_p2_evento_domain210_registry
+from engine.core.p2_bagagem_domain220_contract import ensure_p2_bagagem_domain220_registry
+from engine.core.p2_auditoria_domain220_contract import ensure_p2_auditoria_domain220_registry
+from engine.core.p2_metrica_domain230_contract import ensure_p2_metrica_domain230_registry
+from engine.core.p2_relatorio_domain230_contract import ensure_p2_relatorio_domain230_registry
+from engine.core.p2_snooze_domain240_contract import ensure_p2_snooze_domain240_registry
+from engine.core.p2_historico_domain240_contract import ensure_p2_historico_domain240_registry
+from engine.core.p2_conquista_domain250_contract import ensure_p2_conquista_domain250_registry
+from engine.core.p2_historico_domain250_contract import ensure_p2_historico_domain250_registry
+from engine.core.p2_benchmark_domain260_contract import ensure_p2_benchmark_domain260_registry
+from engine.core.p2_log_domain260_contract import ensure_p2_log_domain260_registry
+from engine.core.p2_rebaixamento_contract import ensure_p2_rebaixamento_registry
+from engine.core.p1_e2e_contract import ensure_p1_e2e_registry
+from engine.core.p1_retomada_contract import ensure_p1_retomada_registry
+from engine.core.p1_evidencia_contract import ensure_p1_evidencia_registry
+from engine.core.p1_scout_contract import ensure_p1_scout_registry
+from engine.core.p1_specialty_contract import ensure_p1_specialty_registry
+from engine.core.p1_level_contract import ensure_p1_level_registry
+from engine.core.p1_level_domain10_contract import ensure_p1_level_domain10_registry
+from engine.core.p1_capacity_domain10_contract import ensure_p1_capacity_domain10_registry
+from engine.core.p1_maintenance_contract import ensure_p1_maintenance_registry
+from engine.core.p1_upgrade_contract import ensure_p1_upgrade_registry
+from engine.core.p1_training_domain10_contract import ensure_p1_training_domain10_registry
+from engine.core.p1_base_domain10_contract import ensure_p1_base_domain10_registry
+from engine.core.p1_vacancy_contract import ensure_p1_vacancy_registry
+from engine.core.p1_contract_contract import ensure_p1_contract_registry
+from engine.core.p1_reserve_contract import ensure_p1_reserve_registry
+from engine.core.p1_objective_contract import ensure_p1_objective_registry
+from engine.core.p1_tactics_contract import ensure_p1_tactics_registry
+from engine.core.p1_lineup_contract import ensure_p1_lineup_registry
+from engine.core.p1_hiring_contract import ensure_p1_hiring_registry
+from engine.core.p1_sale_contract import ensure_p1_sale_registry
+from engine.core.p1_duel_contract import ensure_p1_duel_registry
+from engine.core.p1_map_contract import ensure_p1_map_registry
+from engine.core.p1_pressure_contract import ensure_p1_pressure_registry
+from engine.core.p1_xg_contract import ensure_p1_xg_registry
+from engine.core.p1_xa_contract import ensure_p1_xa_registry
+from engine.core.p1_substitution_contract import ensure_p1_substitution_registry
+from engine.core.p1_possession_contract import ensure_p1_possession_registry
+from engine.core.p1_possession_domain09_contract import ensure_p1_possession_domain09_registry
+from engine.core.p1_finalization_contract import ensure_p1_finalization_registry
+from engine.core.p1_finalization_domain09_contract import ensure_p1_finalization_domain09_registry
 from engine.world.first_division import FIRST_DIVISION_SOURCES, resolve_first_division_members
 from engine.economy.institutional_power import InstitutionalPowerService
 
@@ -105,6 +352,253 @@ class ManagerService:
         ensure_p1_consent_registry(self.connection)
         ensure_p1_country_registry(self.connection)
         ensure_p1_city_registry(self.connection)
+        ensure_p1_identity_registry(self.connection)
+        ensure_p1_profile_registry(self.connection)
+        ensure_p1_preferences_registry(self.connection)
+        ensure_p1_stadium_registry(self.connection)
+        ensure_p1_stadium_capacity_registry(self.connection)
+        ensure_p1_stadium_components_registry(self.connection)
+        ensure_p1_stadium_infrastructure_registry(self.connection)
+        ensure_p1_position_registry(self.connection)
+        ensure_p1_attribute_registry(self.connection)
+        ensure_p1_potential_registry(self.connection)
+        ensure_p1_age_registry(self.connection)
+        ensure_p1_alias_registry(self.connection)
+        ensure_p1_nationality_registry(self.connection)
+        ensure_p1_history_registry(self.connection)
+        ensure_p1_callup_registry(self.connection)
+        ensure_p1_ranking_registry(self.connection)
+        ensure_p1_fifa_date_registry(self.connection)
+        ensure_p1_commission_registry(self.connection)
+        ensure_p1_tournament_registry(self.connection)
+        ensure_p1_eligibility_registry(self.connection)
+        ensure_p1_calendar_registry(self.connection)
+        ensure_p1_membership_registry(self.connection)
+        ensure_p1_regulation_registry(self.connection)
+        ensure_p1_round_registry(self.connection)
+        ensure_p1_table_registry(self.connection)
+        ensure_p1_promotion_registry(self.connection)
+        ensure_p1_relegation_registry(self.connection)
+        ensure_p1_record_registry(self.connection)
+        ensure_p1_membership_domain08_registry(self.connection)
+        ensure_p1_draw_registry(self.connection)
+        ensure_p1_division_registry(self.connection)
+        ensure_p1_fixture_registry(self.connection)
+        ensure_p1_round_domain08_registry(self.connection)
+        ensure_p1_table_domain08_registry(self.connection)
+        ensure_p1_promotion_domain08_registry(self.connection)
+        ensure_p1_pot_registry(self.connection)
+        ensure_p1_group_registry(self.connection)
+        ensure_p1_knockout_registry(self.connection)
+        ensure_p1_draw_domain08_registry(self.connection)
+        ensure_p1_coefficient_registry(self.connection)
+        ensure_p1_record_domain08_registry(self.connection)
+        ensure_p1_prize_registry(self.connection)
+        ensure_p1_holiday_registry(self.connection)
+        ensure_p1_window_registry(self.connection)
+        ensure_p1_conflict_registry(self.connection)
+        ensure_p1_reschedule_registry(self.connection)
+        ensure_p1_timezone_registry(self.connection)
+        ensure_p1_climate_registry(self.connection)
+        ensure_p1_security_registry(self.connection)
+        ensure_p1_tactic_registry(self.connection)
+        ensure_p1_event_registry(self.connection)
+        ensure_p1_score_registry(self.connection)
+        ensure_p1_pass_registry(self.connection)
+        ensure_p1_training_registry(self.connection)
+        ensure_p1_budget_registry(self.connection)
+        ensure_p1_leadership_registry(self.connection)
+        ensure_p1_promise_registry(self.connection)
+        ensure_p1_minutes_registry(self.connection)
+        ensure_p1_shirt_registry(self.connection)
+        ensure_p1_registration_registry(self.connection)
+        ensure_p1_cohesion_registry(self.connection)
+        ensure_p1_duration_registry(self.connection)
+        ensure_p1_bonus_registry(self.connection)
+        ensure_p1_clause_registry(self.connection)
+        ensure_p1_renewal_registry(self.connection)
+        ensure_p1_termination_registry(self.connection)
+        ensure_p1_loan_registry(self.connection)
+        ensure_p1_option_registry(self.connection)
+        ensure_p1_assistant_registry(self.connection)
+        ensure_p1_doctor_registry(self.connection)
+        ensure_p1_medicine_registry(self.connection)
+        ensure_p1_category_domain10_registry(self.connection)
+        ensure_p1_captacao_registry(self.connection)
+        ensure_p1_desenvolvimento_registry(self.connection)
+        ensure_p1_promocao_registry(self.connection)
+        ensure_p1_bolsa_registry(self.connection)
+        ensure_p1_educacao_registry(self.connection)
+        ensure_p1_minutos_registry(self.connection)
+        ensure_p1_diagnostico_registry(self.connection)
+        ensure_p1_tratamento_registry(self.connection)
+        ensure_p1_fisioterapia_registry(self.connection)
+        ensure_p1_retorno_registry(self.connection)
+        ensure_p1_risco_registry(self.connection)
+        ensure_p1_carga_registry(self.connection)
+        ensure_p1_suspensao_registry(self.connection)
+        ensure_p1_carga_operacional_registry(self.connection)
+        ensure_p1_objetivo_operacional_registry(self.connection)
+        ensure_p1_intensidade_registry(self.connection)
+        ensure_p1_descanso_registry(self.connection)
+        ensure_p1_tatica_registry(self.connection)
+        ensure_p1_atributo_registry(self.connection)
+        ensure_p1_potencial_registry(self.connection)
+        ensure_p1_proposta_registry(self.connection)
+        ensure_p1_contraproposta_registry(self.connection)
+        ensure_p1_valor_registry(self.connection)
+        ensure_p1_comissao_operacional_registry(self.connection)
+        ensure_p1_emprestimo_registry(self.connection)
+        ensure_p1_opcao_registry(self.connection)
+        ensure_p1_registro_adicional_registry(self.connection)
+        ensure_p1_regiao_registry(self.connection)
+        ensure_p1_posicao_registry(self.connection)
+        ensure_p1_filtro_registry(self.connection)
+        ensure_p1_confianca_registry(self.connection)
+        ensure_p1_comparacao_registry(self.connection)
+        ensure_p1_relatorio_registry(self.connection)
+        ensure_p1_receita_registry(self.connection)
+        ensure_p1_despesa_registry(self.connection)
+        ensure_p1_salario_registry(self.connection)
+        ensure_p1_bonus_operacional_registry(self.connection)
+        ensure_p1_ledger_registry(self.connection)
+        ensure_p1_orcamento_operacional_registry(self.connection)
+        ensure_p1_projecao_registry(self.connection)
+        ensure_p1_estrela_registry(self.connection)
+        ensure_p1_missao_registry(self.connection)
+        ensure_p1_audiencia_registry(self.connection)
+        ensure_p1_contrato_comercial_registry(self.connection)
+        ensure_p1_expiracao_registry(self.connection)
+        ensure_p1_bonus_patrocinio_registry(self.connection)
+        ensure_p1_inventario_registry(self.connection)
+        ensure_p1_setor_registry(self.connection)
+        ensure_p1_ingresso_registry(self.connection)
+        ensure_p1_ocupacao_registry(self.connection)
+        ensure_p1_torcida_registry(self.connection)
+        ensure_p1_reputacao_registry(self.connection)
+        ensure_p1_seguranca_domain24_registry(self.connection)
+        ensure_p1_security_followup_registry(self.connection)
+        ensure_p1_concessao_registry(self.connection)
+        ensure_p1_distancia_registry(self.connection)
+        ensure_p1_custo_registry(self.connection)
+        ensure_p1_hotel_registry(self.connection)
+        ensure_p1_voo_registry(self.connection)
+        ensure_p1_onibus_registry(self.connection)
+        ensure_p1_descanso_operacional_registry(self.connection)
+        ensure_p1_lote_registry(self.connection)
+        ensure_p1_seed_registry(self.connection)
+        ensure_p1_checkpoint_registry(self.connection)
+        ensure_p1_throughput_registry(self.connection)
+        ensure_p1_falha_registry(self.connection)
+        ensure_p1_prioridade_registry(self.connection)
+        ensure_p1_evento_registry(self.connection)
+        ensure_p1_feed_registry(self.connection)
+        ensure_p1_severidade_registry(self.connection)
+        ensure_p1_filter_registry(self.connection)
+        ensure_p1_paginacao_registry(self.connection)
+        ensure_p1_arquivamento_registry(self.connection)
+        ensure_p1_preferencia_registry(self.connection)
+        ensure_p1_objetivo_registry(self.connection)
+        ensure_p1_reputacao_institucional_registry(self.connection)
+        ensure_p1_experiencia_registry(self.connection)
+        ensure_p1_oferta_registry(self.connection)
+        ensure_p1_troca_registry(self.connection)
+        ensure_p1_aposentadoria_registry(self.connection)
+        ensure_p1_legado_registry(self.connection)
+        ensure_p1_navegacao_registry(self.connection)
+        ensure_p1_tabela_registry(self.connection)
+        ensure_p1_filtro_domain30_registry(self.connection)
+        ensure_p1_formulario_registry(self.connection)
+        ensure_p1_unitario_registry(self.connection)
+        ensure_p1_integracao_registry(self.connection)
+        ensure_p2_checkpoint_registry(self.connection)
+        ensure_p2_replay_registry(self.connection)
+        ensure_p2_compatibilidade_registry(self.connection)
+        ensure_p2_auditoria_registry(self.connection)
+        ensure_p2_auditoria_domain30_registry(self.connection)
+        ensure_p2_privacidade_registry(self.connection)
+        ensure_p2_unicidade_registry(self.connection)
+        ensure_p2_origem_registry(self.connection)
+        ensure_p2_lesao_registry(self.connection)
+        ensure_p2_historico_registry(self.connection)
+        ensure_p2_calendario_registry(self.connection)
+        ensure_p2_historico_domain30_registry(self.connection)
+        ensure_p2_premiacao_registry(self.connection)
+        ensure_p2_calendario_domain08_registry(self.connection)
+        ensure_p2_historico_competicao_registry(self.connection)
+        ensure_p2_televisao_registry(self.connection)
+        ensure_p2_auditoria_domain40_registry(self.connection)
+        ensure_p2_arbitro_registry(self.connection)
+        ensure_p2_reprocessamento_registry(self.connection)
+        ensure_p2_defesa_registry(self.connection)
+        ensure_p2_relatorio_registry(self.connection)
+        ensure_p2_risco_domain50_registry(self.connection)
+        ensure_p2_explicacao_registry(self.connection)
+        ensure_p2_profundidade_registry(self.connection)
+        ensure_p2_relatorio_domain60_registry(self.connection)
+        ensure_p2_historico_domain70_registry(self.connection)
+        ensure_p2_auditoria_domain80_registry(self.connection)
+        ensure_p2_salario_domain90_registry(self.connection)
+        ensure_p2_organograma_registry(self.connection)
+        ensure_p2_scouting_domain100_registry(self.connection)
+        ensure_p2_auditoria_domain100_registry(self.connection)
+        ensure_p2_contrato_domain110_registry(self.connection)
+        ensure_p2_relatorio_domain120_registry(self.connection)
+        ensure_p2_disponibilidade_domain130_registry(self.connection)
+        ensure_p2_auditoria_domain130_registry(self.connection)
+        ensure_p2_overtraining_domain140_registry(self.connection)
+        ensure_p2_avaliacao_domain150_registry(self.connection)
+        ensure_p2_shortlist_domain160_registry(self.connection)
+        ensure_p2_historico_domain170_registry(self.connection)
+        ensure_p2_expiracao_domain180_registry(self.connection)
+        ensure_p2_aprovacao_domain180_registry(self.connection)
+        ensure_p2_deficit_domain190_registry(self.connection)
+        ensure_p2_fechamento_domain190_registry(self.connection)
+        ensure_p2_ativacao_domain200_registry(self.connection)
+        ensure_p2_relatorio_domain200_registry(self.connection)
+        ensure_p2_upgrade_domain210_registry(self.connection)
+        ensure_p2_evento_domain210_registry(self.connection)
+        ensure_p2_bagagem_domain220_registry(self.connection)
+        ensure_p2_auditoria_domain220_registry(self.connection)
+        ensure_p2_metrica_domain230_registry(self.connection)
+        ensure_p2_relatorio_domain230_registry(self.connection)
+        ensure_p2_snooze_domain240_registry(self.connection)
+        ensure_p2_historico_domain240_registry(self.connection)
+        ensure_p2_conquista_domain250_registry(self.connection)
+        ensure_p2_historico_domain250_registry(self.connection)
+        ensure_p2_benchmark_domain260_registry(self.connection)
+        ensure_p2_log_domain260_registry(self.connection)
+        ensure_p2_rebaixamento_registry(self.connection)
+        ensure_p1_e2e_registry(self.connection)
+        ensure_p1_retomada_registry(self.connection)
+        ensure_p1_evidencia_registry(self.connection)
+        ensure_p1_scout_registry(self.connection)
+        ensure_p1_specialty_registry(self.connection)
+        ensure_p1_level_registry(self.connection)
+        ensure_p1_level_domain10_registry(self.connection)
+        ensure_p1_capacity_domain10_registry(self.connection)
+        ensure_p1_maintenance_registry(self.connection)
+        ensure_p1_upgrade_registry(self.connection)
+        ensure_p1_training_domain10_registry(self.connection)
+        ensure_p1_base_domain10_registry(self.connection)
+        ensure_p1_vacancy_registry(self.connection)
+        ensure_p1_contract_registry(self.connection)
+        ensure_p1_reserve_registry(self.connection)
+        ensure_p1_objective_registry(self.connection)
+        ensure_p1_tactics_registry(self.connection)
+        ensure_p1_lineup_registry(self.connection)
+        ensure_p1_hiring_registry(self.connection)
+        ensure_p1_sale_registry(self.connection)
+        ensure_p1_duel_registry(self.connection)
+        ensure_p1_map_registry(self.connection)
+        ensure_p1_pressure_registry(self.connection)
+        ensure_p1_xg_registry(self.connection)
+        ensure_p1_xa_registry(self.connection)
+        ensure_p1_substitution_registry(self.connection)
+        ensure_p1_possession_registry(self.connection)
+        ensure_p1_possession_domain09_registry(self.connection)
+        ensure_p1_finalization_registry(self.connection)
+        ensure_p1_finalization_domain09_registry(self.connection)
         self.connection.execute(
             'INSERT OR IGNORE INTO migration_audit(component,version,applied_at,content_hash) VALUES(?,?,?,?)',
             ('manager_career', 3, self._now(), 'manager-career-schema-v3'),
@@ -445,7 +939,12 @@ class ManagerService:
     def _eligible_clubs(self, country_ids: list[int], target_type: str, target_id: int) -> list[dict[str, Any]]:
         ids = list(dict.fromkeys(int(value) for value in country_ids))
         first = self.list_first_division_clubs([country_id for country_id in ids if self._first_division_source(country_id)]) if any(self._first_division_source(country_id) for country_id in ids) else []
-        rows = self.connection.execute("SELECT t.time_id AS club_id,t.pais_id AS origin_country_id,t.nome AS name FROM times t WHERE trim(COALESCE(t.nome,''))<>'' AND EXISTS (SELECT 1 FROM team_asset_links l WHERE l.time_id=t.time_id AND (l.crest_asset_id IS NOT NULL OR l.crest_mini_asset_id IS NOT NULL)) ORDER BY t.pais_id,t.time_id").fetchall()
+        try:
+            rows = self.connection.execute("SELECT t.time_id AS club_id,t.pais_id AS origin_country_id,t.nome AS name FROM times t WHERE trim(COALESCE(t.nome,''))<>'' AND EXISTS (SELECT 1 FROM team_asset_links l WHERE l.time_id=t.time_id AND (l.crest_asset_id IS NOT NULL OR l.crest_mini_asset_id IS NOT NULL)) ORDER BY t.pais_id,t.time_id").fetchall()
+        except sqlite3.OperationalError as error:
+            if 'team_asset_links' not in str(error):
+                raise
+            rows = self.connection.execute("SELECT time_id AS club_id,pais_id AS origin_country_id,nome AS name FROM times WHERE trim(COALESCE(nome,''))<>'' ORDER BY pais_id,time_id").fetchall()
         ranked_rows = sorted((dict(row) for row in rows), key=lambda row: (-self._club_overall(int(row['club_id'])), int(row['club_id'])))
         valid = {int(row['club_id']): {'club_id': int(row['club_id']), 'origin_country_id': int(row['origin_country_id']), 'name': row['name']} for row in rows}
         selected=[]; seen=set()
@@ -548,7 +1047,10 @@ class ManagerService:
             if country_id not in countries:
                 countries.append(country_id)
         if not countries:
-            raise ValueError('WORLD_COUNTRIES_REQUIRED')
+            if target_type == 'selection':
+                countries = [int(row[0]) for row in self.connection.execute('SELECT DISTINCT pais_id FROM times WHERE pais_id IS NOT NULL ORDER BY pais_id').fetchall()]
+            else:
+                raise ValueError('WORLD_COUNTRIES_REQUIRED')
         for country_id in countries:
             try:
                 exists = self.connection.execute('SELECT 1 FROM paises WHERE pais_id=?', (country_id,)).fetchone()
@@ -569,6 +1071,11 @@ class ManagerService:
                 self.connection.execute('INSERT INTO career_world_countries(career_id,country_id,country_name,country_code) VALUES(?,?,?,?)', (cid, country_id, country_name, self._country_details(country_id)[1]))
             if target_type == 'selection': self.connection.execute('INSERT INTO manager_selection_assignments(manager_id,career_id,selection_id,status,appointed_at) VALUES(?,?,?,?,?)', (mid, cid, target_id, 'ACTIVE', today))
             self.connection.execute('INSERT INTO manager_history(manager_id,club_id,event_type,event_date,payload) VALUES(?,?,?,?,?)', (mid, club_id, 'CAREER_STARTED', today, f'{target_type}:{target_id}'))
+        if target_type == 'club':
+            from engine.economy.staff_market import StaffMarketService
+            from engine.economy.sponsorships import SponsorshipService
+            StaffMarketService(self.connection).bootstrap_club(club_id)
+            SponsorshipService(self.connection).bootstrap_club(club_id)
         return {'manager_id': mid, 'career_id': cid, 'target_type': target_type, 'target_id': target_id, 'current_club_id': club_id, 'engine_version': self.ENGINE_VERSION, 'selected_country_ids': countries, 'combined_league_name': ' + '.join(country_names), 'starting_division': parallel_league.get('target_division') if parallel_league.get('mode') == 'NATIONAL' else 4, 'world_mode': parallel_league.get('mode'), 'parallel_league': parallel_league}
 
     def set_preference(self, manager_id: int, key: str, value: Any) -> None:

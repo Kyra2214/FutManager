@@ -24,5 +24,5 @@ def test_temporary_state_file_and_memory_connection_are_allowed(tmp_path: Path):
 
     memory = sqlite3.connect(":memory:")
     service = ManagerService(memory)
-    assert service.connection.execute("SELECT version FROM schema_versions").fetchone()[0] == 2
+    assert service.connection.execute("SELECT version FROM schema_versions").fetchone()[0] == 3
     service.close()

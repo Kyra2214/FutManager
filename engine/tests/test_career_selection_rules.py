@@ -28,6 +28,17 @@ def test_single_country_preserves_national_flow(tmp_path):
     assert preview["preserved_national_competition"] is True
 
 
+def test_sql_pool_uses_highest_institutional_overall(tmp_path):
+    db = tmp_path / "game.db"
+    shutil.copyfile(STATE, db)
+    service = ManagerService(str(db))
+    selected = service._eligible_clubs([97], "club", 0)
+    assert len(selected) == 80
+    scores = [service._club_overall(item["club_id"]) for item in selected]
+    assert scores == sorted(scores, reverse=True)
+    assert all(item["name"] and item["club_id"] for item in selected)
+
+
 def test_catalog_exposes_named_supported_countries(tmp_path):
     db = tmp_path / "game.db"
     shutil.copyfile(STATE, db)

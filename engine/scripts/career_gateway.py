@@ -8,7 +8,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
+PACKAGE_PARENT = ROOT.parent if (ROOT / "core").exists() else ROOT
+sys.path.insert(0, str(PACKAGE_PARENT))
 
 from engine.manager.career import ManagerService
 from engine.economy.staff_market import DEPARTMENTS, StaffMarketService
@@ -43,6 +44,191 @@ from engine.core.p1_scope_contract import audit_p1_scopes, protect_p1_scope_muta
 from engine.core.p1_revocation_contract import audit_p1_revocations, protect_p1_revocation_mutation, read_p1_revocations, read_p1_revocation_state, persist_p1_revocation, validate_p1_revocation
 from engine.core.p1_mfa_contract import audit_p1_mfas, protect_p1_mfa_mutation, read_p1_mfas, read_p1_mfa_state, persist_p1_mfa, validate_p1_mfa
 from engine.core.p1_consent_contract import audit_p1_consents, protect_p1_consent_mutation, read_p1_consents, read_p1_consent_state, persist_p1_consent, validate_p1_consent
+from engine.core.p1_country_contract import audit_p1_countries, protect_p1_country_mutation, read_p1_countries, read_p1_country_state, persist_p1_country, validate_p1_country
+from engine.core.p1_city_contract import audit_p1_cities, protect_p1_city_mutation, read_p1_cities, read_p1_city_state, persist_p1_city, validate_p1_city
+from engine.core.p1_identity_contract import audit_p1_identities, protect_p1_identity_mutation, read_p1_identities, read_p1_identity_state, persist_p1_identity, validate_p1_identity
+from engine.core.p1_profile_contract import audit_p1_profiles, protect_p1_profile_mutation, read_p1_profiles, read_p1_profile_state, persist_p1_profile, validate_p1_profile
+from engine.core.p1_preferences_contract import audit_p1_preferences, protect_p1_preferences_mutation, read_p1_preferences, read_p1_preferences_state, persist_p1_preferences, validate_p1_preferences
+from engine.core.p1_stadium_contract import audit_p1_stadiums, audit_p1_stadium_flow, protect_p1_stadium_mutation, read_p1_stadiums, read_p1_stadium_state, persist_p1_stadium, validate_p1_stadium
+from engine.core.p1_throughput_contract import audit_p1_throughputs, audit_p1_throughput_flow, protect_p1_throughput_mutation, read_p1_throughputs, read_p1_throughput_state, persist_p1_throughput, validate_p1_throughput
+from engine.core.p1_stadium_contract import audit_p1_stadiums, audit_p1_stadium_flow, protect_p1_stadium_mutation, read_p1_stadiums, read_p1_stadium_state, persist_p1_stadium, validate_p1_stadium
+from engine.core.p1_stadium_contract import audit_p1_stadiums, audit_p1_stadium_flow, protect_p1_stadium_mutation, read_p1_stadiums, read_p1_stadium_state, persist_p1_stadium, validate_p1_stadium
+from engine.core.p1_stadium_contract import audit_p1_stadiums, audit_p1_stadium_flow, protect_p1_stadium_mutation, read_p1_stadiums, read_p1_stadium_state, persist_p1_stadium, validate_p1_stadium
+from engine.core.p1_stadium_contract import audit_p1_stadiums, audit_p1_stadium_flow, protect_p1_stadium_mutation, read_p1_stadiums, read_p1_stadium_state, persist_p1_stadium, validate_p1_stadium
+from engine.core.p1_stadium_contract import audit_p1_stadiums, audit_p1_stadium_flow, protect_p1_stadium_mutation, read_p1_stadiums, read_p1_stadium_state, persist_p1_stadium, validate_p1_stadium
+from engine.core.p1_stadium_contract import audit_p1_stadiums, audit_p1_stadium_flow, protect_p1_stadium_mutation, read_p1_stadiums, read_p1_stadium_state, persist_p1_stadium, validate_p1_stadium
+from engine.core.p1_stadium_contract import audit_p1_stadiums, audit_p1_stadium_flow, protect_p1_stadium_mutation, read_p1_stadiums, read_p1_stadium_state, persist_p1_stadium, validate_p1_stadium
+from engine.core.p1_stadium_capacity_contract import audit_p1_stadium_capacitys, protect_p1_stadium_capacity_mutation, read_p1_stadium_capacitys, read_p1_stadium_capacity_state, persist_p1_stadium_capacity, validate_p1_stadium_capacity
+from engine.core.p1_stadium_components_contract import audit_p1_stadium_componentss, protect_p1_stadium_components_mutation, read_p1_stadium_componentss, read_p1_stadium_components_state, persist_p1_stadium_components, validate_p1_stadium_components
+from engine.core.p1_stadium_infrastructure_contract import audit_p1_stadium_infrastructures, protect_p1_stadium_infrastructure_mutation, read_p1_stadium_infrastructures, read_p1_stadium_infrastructure_state, persist_p1_stadium_infrastructure, validate_p1_stadium_infrastructure
+from engine.core.p1_position_contract import audit_p1_positions, protect_p1_position_mutation, read_p1_positions, read_p1_position_state, persist_p1_position, validate_p1_position
+from engine.core.p1_attribute_contract import audit_p1_attributes, protect_p1_attribute_mutation, read_p1_attributes, read_p1_attribute_state, persist_p1_attribute, validate_p1_attribute
+from engine.core.p1_potential_contract import audit_p1_potentials, protect_p1_potential_mutation, read_p1_potentials, read_p1_potential_state, persist_p1_potential, validate_p1_potential
+from engine.core.p1_age_contract import audit_p1_ages, protect_p1_age_mutation, read_p1_ages, read_p1_age_state, persist_p1_age, validate_p1_age
+from engine.core.p1_alias_contract import audit_p1_aliass, protect_p1_alias_mutation, read_p1_aliass, read_p1_alias_state, persist_p1_alias, validate_p1_alias
+from engine.core.p1_nationality_contract import audit_p1_nationalitys, protect_p1_nationality_mutation, read_p1_nationalitys, read_p1_nationality_state, persist_p1_nationality, validate_p1_nationality
+from engine.core.p1_history_contract import audit_p1_historys, protect_p1_history_mutation, read_p1_historys, read_p1_history_state, persist_p1_history, validate_p1_history
+from engine.core.p1_callup_contract import audit_p1_callups, protect_p1_callup_mutation, read_p1_callups, read_p1_callup_state, persist_p1_callup, validate_p1_callup
+from engine.core.p1_ranking_contract import audit_p1_rankings, protect_p1_ranking_mutation, read_p1_rankings, read_p1_ranking_state, persist_p1_ranking, validate_p1_ranking
+from engine.core.p1_fifa_date_contract import audit_p1_fifa_dates, protect_p1_fifa_date_mutation, read_p1_fifa_dates, read_p1_fifa_date_state, persist_p1_fifa_date, validate_p1_fifa_date
+from engine.core.p1_comissao_operacional_contract import audit_p1_comissao_operacionals, protect_p1_comissao_operacional_mutation, read_p1_comissao_operacionals, read_p1_comissao_operacional_state, persist_p1_comissao_operacional, validate_p1_comissao_operacional
+from engine.core.p1_commission_contract import audit_p1_commissions, protect_p1_commission_mutation, read_p1_commissions, read_p1_commission_state, persist_p1_commission, validate_p1_commission
+from engine.core.p1_privacidade_contract import audit_p1_privacidades, protect_p1_privacidade_mutation, read_p1_privacidades, read_p1_privacidade_state, persist_p1_privacidade, validate_p1_privacidade
+from engine.core.p1_auditoria_contract import audit_p1_auditorias, protect_p1_auditoria_mutation, read_p1_auditorias, read_p1_auditoria_state, persist_p1_auditoria, validate_p1_auditoria
+from engine.core.p1_replay_contract import audit_p1_replays, protect_p1_replay_mutation, read_p1_replays, read_p1_replay_state, persist_p1_replay, validate_p1_replay
+from engine.core.p2_checkpoint_contract import audit_p2_checkpoints, protect_p2_checkpoint_mutation, read_p2_checkpoints, read_p2_checkpoint_state, persist_p2_checkpoint, validate_p2_checkpoint
+from engine.core.p1_unitario_contract import audit_p1_unitarios, protect_p1_unitario_mutation, read_p1_unitarios, read_p1_unitario_state, persist_p1_unitario, validate_p1_unitario
+from engine.core.p1_formulario_contract import audit_p1_formularios, protect_p1_formulario_mutation, read_p1_formularios, read_p1_formulario_state, persist_p1_formulario, validate_p1_formulario
+from engine.core.p1_tatica_contract import audit_p1_taticas, protect_p1_tatica_mutation, read_p1_taticas, read_p1_tatica_state, persist_p1_tatica, validate_p1_tatica
+from engine.core.p1_tabela_contract import audit_p1_tabelas, protect_p1_tabela_mutation, read_p1_tabelas, read_p1_tabela_state, persist_p1_tabela, validate_p1_tabela
+from engine.core.p1_navegacao_contract import audit_p1_navegacaos, protect_p1_navegacao_mutation, read_p1_navegacaos, read_p1_navegacao_state, persist_p1_navegacao, validate_p1_navegacao
+from engine.core.p1_legado_contract import audit_p1_legados, protect_p1_legado_mutation, read_p1_legados, read_p1_legado_state, persist_p1_legado, validate_p1_legado
+from engine.core.p1_aposentadoria_contract import audit_p1_aposentadorias, protect_p1_aposentadoria_mutation, read_p1_aposentadorias, read_p1_aposentadoria_state, persist_p1_aposentadoria, validate_p1_aposentadoria
+from engine.core.p1_troca_contract import audit_p1_trocas, protect_p1_troca_mutation, read_p1_trocas, read_p1_troca_state, persist_p1_troca, validate_p1_troca
+from engine.core.p1_oferta_contract import audit_p1_ofertas, protect_p1_oferta_mutation, read_p1_ofertas, read_p1_oferta_state, persist_p1_oferta, validate_p1_oferta
+from engine.core.p1_experiencia_contract import audit_p1_experiencias, protect_p1_experiencia_mutation, read_p1_experiencias, read_p1_experiencia_state, persist_p1_experiencia, validate_p1_experiencia
+from engine.core.p1_objetivo_contract import audit_p1_objetivos, protect_p1_objetivo_mutation, read_p1_objetivos, read_p1_objetivo_state, persist_p1_objetivo, validate_p1_objetivo
+from engine.core.p1_preferencia_contract import audit_p1_preferencias, protect_p1_preferencia_mutation, read_p1_preferencias, read_p1_preferencia_state, persist_p1_preferencia, validate_p1_preferencia
+from engine.core.p1_record_contract import audit_p1_records, protect_p1_record_mutation, read_p1_records, read_p1_record_state, persist_p1_record, validate_p1_record
+from engine.core.p1_tatica_contract import audit_p1_taticas, protect_p1_tatica_mutation, read_p1_taticas, read_p1_tatica_state, persist_p1_tatica, validate_p1_tatica
+from engine.core.p1_tatica_contract import audit_p1_taticas, protect_p1_tatica_mutation, read_p1_taticas, read_p1_tatica_state, persist_p1_tatica, validate_p1_tatica
+from engine.core.p1_severidade_contract import audit_p1_severidades, protect_p1_severidade_mutation, read_p1_severidades, read_p1_severidade_state, persist_p1_severidade, validate_p1_severidade
+from engine.core.p1_feed_contract import audit_p1_feeds, protect_p1_feed_mutation, read_p1_feeds, read_p1_feed_state, persist_p1_feed, validate_p1_feed
+from engine.core.p1_evento_contract import audit_p1_eventos, protect_p1_evento_mutation, read_p1_eventos, read_p1_evento_state, persist_p1_evento, validate_p1_evento
+from engine.core.p1_prioridade_contract import audit_p1_prioridades, protect_p1_prioridade_mutation, read_p1_prioridades, read_p1_prioridade_state, persist_p1_prioridade, validate_p1_prioridade
+from engine.core.p1_retomada_contract import audit_p1_retomadas, protect_p1_retomada_mutation, read_p1_retomadas, read_p1_retomada_state, persist_p1_retomada, validate_p1_retomada
+from engine.core.p1_falha_contract import audit_p1_falhas, protect_p1_falha_mutation, read_p1_falhas, read_p1_falha_state, persist_p1_falha, validate_p1_falha
+from engine.core.p1_checkpoint_contract import audit_p1_checkpoints, protect_p1_checkpoint_mutation, read_p1_checkpoints, read_p1_checkpoint_state, persist_p1_checkpoint, validate_p1_checkpoint
+from engine.core.p1_seed_contract import audit_p1_seeds, protect_p1_seed_mutation, read_p1_seeds, read_p1_seed_state, persist_p1_seed, validate_p1_seed
+from engine.core.p1_lote_contract import audit_p1_lotes, protect_p1_lote_mutation, read_p1_lotes, read_p1_lote_state, persist_p1_lote, validate_p1_lote
+from engine.core.p1_security_followup_contract import audit_p1_security_followups, protect_p1_security_followup_mutation, read_p1_security_followups, read_p1_security_followup_state, persist_p1_security_followup, validate_p1_security_followup
+from engine.core.p1_descanso_operacional_contract import audit_p1_descanso_operacionals, protect_p1_descanso_operacional_mutation, read_p1_descanso_operacionals, read_p1_descanso_operacional_state, persist_p1_descanso_operacional, validate_p1_descanso_operacional
+from engine.core.p1_seguranca_domain24_contract import audit_p1_seguranca_domain24s, protect_p1_seguranca_domain24_mutation, read_p1_seguranca_domain24s, read_p1_seguranca_domain24_state, persist_p1_seguranca_domain24, validate_p1_seguranca_domain24
+from engine.core.p1_setor_contract import audit_p1_setors, protect_p1_setor_mutation, read_p1_setors, read_p1_setor_state, persist_p1_setor, validate_p1_setor
+from engine.core.p1_inventario_contract import audit_p1_inventarios, protect_p1_inventario_mutation, read_p1_inventarios, read_p1_inventario_state, persist_p1_inventario, validate_p1_inventario
+from engine.core.p1_bonus_patrocinio_contract import audit_p1_bonus_patrocinios, protect_p1_bonus_patrocinio_mutation, read_p1_bonus_patrocinios, read_p1_bonus_patrocinio_state, persist_p1_bonus_patrocinio, validate_p1_bonus_patrocinio
+from engine.core.p1_missao_contract import audit_p1_missoes, protect_p1_missao_mutation, read_p1_missoes, read_p1_missao_state, persist_p1_missao, validate_p1_missao
+from engine.core.p1_estrela_contract import audit_p1_estrelas, protect_p1_estrela_mutation, read_p1_estrelas, read_p1_estrela_state, persist_p1_estrela, validate_p1_estrela
+from engine.core.p1_projecao_contract import audit_p1_projecaos, protect_p1_projecao_mutation, read_p1_projecaos, read_p1_projecao_state, persist_p1_projecao, validate_p1_projecao
+from engine.core.p1_orcamento_operacional_contract import audit_p1_orcamento_operacionals, protect_p1_orcamento_operacional_mutation, read_p1_orcamento_operacionals, read_p1_orcamento_operacional_state, persist_p1_orcamento_operacional, validate_p1_orcamento_operacional
+from engine.core.p1_ledger_contract import audit_p1_ledgers, protect_p1_ledger_mutation, read_p1_ledgers, read_p1_ledger_state, persist_p1_ledger, validate_p1_ledger
+from engine.core.p1_bonus_operacional_contract import audit_p1_bonus_operacionals, protect_p1_bonus_operacional_mutation, read_p1_bonus_operacionals, read_p1_bonus_operacional_state, persist_p1_bonus_operacional, validate_p1_bonus_operacional
+from engine.core.p1_despesa_contract import audit_p1_despesas, protect_p1_despesa_mutation, read_p1_despesas, read_p1_despesa_state, persist_p1_despesa, validate_p1_despesa
+from engine.core.p1_receita_contract import audit_p1_receitas, protect_p1_receita_mutation, read_p1_receitas, read_p1_receita_state, persist_p1_receita, validate_p1_receita
+from engine.core.p1_relatorio_contract import audit_p1_relatorios, protect_p1_relatorio_mutation, read_p1_relatorios, read_p1_relatorio_state, persist_p1_relatorio, validate_p1_relatorio
+from engine.core.p1_comparacao_contract import audit_p1_comparacaos, protect_p1_comparacao_mutation, read_p1_comparacaos, read_p1_comparacao_state, persist_p1_comparacao, validate_p1_comparacao
+from engine.core.p1_evidencia_contract import audit_p1_evidencias, protect_p1_evidencia_mutation, read_p1_evidencias, read_p1_evidencia_state, persist_p1_evidencia, validate_p1_evidencia
+from engine.core.p1_registration_contract import audit_p1_registrations, protect_p1_registration_mutation, read_p1_registrations, read_p1_registration_state, persist_p1_registration, validate_p1_registration
+from engine.core.p1_tatica_contract import audit_p1_taticas, protect_p1_tatica_mutation, read_p1_taticas, read_p1_tatica_state, persist_p1_tatica, validate_p1_tatica
+from engine.core.p1_posicao_contract import audit_p1_posicaos, protect_p1_posicao_mutation, read_p1_posicaos, read_p1_posicao_state, persist_p1_posicao, validate_p1_posicao
+from engine.core.p1_regiao_contract import audit_p1_regiaos, protect_p1_regiao_mutation, read_p1_regiaos, read_p1_regiao_state, persist_p1_regiao, validate_p1_regiao
+from engine.core.p1_registro_adicional_contract import audit_p1_registro_adicionals, protect_p1_registro_adicional_mutation, read_p1_registro_adicionals, read_p1_registro_adicional_state, persist_p1_registro_adicional, validate_p1_registro_adicional
+from engine.core.p1_opcao_contract import audit_p1_opcaos, protect_p1_opcao_mutation, read_p1_opcaos, read_p1_opcao_state, persist_p1_opcao, validate_p1_opcao
+from engine.core.p1_emprestimo_contract import audit_p1_emprestimos, protect_p1_emprestimo_mutation, read_p1_emprestimos, read_p1_emprestimo_state, persist_p1_emprestimo, validate_p1_emprestimo
+from engine.core.p1_valor_contract import audit_p1_valors, protect_p1_valor_mutation, read_p1_valors, read_p1_valor_state, persist_p1_valor, validate_p1_valor
+from engine.core.p1_contraproposta_contract import audit_p1_contrapropostas, protect_p1_contraproposta_mutation, read_p1_contrapropostas, read_p1_contraproposta_state, persist_p1_contraproposta, validate_p1_contraproposta
+from engine.core.p1_proposta_contract import audit_p1_propostas, protect_p1_proposta_mutation, read_p1_propostas, read_p1_proposta_state, persist_p1_proposta, validate_p1_proposta
+from engine.core.p1_potencial_contract import audit_p1_potencials, protect_p1_potencial_mutation, read_p1_potencials, read_p1_potencial_state, persist_p1_potencial, validate_p1_potencial
+from engine.core.p1_atributo_contract import audit_p1_atributos, protect_p1_atributo_mutation, read_p1_atributos, read_p1_atributo_state, persist_p1_atributo, validate_p1_atributo
+from engine.core.p1_tatica_contract import audit_p1_taticas, protect_p1_tatica_mutation, read_p1_taticas, read_p1_tatica_state, persist_p1_tatica, validate_p1_tatica
+from engine.core.p1_descanso_contract import audit_p1_descansos, protect_p1_descanso_mutation, read_p1_descansos, read_p1_descanso_state, persist_p1_descanso, validate_p1_descanso
+from engine.core.p1_intensidade_contract import audit_p1_intensidades, protect_p1_intensidade_mutation, read_p1_intensidades, read_p1_intensidade_state, persist_p1_intensidade, validate_p1_intensidade
+from engine.core.p1_objetivo_operacional_contract import audit_p1_objetivo_operacionals, protect_p1_objetivo_operacional_mutation, read_p1_objetivo_operacionals, read_p1_objetivo_operacional_state, persist_p1_objetivo_operacional, validate_p1_objetivo_operacional
+from engine.core.p1_suspensao_contract import audit_p1_suspensaos, protect_p1_suspensao_mutation, read_p1_suspensaos, read_p1_suspensao_state, persist_p1_suspensao, validate_p1_suspensao
+from engine.core.p1_level_domain10_contract import audit_p1_levels, protect_p1_level_domain10_mutation, read_p1_levels, read_p1_level_domain10_state, persist_p1_level, validate_p1_level
+from engine.core.p1_risco_contract import audit_p1_riscos, protect_p1_risco_mutation, read_p1_riscos, read_p1_risco_state, persist_p1_risco, validate_p1_risco
+from engine.core.p1_retorno_contract import audit_p1_retornos, protect_p1_retorno_mutation, read_p1_retornos, read_p1_retorno_state, persist_p1_retorno, validate_p1_retorno
+from engine.core.p1_fisioterapia_contract import audit_p1_fisioterapias, protect_p1_fisioterapia_mutation, read_p1_fisioterapias, read_p1_fisioterapia_state, persist_p1_fisioterapia, validate_p1_fisioterapia
+from engine.core.p1_tratamento_contract import audit_p1_tratamentos, protect_p1_tratamento_mutation, read_p1_tratamentos, read_p1_tratamento_state, persist_p1_tratamento, validate_p1_tratamento
+from engine.core.p1_level_domain10_contract import audit_p1_levels, protect_p1_level_domain10_mutation, read_p1_levels, read_p1_level_domain10_state, persist_p1_level, validate_p1_level
+from engine.core.p1_minutos_contract import audit_p1_minutoss, protect_p1_minutos_mutation, read_p1_minutoss, read_p1_minutos_state, persist_p1_minutos, validate_p1_minutos
+from engine.core.p1_educacao_contract import audit_p1_educacaos, protect_p1_educacao_mutation, read_p1_educacaos, read_p1_educacao_state, persist_p1_educacao, validate_p1_educacao
+from engine.core.p1_bolsa_contract import audit_p1_bolsas, protect_p1_bolsa_mutation, read_p1_bolsas, read_p1_bolsa_state, persist_p1_bolsa, validate_p1_bolsa
+from engine.core.p1_promocao_contract import audit_p1_promocaos, protect_p1_promocao_mutation, read_p1_promocaos, read_p1_promocao_state, persist_p1_promocao, validate_p1_promocao
+from engine.core.p1_desenvolvimento_contract import audit_p1_desenvolvimentos, protect_p1_desenvolvimento_mutation, read_p1_desenvolvimentos, read_p1_desenvolvimento_state, persist_p1_desenvolvimento, validate_p1_desenvolvimento
+from engine.core.p1_captacao_contract import audit_p1_captacaos, protect_p1_captacao_mutation, read_p1_captacaos, read_p1_captacao_state, persist_p1_captacao, validate_p1_captacao
+from engine.core.p1_category_domain10_contract import audit_p1_category_domain10s, protect_p1_category_domain10_mutation, read_p1_category_domain10s, read_p1_category_domain10_state, persist_p1_category_domain10, validate_p1_category_domain10
+from engine.core.p1_medicine_contract import audit_p1_medicines, protect_p1_medicine_mutation, read_p1_medicines, read_p1_medicine_state, persist_p1_medicine, validate_p1_medicine
+from engine.core.p1_level_domain10_contract import audit_p1_levels, protect_p1_level_domain10_mutation, read_p1_levels, read_p1_level_domain10_state, persist_p1_level, validate_p1_level
+from engine.core.p1_level_domain10_contract import audit_p1_levels, protect_p1_level_domain10_mutation, read_p1_levels, read_p1_level_domain10_state, persist_p1_level, validate_p1_level
+from engine.core.p1_level_domain10_contract import audit_p1_levels, protect_p1_level_domain10_mutation, read_p1_levels, read_p1_level_domain10_state, persist_p1_level, validate_p1_level
+from engine.core.p1_level_domain10_contract import audit_p1_levels, protect_p1_level_domain10_mutation, read_p1_levels, read_p1_level_domain10_state, persist_p1_level, validate_p1_level
+from engine.core.p1_level_domain10_contract import audit_p1_levels, protect_p1_level_domain10_mutation, read_p1_levels, read_p1_level_domain10_state, persist_p1_level, validate_p1_level
+from engine.core.p1_level_domain10_contract import audit_p1_levels, protect_p1_level_domain10_mutation, read_p1_levels, read_p1_level_domain10_state, persist_p1_level, validate_p1_level
+from engine.core.p1_contract_contract import audit_p1_contracts, protect_p1_contract_mutation, read_p1_contracts, read_p1_contract_state, persist_p1_contract, validate_p1_contract
+from engine.core.p1_vacancy_contract import audit_p1_vacancys, protect_p1_vacancy_mutation, read_p1_vacancys, read_p1_vacancy_state, persist_p1_vacancy, validate_p1_vacancy
+from engine.core.p1_level_contract import audit_p1_levels, protect_p1_level_mutation, read_p1_levels, read_p1_level_state, persist_p1_level, validate_p1_level
+from engine.core.p1_specialty_contract import audit_p1_specialtys, protect_p1_specialty_mutation, read_p1_specialtys, read_p1_specialty_state, persist_p1_specialty, validate_p1_specialty
+from engine.core.p1_scout_contract import audit_p1_scouts, protect_p1_scout_mutation, read_p1_scouts, read_p1_scout_state, persist_p1_scout, validate_p1_scout
+from engine.core.p1_doctor_contract import audit_p1_doctors, protect_p1_doctor_mutation, read_p1_doctors, read_p1_doctor_state, persist_p1_doctor, validate_p1_doctor
+from engine.core.p1_assistant_contract import audit_p1_assistants, protect_p1_assistant_mutation, read_p1_assistants, read_p1_assistant_state, persist_p1_assistant, validate_p1_assistant
+from engine.core.p1_option_contract import audit_p1_options, protect_p1_option_mutation, read_p1_options, read_p1_option_state, persist_p1_option, validate_p1_option
+from engine.core.p1_loan_contract import audit_p1_loans, protect_p1_loan_mutation, read_p1_loans, read_p1_loan_state, persist_p1_loan, validate_p1_loan
+from engine.core.p1_termination_contract import audit_p1_terminations, protect_p1_termination_mutation, read_p1_terminations, read_p1_termination_state, persist_p1_termination, validate_p1_termination
+from engine.core.p1_renewal_contract import audit_p1_renewals, protect_p1_renewal_mutation, read_p1_renewals, read_p1_renewal_state, persist_p1_renewal, validate_p1_renewal
+from engine.core.p1_clause_contract import audit_p1_clauses, protect_p1_clause_mutation, read_p1_clauses, read_p1_clause_state, persist_p1_clause, validate_p1_clause
+from engine.core.p1_bonus_contract import audit_p1_bonuss, protect_p1_bonus_mutation, read_p1_bonuss, read_p1_bonus_state, persist_p1_bonus, validate_p1_bonus
+from engine.core.p1_duration_contract import audit_p1_durations, protect_p1_duration_mutation, read_p1_durations, read_p1_duration_state, persist_p1_duration, validate_p1_duration
+from engine.core.p1_cohesion_contract import audit_p1_cohesions, protect_p1_cohesion_mutation, read_p1_cohesions, read_p1_cohesion_state, persist_p1_cohesion, validate_p1_cohesion
+from engine.core.p1_registration_contract import audit_p1_registrations, protect_p1_registration_mutation, read_p1_registrations, read_p1_registration_state, persist_p1_registration, validate_p1_registration
+from engine.core.p1_shirt_contract import audit_p1_shirts, protect_p1_shirt_mutation, read_p1_shirts, read_p1_shirt_state, persist_p1_shirt, validate_p1_shirt
+from engine.core.p1_minutes_contract import audit_p1_minutess, protect_p1_minutes_mutation, read_p1_minutess, read_p1_minutes_state, persist_p1_minutes, validate_p1_minutes
+from engine.core.p1_promise_contract import audit_p1_promises, protect_p1_promise_mutation, read_p1_promises, read_p1_promise_state, persist_p1_promise, validate_p1_promise
+from engine.core.p1_leadership_contract import audit_p1_leaderships, protect_p1_leadership_mutation, read_p1_leaderships, read_p1_leadership_state, persist_p1_leadership, validate_p1_leadership
+from engine.core.p1_reserve_contract import audit_p1_reserves, protect_p1_reserve_mutation, read_p1_reserves, read_p1_reserve_state, persist_p1_reserve, validate_p1_reserve
+from engine.core.p1_objective_contract import audit_p1_objectives, protect_p1_objective_mutation, read_p1_objectives, read_p1_objective_state, persist_p1_objective, validate_p1_objective
+from engine.core.p1_budget_contract import audit_p1_budgets, protect_p1_budget_mutation, read_p1_budgets, read_p1_budget_state, persist_p1_budget, validate_p1_budget
+from engine.core.p1_tactics_contract import audit_p1_tacticss, protect_p1_tactics_mutation, read_p1_tacticss, read_p1_tactics_state, persist_p1_tactics, validate_p1_tactics
+from engine.core.p1_training_contract import audit_p1_trainings, protect_p1_training_mutation, read_p1_trainings, read_p1_training_state, persist_p1_training, validate_p1_training
+from engine.core.p1_lineup_contract import audit_p1_lineups, protect_p1_lineup_mutation, read_p1_lineups, read_p1_lineup_state, persist_p1_lineup, validate_p1_lineup
+from engine.core.p1_sale_contract import audit_p1_sales, protect_p1_sale_mutation, read_p1_sales, read_p1_sale_state, persist_p1_sale, validate_p1_sale
+from engine.core.p1_hiring_contract import audit_p1_hirings, protect_p1_hiring_mutation, read_p1_hirings, read_p1_hiring_state, persist_p1_hiring, validate_p1_hiring
+from engine.core.p1_pass_contract import audit_p1_passs, protect_p1_pass_mutation, read_p1_passs, read_p1_pass_state, persist_p1_pass, validate_p1_pass
+from engine.core.p1_finalization_domain09_contract import audit_p1_finalization_domain09s, protect_p1_finalization_domain09_mutation, read_p1_finalization_domain09s, read_p1_finalization_domain09_state, persist_p1_finalization_domain09, validate_p1_finalization_domain09
+from engine.core.p1_map_contract import audit_p1_maps, protect_p1_map_mutation, read_p1_maps, read_p1_map_state, persist_p1_map, validate_p1_map
+from engine.core.p1_pressure_contract import audit_p1_pressures, protect_p1_pressure_mutation, read_p1_pressures, read_p1_pressure_state, persist_p1_pressure, validate_p1_pressure
+from engine.core.p1_duel_contract import audit_p1_duels, protect_p1_duel_mutation, read_p1_duels, read_p1_duel_state, persist_p1_duel, validate_p1_duel
+from engine.core.p1_possession_domain09_contract import audit_p1_possession_domain09s, protect_p1_possession_domain09_mutation, read_p1_possession_domain09s, read_p1_possession_domain09_state, persist_p1_possession_domain09, validate_p1_possession_domain09
+from engine.core.p1_xa_contract import audit_p1_xas, protect_p1_xa_mutation, read_p1_xas, read_p1_xa_state, persist_p1_xa, validate_p1_xa
+from engine.core.p1_substitution_contract import audit_p1_substitutions, protect_p1_substitution_mutation, read_p1_substitutions, read_p1_substitution_state, persist_p1_substitution, validate_p1_substitution
+from engine.core.p1_xg_contract import audit_p1_xgs, protect_p1_xg_mutation, read_p1_xgs, read_p1_xg_state, persist_p1_xg, validate_p1_xg
+from engine.core.p1_finalization_contract import audit_p1_finalizations, protect_p1_finalization_mutation, read_p1_finalizations, read_p1_finalization_state, persist_p1_finalization, validate_p1_finalization
+from engine.core.p1_possession_contract import audit_p1_possessions, protect_p1_possession_mutation, read_p1_possessions, read_p1_possession_state, persist_p1_possession, validate_p1_possession
+from engine.core.p1_score_contract import audit_p1_scores, protect_p1_score_mutation, read_p1_scores, read_p1_score_state, persist_p1_score, validate_p1_score
+from engine.core.p1_event_contract import audit_p1_events, protect_p1_event_mutation, read_p1_events, read_p1_event_state, persist_p1_event, validate_p1_event
+from engine.core.p1_tactic_contract import audit_p1_tactics, protect_p1_tactic_mutation, read_p1_tactics, read_p1_tactic_state, persist_p1_tactic, validate_p1_tactic
+from engine.core.p1_security_contract import audit_p1_securitys, protect_p1_security_mutation, read_p1_securitys, read_p1_security_state, persist_p1_security, validate_p1_security
+from engine.core.p1_climate_contract import audit_p1_climates, protect_p1_climate_mutation, read_p1_climates, read_p1_climate_state, persist_p1_climate, validate_p1_climate
+from engine.core.p1_timezone_contract import audit_p1_timezones, protect_p1_timezone_mutation, read_p1_timezones, read_p1_timezone_state, persist_p1_timezone, validate_p1_timezone
+from engine.core.p1_reschedule_contract import audit_p1_reschedules, protect_p1_reschedule_mutation, read_p1_reschedules, read_p1_reschedule_state, persist_p1_reschedule, validate_p1_reschedule
+from engine.core.p1_conflict_contract import audit_p1_conflicts, protect_p1_conflict_mutation, read_p1_conflicts, read_p1_conflict_state, persist_p1_conflict, validate_p1_conflict
+from engine.core.p1_window_contract import audit_p1_windows, protect_p1_window_mutation, read_p1_windows, read_p1_window_state, persist_p1_window, validate_p1_window
+from engine.core.p1_holiday_contract import audit_p1_holidays, protect_p1_holiday_mutation, read_p1_holidays, read_p1_holiday_state, persist_p1_holiday, validate_p1_holiday
+from engine.core.p1_prize_contract import audit_p1_prizes, protect_p1_prize_mutation, read_p1_prizes, read_p1_prize_state, persist_p1_prize, validate_p1_prize
+from engine.core.p1_record_domain08_contract import audit_p1_record_domain08s, protect_p1_record_domain08_mutation, read_p1_record_domain08s, read_p1_record_domain08_state, persist_p1_record_domain08, validate_p1_record_domain08
+from engine.core.p1_coefficient_contract import audit_p1_coefficients, protect_p1_coefficient_mutation, read_p1_coefficients, read_p1_coefficient_state, persist_p1_coefficient, validate_p1_coefficient
+from engine.core.p1_draw_domain08_contract import audit_p1_draw_domain08s, protect_p1_draw_domain08_mutation, read_p1_draw_domain08s, read_p1_draw_domain08_state, persist_p1_draw_domain08, validate_p1_draw_domain08
+from engine.core.p1_knockout_contract import audit_p1_knockouts, protect_p1_knockout_mutation, read_p1_knockouts, read_p1_knockout_state, persist_p1_knockout, validate_p1_knockout
+from engine.core.p1_group_contract import audit_p1_groups, protect_p1_group_mutation, read_p1_groups, read_p1_group_state, persist_p1_group, validate_p1_group
+from engine.core.p1_pot_contract import audit_p1_pots, protect_p1_pot_mutation, read_p1_pots, read_p1_pot_state, persist_p1_pot, validate_p1_pot
+from engine.core.p1_promotion_domain08_contract import audit_p1_promotion_domain08s, protect_p1_promotion_domain08_mutation, read_p1_promotion_domain08s, read_p1_promotion_domain08_state, persist_p1_promotion_domain08, validate_p1_promotion_domain08
+from engine.core.p1_table_domain08_contract import audit_p1_table_domain08s, protect_p1_table_domain08_mutation, read_p1_table_domain08s, read_p1_table_domain08_state, persist_p1_table_domain08, validate_p1_table_domain08
+from engine.core.p1_round_domain08_contract import audit_p1_round_domain08s, protect_p1_round_domain08_mutation, read_p1_round_domain08s, read_p1_round_domain08_state, persist_p1_round_domain08, validate_p1_round_domain08
+from engine.core.p1_fixture_contract import audit_p1_fixtures, protect_p1_fixture_mutation, read_p1_fixtures, read_p1_fixture_state, persist_p1_fixture, validate_p1_fixture
+from engine.core.p1_division_contract import audit_p1_divisions, protect_p1_division_mutation, read_p1_divisions, read_p1_division_state, persist_p1_division, validate_p1_division
+from engine.core.p1_draw_contract import audit_p1_draws, protect_p1_draw_mutation, read_p1_draws, read_p1_draw_state, persist_p1_draw, validate_p1_draw
+from engine.core.p1_membership_domain08_contract import audit_p1_membership_domain08s, protect_p1_membership_domain08_mutation, read_p1_membership_domain08s, read_p1_membership_domain08_state, persist_p1_membership_domain08, validate_p1_membership_domain08
+from engine.core.p1_record_contract import audit_p1_records, protect_p1_record_mutation, read_p1_records, read_p1_record_state, persist_p1_record, validate_p1_record
+from engine.core.p1_relegation_contract import audit_p1_relegations, protect_p1_relegation_mutation, read_p1_relegations, read_p1_relegation_state, persist_p1_relegation, validate_p1_relegation
+from engine.core.p1_promotion_contract import audit_p1_promotions, protect_p1_promotion_mutation, read_p1_promotions, read_p1_promotion_state, persist_p1_promotion, validate_p1_promotion
+from engine.core.p1_table_contract import audit_p1_tables, protect_p1_table_mutation, read_p1_tables, read_p1_table_state, persist_p1_table, validate_p1_table
+from engine.core.p1_round_contract import audit_p1_rounds, protect_p1_round_mutation, read_p1_rounds, read_p1_round_state, persist_p1_round, validate_p1_round
+from engine.core.p1_regulation_contract import audit_p1_regulations, protect_p1_regulation_mutation, read_p1_regulations, read_p1_regulation_state, persist_p1_regulation, validate_p1_regulation
+from engine.core.p1_membership_contract import audit_p1_memberships, protect_p1_membership_mutation, read_p1_memberships, read_p1_membership_state, persist_p1_membership, validate_p1_membership
+from engine.core.p1_calendar_contract import audit_p1_calendars, protect_p1_calendar_mutation, read_p1_calendars, read_p1_calendar_state, persist_p1_calendar, validate_p1_calendar
+from engine.core.p1_eligibility_contract import audit_p1_eligibilitys, protect_p1_eligibility_mutation, read_p1_eligibilitys, read_p1_eligibility_state, persist_p1_eligibility, validate_p1_eligibility
+from engine.core.p1_tournament_contract import audit_p1_tournaments, protect_p1_tournament_mutation, read_p1_tournaments, read_p1_tournament_state, persist_p1_tournament, validate_p1_tournament
+from engine.core.p1_commission_contract import audit_p1_commissions, protect_p1_commission_mutation, read_p1_commissions, read_p1_commission_state, persist_p1_commission, validate_p1_commission
 from engine.social.attendance import AttendanceService
 from engine.social.stadium_fans import SocialService
 from engine.stadiums.service import StadiumService
@@ -541,6 +727,1685 @@ def p1_consent_market(connection: sqlite3.Connection, action: str, payload: dict
     if action == 'p1_consent_audit': return audit_p1_consents(connection)
     raise ValueError('P1_CONSENT_ACTION_INVALID')
 
+def p1_preferences_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_preferences_contracts': return {'items': read_p1_preferences(connection), 'read_only': True}
+    if action == 'p1_preferences_state': return {'items': read_p1_preferences_state(connection, payload.get('preferences_key')), 'read_only': True}
+    if action == 'p1_preferences_validate': return validate_p1_preferences(connection, int(payload.get('item_id')))
+    if action == 'p1_preferences_persist': return persist_p1_preferences(connection, str(payload.get('preferences_key', '')), int(payload.get('preferences_id')), str(payload.get('preferences_name', '')), dict(payload.get('preferences_payload') or {}), payload.get('user_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_preferences_protect': return protect_p1_preferences_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_preferences_audit': return audit_p1_preferences(connection)
+    raise ValueError('P1_PREFERENCES_ACTION_INVALID')
+
+
+def p1_throughput_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_throughput_contracts': return {'items': read_p1_throughputs(connection), 'read_only': True}
+    if action == 'p1_throughput_state': return {'items': read_p1_throughput_state(connection, payload.get('throughput_key')), 'read_only': True}
+    if action == 'p1_throughput_validate': return validate_p1_throughput(connection, int(payload.get('item_id')))
+    if action == 'p1_throughput_persist': return persist_p1_throughput(connection, str(payload.get('throughput_key', '')), int(payload.get('throughput_id', 0)), str(payload.get('throughput_name', '')), dict(payload.get('throughput_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_throughput_protect': return protect_p1_throughput_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_throughput_audit': return audit_p1_throughputs(connection)
+    raise ValueError('P1_THROUGHPUT_ACTION_INVALID')
+
+def p1_stadium_capacity_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_stadium_capacity_contracts': return {'items': read_p1_stadium_capacitys(connection), 'read_only': True}
+    if action == 'p1_stadium_capacity_state': return {'items': read_p1_stadium_capacity_state(connection, payload.get('stadium_capacity_key')), 'read_only': True}
+    if action == 'p1_stadium_capacity_validate': return validate_p1_stadium_capacity(connection, int(payload.get('item_id')))
+    if action == 'p1_stadium_capacity_persist': return persist_p1_stadium_capacity(connection, str(payload.get('stadium_capacity_key', '')), int(payload.get('stadium_capacity_id', 0)), str(payload.get('stadium_capacity_name', '')), dict(payload.get('stadium_capacity_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_stadium_capacity_protect': return protect_p1_stadium_capacity_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_stadium_capacity_audit': return audit_p1_stadium_capacitys(connection)
+    raise ValueError('P1_STADIUM_CAPACITY_ACTION_INVALID')
+
+def p1_stadium_components_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_stadium_components_contracts': return {'items': read_p1_stadium_componentss(connection), 'read_only': True}
+    if action == 'p1_stadium_components_state': return {'items': read_p1_stadium_components_state(connection, payload.get('stadium_components_key')), 'read_only': True}
+    if action == 'p1_stadium_components_validate': return validate_p1_stadium_components(connection, int(payload.get('item_id')))
+    if action == 'p1_stadium_components_persist': return persist_p1_stadium_components(connection, str(payload.get('stadium_components_key', '')), int(payload.get('stadium_components_id', 0)), str(payload.get('stadium_components_name', '')), dict(payload.get('stadium_components_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_stadium_components_protect': return protect_p1_stadium_components_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_stadium_components_audit': return audit_p1_stadium_componentss(connection)
+    raise ValueError('P1_STADIUM_COMPONENTS_ACTION_INVALID')
+
+def p1_stadium_infrastructure_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_stadium_infrastructure_contracts': return {'items': read_p1_stadium_infrastructures(connection), 'read_only': True}
+    if action == 'p1_stadium_infrastructure_state': return {'items': read_p1_stadium_infrastructure_state(connection, payload.get('stadium_infrastructure_key')), 'read_only': True}
+    if action == 'p1_stadium_infrastructure_validate': return validate_p1_stadium_infrastructure(connection, int(payload.get('item_id')))
+    if action == 'p1_stadium_infrastructure_persist': return persist_p1_stadium_infrastructure(connection, str(payload.get('stadium_infrastructure_key', '')), int(payload.get('stadium_infrastructure_id', 0)), str(payload.get('stadium_infrastructure_name', '')), dict(payload.get('stadium_infrastructure_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_stadium_infrastructure_protect': return protect_p1_stadium_infrastructure_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_stadium_infrastructure_audit': return audit_p1_stadium_infrastructures(connection)
+    raise ValueError('P1_STADIUM_INFRASTRUCTURE_ACTION_INVALID')
+
+def p1_tournament_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_tournament_contracts': return {'items': read_p1_tournaments(connection), 'read_only': True}
+    if action == 'p1_tournament_state': return {'items': read_p1_tournament_state(connection, payload.get('tournament_key')), 'read_only': True}
+    if action == 'p1_tournament_validate': return validate_p1_tournament(connection, int(payload.get('item_id')))
+    if action == 'p1_tournament_persist': return persist_p1_tournament(connection, str(payload.get('tournament_key', '')), int(payload.get('tournament_id', 0)), str(payload.get('tournament_name', '')), dict(payload.get('tournament_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_tournament_protect': return protect_p1_tournament_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_tournament_audit': return audit_p1_tournaments(connection)
+    raise ValueError('P1_TOURNAMENT_ACTION_INVALID')
+
+def p1_eligibility_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_eligibility_contracts': return {'items': read_p1_eligibilitys(connection), 'read_only': True}
+    if action == 'p1_eligibility_state': return {'items': read_p1_eligibility_state(connection, payload.get('eligibility_key')), 'read_only': True}
+    if action == 'p1_eligibility_validate': return validate_p1_eligibility(connection, int(payload.get('item_id')))
+    if action == 'p1_eligibility_persist': return persist_p1_eligibility(connection, str(payload.get('eligibility_key', '')), int(payload.get('eligibility_id', 0)), str(payload.get('eligibility_name', '')), dict(payload.get('eligibility_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_eligibility_protect': return protect_p1_eligibility_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_eligibility_audit': return audit_p1_eligibilitys(connection)
+    raise ValueError('P1_ELIGIBILITY_ACTION_INVALID')
+
+def p1_calendar_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_calendar_contracts': return {'items': read_p1_calendars(connection), 'read_only': True}
+    if action == 'p1_calendar_state': return {'items': read_p1_calendar_state(connection, payload.get('calendar_key')), 'read_only': True}
+    if action == 'p1_calendar_validate': return validate_p1_calendar(connection, int(payload.get('item_id')))
+    if action == 'p1_calendar_persist': return persist_p1_calendar(connection, str(payload.get('calendar_key', '')), int(payload.get('calendar_id', 0)), str(payload.get('calendar_name', '')), dict(payload.get('calendar_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_calendar_protect': return protect_p1_calendar_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_calendar_audit': return audit_p1_calendars(connection)
+    raise ValueError('P1_CALENDAR_ACTION_INVALID')
+
+def p1_membership_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_membership_contracts': return {'items': read_p1_memberships(connection), 'read_only': True}
+    if action == 'p1_membership_state': return {'items': read_p1_membership_state(connection, payload.get('membership_key')), 'read_only': True}
+    if action == 'p1_membership_validate': return validate_p1_membership(connection, int(payload.get('item_id')))
+    if action == 'p1_membership_persist': return persist_p1_membership(connection, str(payload.get('membership_key', '')), int(payload.get('membership_id', 0)), str(payload.get('membership_name', '')), dict(payload.get('membership_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_membership_protect': return protect_p1_membership_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_membership_audit': return audit_p1_memberships(connection)
+    raise ValueError('P1_MEMBERSHIP_ACTION_INVALID')
+
+def p1_regulation_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_regulation_contracts': return {'items': read_p1_regulations(connection), 'read_only': True}
+    if action == 'p1_regulation_state': return {'items': read_p1_regulation_state(connection, payload.get('regulation_key')), 'read_only': True}
+    if action == 'p1_regulation_validate': return validate_p1_regulation(connection, int(payload.get('item_id')))
+    if action == 'p1_regulation_persist': return persist_p1_regulation(connection, str(payload.get('regulation_key', '')), int(payload.get('regulation_id', 0)), str(payload.get('regulation_name', '')), dict(payload.get('regulation_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_regulation_protect': return protect_p1_regulation_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_regulation_audit': return audit_p1_regulations(connection)
+    raise ValueError('P1_REGULATION_ACTION_INVALID')
+
+def p1_round_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_round_contracts': return {'items': read_p1_rounds(connection), 'read_only': True}
+    if action == 'p1_round_state': return {'items': read_p1_round_state(connection, payload.get('round_key')), 'read_only': True}
+    if action == 'p1_round_validate': return validate_p1_round(connection, int(payload.get('item_id')))
+    if action == 'p1_round_persist': return persist_p1_round(connection, str(payload.get('round_key', '')), int(payload.get('round_id', 0)), str(payload.get('round_name', '')), dict(payload.get('round_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_round_protect': return protect_p1_round_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_round_audit': return audit_p1_rounds(connection)
+    raise ValueError('P1_ROUND_ACTION_INVALID')
+
+def p1_table_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_table_contracts': return {'items': read_p1_tables(connection), 'read_only': True}
+    if action == 'p1_table_state': return {'items': read_p1_table_state(connection, payload.get('table_key')), 'read_only': True}
+    if action == 'p1_table_validate': return validate_p1_table(connection, int(payload.get('item_id')))
+    if action == 'p1_table_persist': return persist_p1_table(connection, str(payload.get('table_key', '')), int(payload.get('table_id', 0)), str(payload.get('table_name', '')), dict(payload.get('table_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_table_protect': return protect_p1_table_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_table_audit': return audit_p1_tables(connection)
+    raise ValueError('P1_TABLE_ACTION_INVALID')
+
+def p1_promotion_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_promotion_contracts': return {'items': read_p1_promotions(connection), 'read_only': True}
+    if action == 'p1_promotion_state': return {'items': read_p1_promotion_state(connection, payload.get('promotion_key')), 'read_only': True}
+    if action == 'p1_promotion_validate': return validate_p1_promotion(connection, int(payload.get('item_id')))
+    if action == 'p1_promotion_persist': return persist_p1_promotion(connection, str(payload.get('promotion_key', '')), int(payload.get('promotion_id', 0)), str(payload.get('promotion_name', '')), dict(payload.get('promotion_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_promotion_protect': return protect_p1_promotion_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_promotion_audit': return audit_p1_promotions(connection)
+    raise ValueError('P1_PROMOTION_ACTION_INVALID')
+
+def p1_relegation_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_relegation_contracts': return {'items': read_p1_relegations(connection), 'read_only': True}
+    if action == 'p1_relegation_state': return {'items': read_p1_relegation_state(connection, payload.get('relegation_key')), 'read_only': True}
+    if action == 'p1_relegation_validate': return validate_p1_relegation(connection, int(payload.get('item_id')))
+    if action == 'p1_relegation_persist': return persist_p1_relegation(connection, str(payload.get('relegation_key', '')), int(payload.get('relegation_id', 0)), str(payload.get('relegation_name', '')), dict(payload.get('relegation_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_relegation_protect': return protect_p1_relegation_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_relegation_audit': return audit_p1_relegations(connection)
+    raise ValueError('P1_RELEGATION_ACTION_INVALID')
+
+def p1_record_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_record_contracts': return {'items': read_p1_records(connection), 'read_only': True}
+    if action == 'p1_record_state': return {'items': read_p1_record_state(connection, payload.get('record_key')), 'read_only': True}
+    if action == 'p1_record_validate': return validate_p1_record(connection, int(payload.get('item_id')))
+    if action == 'p1_record_persist': return persist_p1_record(connection, str(payload.get('record_key', '')), int(payload.get('record_id', 0)), str(payload.get('record_name', '')), dict(payload.get('record_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_record_protect': return protect_p1_record_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_record_audit': return audit_p1_records(connection)
+    raise ValueError('P1_RECORD_ACTION_INVALID')
+
+def p1_membership_domain08_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_membership_domain08_contracts': return {'items': read_p1_membership_domain08s(connection), 'read_only': True}
+    if action == 'p1_membership_domain08_state': return {'items': read_p1_membership_domain08_state(connection, payload.get('membership_domain08_key')), 'read_only': True}
+    if action == 'p1_membership_domain08_validate': return validate_p1_membership_domain08(connection, int(payload.get('item_id')))
+    if action == 'p1_membership_domain08_persist': return persist_p1_membership_domain08(connection, str(payload.get('membership_domain08_key', '')), int(payload.get('membership_domain08_id', 0)), str(payload.get('membership_domain08_name', '')), dict(payload.get('membership_domain08_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_membership_domain08_protect': return protect_p1_membership_domain08_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_membership_domain08_audit': return audit_p1_membership_domain08s(connection)
+    raise ValueError('P1_MEMBERSHIP_DOMAIN08_ACTION_INVALID')
+
+def p1_draw_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_draw_contracts': return {'items': read_p1_draws(connection), 'read_only': True}
+    if action == 'p1_draw_state': return {'items': read_p1_draw_state(connection, payload.get('draw_key')), 'read_only': True}
+    if action == 'p1_draw_validate': return validate_p1_draw(connection, int(payload.get('item_id')))
+    if action == 'p1_draw_persist': return persist_p1_draw(connection, str(payload.get('draw_key', '')), int(payload.get('draw_id', 0)), str(payload.get('draw_name', '')), dict(payload.get('draw_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_draw_protect': return protect_p1_draw_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_draw_audit': return audit_p1_draws(connection)
+    raise ValueError('P1_DRAW_ACTION_INVALID')
+
+def p1_division_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_division_contracts': return {'items': read_p1_divisions(connection), 'read_only': True}
+    if action == 'p1_division_state': return {'items': read_p1_division_state(connection, payload.get('division_key')), 'read_only': True}
+    if action == 'p1_division_validate': return validate_p1_division(connection, int(payload.get('item_id')))
+    if action == 'p1_division_persist': return persist_p1_division(connection, str(payload.get('division_key', '')), int(payload.get('division_id', 0)), str(payload.get('division_name', '')), dict(payload.get('division_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_division_protect': return protect_p1_division_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_division_audit': return audit_p1_divisions(connection)
+    raise ValueError('P1_DIVISION_ACTION_INVALID')
+
+def p1_fixture_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_fixture_contracts': return {'items': read_p1_fixtures(connection), 'read_only': True}
+    if action == 'p1_fixture_state': return {'items': read_p1_fixture_state(connection, payload.get('fixture_key')), 'read_only': True}
+    if action == 'p1_fixture_validate': return validate_p1_fixture(connection, int(payload.get('item_id')))
+    if action == 'p1_fixture_persist': return persist_p1_fixture(connection, str(payload.get('fixture_key', '')), int(payload.get('fixture_id', 0)), str(payload.get('fixture_name', '')), dict(payload.get('fixture_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_fixture_protect': return protect_p1_fixture_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_fixture_audit': return audit_p1_fixtures(connection)
+    raise ValueError('P1_FIXTURE_ACTION_INVALID')
+
+def p1_round_domain08_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_round_domain08_contracts': return {'items': read_p1_round_domain08s(connection), 'read_only': True}
+    if action == 'p1_round_domain08_state': return {'items': read_p1_round_domain08_state(connection, payload.get('round_domain08_key')), 'read_only': True}
+    if action == 'p1_round_domain08_validate': return validate_p1_round_domain08(connection, int(payload.get('item_id')))
+    if action == 'p1_round_domain08_persist': return persist_p1_round_domain08(connection, str(payload.get('round_domain08_key', '')), int(payload.get('round_domain08_id', 0)), str(payload.get('round_domain08_name', '')), dict(payload.get('round_domain08_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_round_domain08_protect': return protect_p1_round_domain08_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_round_domain08_audit': return audit_p1_round_domain08s(connection)
+    raise ValueError('P1_ROUND_DOMAIN08_ACTION_INVALID')
+
+def p1_table_domain08_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_table_domain08_contracts': return {'items': read_p1_table_domain08s(connection), 'read_only': True}
+    if action == 'p1_table_domain08_state': return {'items': read_p1_table_domain08_state(connection, payload.get('table_domain08_key')), 'read_only': True}
+    if action == 'p1_table_domain08_validate': return validate_p1_table_domain08(connection, int(payload.get('item_id')))
+    if action == 'p1_table_domain08_persist': return persist_p1_table_domain08(connection, str(payload.get('table_domain08_key', '')), int(payload.get('table_domain08_id', 0)), str(payload.get('table_domain08_name', '')), dict(payload.get('table_domain08_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_table_domain08_protect': return protect_p1_table_domain08_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_table_domain08_audit': return audit_p1_table_domain08s(connection)
+    raise ValueError('P1_TABLE_DOMAIN08_ACTION_INVALID')
+
+def p1_promotion_domain08_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_promotion_domain08_contracts': return {'items': read_p1_promotion_domain08s(connection), 'read_only': True}
+    if action == 'p1_promotion_domain08_state': return {'items': read_p1_promotion_domain08_state(connection, payload.get('promotion_domain08_key')), 'read_only': True}
+    if action == 'p1_promotion_domain08_validate': return validate_p1_promotion_domain08(connection, int(payload.get('item_id')))
+    if action == 'p1_promotion_domain08_persist': return persist_p1_promotion_domain08(connection, str(payload.get('promotion_domain08_key', '')), int(payload.get('promotion_domain08_id', 0)), str(payload.get('promotion_domain08_name', '')), dict(payload.get('promotion_domain08_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_promotion_domain08_protect': return protect_p1_promotion_domain08_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_promotion_domain08_audit': return audit_p1_promotion_domain08s(connection)
+    raise ValueError('P1_PROMOTION_DOMAIN08_ACTION_INVALID')
+
+def p1_pot_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_pot_contracts': return {'items': read_p1_pots(connection), 'read_only': True}
+    if action == 'p1_pot_state': return {'items': read_p1_pot_state(connection, payload.get('pot_key')), 'read_only': True}
+    if action == 'p1_pot_validate': return validate_p1_pot(connection, int(payload.get('item_id')))
+    if action == 'p1_pot_persist': return persist_p1_pot(connection, str(payload.get('pot_key', '')), int(payload.get('pot_id', 0)), str(payload.get('pot_name', '')), dict(payload.get('pot_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_pot_protect': return protect_p1_pot_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_pot_audit': return audit_p1_pots(connection)
+    raise ValueError('P1_POT_ACTION_INVALID')
+
+def p1_group_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_group_contracts': return {'items': read_p1_groups(connection), 'read_only': True}
+    if action == 'p1_group_state': return {'items': read_p1_group_state(connection, payload.get('group_key')), 'read_only': True}
+    if action == 'p1_group_validate': return validate_p1_group(connection, int(payload.get('item_id')))
+    if action == 'p1_group_persist': return persist_p1_group(connection, str(payload.get('group_key', '')), int(payload.get('group_id', 0)), str(payload.get('group_name', '')), dict(payload.get('group_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_group_protect': return protect_p1_group_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_group_audit': return audit_p1_groups(connection)
+    raise ValueError('P1_GROUP_ACTION_INVALID')
+
+def p1_knockout_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_knockout_contracts': return {'items': read_p1_knockouts(connection), 'read_only': True}
+    if action == 'p1_knockout_state': return {'items': read_p1_knockout_state(connection, payload.get('knockout_key')), 'read_only': True}
+    if action == 'p1_knockout_validate': return validate_p1_knockout(connection, int(payload.get('item_id')))
+    if action == 'p1_knockout_persist': return persist_p1_knockout(connection, str(payload.get('knockout_key', '')), int(payload.get('knockout_id', 0)), str(payload.get('knockout_name', '')), dict(payload.get('knockout_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_knockout_protect': return protect_p1_knockout_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_knockout_audit': return audit_p1_knockouts(connection)
+    raise ValueError('P1_KNOCKOUT_ACTION_INVALID')
+
+def p1_draw_domain08_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_draw_domain08_contracts': return {'items': read_p1_draw_domain08s(connection), 'read_only': True}
+    if action == 'p1_draw_domain08_state': return {'items': read_p1_draw_domain08_state(connection, payload.get('draw_domain08_key')), 'read_only': True}
+    if action == 'p1_draw_domain08_validate': return validate_p1_draw_domain08(connection, int(payload.get('item_id')))
+    if action == 'p1_draw_domain08_persist': return persist_p1_draw_domain08(connection, str(payload.get('draw_domain08_key', '')), int(payload.get('draw_domain08_id', 0)), str(payload.get('draw_domain08_name', '')), dict(payload.get('draw_domain08_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_draw_domain08_protect': return protect_p1_draw_domain08_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_draw_domain08_audit': return audit_p1_draw_domain08s(connection)
+    raise ValueError('P1_DRAW_DOMAIN08_ACTION_INVALID')
+
+def p1_coefficient_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_coefficient_contracts': return {'items': read_p1_coefficients(connection), 'read_only': True}
+    if action == 'p1_coefficient_state': return {'items': read_p1_coefficient_state(connection, payload.get('coefficient_key')), 'read_only': True}
+    if action == 'p1_coefficient_validate': return validate_p1_coefficient(connection, int(payload.get('item_id')))
+    if action == 'p1_coefficient_persist': return persist_p1_coefficient(connection, str(payload.get('coefficient_key', '')), int(payload.get('coefficient_id', 0)), str(payload.get('coefficient_name', '')), dict(payload.get('coefficient_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_coefficient_protect': return protect_p1_coefficient_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_coefficient_audit': return audit_p1_coefficients(connection)
+    raise ValueError('P1_COEFFICIENT_ACTION_INVALID')
+
+def p1_record_domain08_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_record_domain08_contracts': return {'items': read_p1_record_domain08s(connection), 'read_only': True}
+    if action == 'p1_record_domain08_state': return {'items': read_p1_record_domain08_state(connection, payload.get('record_domain08_key')), 'read_only': True}
+    if action == 'p1_record_domain08_validate': return validate_p1_record_domain08(connection, int(payload.get('item_id')))
+    if action == 'p1_record_domain08_persist': return persist_p1_record_domain08(connection, str(payload.get('record_domain08_key', '')), int(payload.get('record_domain08_id', 0)), str(payload.get('record_domain08_name', '')), dict(payload.get('record_domain08_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_record_domain08_protect': return protect_p1_record_domain08_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_record_domain08_audit': return audit_p1_record_domain08s(connection)
+    raise ValueError('P1_RECORD_DOMAIN08_ACTION_INVALID')
+
+def p1_prize_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_prize_contracts': return {'items': read_p1_prizes(connection), 'read_only': True}
+    if action == 'p1_prize_state': return {'items': read_p1_prize_state(connection, payload.get('prize_key')), 'read_only': True}
+    if action == 'p1_prize_validate': return validate_p1_prize(connection, int(payload.get('item_id')))
+    if action == 'p1_prize_persist': return persist_p1_prize(connection, str(payload.get('prize_key', '')), int(payload.get('prize_id', 0)), str(payload.get('prize_name', '')), dict(payload.get('prize_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_prize_protect': return protect_p1_prize_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_prize_audit': return audit_p1_prizes(connection)
+    raise ValueError('P1_PRIZE_ACTION_INVALID')
+
+def p1_holiday_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_holiday_contracts': return {'items': read_p1_holidays(connection), 'read_only': True}
+    if action == 'p1_holiday_state': return {'items': read_p1_holiday_state(connection, payload.get('holiday_key')), 'read_only': True}
+    if action == 'p1_holiday_validate': return validate_p1_holiday(connection, int(payload.get('item_id')))
+    if action == 'p1_holiday_persist': return persist_p1_holiday(connection, str(payload.get('holiday_key', '')), int(payload.get('holiday_id', 0)), str(payload.get('holiday_name', '')), dict(payload.get('holiday_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_holiday_protect': return protect_p1_holiday_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_holiday_audit': return audit_p1_holidays(connection)
+    raise ValueError('P1_HOLIDAY_ACTION_INVALID')
+
+def p1_window_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_window_contracts': return {'items': read_p1_windows(connection), 'read_only': True}
+    if action == 'p1_window_state': return {'items': read_p1_window_state(connection, payload.get('window_key')), 'read_only': True}
+    if action == 'p1_window_validate': return validate_p1_window(connection, int(payload.get('item_id')))
+    if action == 'p1_window_persist': return persist_p1_window(connection, str(payload.get('window_key', '')), int(payload.get('window_id', 0)), str(payload.get('window_name', '')), dict(payload.get('window_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_window_protect': return protect_p1_window_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_window_audit': return audit_p1_windows(connection)
+    raise ValueError('P1_WINDOW_ACTION_INVALID')
+
+def p1_conflict_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_conflict_contracts': return {'items': read_p1_conflicts(connection), 'read_only': True}
+    if action == 'p1_conflict_state': return {'items': read_p1_conflict_state(connection, payload.get('conflict_key')), 'read_only': True}
+    if action == 'p1_conflict_validate': return validate_p1_conflict(connection, int(payload.get('item_id')))
+    if action == 'p1_conflict_persist': return persist_p1_conflict(connection, str(payload.get('conflict_key', '')), int(payload.get('conflict_id', 0)), str(payload.get('conflict_name', '')), dict(payload.get('conflict_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_conflict_protect': return protect_p1_conflict_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_conflict_audit': return audit_p1_conflicts(connection)
+    raise ValueError('P1_CONFLICT_ACTION_INVALID')
+
+def p1_reschedule_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_reschedule_contracts': return {'items': read_p1_reschedules(connection), 'read_only': True}
+    if action == 'p1_reschedule_state': return {'items': read_p1_reschedule_state(connection, payload.get('reschedule_key')), 'read_only': True}
+    if action == 'p1_reschedule_validate': return validate_p1_reschedule(connection, int(payload.get('item_id')))
+    if action == 'p1_reschedule_persist': return persist_p1_reschedule(connection, str(payload.get('reschedule_key', '')), int(payload.get('reschedule_id', 0)), str(payload.get('reschedule_name', '')), dict(payload.get('reschedule_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_reschedule_protect': return protect_p1_reschedule_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_reschedule_audit': return audit_p1_reschedules(connection)
+    raise ValueError('P1_RESCHEDULE_ACTION_INVALID')
+
+def p1_timezone_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_timezone_contracts': return {'items': read_p1_timezones(connection), 'read_only': True}
+    if action == 'p1_timezone_state': return {'items': read_p1_timezone_state(connection, payload.get('timezone_key')), 'read_only': True}
+    if action == 'p1_timezone_validate': return validate_p1_timezone(connection, int(payload.get('item_id')))
+    if action == 'p1_timezone_persist': return persist_p1_timezone(connection, str(payload.get('timezone_key', '')), int(payload.get('timezone_id', 0)), str(payload.get('timezone_name', '')), dict(payload.get('timezone_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_timezone_protect': return protect_p1_timezone_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_timezone_audit': return audit_p1_timezones(connection)
+    raise ValueError('P1_TIMEZONE_ACTION_INVALID')
+
+def p1_climate_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_climate_contracts': return {'items': read_p1_climates(connection), 'read_only': True}
+    if action == 'p1_climate_state': return {'items': read_p1_climate_state(connection, payload.get('climate_key')), 'read_only': True}
+    if action == 'p1_climate_validate': return validate_p1_climate(connection, int(payload.get('item_id')))
+    if action == 'p1_climate_persist': return persist_p1_climate(connection, str(payload.get('climate_key', '')), int(payload.get('climate_id', 0)), str(payload.get('climate_name', '')), dict(payload.get('climate_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_climate_protect': return protect_p1_climate_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_climate_audit': return audit_p1_climates(connection)
+    raise ValueError('P1_CLIMATE_ACTION_INVALID')
+
+def p1_security_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_security_contracts': return {'items': read_p1_securitys(connection), 'read_only': True}
+    if action == 'p1_security_state': return {'items': read_p1_security_state(connection, payload.get('security_key')), 'read_only': True}
+    if action == 'p1_security_validate': return validate_p1_security(connection, int(payload.get('item_id')))
+    if action == 'p1_security_persist': return persist_p1_security(connection, str(payload.get('security_key', '')), int(payload.get('security_id', 0)), str(payload.get('security_name', '')), dict(payload.get('security_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_security_protect': return protect_p1_security_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_security_audit': return audit_p1_securitys(connection)
+    raise ValueError('P1_SECURITY_ACTION_INVALID')
+
+def p1_tactic_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_tactic_contracts': return {'items': read_p1_tactics(connection), 'read_only': True}
+    if action == 'p1_tactic_state': return {'items': read_p1_tactic_state(connection, payload.get('tactic_key')), 'read_only': True}
+    if action == 'p1_tactic_validate': return validate_p1_tactic(connection, int(payload.get('item_id')))
+    if action == 'p1_tactic_persist': return persist_p1_tactic(connection, str(payload.get('tactic_key', '')), int(payload.get('tactic_id', 0)), str(payload.get('tactic_name', '')), dict(payload.get('tactic_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_tactic_protect': return protect_p1_tactic_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_tactic_audit': return audit_p1_tactics(connection)
+    raise ValueError('P1_TACTIC_ACTION_INVALID')
+
+def p1_event_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_event_contracts': return {'items': read_p1_events(connection), 'read_only': True}
+    if action == 'p1_event_state': return {'items': read_p1_event_state(connection, payload.get('event_key')), 'read_only': True}
+    if action == 'p1_event_validate': return validate_p1_event(connection, int(payload.get('item_id')))
+    if action == 'p1_event_persist': return persist_p1_event(connection, str(payload.get('event_key', '')), int(payload.get('event_id', 0)), str(payload.get('event_name', '')), dict(payload.get('event_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_event_protect': return protect_p1_event_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_event_audit': return audit_p1_events(connection)
+    raise ValueError('P1_EVENT_ACTION_INVALID')
+
+def p1_score_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_score_contracts': return {'items': read_p1_scores(connection), 'read_only': True}
+    if action == 'p1_score_state': return {'items': read_p1_score_state(connection, payload.get('score_key')), 'read_only': True}
+    if action == 'p1_score_validate': return validate_p1_score(connection, int(payload.get('item_id')))
+    if action == 'p1_score_persist': return persist_p1_score(connection, str(payload.get('score_key', '')), int(payload.get('score_id', 0)), str(payload.get('score_name', '')), dict(payload.get('score_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_score_protect': return protect_p1_score_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_score_audit': return audit_p1_scores(connection)
+    raise ValueError('P1_SCORE_ACTION_INVALID')
+
+def p1_possession_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_possession_contracts': return {'items': read_p1_possessions(connection), 'read_only': True}
+    if action == 'p1_possession_state': return {'items': read_p1_possession_state(connection, payload.get('possession_key')), 'read_only': True}
+    if action == 'p1_possession_validate': return validate_p1_possession(connection, int(payload.get('item_id')))
+    if action == 'p1_possession_persist': return persist_p1_possession(connection, str(payload.get('possession_key', '')), int(payload.get('possession_id', 0)), str(payload.get('possession_name', '')), dict(payload.get('possession_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_possession_protect': return protect_p1_possession_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_possession_audit': return audit_p1_possessions(connection)
+    raise ValueError('P1_POSSESSION_ACTION_INVALID')
+
+def p1_finalization_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_finalization_contracts': return {'items': read_p1_finalizations(connection), 'read_only': True}
+    if action == 'p1_finalization_state': return {'items': read_p1_finalization_state(connection, payload.get('finalization_key')), 'read_only': True}
+    if action == 'p1_finalization_validate': return validate_p1_finalization(connection, int(payload.get('item_id')))
+    if action == 'p1_finalization_persist': return persist_p1_finalization(connection, str(payload.get('finalization_key', '')), int(payload.get('finalization_id', 0)), str(payload.get('finalization_name', '')), dict(payload.get('finalization_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_finalization_protect': return protect_p1_finalization_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_finalization_audit': return audit_p1_finalizations(connection)
+    raise ValueError('P1_FINALIZATION_ACTION_INVALID')
+
+def p1_xg_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_xg_contracts': return {'items': read_p1_xgs(connection), 'read_only': True}
+    if action == 'p1_xg_state': return {'items': read_p1_xg_state(connection, payload.get('xg_key')), 'read_only': True}
+    if action == 'p1_xg_validate': return validate_p1_xg(connection, int(payload.get('item_id')))
+    if action == 'p1_xg_persist': return persist_p1_xg(connection, str(payload.get('xg_key', '')), int(payload.get('xg_id', 0)), str(payload.get('xg_name', '')), dict(payload.get('xg_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_xg_protect': return protect_p1_xg_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_xg_audit': return audit_p1_xgs(connection)
+    raise ValueError('P1_XG_ACTION_INVALID')
+
+def p1_substitution_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_substitution_contracts': return {'items': read_p1_substitutions(connection), 'read_only': True}
+    if action == 'p1_substitution_state': return {'items': read_p1_substitution_state(connection, payload.get('substitution_key')), 'read_only': True}
+    if action == 'p1_substitution_validate': return validate_p1_substitution(connection, int(payload.get('item_id')))
+    if action == 'p1_substitution_persist': return persist_p1_substitution(connection, str(payload.get('substitution_key', '')), int(payload.get('substitution_id', 0)), str(payload.get('substitution_name', '')), dict(payload.get('substitution_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_substitution_protect': return protect_p1_substitution_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_substitution_audit': return audit_p1_substitutions(connection)
+    raise ValueError('P1_SUBSTITUTION_ACTION_INVALID')
+
+def p1_xa_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_xa_contracts': return {'items': read_p1_xas(connection), 'read_only': True}
+    if action == 'p1_xa_state': return {'items': read_p1_xa_state(connection, payload.get('xa_key')), 'read_only': True}
+    if action == 'p1_xa_validate': return validate_p1_xa(connection, int(payload.get('item_id')))
+    if action == 'p1_xa_persist': return persist_p1_xa(connection, str(payload.get('xa_key', '')), int(payload.get('xa_id', 0)), str(payload.get('xa_name', '')), dict(payload.get('xa_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_xa_protect': return protect_p1_xa_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_xa_audit': return audit_p1_xas(connection)
+    raise ValueError('P1_XA_ACTION_INVALID')
+
+def p1_possession_domain09_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_possession_domain09_contracts': return {'items': read_p1_possession_domain09s(connection), 'read_only': True}
+    if action == 'p1_possession_domain09_state': return {'items': read_p1_possession_domain09_state(connection, payload.get('possession_domain09_key')), 'read_only': True}
+    if action == 'p1_possession_domain09_validate': return validate_p1_possession_domain09(connection, int(payload.get('item_id')))
+    if action == 'p1_possession_domain09_persist': return persist_p1_possession_domain09(connection, str(payload.get('possession_domain09_key', '')), int(payload.get('possession_domain09_id', 0)), str(payload.get('possession_domain09_name', '')), dict(payload.get('possession_domain09_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_possession_domain09_protect': return protect_p1_possession_domain09_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_possession_domain09_audit': return audit_p1_possession_domain09s(connection)
+    raise ValueError('P1_POSSESSION_DOMAIN09_ACTION_INVALID')
+
+def p1_duel_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_duel_contracts': return {'items': read_p1_duels(connection), 'read_only': True}
+    if action == 'p1_duel_state': return {'items': read_p1_duel_state(connection, payload.get('duel_key')), 'read_only': True}
+    if action == 'p1_duel_validate': return validate_p1_duel(connection, int(payload.get('item_id')))
+    if action == 'p1_duel_persist': return persist_p1_duel(connection, str(payload.get('duel_key', '')), int(payload.get('duel_id', 0)), str(payload.get('duel_name', '')), dict(payload.get('duel_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_duel_protect': return protect_p1_duel_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_duel_audit': return audit_p1_duels(connection)
+    raise ValueError('P1_DUEL_ACTION_INVALID')
+
+def p1_pressure_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_pressure_contracts': return {'items': read_p1_pressures(connection), 'read_only': True}
+    if action == 'p1_pressure_state': return {'items': read_p1_pressure_state(connection, payload.get('pressure_key')), 'read_only': True}
+    if action == 'p1_pressure_validate': return validate_p1_pressure(connection, int(payload.get('item_id')))
+    if action == 'p1_pressure_persist': return persist_p1_pressure(connection, str(payload.get('pressure_key', '')), int(payload.get('pressure_id', 0)), str(payload.get('pressure_name', '')), dict(payload.get('pressure_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_pressure_protect': return protect_p1_pressure_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_pressure_audit': return audit_p1_pressures(connection)
+    raise ValueError('P1_PRESSURE_ACTION_INVALID')
+
+def p1_map_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_map_contracts': return {'items': read_p1_maps(connection), 'read_only': True}
+    if action == 'p1_map_state': return {'items': read_p1_map_state(connection, payload.get('map_key')), 'read_only': True}
+    if action == 'p1_map_validate': return validate_p1_map(connection, int(payload.get('item_id')))
+    if action == 'p1_map_persist': return persist_p1_map(connection, str(payload.get('map_key', '')), int(payload.get('map_id', 0)), str(payload.get('map_name', '')), dict(payload.get('map_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_map_protect': return protect_p1_map_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_map_audit': return audit_p1_maps(connection)
+    raise ValueError('P1_MAP_ACTION_INVALID')
+
+def p1_finalization_domain09_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_finalization_domain09_contracts': return {'items': read_p1_finalization_domain09s(connection), 'read_only': True}
+    if action == 'p1_finalization_domain09_state': return {'items': read_p1_finalization_domain09_state(connection, payload.get('finalization_key')), 'read_only': True}
+    if action == 'p1_finalization_domain09_validate': return validate_p1_finalization_domain09(connection, int(payload.get('item_id')))
+    if action == 'p1_finalization_domain09_persist': return persist_p1_finalization_domain09(connection, str(payload.get('finalization_key', '')), int(payload.get('finalization_id', 0)), str(payload.get('finalization_name', '')), dict(payload.get('finalization_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_finalization_domain09_protect': return protect_p1_finalization_domain09_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_finalization_domain09_audit': return audit_p1_finalization_domain09s(connection)
+    raise ValueError('P1_FINALIZATION_DOMAIN09_ACTION_INVALID')
+
+def p1_pass_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_pass_contracts': return {'items': read_p1_passs(connection), 'read_only': True}
+    if action == 'p1_pass_state': return {'items': read_p1_pass_state(connection, payload.get('pass_key')), 'read_only': True}
+    if action == 'p1_pass_validate': return validate_p1_pass(connection, int(payload.get('item_id')))
+    if action == 'p1_pass_persist': return persist_p1_pass(connection, str(payload.get('pass_key', '')), int(payload.get('pass_id', 0)), str(payload.get('pass_name', '')), dict(payload.get('pass_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_pass_protect': return protect_p1_pass_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_pass_audit': return audit_p1_passs(connection)
+    raise ValueError('P1_PASS_ACTION_INVALID')
+
+def p1_hiring_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_hiring_contracts': return {'items': read_p1_hirings(connection), 'read_only': True}
+    if action == 'p1_hiring_state': return {'items': read_p1_hiring_state(connection, payload.get('hiring_key')), 'read_only': True}
+    if action == 'p1_hiring_validate': return validate_p1_hiring(connection, int(payload.get('item_id')))
+    if action == 'p1_hiring_persist': return persist_p1_hiring(connection, str(payload.get('hiring_key', '')), int(payload.get('hiring_id', 0)), str(payload.get('hiring_name', '')), dict(payload.get('hiring_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_hiring_protect': return protect_p1_hiring_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_hiring_audit': return audit_p1_hirings(connection)
+    raise ValueError('P1_HIRING_ACTION_INVALID')
+
+def p1_sale_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_sale_contracts': return {'items': read_p1_sales(connection), 'read_only': True}
+    if action == 'p1_sale_state': return {'items': read_p1_sale_state(connection, payload.get('sale_key')), 'read_only': True}
+    if action == 'p1_sale_validate': return validate_p1_sale(connection, int(payload.get('item_id')))
+    if action == 'p1_sale_persist': return persist_p1_sale(connection, str(payload.get('sale_key', '')), int(payload.get('sale_id', 0)), str(payload.get('sale_name', '')), dict(payload.get('sale_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_sale_protect': return protect_p1_sale_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_sale_audit': return audit_p1_sales(connection)
+    raise ValueError('P1_SALE_ACTION_INVALID')
+
+def p1_lineup_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_lineup_contracts': return {'items': read_p1_lineups(connection), 'read_only': True}
+    if action == 'p1_lineup_state': return {'items': read_p1_lineup_state(connection, payload.get('lineup_key')), 'read_only': True}
+    if action == 'p1_lineup_validate': return validate_p1_lineup(connection, int(payload.get('item_id')))
+    if action == 'p1_lineup_persist': return persist_p1_lineup(connection, str(payload.get('lineup_key', '')), int(payload.get('lineup_id', 0)), str(payload.get('lineup_name', '')), dict(payload.get('lineup_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_lineup_protect': return protect_p1_lineup_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_lineup_audit': return audit_p1_lineups(connection)
+    raise ValueError('P1_LINEUP_ACTION_INVALID')
+
+def p1_training_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_training_contracts': return {'items': read_p1_trainings(connection), 'read_only': True}
+    if action == 'p1_training_state': return {'items': read_p1_training_state(connection, payload.get('training_key')), 'read_only': True}
+    if action == 'p1_training_validate': return validate_p1_training(connection, int(payload.get('item_id')))
+    if action == 'p1_training_persist': return persist_p1_training(connection, str(payload.get('training_key', '')), int(payload.get('training_id', 0)), str(payload.get('training_name', '')), dict(payload.get('training_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_training_protect': return protect_p1_training_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_training_audit': return audit_p1_trainings(connection)
+    raise ValueError('P1_TRAINING_ACTION_INVALID')
+
+def p1_tactics_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_tactics_contracts': return {'items': read_p1_tacticss(connection), 'read_only': True}
+    if action == 'p1_tactics_state': return {'items': read_p1_tactics_state(connection, payload.get('tactics_key')), 'read_only': True}
+    if action == 'p1_tactics_validate': return validate_p1_tactics(connection, int(payload.get('item_id')))
+    if action == 'p1_tactics_persist': return persist_p1_tactics(connection, str(payload.get('tactics_key', '')), int(payload.get('tactics_id', 0)), str(payload.get('tactics_name', '')), dict(payload.get('tactics_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_tactics_protect': return protect_p1_tactics_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_tactics_audit': return audit_p1_tacticss(connection)
+    raise ValueError('P1_TACTICS_ACTION_INVALID')
+
+def p1_budget_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_budget_contracts': return {'items': read_p1_budgets(connection), 'read_only': True}
+    if action == 'p1_budget_state': return {'items': read_p1_budget_state(connection, payload.get('budget_key')), 'read_only': True}
+    if action == 'p1_budget_validate': return validate_p1_budget(connection, int(payload.get('item_id')))
+    if action == 'p1_budget_persist': return persist_p1_budget(connection, str(payload.get('budget_key', '')), int(payload.get('budget_id', 0)), str(payload.get('budget_name', '')), dict(payload.get('budget_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_budget_protect': return protect_p1_budget_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_budget_audit': return audit_p1_budgets(connection)
+    raise ValueError('P1_BUDGET_ACTION_INVALID')
+
+def p1_objective_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_objective_contracts': return {'items': read_p1_objectives(connection), 'read_only': True}
+    if action == 'p1_objective_state': return {'items': read_p1_objective_state(connection, payload.get('objective_key')), 'read_only': True}
+    if action == 'p1_objective_validate': return validate_p1_objective(connection, int(payload.get('item_id')))
+    if action == 'p1_objective_persist': return persist_p1_objective(connection, str(payload.get('objective_key', '')), int(payload.get('objective_id', 0)), str(payload.get('objective_name', '')), dict(payload.get('objective_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_objective_protect': return protect_p1_objective_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_objective_audit': return audit_p1_objectives(connection)
+    raise ValueError('P1_OBJECTIVE_ACTION_INVALID')
+
+def p1_reserve_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_reserve_contracts': return {'items': read_p1_reserves(connection), 'read_only': True}
+    if action == 'p1_reserve_state': return {'items': read_p1_reserve_state(connection, payload.get('reserve_key')), 'read_only': True}
+    if action == 'p1_reserve_validate': return validate_p1_reserve(connection, int(payload.get('item_id')))
+    if action == 'p1_reserve_persist': return persist_p1_reserve(connection, str(payload.get('reserve_key', '')), int(payload.get('reserve_id', 0)), str(payload.get('reserve_name', '')), dict(payload.get('reserve_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_reserve_protect': return protect_p1_reserve_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_reserve_audit': return audit_p1_reserves(connection)
+    raise ValueError('P1_RESERVE_ACTION_INVALID')
+
+def p1_leadership_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_leadership_contracts': return {'items': read_p1_leaderships(connection), 'read_only': True}
+    if action == 'p1_leadership_state': return {'items': read_p1_leadership_state(connection, payload.get('leadership_key')), 'read_only': True}
+    if action == 'p1_leadership_validate': return validate_p1_leadership(connection, int(payload.get('item_id')))
+    if action == 'p1_leadership_persist': return persist_p1_leadership(connection, str(payload.get('leadership_key', '')), int(payload.get('leadership_id', 0)), str(payload.get('leadership_name', '')), dict(payload.get('leadership_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_leadership_protect': return protect_p1_leadership_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_leadership_audit': return audit_p1_leaderships(connection)
+    raise ValueError('P1_LEADERSHIP_ACTION_INVALID')
+
+def p1_promise_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_promise_contracts': return {'items': read_p1_promises(connection), 'read_only': True}
+    if action == 'p1_promise_state': return {'items': read_p1_promise_state(connection, payload.get('promise_key')), 'read_only': True}
+    if action == 'p1_promise_validate': return validate_p1_promise(connection, int(payload.get('item_id')))
+    if action == 'p1_promise_persist': return persist_p1_promise(connection, str(payload.get('promise_key', '')), int(payload.get('promise_id', 0)), str(payload.get('promise_name', '')), dict(payload.get('promise_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_promise_protect': return protect_p1_promise_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_promise_audit': return audit_p1_promises(connection)
+    raise ValueError('P1_PROMISE_ACTION_INVALID')
+
+def p1_minutes_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_minutes_contracts': return {'items': read_p1_minutess(connection), 'read_only': True}
+    if action == 'p1_minutes_state': return {'items': read_p1_minutes_state(connection, payload.get('minutes_key')), 'read_only': True}
+    if action == 'p1_minutes_validate': return validate_p1_minutes(connection, int(payload.get('item_id')))
+    if action == 'p1_minutes_persist': return persist_p1_minutes(connection, str(payload.get('minutes_key', '')), int(payload.get('minutes_id', 0)), str(payload.get('minutes_name', '')), dict(payload.get('minutes_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_minutes_protect': return protect_p1_minutes_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_minutes_audit': return audit_p1_minutess(connection)
+    raise ValueError('P1_MINUTES_ACTION_INVALID')
+
+def p1_shirt_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_shirt_contracts': return {'items': read_p1_shirts(connection), 'read_only': True}
+    if action == 'p1_shirt_state': return {'items': read_p1_shirt_state(connection, payload.get('shirt_key')), 'read_only': True}
+    if action == 'p1_shirt_validate': return validate_p1_shirt(connection, int(payload.get('item_id')))
+    if action == 'p1_shirt_persist': return persist_p1_shirt(connection, str(payload.get('shirt_key', '')), int(payload.get('shirt_id', 0)), str(payload.get('shirt_name', '')), dict(payload.get('shirt_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_shirt_protect': return protect_p1_shirt_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_shirt_audit': return audit_p1_shirts(connection)
+    raise ValueError('P1_SHIRT_ACTION_INVALID')
+
+def p1_registration_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_registration_contracts': return {'items': read_p1_registrations(connection), 'read_only': True}
+    if action == 'p1_registration_state': return {'items': read_p1_registration_state(connection, payload.get('registration_key')), 'read_only': True}
+    if action == 'p1_registration_validate': return validate_p1_registration(connection, int(payload.get('item_id')))
+    if action == 'p1_registration_persist': return persist_p1_registration(connection, str(payload.get('registration_key', '')), int(payload.get('registration_id', 0)), str(payload.get('registration_name', '')), dict(payload.get('registration_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_registration_protect': return protect_p1_registration_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_registration_audit': return audit_p1_registrations(connection)
+    raise ValueError('P1_REGISTRATION_ACTION_INVALID')
+
+def p1_cohesion_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_cohesion_contracts': return {'items': read_p1_cohesions(connection), 'read_only': True}
+    if action == 'p1_cohesion_state': return {'items': read_p1_cohesion_state(connection, payload.get('cohesion_key')), 'read_only': True}
+    if action == 'p1_cohesion_validate': return validate_p1_cohesion(connection, int(payload.get('item_id')))
+    if action == 'p1_cohesion_persist': return persist_p1_cohesion(connection, str(payload.get('cohesion_key', '')), int(payload.get('cohesion_id', 0)), str(payload.get('cohesion_name', '')), dict(payload.get('cohesion_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_cohesion_protect': return protect_p1_cohesion_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_cohesion_audit': return audit_p1_cohesions(connection)
+    raise ValueError('P1_COHESION_ACTION_INVALID')
+
+def p1_duration_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_duration_contracts': return {'items': read_p1_durations(connection), 'read_only': True}
+    if action == 'p1_duration_state': return {'items': read_p1_duration_state(connection, payload.get('duration_key')), 'read_only': True}
+    if action == 'p1_duration_validate': return validate_p1_duration(connection, int(payload.get('item_id')))
+    if action == 'p1_duration_persist': return persist_p1_duration(connection, str(payload.get('duration_key', '')), int(payload.get('duration_id', 0)), str(payload.get('duration_name', '')), dict(payload.get('duration_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_duration_protect': return protect_p1_duration_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_duration_audit': return audit_p1_durations(connection)
+    raise ValueError('P1_DURATION_ACTION_INVALID')
+
+def p1_bonus_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_bonus_contracts': return {'items': read_p1_bonuss(connection), 'read_only': True}
+    if action == 'p1_bonus_state': return {'items': read_p1_bonus_state(connection, payload.get('bonus_key')), 'read_only': True}
+    if action == 'p1_bonus_validate': return validate_p1_bonus(connection, int(payload.get('item_id')))
+    if action == 'p1_bonus_persist': return persist_p1_bonus(connection, str(payload.get('bonus_key', '')), int(payload.get('bonus_id', 0)), str(payload.get('bonus_name', '')), dict(payload.get('bonus_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_bonus_protect': return protect_p1_bonus_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_bonus_audit': return audit_p1_bonuss(connection)
+    raise ValueError('P1_BONUS_ACTION_INVALID')
+
+def p1_clause_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_clause_contracts': return {'items': read_p1_clauses(connection), 'read_only': True}
+    if action == 'p1_clause_state': return {'items': read_p1_clause_state(connection, payload.get('clause_key')), 'read_only': True}
+    if action == 'p1_clause_validate': return validate_p1_clause(connection, int(payload.get('item_id')))
+    if action == 'p1_clause_persist': return persist_p1_clause(connection, str(payload.get('clause_key', '')), int(payload.get('clause_id', 0)), str(payload.get('clause_name', '')), dict(payload.get('clause_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_clause_protect': return protect_p1_clause_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_clause_audit': return audit_p1_clauses(connection)
+    raise ValueError('P1_CLAUSE_ACTION_INVALID')
+
+def p1_renewal_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_renewal_contracts': return {'items': read_p1_renewals(connection), 'read_only': True}
+    if action == 'p1_renewal_state': return {'items': read_p1_renewal_state(connection, payload.get('renewal_key')), 'read_only': True}
+    if action == 'p1_renewal_validate': return validate_p1_renewal(connection, int(payload.get('item_id')))
+    if action == 'p1_renewal_persist': return persist_p1_renewal(connection, str(payload.get('renewal_key', '')), int(payload.get('renewal_id', 0)), str(payload.get('renewal_name', '')), dict(payload.get('renewal_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_renewal_protect': return protect_p1_renewal_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_renewal_audit': return audit_p1_renewals(connection)
+    raise ValueError('P1_RENEWAL_ACTION_INVALID')
+
+def p1_termination_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_termination_contracts': return {'items': read_p1_terminations(connection), 'read_only': True}
+    if action == 'p1_termination_state': return {'items': read_p1_termination_state(connection, payload.get('termination_key')), 'read_only': True}
+    if action == 'p1_termination_validate': return validate_p1_termination(connection, int(payload.get('item_id')))
+    if action == 'p1_termination_persist': return persist_p1_termination(connection, str(payload.get('termination_key', '')), int(payload.get('termination_id', 0)), str(payload.get('termination_name', '')), dict(payload.get('termination_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_termination_protect': return protect_p1_termination_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_termination_audit': return audit_p1_terminations(connection)
+    raise ValueError('P1_TERMINATION_ACTION_INVALID')
+
+def p1_loan_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_loan_contracts': return {'items': read_p1_loans(connection), 'read_only': True}
+    if action == 'p1_loan_state': return {'items': read_p1_loan_state(connection, payload.get('loan_key')), 'read_only': True}
+    if action == 'p1_loan_validate': return validate_p1_loan(connection, int(payload.get('item_id')))
+    if action == 'p1_loan_persist': return persist_p1_loan(connection, str(payload.get('loan_key', '')), int(payload.get('loan_id', 0)), str(payload.get('loan_name', '')), dict(payload.get('loan_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_loan_protect': return protect_p1_loan_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_loan_audit': return audit_p1_loans(connection)
+    raise ValueError('P1_LOAN_ACTION_INVALID')
+
+def p1_option_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_option_contracts': return {'items': read_p1_options(connection), 'read_only': True}
+    if action == 'p1_option_state': return {'items': read_p1_option_state(connection, payload.get('option_key')), 'read_only': True}
+    if action == 'p1_option_validate': return validate_p1_option(connection, int(payload.get('item_id')))
+    if action == 'p1_option_persist': return persist_p1_option(connection, str(payload.get('option_key', '')), int(payload.get('option_id', 0)), str(payload.get('option_name', '')), dict(payload.get('option_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_option_protect': return protect_p1_option_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_option_audit': return audit_p1_options(connection)
+    raise ValueError('P1_OPTION_ACTION_INVALID')
+
+def p1_assistant_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_assistant_contracts': return {'items': read_p1_assistants(connection), 'read_only': True}
+    if action == 'p1_assistant_state': return {'items': read_p1_assistant_state(connection, payload.get('assistant_key')), 'read_only': True}
+    if action == 'p1_assistant_validate': return validate_p1_assistant(connection, int(payload.get('item_id')))
+    if action == 'p1_assistant_persist': return persist_p1_assistant(connection, str(payload.get('assistant_key', '')), int(payload.get('assistant_id', 0)), str(payload.get('assistant_name', '')), dict(payload.get('assistant_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_assistant_protect': return protect_p1_assistant_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_assistant_audit': return audit_p1_assistants(connection)
+    raise ValueError('P1_ASSISTANT_ACTION_INVALID')
+
+def p1_doctor_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_doctor_contracts': return {'items': read_p1_doctors(connection), 'read_only': True}
+    if action == 'p1_doctor_state': return {'items': read_p1_doctor_state(connection, payload.get('doctor_key')), 'read_only': True}
+    if action == 'p1_doctor_validate': return validate_p1_doctor(connection, int(payload.get('item_id')))
+    if action == 'p1_doctor_persist': return persist_p1_doctor(connection, str(payload.get('doctor_key', '')), int(payload.get('doctor_id', 0)), str(payload.get('doctor_name', '')), dict(payload.get('doctor_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_doctor_protect': return protect_p1_doctor_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_doctor_audit': return audit_p1_doctors(connection)
+    raise ValueError('P1_DOCTOR_ACTION_INVALID')
+
+def p1_scout_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_scout_contracts': return {'items': read_p1_scouts(connection), 'read_only': True}
+    if action == 'p1_scout_state': return {'items': read_p1_scout_state(connection, payload.get('scout_key')), 'read_only': True}
+    if action == 'p1_scout_validate': return validate_p1_scout(connection, int(payload.get('item_id')))
+    if action == 'p1_scout_persist': return persist_p1_scout(connection, str(payload.get('scout_key', '')), int(payload.get('scout_id', 0)), str(payload.get('scout_name', '')), dict(payload.get('scout_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_scout_protect': return protect_p1_scout_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_scout_audit': return audit_p1_scouts(connection)
+    raise ValueError('P1_SCOUT_ACTION_INVALID')
+
+def p1_specialty_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_specialty_contracts': return {'items': read_p1_specialtys(connection), 'read_only': True}
+    if action == 'p1_specialty_state': return {'items': read_p1_specialty_state(connection, payload.get('specialty_key')), 'read_only': True}
+    if action == 'p1_specialty_validate': return validate_p1_specialty(connection, int(payload.get('item_id')))
+    if action == 'p1_specialty_persist': return persist_p1_specialty(connection, str(payload.get('specialty_key', '')), int(payload.get('specialty_id', 0)), str(payload.get('specialty_name', '')), dict(payload.get('specialty_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_specialty_protect': return protect_p1_specialty_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_specialty_audit': return audit_p1_specialtys(connection)
+    raise ValueError('P1_SPECIALTY_ACTION_INVALID')
+
+def p1_level_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_level_contracts': return {'items': read_p1_levels(connection), 'read_only': True}
+    if action == 'p1_level_state': return {'items': read_p1_level_state(connection, payload.get('level_key')), 'read_only': True}
+    if action == 'p1_level_validate': return validate_p1_level(connection, int(payload.get('item_id')))
+    if action == 'p1_level_persist': return persist_p1_level(connection, str(payload.get('level_key', '')), int(payload.get('level_id', 0)), str(payload.get('level_name', '')), dict(payload.get('level_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_level_protect': return protect_p1_level_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_level_audit': return audit_p1_levels(connection)
+    raise ValueError('P1_LEVEL_ACTION_INVALID')
+
+def p1_vacancy_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_vacancy_contracts': return {'items': read_p1_vacancys(connection), 'read_only': True}
+    if action == 'p1_vacancy_state': return {'items': read_p1_vacancy_state(connection, payload.get('vacancy_key')), 'read_only': True}
+    if action == 'p1_vacancy_validate': return validate_p1_vacancy(connection, int(payload.get('item_id')))
+    if action == 'p1_vacancy_persist': return persist_p1_vacancy(connection, str(payload.get('vacancy_key', '')), int(payload.get('vacancy_id', 0)), str(payload.get('vacancy_name', '')), dict(payload.get('vacancy_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_vacancy_protect': return protect_p1_vacancy_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_vacancy_audit': return audit_p1_vacancys(connection)
+    raise ValueError('P1_VACANCY_ACTION_INVALID')
+
+def p1_contract_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_contract_contracts': return {'items': read_p1_contracts(connection), 'read_only': True}
+    if action == 'p1_contract_state': return {'items': read_p1_contract_state(connection, payload.get('contract_key')), 'read_only': True}
+    if action == 'p1_contract_validate': return validate_p1_contract(connection, int(payload.get('item_id')))
+    if action == 'p1_contract_persist': return persist_p1_contract(connection, str(payload.get('contract_key', '')), int(payload.get('contract_id', 0)), str(payload.get('contract_name', '')), dict(payload.get('contract_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_contract_protect': return protect_p1_contract_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_contract_audit': return audit_p1_contracts(connection)
+    raise ValueError('P1_CONTRACT_ACTION_INVALID')
+
+def p1_level_domain10_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_level_domain10_contracts': return {'items': read_p1_levels(connection), 'read_only': True}
+    if action == 'p1_level_domain10_state': return {'items': read_p1_level_domain10_state(connection, payload.get('level_key')), 'read_only': True}
+    if action == 'p1_level_domain10_validate': return validate_p1_level(connection, int(payload.get('item_id')))
+    if action == 'p1_level_domain10_persist': return persist_p1_level(connection, str(payload.get('level_key', '')), int(payload.get('level_id', 0)), str(payload.get('level_name', '')), dict(payload.get('level_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_level_domain10_protect': return protect_p1_level_domain10_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_level_domain10_audit': return audit_p1_levels(connection)
+    raise ValueError('P1_LEVEL_ACTION_INVALID')
+
+def p1_level_domain10_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_level_domain10_contracts': return {'items': read_p1_levels(connection), 'read_only': True}
+    if action == 'p1_level_domain10_state': return {'items': read_p1_level_domain10_state(connection, payload.get('level_key')), 'read_only': True}
+    if action == 'p1_level_domain10_validate': return validate_p1_level(connection, int(payload.get('item_id')))
+    if action == 'p1_level_domain10_persist': return persist_p1_level(connection, str(payload.get('level_key', '')), int(payload.get('level_id', 0)), str(payload.get('level_name', '')), dict(payload.get('level_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_level_domain10_protect': return protect_p1_level_domain10_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_level_domain10_audit': return audit_p1_levels(connection)
+    raise ValueError('P1_LEVEL_ACTION_INVALID')
+
+def p1_level_domain10_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_level_domain10_contracts': return {'items': read_p1_levels(connection), 'read_only': True}
+    if action == 'p1_level_domain10_state': return {'items': read_p1_level_domain10_state(connection, payload.get('level_key')), 'read_only': True}
+    if action == 'p1_level_domain10_validate': return validate_p1_level(connection, int(payload.get('item_id')))
+    if action == 'p1_level_domain10_persist': return persist_p1_level(connection, str(payload.get('level_key', '')), int(payload.get('level_id', 0)), str(payload.get('level_name', '')), dict(payload.get('level_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_level_domain10_protect': return protect_p1_level_domain10_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_level_domain10_audit': return audit_p1_levels(connection)
+    raise ValueError('P1_LEVEL_ACTION_INVALID')
+
+def p1_level_domain10_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_level_domain10_contracts': return {'items': read_p1_levels(connection), 'read_only': True}
+    if action == 'p1_level_domain10_state': return {'items': read_p1_level_domain10_state(connection, payload.get('level_key')), 'read_only': True}
+    if action == 'p1_level_domain10_validate': return validate_p1_level(connection, int(payload.get('item_id')))
+    if action == 'p1_level_domain10_persist': return persist_p1_level(connection, str(payload.get('level_key', '')), int(payload.get('level_id', 0)), str(payload.get('level_name', '')), dict(payload.get('level_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_level_domain10_protect': return protect_p1_level_domain10_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_level_domain10_audit': return audit_p1_levels(connection)
+    raise ValueError('P1_LEVEL_ACTION_INVALID')
+
+def p1_level_domain10_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_level_domain10_contracts': return {'items': read_p1_levels(connection), 'read_only': True}
+    if action == 'p1_level_domain10_state': return {'items': read_p1_level_domain10_state(connection, payload.get('level_key')), 'read_only': True}
+    if action == 'p1_level_domain10_validate': return validate_p1_level(connection, int(payload.get('item_id')))
+    if action == 'p1_level_domain10_persist': return persist_p1_level(connection, str(payload.get('level_key', '')), int(payload.get('level_id', 0)), str(payload.get('level_name', '')), dict(payload.get('level_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_level_domain10_protect': return protect_p1_level_domain10_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_level_domain10_audit': return audit_p1_levels(connection)
+    raise ValueError('P1_LEVEL_ACTION_INVALID')
+
+def p1_level_domain10_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_level_domain10_contracts': return {'items': read_p1_levels(connection), 'read_only': True}
+    if action == 'p1_level_domain10_state': return {'items': read_p1_level_domain10_state(connection, payload.get('level_key')), 'read_only': True}
+    if action == 'p1_level_domain10_validate': return validate_p1_level(connection, int(payload.get('item_id')))
+    if action == 'p1_level_domain10_persist': return persist_p1_level(connection, str(payload.get('level_key', '')), int(payload.get('level_id', 0)), str(payload.get('level_name', '')), dict(payload.get('level_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_level_domain10_protect': return protect_p1_level_domain10_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_level_domain10_audit': return audit_p1_levels(connection)
+    raise ValueError('P1_LEVEL_ACTION_INVALID')
+
+def p1_medicine_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_medicine_contracts': return {'items': read_p1_medicines(connection), 'read_only': True}
+    if action == 'p1_medicine_state': return {'items': read_p1_medicine_state(connection, payload.get('medicine_key')), 'read_only': True}
+    if action == 'p1_medicine_validate': return validate_p1_medicine(connection, int(payload.get('item_id')))
+    if action == 'p1_medicine_persist': return persist_p1_medicine(connection, str(payload.get('medicine_key', '')), int(payload.get('medicine_id', 0)), str(payload.get('medicine_name', '')), dict(payload.get('medicine_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_medicine_protect': return protect_p1_medicine_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_medicine_audit': return audit_p1_medicines(connection)
+    raise ValueError('P1_MEDICINE_ACTION_INVALID')
+
+def p1_category_domain10_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_category_domain10_contracts': return {'items': read_p1_category_domain10s(connection), 'read_only': True}
+    if action == 'p1_category_domain10_state': return {'items': read_p1_category_domain10_state(connection, payload.get('category_domain10_key')), 'read_only': True}
+    if action == 'p1_category_domain10_validate': return validate_p1_category_domain10(connection, int(payload.get('item_id')))
+    if action == 'p1_category_domain10_persist': return persist_p1_category_domain10(connection, str(payload.get('category_domain10_key', '')), int(payload.get('category_domain10_id', 0)), str(payload.get('category_domain10_name', '')), dict(payload.get('category_domain10_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_category_domain10_protect': return protect_p1_category_domain10_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_category_domain10_audit': return audit_p1_category_domain10s(connection)
+    raise ValueError('P1_CATEGORY_DOMAIN10_ACTION_INVALID')
+
+def p1_captacao_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_captacao_contracts': return {'items': read_p1_captacaos(connection), 'read_only': True}
+    if action == 'p1_captacao_state': return {'items': read_p1_captacao_state(connection, payload.get('captacao_key')), 'read_only': True}
+    if action == 'p1_captacao_validate': return validate_p1_captacao(connection, int(payload.get('item_id')))
+    if action == 'p1_captacao_persist': return persist_p1_captacao(connection, str(payload.get('captacao_key', '')), int(payload.get('captacao_id', 0)), str(payload.get('captacao_name', '')), dict(payload.get('captacao_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_captacao_protect': return protect_p1_captacao_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_captacao_audit': return audit_p1_captacaos(connection)
+    raise ValueError('P1_CAPTACAO_ACTION_INVALID')
+
+def p1_desenvolvimento_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_desenvolvimento_contracts': return {'items': read_p1_desenvolvimentos(connection), 'read_only': True}
+    if action == 'p1_desenvolvimento_state': return {'items': read_p1_desenvolvimento_state(connection, payload.get('desenvolvimento_key')), 'read_only': True}
+    if action == 'p1_desenvolvimento_validate': return validate_p1_desenvolvimento(connection, int(payload.get('item_id')))
+    if action == 'p1_desenvolvimento_persist': return persist_p1_desenvolvimento(connection, str(payload.get('desenvolvimento_key', '')), int(payload.get('desenvolvimento_id', 0)), str(payload.get('desenvolvimento_name', '')), dict(payload.get('desenvolvimento_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_desenvolvimento_protect': return protect_p1_desenvolvimento_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_desenvolvimento_audit': return audit_p1_desenvolvimentos(connection)
+    raise ValueError('P1_DESENVOLVIMENTO_ACTION_INVALID')
+
+def p1_promocao_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_promocao_contracts': return {'items': read_p1_promocaos(connection), 'read_only': True}
+    if action == 'p1_promocao_state': return {'items': read_p1_promocao_state(connection, payload.get('promocao_key')), 'read_only': True}
+    if action == 'p1_promocao_validate': return validate_p1_promocao(connection, int(payload.get('item_id')))
+    if action == 'p1_promocao_persist': return persist_p1_promocao(connection, str(payload.get('promocao_key', '')), int(payload.get('promocao_id', 0)), str(payload.get('promocao_name', '')), dict(payload.get('promocao_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_promocao_protect': return protect_p1_promocao_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_promocao_audit': return audit_p1_promocaos(connection)
+    raise ValueError('P1_PROMOCAO_ACTION_INVALID')
+
+def p1_bolsa_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_bolsa_contracts': return {'items': read_p1_bolsas(connection), 'read_only': True}
+    if action == 'p1_bolsa_state': return {'items': read_p1_bolsa_state(connection, payload.get('bolsa_key')), 'read_only': True}
+    if action == 'p1_bolsa_validate': return validate_p1_bolsa(connection, int(payload.get('item_id')))
+    if action == 'p1_bolsa_persist': return persist_p1_bolsa(connection, str(payload.get('bolsa_key', '')), int(payload.get('bolsa_id', 0)), str(payload.get('bolsa_name', '')), dict(payload.get('bolsa_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_bolsa_protect': return protect_p1_bolsa_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_bolsa_audit': return audit_p1_bolsas(connection)
+    raise ValueError('P1_BOLSA_ACTION_INVALID')
+
+def p1_educacao_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_educacao_contracts': return {'items': read_p1_educacaos(connection), 'read_only': True}
+    if action == 'p1_educacao_state': return {'items': read_p1_educacao_state(connection, payload.get('educacao_key')), 'read_only': True}
+    if action == 'p1_educacao_validate': return validate_p1_educacao(connection, int(payload.get('item_id')))
+    if action == 'p1_educacao_persist': return persist_p1_educacao(connection, str(payload.get('educacao_key', '')), int(payload.get('educacao_id', 0)), str(payload.get('educacao_name', '')), dict(payload.get('educacao_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_educacao_protect': return protect_p1_educacao_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_educacao_audit': return audit_p1_educacaos(connection)
+    raise ValueError('P1_EDUCACAO_ACTION_INVALID')
+
+def p1_minutos_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_minutos_contracts': return {'items': read_p1_minutoss(connection), 'read_only': True}
+    if action == 'p1_minutos_state': return {'items': read_p1_minutos_state(connection, payload.get('minutos_key')), 'read_only': True}
+    if action == 'p1_minutos_validate': return validate_p1_minutos(connection, int(payload.get('item_id')))
+    if action == 'p1_minutos_persist': return persist_p1_minutos(connection, str(payload.get('minutos_key', '')), int(payload.get('minutos_id', 0)), str(payload.get('minutos_name', '')), dict(payload.get('minutos_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_minutos_protect': return protect_p1_minutos_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_minutos_audit': return audit_p1_minutoss(connection)
+    raise ValueError('P1_MINUTOS_ACTION_INVALID')
+
+def p1_level_domain10_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_level_domain10_contracts': return {'items': read_p1_levels(connection), 'read_only': True}
+    if action == 'p1_level_domain10_state': return {'items': read_p1_level_domain10_state(connection, payload.get('level_key')), 'read_only': True}
+    if action == 'p1_level_domain10_validate': return validate_p1_level(connection, int(payload.get('item_id')))
+    if action == 'p1_level_domain10_persist': return persist_p1_level(connection, str(payload.get('level_key', '')), int(payload.get('level_id', 0)), str(payload.get('level_name', '')), dict(payload.get('level_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_level_domain10_protect': return protect_p1_level_domain10_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_level_domain10_audit': return audit_p1_levels(connection)
+    raise ValueError('P1_LEVEL_ACTION_INVALID')
+
+def p1_tratamento_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_tratamento_contracts': return {'items': read_p1_tratamentos(connection), 'read_only': True}
+    if action == 'p1_tratamento_state': return {'items': read_p1_tratamento_state(connection, payload.get('tratamento_key')), 'read_only': True}
+    if action == 'p1_tratamento_validate': return validate_p1_tratamento(connection, int(payload.get('item_id')))
+    if action == 'p1_tratamento_persist': return persist_p1_tratamento(connection, str(payload.get('tratamento_key', '')), int(payload.get('tratamento_id', 0)), str(payload.get('tratamento_name', '')), dict(payload.get('tratamento_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_tratamento_protect': return protect_p1_tratamento_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_tratamento_audit': return audit_p1_tratamentos(connection)
+    raise ValueError('P1_TRATAMENTO_ACTION_INVALID')
+
+def p1_fisioterapia_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_fisioterapia_contracts': return {'items': read_p1_fisioterapias(connection), 'read_only': True}
+    if action == 'p1_fisioterapia_state': return {'items': read_p1_fisioterapia_state(connection, payload.get('fisioterapia_key')), 'read_only': True}
+    if action == 'p1_fisioterapia_validate': return validate_p1_fisioterapia(connection, int(payload.get('item_id')))
+    if action == 'p1_fisioterapia_persist': return persist_p1_fisioterapia(connection, str(payload.get('fisioterapia_key', '')), int(payload.get('fisioterapia_id', 0)), str(payload.get('fisioterapia_name', '')), dict(payload.get('fisioterapia_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_fisioterapia_protect': return protect_p1_fisioterapia_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_fisioterapia_audit': return audit_p1_fisioterapias(connection)
+    raise ValueError('P1_FISIOTERAPIA_ACTION_INVALID')
+
+def p1_retorno_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_retorno_contracts': return {'items': read_p1_retornos(connection), 'read_only': True}
+    if action == 'p1_retorno_state': return {'items': read_p1_retorno_state(connection, payload.get('retorno_key')), 'read_only': True}
+    if action == 'p1_retorno_validate': return validate_p1_retorno(connection, int(payload.get('item_id')))
+    if action == 'p1_retorno_persist': return persist_p1_retorno(connection, str(payload.get('retorno_key', '')), int(payload.get('retorno_id', 0)), str(payload.get('retorno_name', '')), dict(payload.get('retorno_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_retorno_protect': return protect_p1_retorno_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_retorno_audit': return audit_p1_retornos(connection)
+    raise ValueError('P1_RETORNO_ACTION_INVALID')
+
+def p1_risco_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_risco_contracts': return {'items': read_p1_riscos(connection), 'read_only': True}
+    if action == 'p1_risco_state': return {'items': read_p1_risco_state(connection, payload.get('risco_key')), 'read_only': True}
+    if action == 'p1_risco_validate': return validate_p1_risco(connection, int(payload.get('item_id')))
+    if action == 'p1_risco_persist': return persist_p1_risco(connection, str(payload.get('risco_key', '')), int(payload.get('risco_id', 0)), str(payload.get('risco_name', '')), dict(payload.get('risco_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_risco_protect': return protect_p1_risco_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_risco_audit': return audit_p1_riscos(connection)
+    raise ValueError('P1_RISCO_ACTION_INVALID')
+
+def p1_level_domain10_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_level_domain10_contracts': return {'items': read_p1_levels(connection), 'read_only': True}
+    if action == 'p1_level_domain10_state': return {'items': read_p1_level_domain10_state(connection, payload.get('level_key')), 'read_only': True}
+    if action == 'p1_level_domain10_validate': return validate_p1_level(connection, int(payload.get('item_id')))
+    if action == 'p1_level_domain10_persist': return persist_p1_level(connection, str(payload.get('level_key', '')), int(payload.get('level_id', 0)), str(payload.get('level_name', '')), dict(payload.get('level_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_level_domain10_protect': return protect_p1_level_domain10_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_level_domain10_audit': return audit_p1_levels(connection)
+    raise ValueError('P1_LEVEL_ACTION_INVALID')
+
+def p1_suspensao_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_suspensao_contracts': return {'items': read_p1_suspensaos(connection), 'read_only': True}
+    if action == 'p1_suspensao_state': return {'items': read_p1_suspensao_state(connection, payload.get('suspensao_key')), 'read_only': True}
+    if action == 'p1_suspensao_validate': return validate_p1_suspensao(connection, int(payload.get('item_id')))
+    if action == 'p1_suspensao_persist': return persist_p1_suspensao(connection, str(payload.get('suspensao_key', '')), int(payload.get('suspensao_id', 0)), str(payload.get('suspensao_name', '')), dict(payload.get('suspensao_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_suspensao_protect': return protect_p1_suspensao_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_suspensao_audit': return audit_p1_suspensaos(connection)
+    raise ValueError('P1_SUSPENSAO_ACTION_INVALID')
+
+def p1_objetivo_operacional_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_objetivo_operacional_contracts': return {'items': read_p1_objetivo_operacionals(connection), 'read_only': True}
+    if action == 'p1_objetivo_operacional_state': return {'items': read_p1_objetivo_operacional_state(connection, payload.get('objetivo_operacional_key')), 'read_only': True}
+    if action == 'p1_objetivo_operacional_validate': return validate_p1_objetivo_operacional(connection, int(payload.get('item_id')))
+    if action == 'p1_objetivo_operacional_persist': return persist_p1_objetivo_operacional(connection, str(payload.get('objetivo_operacional_key', '')), int(payload.get('objetivo_operacional_id', 0)), str(payload.get('objetivo_operacional_name', '')), dict(payload.get('objetivo_operacional_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_objetivo_operacional_protect': return protect_p1_objetivo_operacional_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_objetivo_operacional_audit': return audit_p1_objetivo_operacionals(connection)
+    raise ValueError('P1_OBJETIVO_OPERACIONAL_ACTION_INVALID')
+
+def p1_intensidade_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_intensidade_contracts': return {'items': read_p1_intensidades(connection), 'read_only': True}
+    if action == 'p1_intensidade_state': return {'items': read_p1_intensidade_state(connection, payload.get('intensidade_key')), 'read_only': True}
+    if action == 'p1_intensidade_validate': return validate_p1_intensidade(connection, int(payload.get('item_id')))
+    if action == 'p1_intensidade_persist': return persist_p1_intensidade(connection, str(payload.get('intensidade_key', '')), int(payload.get('intensidade_id', 0)), str(payload.get('intensidade_name', '')), dict(payload.get('intensidade_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_intensidade_protect': return protect_p1_intensidade_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_intensidade_audit': return audit_p1_intensidades(connection)
+    raise ValueError('P1_INTENSIDADE_ACTION_INVALID')
+
+def p1_descanso_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_descanso_contracts': return {'items': read_p1_descansos(connection), 'read_only': True}
+    if action == 'p1_descanso_state': return {'items': read_p1_descanso_state(connection, payload.get('descanso_key')), 'read_only': True}
+    if action == 'p1_descanso_validate': return validate_p1_descanso(connection, int(payload.get('item_id')))
+    if action == 'p1_descanso_persist': return persist_p1_descanso(connection, str(payload.get('descanso_key', '')), int(payload.get('descanso_id', 0)), str(payload.get('descanso_name', '')), dict(payload.get('descanso_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_descanso_protect': return protect_p1_descanso_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_descanso_audit': return audit_p1_descansos(connection)
+    raise ValueError('P1_DESCANSO_ACTION_INVALID')
+
+def p1_tatica_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_tatica_contracts': return {'items': read_p1_taticas(connection), 'read_only': True}
+    if action == 'p1_tatica_state': return {'items': read_p1_tatica_state(connection, payload.get('tatica_key')), 'read_only': True}
+    if action == 'p1_tatica_validate': return validate_p1_tatica(connection, int(payload.get('item_id')))
+    if action == 'p1_tatica_persist': return persist_p1_tatica(connection, str(payload.get('tatica_key', '')), int(payload.get('tatica_id', 0)), str(payload.get('tatica_name', '')), dict(payload.get('tatica_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_tatica_protect': return protect_p1_tatica_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_tatica_audit': return audit_p1_taticas(connection)
+    raise ValueError('P1_TATICA_ACTION_INVALID')
+
+def p1_atributo_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_atributo_contracts': return {'items': read_p1_atributos(connection), 'read_only': True}
+    if action == 'p1_atributo_state': return {'items': read_p1_atributo_state(connection, payload.get('atributo_key')), 'read_only': True}
+    if action == 'p1_atributo_validate': return validate_p1_atributo(connection, int(payload.get('item_id')))
+    if action == 'p1_atributo_persist': return persist_p1_atributo(connection, str(payload.get('atributo_key', '')), int(payload.get('atributo_id', 0)), str(payload.get('atributo_name', '')), dict(payload.get('atributo_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_atributo_protect': return protect_p1_atributo_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_atributo_audit': return audit_p1_atributos(connection)
+    raise ValueError('P1_ATRIBUTO_ACTION_INVALID')
+
+def p1_potencial_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_potencial_contracts': return {'items': read_p1_potencials(connection), 'read_only': True}
+    if action == 'p1_potencial_state': return {'items': read_p1_potencial_state(connection, payload.get('potencial_key')), 'read_only': True}
+    if action == 'p1_potencial_validate': return validate_p1_potencial(connection, int(payload.get('item_id')))
+    if action == 'p1_potencial_persist': return persist_p1_potencial(connection, str(payload.get('potencial_key', '')), int(payload.get('potencial_id', 0)), str(payload.get('potencial_name', '')), dict(payload.get('potencial_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_potencial_protect': return protect_p1_potencial_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_potencial_audit': return audit_p1_potencials(connection)
+    raise ValueError('P1_POTENCIAL_ACTION_INVALID')
+
+def p1_proposta_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_proposta_contracts': return {'items': read_p1_propostas(connection), 'read_only': True}
+    if action == 'p1_proposta_state': return {'items': read_p1_proposta_state(connection, payload.get('proposta_key')), 'read_only': True}
+    if action == 'p1_proposta_validate': return validate_p1_proposta(connection, int(payload.get('item_id')))
+    if action == 'p1_proposta_persist': return persist_p1_proposta(connection, str(payload.get('proposta_key', '')), int(payload.get('proposta_id', 0)), str(payload.get('proposta_name', '')), dict(payload.get('proposta_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_proposta_protect': return protect_p1_proposta_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_proposta_audit': return audit_p1_propostas(connection)
+    raise ValueError('P1_PROPOSTA_ACTION_INVALID')
+
+def p1_contraproposta_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_contraproposta_contracts': return {'items': read_p1_contrapropostas(connection), 'read_only': True}
+    if action == 'p1_contraproposta_state': return {'items': read_p1_contraproposta_state(connection, payload.get('contraproposta_key')), 'read_only': True}
+    if action == 'p1_contraproposta_validate': return validate_p1_contraproposta(connection, int(payload.get('item_id')))
+    if action == 'p1_contraproposta_persist': return persist_p1_contraproposta(connection, str(payload.get('contraproposta_key', '')), int(payload.get('contraproposta_id', 0)), str(payload.get('contraproposta_name', '')), dict(payload.get('contraproposta_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_contraproposta_protect': return protect_p1_contraproposta_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_contraproposta_audit': return audit_p1_contrapropostas(connection)
+    raise ValueError('P1_CONTRAPROPOSTA_ACTION_INVALID')
+
+def p1_valor_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_valor_contracts': return {'items': read_p1_valors(connection), 'read_only': True}
+    if action == 'p1_valor_state': return {'items': read_p1_valor_state(connection, payload.get('valor_key')), 'read_only': True}
+    if action == 'p1_valor_validate': return validate_p1_valor(connection, int(payload.get('item_id')))
+    if action == 'p1_valor_persist': return persist_p1_valor(connection, str(payload.get('valor_key', '')), int(payload.get('valor_id', 0)), str(payload.get('valor_name', '')), dict(payload.get('valor_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_valor_protect': return protect_p1_valor_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_valor_audit': return audit_p1_valors(connection)
+    raise ValueError('P1_VALOR_ACTION_INVALID')
+
+def p1_emprestimo_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_emprestimo_contracts': return {'items': read_p1_emprestimos(connection), 'read_only': True}
+    if action == 'p1_emprestimo_state': return {'items': read_p1_emprestimo_state(connection, payload.get('emprestimo_key')), 'read_only': True}
+    if action == 'p1_emprestimo_validate': return validate_p1_emprestimo(connection, int(payload.get('item_id')))
+    if action == 'p1_emprestimo_persist': return persist_p1_emprestimo(connection, str(payload.get('emprestimo_key', '')), int(payload.get('emprestimo_id', 0)), str(payload.get('emprestimo_name', '')), dict(payload.get('emprestimo_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_emprestimo_protect': return protect_p1_emprestimo_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_emprestimo_audit': return audit_p1_emprestimos(connection)
+    raise ValueError('P1_EMPRESTIMO_ACTION_INVALID')
+
+def p1_opcao_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_opcao_contracts': return {'items': read_p1_opcaos(connection), 'read_only': True}
+    if action == 'p1_opcao_state': return {'items': read_p1_opcao_state(connection, payload.get('opcao_key')), 'read_only': True}
+    if action == 'p1_opcao_validate': return validate_p1_opcao(connection, int(payload.get('item_id')))
+    if action == 'p1_opcao_persist': return persist_p1_opcao(connection, str(payload.get('opcao_key', '')), int(payload.get('opcao_id', 0)), str(payload.get('opcao_name', '')), dict(payload.get('opcao_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_opcao_protect': return protect_p1_opcao_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_opcao_audit': return audit_p1_opcaos(connection)
+    raise ValueError('P1_OPCAO_ACTION_INVALID')
+
+def p1_registro_adicional_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_registro_adicional_contracts': return {'items': read_p1_registro_adicionals(connection), 'read_only': True}
+    if action == 'p1_registro_adicional_state': return {'items': read_p1_registro_adicional_state(connection, payload.get('registro_adicional_key')), 'read_only': True}
+    if action == 'p1_registro_adicional_validate': return validate_p1_registro_adicional(connection, int(payload.get('item_id')))
+    if action == 'p1_registro_adicional_persist': return persist_p1_registro_adicional(connection, str(payload.get('registro_adicional_key', '')), int(payload.get('registro_adicional_id', 0)), str(payload.get('registro_adicional_name', '')), dict(payload.get('registro_adicional_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_registro_adicional_protect': return protect_p1_registro_adicional_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_registro_adicional_audit': return audit_p1_registro_adicionals(connection)
+    raise ValueError('P1_REGISTRO_ADICIONAL_ACTION_INVALID')
+
+def p1_regiao_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_regiao_contracts': return {'items': read_p1_regiaos(connection), 'read_only': True}
+    if action == 'p1_regiao_state': return {'items': read_p1_regiao_state(connection, payload.get('regiao_key')), 'read_only': True}
+    if action == 'p1_regiao_validate': return validate_p1_regiao(connection, int(payload.get('item_id')))
+    if action == 'p1_regiao_persist': return persist_p1_regiao(connection, str(payload.get('regiao_key', '')), int(payload.get('regiao_id', 0)), str(payload.get('regiao_name', '')), dict(payload.get('regiao_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_regiao_protect': return protect_p1_regiao_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_regiao_audit': return audit_p1_regiaos(connection)
+    raise ValueError('P1_REGIAO_ACTION_INVALID')
+
+def p1_posicao_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_posicao_contracts': return {'items': read_p1_posicaos(connection), 'read_only': True}
+    if action == 'p1_posicao_state': return {'items': read_p1_posicao_state(connection, payload.get('posicao_key')), 'read_only': True}
+    if action == 'p1_posicao_validate': return validate_p1_posicao(connection, int(payload.get('item_id')))
+    if action == 'p1_posicao_persist': return persist_p1_posicao(connection, str(payload.get('posicao_key', '')), int(payload.get('posicao_id', 0)), str(payload.get('posicao_name', '')), dict(payload.get('posicao_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_posicao_protect': return protect_p1_posicao_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_posicao_audit': return audit_p1_posicaos(connection)
+    raise ValueError('P1_POSICAO_ACTION_INVALID')
+
+def p1_tatica_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_tatica_contracts': return {'items': read_p1_taticas(connection), 'read_only': True}
+    if action == 'p1_tatica_state': return {'items': read_p1_tatica_state(connection, payload.get('tatica_key')), 'read_only': True}
+    if action == 'p1_tatica_validate': return validate_p1_tatica(connection, int(payload.get('item_id')))
+    if action == 'p1_tatica_persist': return persist_p1_tatica(connection, str(payload.get('tatica_key', '')), int(payload.get('tatica_id', 0)), str(payload.get('tatica_name', '')), dict(payload.get('tatica_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_tatica_protect': return protect_p1_tatica_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_tatica_audit': return audit_p1_taticas(connection)
+    raise ValueError('P1_TATICA_ACTION_INVALID')
+
+def p1_registration_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_registration_contracts': return {'items': read_p1_registrations(connection), 'read_only': True}
+    if action == 'p1_registration_state': return {'items': read_p1_registration_state(connection, payload.get('registration_key')), 'read_only': True}
+    if action == 'p1_registration_validate': return validate_p1_registration(connection, int(payload.get('item_id')))
+    if action == 'p1_registration_persist': return persist_p1_registration(connection, str(payload.get('registration_key', '')), int(payload.get('registration_id', 0)), str(payload.get('registration_name', '')), dict(payload.get('registration_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_registration_protect': return protect_p1_registration_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_registration_audit': return audit_p1_registrations(connection)
+    raise ValueError('P1_REGISTRATION_ACTION_INVALID')
+
+def p1_evidencia_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_evidencia_contracts': return {'items': read_p1_evidencias(connection), 'read_only': True}
+    if action == 'p1_evidencia_state': return {'items': read_p1_evidencia_state(connection, payload.get('evidencia_key')), 'read_only': True}
+    if action == 'p1_evidencia_validate': return validate_p1_evidencia(connection, int(payload.get('item_id')))
+    if action == 'p1_evidencia_persist': return persist_p1_evidencia(connection, str(payload.get('evidencia_key', '')), int(payload.get('evidencia_id', 0)), str(payload.get('evidencia_name', '')), dict(payload.get('evidencia_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_evidencia_protect': return protect_p1_evidencia_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_evidencia_audit': return audit_p1_evidencias(connection)
+    raise ValueError('P1_EVIDENCIA_ACTION_INVALID')
+
+def p1_comparacao_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_comparacao_contracts': return {'items': read_p1_comparacaos(connection), 'read_only': True}
+    if action == 'p1_comparacao_state': return {'items': read_p1_comparacao_state(connection, payload.get('comparacao_key')), 'read_only': True}
+    if action == 'p1_comparacao_validate': return validate_p1_comparacao(connection, int(payload.get('item_id')))
+    if action == 'p1_comparacao_persist': return persist_p1_comparacao(connection, str(payload.get('comparacao_key', '')), int(payload.get('comparacao_id', 0)), str(payload.get('comparacao_name', '')), dict(payload.get('comparacao_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_comparacao_protect': return protect_p1_comparacao_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_comparacao_audit': return audit_p1_comparacaos(connection)
+    raise ValueError('P1_COMPARACAO_ACTION_INVALID')
+
+def p1_relatorio_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_relatorio_contracts': return {'items': read_p1_relatorios(connection), 'read_only': True}
+    if action == 'p1_relatorio_state': return {'items': read_p1_relatorio_state(connection, payload.get('relatorio_key')), 'read_only': True}
+    if action == 'p1_relatorio_validate': return validate_p1_relatorio(connection, int(payload.get('item_id')))
+    if action == 'p1_relatorio_persist': return persist_p1_relatorio(connection, str(payload.get('relatorio_key', '')), int(payload.get('relatorio_id', 0)), str(payload.get('relatorio_name', '')), dict(payload.get('relatorio_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_relatorio_protect': return protect_p1_relatorio_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_relatorio_audit': return audit_p1_relatorios(connection)
+    raise ValueError('P1_RELATORIO_ACTION_INVALID')
+
+def p1_receita_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_receita_contracts': return {'items': read_p1_receitas(connection), 'read_only': True}
+    if action == 'p1_receita_state': return {'items': read_p1_receita_state(connection, payload.get('receita_key')), 'read_only': True}
+    if action == 'p1_receita_validate': return validate_p1_receita(connection, int(payload.get('item_id')))
+    if action == 'p1_receita_persist': return persist_p1_receita(connection, str(payload.get('receita_key', '')), int(payload.get('receita_id', 0)), str(payload.get('receita_name', '')), dict(payload.get('receita_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_receita_protect': return protect_p1_receita_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_receita_audit': return audit_p1_receitas(connection)
+    raise ValueError('P1_RECEITA_ACTION_INVALID')
+
+def p1_despesa_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_despesa_contracts': return {'items': read_p1_despesas(connection), 'read_only': True}
+    if action == 'p1_despesa_state': return {'items': read_p1_despesa_state(connection, payload.get('despesa_key')), 'read_only': True}
+    if action == 'p1_despesa_validate': return validate_p1_despesa(connection, int(payload.get('item_id')))
+    if action == 'p1_despesa_persist': return persist_p1_despesa(connection, str(payload.get('despesa_key', '')), int(payload.get('despesa_id', 0)), str(payload.get('despesa_name', '')), dict(payload.get('despesa_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_despesa_protect': return protect_p1_despesa_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_despesa_audit': return audit_p1_despesas(connection)
+    raise ValueError('P1_DESPESA_ACTION_INVALID')
+
+def p1_salario_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_salario_salarios': return {'items': read_p1_salarios(connection), 'read_only': True}
+    if action == 'p1_salario_state': return {'items': read_p1_salario_state(connection, payload.get('salario_key')), 'read_only': True}
+    if action == 'p1_salario_validate': return validate_p1_salario(connection, int(payload.get('item_id')))
+    if action == 'p1_salario_persist': return persist_p1_salario(connection, str(payload.get('salario_key', '')), int(payload.get('salario_id', 0)), str(payload.get('salario_name', '')), dict(payload.get('salario_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_salario_protect': return protect_p1_salario_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_salario_audit': return audit_p1_salarios(connection)
+    raise ValueError('P1_SALARIO_ACTION_INVALID')
+
+def p1_bonus_operacional_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_bonus_operacional_contracts': return {'items': read_p1_bonus_operacionals(connection), 'read_only': True}
+    if action == 'p1_bonus_operacional_state': return {'items': read_p1_bonus_operacional_state(connection, payload.get('bonus_operacional_key')), 'read_only': True}
+    if action == 'p1_bonus_operacional_validate': return validate_p1_bonus_operacional(connection, int(payload.get('item_id')))
+    if action == 'p1_bonus_operacional_persist': return persist_p1_bonus_operacional(connection, str(payload.get('bonus_operacional_key', '')), int(payload.get('bonus_operacional_id', 0)), str(payload.get('bonus_operacional_name', '')), dict(payload.get('bonus_operacional_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_bonus_operacional_protect': return protect_p1_bonus_operacional_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_bonus_operacional_audit': return audit_p1_bonus_operacionals(connection)
+    raise ValueError('P1_BONUS_OPERACIONAL_ACTION_INVALID')
+
+def p1_ledger_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_ledger_contracts': return {'items': read_p1_ledgers(connection), 'read_only': True}
+    if action == 'p1_ledger_state': return {'items': read_p1_ledger_state(connection, payload.get('ledger_key')), 'read_only': True}
+    if action == 'p1_ledger_validate': return validate_p1_ledger(connection, int(payload.get('item_id')))
+    if action == 'p1_ledger_persist': return persist_p1_ledger(connection, str(payload.get('ledger_key', '')), int(payload.get('ledger_id', 0)), str(payload.get('ledger_name', '')), dict(payload.get('ledger_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_ledger_protect': return protect_p1_ledger_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_ledger_audit': return audit_p1_ledgers(connection)
+    raise ValueError('P1_LEDGER_ACTION_INVALID')
+
+def p1_orcamento_operacional_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_orcamento_operacional_contracts': return {'items': read_p1_orcamento_operacionals(connection), 'read_only': True}
+    if action == 'p1_orcamento_operacional_state': return {'items': read_p1_orcamento_operacional_state(connection, payload.get('orcamento_operacional_key')), 'read_only': True}
+    if action == 'p1_orcamento_operacional_validate': return validate_p1_orcamento_operacional(connection, int(payload.get('item_id')))
+    if action == 'p1_orcamento_operacional_persist': return persist_p1_orcamento_operacional(connection, str(payload.get('orcamento_operacional_key', '')), int(payload.get('orcamento_operacional_id', 0)), str(payload.get('orcamento_operacional_name', '')), dict(payload.get('orcamento_operacional_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_orcamento_operacional_protect': return protect_p1_orcamento_operacional_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_orcamento_operacional_audit': return audit_p1_orcamento_operacionals(connection)
+    raise ValueError('P1_ORCAMENTO_OPERACIONAL_ACTION_INVALID')
+
+def p1_projecao_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_projecao_contracts': return {'items': read_p1_projecaos(connection), 'read_only': True}
+    if action == 'p1_projecao_state': return {'items': read_p1_projecao_state(connection, payload.get('projecao_key')), 'read_only': True}
+    if action == 'p1_projecao_validate': return validate_p1_projecao(connection, int(payload.get('item_id')))
+    if action == 'p1_projecao_persist': return persist_p1_projecao(connection, str(payload.get('projecao_key', '')), int(payload.get('projecao_id', 0)), str(payload.get('projecao_name', '')), dict(payload.get('projecao_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_projecao_protect': return protect_p1_projecao_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_projecao_audit': return audit_p1_projecaos(connection)
+    raise ValueError('P1_PROJECAO_ACTION_INVALID')
+
+def p1_estrela_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_estrela_contracts': return {'items': read_p1_estrelas(connection), 'read_only': True}
+    if action == 'p1_estrela_state': return {'items': read_p1_estrela_state(connection, payload.get('star_rating')), 'read_only': True}
+    if action == 'p1_estrela_validate': return validate_p1_estrela(connection, int(payload.get('item_id')))
+    if action == 'p1_estrela_persist': return persist_p1_estrela(connection, int(payload.get('star_rating')), dict(payload.get('star_payload') or {}), str(payload.get('actor', '')))
+    if action == 'p1_estrela_protect': return protect_p1_estrela_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_estrela_audit': return audit_p1_estrelas(connection)
+    raise ValueError('P1_ESTRELA_ACTION_INVALID')
+
+def p1_missao_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_missao_contracts': return {'items': read_p1_missoes(connection), 'read_only': True}
+    if action == 'p1_missao_state': return {'items': read_p1_missao_state(connection, payload.get('mission_type')), 'read_only': True}
+    if action == 'p1_missao_validate': return validate_p1_missao(connection, int(payload.get('item_id')))
+    if action == 'p1_missao_persist': return persist_p1_missao(connection, str(payload.get('mission_type', '')), dict(payload.get('mission_payload') or {}), str(payload.get('actor', '')))
+    if action == 'p1_missao_protect': return protect_p1_missao_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_missao_audit': return audit_p1_missoes(connection)
+    raise ValueError('P1_MISSAO_ACTION_INVALID')
+
+def p1_contrato_comercial_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_contrato_comercial_contrato_comercials': return {'items': read_p1_contrato_comercials(connection), 'read_only': True}
+    if action == 'p1_contrato_comercial_state': return {'items': read_p1_contrato_comercial_state(connection, payload.get('contrato_comercial_key')), 'read_only': True}
+    if action == 'p1_contrato_comercial_validate': return validate_p1_contrato_comercial(connection, int(payload.get('item_id')))
+    if action == 'p1_contrato_comercial_persist': return persist_p1_contrato_comercial(connection, str(payload.get('contrato_comercial_key', '')), int(payload.get('contrato_comercial_id', 0)), str(payload.get('contrato_comercial_name', '')), dict(payload.get('contrato_comercial_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_contrato_comercial_protect': return protect_p1_contrato_comercial_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_contrato_comercial_audit': return audit_p1_contrato_comercials(connection)
+    raise ValueError('P1_CONTRATO_COMERCIAL_ACTION_INVALID')
+
+def p1_expiracao_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_expiracao_expiracaos': return {'items': read_p1_expiracaos(connection), 'read_only': True}
+    if action == 'p1_expiracao_state': return {'items': read_p1_expiracao_state(connection, payload.get('expiracao_key')), 'read_only': True}
+    if action == 'p1_expiracao_validate': return validate_p1_expiracao(connection, int(payload.get('item_id')))
+    if action == 'p1_expiracao_persist': return persist_p1_expiracao(connection, str(payload.get('expiracao_key', '')), int(payload.get('expiracao_id', 0)), str(payload.get('expiracao_name', '')), dict(payload.get('expiracao_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_expiracao_protect': return protect_p1_expiracao_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_expiracao_audit': return audit_p1_expiracaos(connection)
+    raise ValueError('P1_EXPIRACAO_ACTION_INVALID')
+
+def p1_bonus_patrocinio_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_bonus_patrocinio_contracts': return {'items': read_p1_bonus_patrocinios(connection), 'read_only': True}
+    if action == 'p1_bonus_patrocinio_state': return {'items': read_p1_bonus_patrocinio_state(connection, payload.get('bonus_patrocinio_key')), 'read_only': True}
+    if action == 'p1_bonus_patrocinio_validate': return validate_p1_bonus_patrocinio(connection, int(payload.get('item_id')))
+    if action == 'p1_bonus_patrocinio_persist': return persist_p1_bonus_patrocinio(connection, str(payload.get('bonus_patrocinio_key', '')), int(payload.get('bonus_patrocinio_id', 0)), str(payload.get('bonus_patrocinio_name', '')), dict(payload.get('bonus_patrocinio_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_bonus_patrocinio_protect': return protect_p1_bonus_patrocinio_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_bonus_patrocinio_audit': return audit_p1_bonus_patrocinios(connection)
+    raise ValueError('P1_BONUS_PATROCINIO_ACTION_INVALID')
+
+def p1_inventario_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_inventario_contracts': return {'items': read_p1_inventarios(connection), 'read_only': True}
+    if action == 'p1_inventario_state': return {'items': read_p1_inventario_state(connection, payload.get('inventario_key')), 'read_only': True}
+    if action == 'p1_inventario_validate': return validate_p1_inventario(connection, int(payload.get('item_id')))
+    if action == 'p1_inventario_persist': return persist_p1_inventario(connection, str(payload.get('inventario_key', '')), int(payload.get('inventario_id', 0)), str(payload.get('inventario_name', '')), dict(payload.get('inventario_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_inventario_protect': return protect_p1_inventario_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_inventario_audit': return audit_p1_inventarios(connection)
+    raise ValueError('P1_INVENTARIO_ACTION_INVALID')
+
+def p1_setor_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_setor_contracts': return {'items': read_p1_setors(connection), 'read_only': True}
+    if action == 'p1_setor_state': return {'items': read_p1_setor_state(connection, payload.get('setor_key')), 'read_only': True}
+    if action == 'p1_setor_validate': return validate_p1_setor(connection, int(payload.get('item_id')))
+    if action == 'p1_setor_persist': return persist_p1_setor(connection, str(payload.get('setor_key', '')), int(payload.get('setor_id', 0)), str(payload.get('setor_name', '')), dict(payload.get('setor_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_setor_protect': return protect_p1_setor_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_setor_audit': return audit_p1_setors(connection)
+    raise ValueError('P1_SETOR_ACTION_INVALID')
+
+def p1_seguranca_domain24_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_seguranca_domain24_contracts': return {'items': read_p1_seguranca_domain24s(connection), 'read_only': True}
+    if action == 'p1_seguranca_domain24_state': return {'items': read_p1_seguranca_domain24_state(connection, payload.get('seguranca_domain24_key')), 'read_only': True}
+    if action == 'p1_seguranca_domain24_validate': return validate_p1_seguranca_domain24(connection, int(payload.get('item_id')))
+    if action == 'p1_seguranca_domain24_persist': return persist_p1_seguranca_domain24(connection, str(payload.get('seguranca_domain24_key', '')), int(payload.get('seguranca_domain24_id', 0)), str(payload.get('seguranca_domain24_name', '')), dict(payload.get('seguranca_domain24_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_seguranca_domain24_protect': return protect_p1_seguranca_domain24_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_seguranca_domain24_audit': return audit_p1_seguranca_domain24s(connection)
+    raise ValueError('P1_SEGURANCA_DOMAIN24_ACTION_INVALID')
+
+def p1_concessao_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_concessao_concessaos': return {'items': read_p1_concessaos(connection), 'read_only': True}
+    if action == 'p1_concessao_state': return {'items': read_p1_concessao_state(connection, payload.get('concessao_key')), 'read_only': True}
+    if action == 'p1_concessao_validate': return validate_p1_concessao(connection, int(payload.get('item_id')))
+    if action == 'p1_concessao_persist': return persist_p1_concessao(connection, str(payload.get('concessao_key', '')), int(payload.get('concessao_id', 0)), str(payload.get('concessao_name', '')), dict(payload.get('concessao_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_concessao_protect': return protect_p1_concessao_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_concessao_audit': return audit_p1_concessaos(connection)
+    raise ValueError('P1_CONCESSAO_ACTION_INVALID')
+
+def p1_distancia_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_distancia_distancias': return {'items': read_p1_distancias(connection), 'read_only': True}
+    if action == 'p1_distancia_state': return {'items': read_p1_distancia_state(connection, payload.get('distancia_key')), 'read_only': True}
+    if action == 'p1_distancia_validate': return validate_p1_distancia(connection, int(payload.get('item_id')))
+    if action == 'p1_distancia_persist': return persist_p1_distancia(connection, str(payload.get('distancia_key', '')), int(payload.get('distancia_id', 0)), str(payload.get('distancia_name', '')), dict(payload.get('distancia_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_distancia_protect': return protect_p1_distancia_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_distancia_audit': return audit_p1_distancias(connection)
+    raise ValueError('P1_DISTANCIA_ACTION_INVALID')
+
+def p1_custo_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_custo_custos': return {'items': read_p1_custos(connection), 'read_only': True}
+    if action == 'p1_custo_state': return {'items': read_p1_custo_state(connection, payload.get('custo_key')), 'read_only': True}
+    if action == 'p1_custo_validate': return validate_p1_custo(connection, int(payload.get('item_id')))
+    if action == 'p1_custo_persist': return persist_p1_custo(connection, str(payload.get('custo_key', '')), int(payload.get('custo_id', 0)), str(payload.get('custo_name', '')), dict(payload.get('custo_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_custo_protect': return protect_p1_custo_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_custo_audit': return audit_p1_custos(connection)
+    raise ValueError('P1_CUSTO_ACTION_INVALID')
+
+def p1_hotel_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_hotel_hotels': return {'items': read_p1_hotels(connection), 'read_only': True}
+    if action == 'p1_hotel_state': return {'items': read_p1_hotel_state(connection, payload.get('hotel_key')), 'read_only': True}
+    if action == 'p1_hotel_validate': return validate_p1_hotel(connection, int(payload.get('item_id')))
+    if action == 'p1_hotel_persist': return persist_p1_hotel(connection, str(payload.get('hotel_key', '')), int(payload.get('hotel_id', 0)), str(payload.get('hotel_name', '')), dict(payload.get('hotel_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_hotel_protect': return protect_p1_hotel_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_hotel_audit': return audit_p1_hotels(connection)
+    raise ValueError('P1_HOTEL_ACTION_INVALID')
+
+def p1_voo_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_voo_voos': return {'items': read_p1_voos(connection), 'read_only': True}
+    if action == 'p1_voo_state': return {'items': read_p1_voo_state(connection, payload.get('voo_key')), 'read_only': True}
+    if action == 'p1_voo_validate': return validate_p1_voo(connection, int(payload.get('item_id')))
+    if action == 'p1_voo_persist': return persist_p1_voo(connection, str(payload.get('voo_key', '')), int(payload.get('voo_id', 0)), str(payload.get('voo_name', '')), dict(payload.get('voo_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_voo_protect': return protect_p1_voo_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_voo_audit': return audit_p1_voos(connection)
+    raise ValueError('P1_VOO_ACTION_INVALID')
+
+def p1_onibus_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_onibus_onibuss': return {'items': read_p1_onibuss(connection), 'read_only': True}
+    if action == 'p1_onibus_state': return {'items': read_p1_onibus_state(connection, payload.get('onibus_key')), 'read_only': True}
+    if action == 'p1_onibus_validate': return validate_p1_onibus(connection, int(payload.get('item_id')))
+    if action == 'p1_onibus_persist': return persist_p1_onibus(connection, str(payload.get('onibus_key', '')), int(payload.get('onibus_id', 0)), str(payload.get('onibus_name', '')), dict(payload.get('onibus_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_onibus_protect': return protect_p1_onibus_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_onibus_audit': return audit_p1_onibuss(connection)
+    raise ValueError('P1_ONIBUS_ACTION_INVALID')
+
+def p1_descanso_operacional_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_descanso_operacional_contracts': return {'items': read_p1_descanso_operacionals(connection), 'read_only': True}
+    if action == 'p1_descanso_operacional_state': return {'items': read_p1_descanso_operacional_state(connection, payload.get('descanso_operacional_key')), 'read_only': True}
+    if action == 'p1_descanso_operacional_validate': return validate_p1_descanso_operacional(connection, int(payload.get('item_id')))
+    if action == 'p1_descanso_operacional_persist': return persist_p1_descanso_operacional(connection, str(payload.get('descanso_operacional_key', '')), int(payload.get('descanso_operacional_id', 0)), str(payload.get('descanso_operacional_name', '')), dict(payload.get('descanso_operacional_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_descanso_operacional_protect': return protect_p1_descanso_operacional_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_descanso_operacional_audit': return audit_p1_descanso_operacionals(connection)
+    raise ValueError('P1_DESCANSO_OPERACIONAL_ACTION_INVALID')
+
+def p1_security_followup_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_security_followup_contracts': return {'items': read_p1_security_followups(connection), 'read_only': True}
+    if action == 'p1_security_followup_state': return {'items': read_p1_security_followup_state(connection, payload.get('security_followup_key')), 'read_only': True}
+    if action == 'p1_security_followup_validate': return validate_p1_security_followup(connection, int(payload.get('item_id')))
+    if action == 'p1_security_followup_persist': return persist_p1_security_followup(connection, str(payload.get('security_followup_key', '')), int(payload.get('security_followup_id', 0)), str(payload.get('security_followup_name', '')), dict(payload.get('security_followup_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_security_followup_protect': return protect_p1_security_followup_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_security_followup_audit': return audit_p1_security_followups(connection)
+    raise ValueError('P1_SECURITY_FOLLOWUP_ACTION_INVALID')
+
+def p1_lote_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_lote_contracts': return {'items': read_p1_lotes(connection), 'read_only': True}
+    if action == 'p1_lote_state': return {'items': read_p1_lote_state(connection, payload.get('lote_key')), 'read_only': True}
+    if action == 'p1_lote_validate': return validate_p1_lote(connection, int(payload.get('item_id')))
+    if action == 'p1_lote_persist': return persist_p1_lote(connection, str(payload.get('lote_key', '')), int(payload.get('lote_id', 0)), str(payload.get('lote_name', '')), dict(payload.get('lote_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_lote_protect': return protect_p1_lote_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_lote_audit': return audit_p1_lotes(connection)
+    raise ValueError('P1_LOTE_ACTION_INVALID')
+
+def p1_seed_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_seed_contracts': return {'items': read_p1_seeds(connection), 'read_only': True}
+    if action == 'p1_seed_state': return {'items': read_p1_seed_state(connection, payload.get('seed_key')), 'read_only': True}
+    if action == 'p1_seed_validate': return validate_p1_seed(connection, int(payload.get('item_id')))
+    if action == 'p1_seed_persist': return persist_p1_seed(connection, str(payload.get('seed_key', '')), int(payload.get('seed_id', 0)), str(payload.get('seed_name', '')), dict(payload.get('seed_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_seed_protect': return protect_p1_seed_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_seed_audit': return audit_p1_seeds(connection)
+    raise ValueError('P1_SEED_ACTION_INVALID')
+
+def p1_checkpoint_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_checkpoint_contracts': return {'items': read_p1_checkpoints(connection), 'read_only': True}
+    if action == 'p1_checkpoint_state': return {'items': read_p1_checkpoint_state(connection, payload.get('checkpoint_key')), 'read_only': True}
+    if action == 'p1_checkpoint_validate': return validate_p1_checkpoint(connection, int(payload.get('item_id')))
+    if action == 'p1_checkpoint_persist': return persist_p1_checkpoint(connection, str(payload.get('checkpoint_key', '')), int(payload.get('checkpoint_id', 0)), str(payload.get('checkpoint_name', '')), dict(payload.get('checkpoint_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_checkpoint_protect': return protect_p1_checkpoint_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_checkpoint_audit': return audit_p1_checkpoints(connection)
+    raise ValueError('P1_CHECKPOINT_ACTION_INVALID')
+
+def p1_falha_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_falha_contracts': return {'items': read_p1_falhas(connection), 'read_only': True}
+    if action == 'p1_falha_state': return {'items': read_p1_falha_state(connection, payload.get('falha_key')), 'read_only': True}
+    if action == 'p1_falha_validate': return validate_p1_falha(connection, int(payload.get('item_id')))
+    if action == 'p1_falha_persist': return persist_p1_falha(connection, str(payload.get('falha_key', '')), int(payload.get('falha_id', 0)), str(payload.get('falha_name', '')), dict(payload.get('falha_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_falha_protect': return protect_p1_falha_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_falha_audit': return audit_p1_falhas(connection)
+    raise ValueError('P1_FALHA_ACTION_INVALID')
+
+def p1_retomada_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_retomada_contracts': return {'items': read_p1_retomadas(connection), 'read_only': True}
+    if action == 'p1_retomada_state': return {'items': read_p1_retomada_state(connection, payload.get('retomada_key')), 'read_only': True}
+    if action == 'p1_retomada_validate': return validate_p1_retomada(connection, int(payload.get('item_id')))
+    if action == 'p1_retomada_persist': return persist_p1_retomada(connection, str(payload.get('retomada_key', '')), int(payload.get('retomada_id', 0)), str(payload.get('retomada_name', '')), dict(payload.get('retomada_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_retomada_protect': return protect_p1_retomada_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_retomada_audit': return audit_p1_retomadas(connection)
+    raise ValueError('P1_RETOMADA_ACTION_INVALID')
+
+def p1_prioridade_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_prioridade_contracts': return {'items': read_p1_prioridades(connection), 'read_only': True}
+    if action == 'p1_prioridade_state': return {'items': read_p1_prioridade_state(connection, payload.get('prioridade_key')), 'read_only': True}
+    if action == 'p1_prioridade_validate': return validate_p1_prioridade(connection, int(payload.get('item_id')))
+    if action == 'p1_prioridade_persist': return persist_p1_prioridade(connection, str(payload.get('prioridade_key', '')), int(payload.get('prioridade_id', 0)), str(payload.get('prioridade_name', '')), dict(payload.get('prioridade_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_prioridade_protect': return protect_p1_prioridade_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_prioridade_audit': return audit_p1_prioridades(connection)
+    raise ValueError('P1_PRIORIDADE_ACTION_INVALID')
+
+def p1_evento_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_evento_contracts': return {'items': read_p1_eventos(connection), 'read_only': True}
+    if action == 'p1_evento_state': return {'items': read_p1_evento_state(connection, payload.get('evento_key')), 'read_only': True}
+    if action == 'p1_evento_validate': return validate_p1_evento(connection, int(payload.get('item_id')))
+    if action == 'p1_evento_persist': return persist_p1_evento(connection, str(payload.get('evento_key', '')), int(payload.get('evento_id', 0)), str(payload.get('evento_name', '')), dict(payload.get('evento_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_evento_protect': return protect_p1_evento_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_evento_audit': return audit_p1_eventos(connection)
+    raise ValueError('P1_EVENTO_ACTION_INVALID')
+
+def p1_feed_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_feed_contracts': return {'items': read_p1_feeds(connection), 'read_only': True}
+    if action == 'p1_feed_state': return {'items': read_p1_feed_state(connection, payload.get('feed_key')), 'read_only': True}
+    if action == 'p1_feed_validate': return validate_p1_feed(connection, int(payload.get('item_id')))
+    if action == 'p1_feed_persist': return persist_p1_feed(connection, str(payload.get('feed_key', '')), int(payload.get('feed_id', 0)), str(payload.get('feed_name', '')), dict(payload.get('feed_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_feed_protect': return protect_p1_feed_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_feed_audit': return audit_p1_feeds(connection)
+    raise ValueError('P1_FEED_ACTION_INVALID')
+
+def p1_severidade_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_severidade_contracts': return {'items': read_p1_severidades(connection), 'read_only': True}
+    if action == 'p1_severidade_state': return {'items': read_p1_severidade_state(connection, payload.get('severidade_key')), 'read_only': True}
+    if action == 'p1_severidade_validate': return validate_p1_severidade(connection, int(payload.get('item_id')))
+    if action == 'p1_severidade_persist': return persist_p1_severidade(connection, str(payload.get('severidade_key', '')), int(payload.get('severidade_id', 0)), str(payload.get('severidade_name', '')), dict(payload.get('severidade_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_severidade_protect': return protect_p1_severidade_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_severidade_audit': return audit_p1_severidades(connection)
+    raise ValueError('P1_SEVERIDADE_ACTION_INVALID')
+
+def p1_tatica_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_tatica_contracts': return {'items': read_p1_taticas(connection), 'read_only': True}
+    if action == 'p1_tatica_state': return {'items': read_p1_tatica_state(connection, payload.get('tatica_key')), 'read_only': True}
+    if action == 'p1_tatica_validate': return validate_p1_tatica(connection, int(payload.get('item_id')))
+    if action == 'p1_tatica_persist': return persist_p1_tatica(connection, str(payload.get('tatica_key', '')), int(payload.get('tatica_id', 0)), str(payload.get('tatica_name', '')), dict(payload.get('tatica_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_tatica_protect': return protect_p1_tatica_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_tatica_audit': return audit_p1_taticas(connection)
+    raise ValueError('P1_TATICA_ACTION_INVALID')
+
+def p1_tatica_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_tatica_contracts': return {'items': read_p1_taticas(connection), 'read_only': True}
+    if action == 'p1_tatica_state': return {'items': read_p1_tatica_state(connection, payload.get('tatica_key')), 'read_only': True}
+    if action == 'p1_tatica_validate': return validate_p1_tatica(connection, int(payload.get('item_id')))
+    if action == 'p1_tatica_persist': return persist_p1_tatica(connection, str(payload.get('tatica_key', '')), int(payload.get('tatica_id', 0)), str(payload.get('tatica_name', '')), dict(payload.get('tatica_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_tatica_protect': return protect_p1_tatica_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_tatica_audit': return audit_p1_taticas(connection)
+    raise ValueError('P1_TATICA_ACTION_INVALID')
+
+def p1_record_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_record_contracts': return {'items': read_p1_records(connection), 'read_only': True}
+    if action == 'p1_record_state': return {'items': read_p1_record_state(connection, payload.get('record_key')), 'read_only': True}
+    if action == 'p1_record_validate': return validate_p1_record(connection, int(payload.get('item_id')))
+    if action == 'p1_record_persist': return persist_p1_record(connection, str(payload.get('record_key', '')), int(payload.get('record_id', 0)), str(payload.get('record_name', '')), dict(payload.get('record_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_record_protect': return protect_p1_record_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_record_audit': return audit_p1_records(connection)
+    raise ValueError('P1_RECORD_ACTION_INVALID')
+
+def p1_preferencia_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_preferencia_contracts': return {'items': read_p1_preferencias(connection), 'read_only': True}
+    if action == 'p1_preferencia_state': return {'items': read_p1_preferencia_state(connection, payload.get('preferencia_key')), 'read_only': True}
+    if action == 'p1_preferencia_validate': return validate_p1_preferencia(connection, int(payload.get('item_id')))
+    if action == 'p1_preferencia_persist': return persist_p1_preferencia(connection, str(payload.get('preferencia_key', '')), int(payload.get('preferencia_id', 0)), str(payload.get('preferencia_name', '')), dict(payload.get('preferencia_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_preferencia_protect': return protect_p1_preferencia_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_preferencia_audit': return audit_p1_preferencias(connection)
+    raise ValueError('P1_PREFERENCIA_ACTION_INVALID')
+
+def p1_objetivo_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_objetivo_contracts': return {'items': read_p1_objetivos(connection), 'read_only': True}
+    if action == 'p1_objetivo_state': return {'items': read_p1_objetivo_state(connection, payload.get('objetivo_key')), 'read_only': True}
+    if action == 'p1_objetivo_validate': return validate_p1_objetivo(connection, int(payload.get('item_id')))
+    if action == 'p1_objetivo_persist': return persist_p1_objetivo(connection, str(payload.get('objetivo_key', '')), int(payload.get('objetivo_id', 0)), str(payload.get('objetivo_name', '')), dict(payload.get('objetivo_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_objetivo_protect': return protect_p1_objetivo_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_objetivo_audit': return audit_p1_objetivos(connection)
+    raise ValueError('P1_OBJETIVO_ACTION_INVALID')
+
+def p1_experiencia_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_experiencia_contracts': return {'items': read_p1_experiencias(connection), 'read_only': True}
+    if action == 'p1_experiencia_state': return {'items': read_p1_experiencia_state(connection, payload.get('experiencia_key')), 'read_only': True}
+    if action == 'p1_experiencia_validate': return validate_p1_experiencia(connection, int(payload.get('item_id')))
+    if action == 'p1_experiencia_persist': return persist_p1_experiencia(connection, str(payload.get('experiencia_key', '')), int(payload.get('experiencia_id', 0)), str(payload.get('experiencia_name', '')), dict(payload.get('experiencia_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_experiencia_protect': return protect_p1_experiencia_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_experiencia_audit': return audit_p1_experiencias(connection)
+    raise ValueError('P1_EXPERIENCIA_ACTION_INVALID')
+
+def p1_oferta_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_oferta_contracts': return {'items': read_p1_ofertas(connection), 'read_only': True}
+    if action == 'p1_oferta_state': return {'items': read_p1_oferta_state(connection, payload.get('oferta_key')), 'read_only': True}
+    if action == 'p1_oferta_validate': return validate_p1_oferta(connection, int(payload.get('item_id')))
+    if action == 'p1_oferta_persist': return persist_p1_oferta(connection, str(payload.get('oferta_key', '')), int(payload.get('oferta_id', 0)), str(payload.get('oferta_name', '')), dict(payload.get('oferta_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_oferta_protect': return protect_p1_oferta_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_oferta_audit': return audit_p1_ofertas(connection)
+    raise ValueError('P1_OFERTA_ACTION_INVALID')
+
+def p1_troca_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_troca_contracts': return {'items': read_p1_trocas(connection), 'read_only': True}
+    if action == 'p1_troca_state': return {'items': read_p1_troca_state(connection, payload.get('troca_key')), 'read_only': True}
+    if action == 'p1_troca_validate': return validate_p1_troca(connection, int(payload.get('item_id')))
+    if action == 'p1_troca_persist': return persist_p1_troca(connection, str(payload.get('troca_key', '')), int(payload.get('troca_id', 0)), str(payload.get('troca_name', '')), dict(payload.get('troca_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_troca_protect': return protect_p1_troca_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_troca_audit': return audit_p1_trocas(connection)
+    raise ValueError('P1_TROCA_ACTION_INVALID')
+
+def p1_aposentadoria_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_aposentadoria_contracts': return {'items': read_p1_aposentadorias(connection), 'read_only': True}
+    if action == 'p1_aposentadoria_state': return {'items': read_p1_aposentadoria_state(connection, payload.get('aposentadoria_key')), 'read_only': True}
+    if action == 'p1_aposentadoria_validate': return validate_p1_aposentadoria(connection, int(payload.get('item_id')))
+    if action == 'p1_aposentadoria_persist': return persist_p1_aposentadoria(connection, str(payload.get('aposentadoria_key', '')), int(payload.get('aposentadoria_id', 0)), str(payload.get('aposentadoria_name', '')), dict(payload.get('aposentadoria_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_aposentadoria_protect': return protect_p1_aposentadoria_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_aposentadoria_audit': return audit_p1_aposentadorias(connection)
+    raise ValueError('P1_APOSENTADORIA_ACTION_INVALID')
+
+def p1_legado_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_legado_contracts': return {'items': read_p1_legados(connection), 'read_only': True}
+    if action == 'p1_legado_state': return {'items': read_p1_legado_state(connection, payload.get('legado_key')), 'read_only': True}
+    if action == 'p1_legado_validate': return validate_p1_legado(connection, int(payload.get('item_id')))
+    if action == 'p1_legado_persist': return persist_p1_legado(connection, str(payload.get('legado_key', '')), int(payload.get('legado_id', 0)), str(payload.get('legado_name', '')), dict(payload.get('legado_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_legado_protect': return protect_p1_legado_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_legado_audit': return audit_p1_legados(connection)
+    raise ValueError('P1_LEGADO_ACTION_INVALID')
+
+def p1_navegacao_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_navegacao_contracts': return {'items': read_p1_navegacaos(connection), 'read_only': True}
+    if action == 'p1_navegacao_state': return {'items': read_p1_navegacao_state(connection, payload.get('navegacao_key')), 'read_only': True}
+    if action == 'p1_navegacao_validate': return validate_p1_navegacao(connection, int(payload.get('item_id')))
+    if action == 'p1_navegacao_persist': return persist_p1_navegacao(connection, str(payload.get('navegacao_key', '')), int(payload.get('navegacao_id', 0)), str(payload.get('navegacao_name', '')), dict(payload.get('navegacao_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_navegacao_protect': return protect_p1_navegacao_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_navegacao_audit': return audit_p1_navegacaos(connection)
+    raise ValueError('P1_NAVEGACAO_ACTION_INVALID')
+
+def p1_tabela_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_tabela_contracts': return {'items': read_p1_tabelas(connection), 'read_only': True}
+    if action == 'p1_tabela_state': return {'items': read_p1_tabela_state(connection, payload.get('tabela_key')), 'read_only': True}
+    if action == 'p1_tabela_validate': return validate_p1_tabela(connection, int(payload.get('item_id')))
+    if action == 'p1_tabela_persist': return persist_p1_tabela(connection, str(payload.get('tabela_key', '')), int(payload.get('tabela_id', 0)), str(payload.get('tabela_name', '')), dict(payload.get('tabela_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_tabela_protect': return protect_p1_tabela_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_tabela_audit': return audit_p1_tabelas(connection)
+    raise ValueError('P1_TABELA_ACTION_INVALID')
+
+def p1_tatica_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_tatica_contracts': return {'items': read_p1_taticas(connection), 'read_only': True}
+    if action == 'p1_tatica_state': return {'items': read_p1_tatica_state(connection, payload.get('tatica_key')), 'read_only': True}
+    if action == 'p1_tatica_validate': return validate_p1_tatica(connection, int(payload.get('item_id')))
+    if action == 'p1_tatica_persist': return persist_p1_tatica(connection, str(payload.get('tatica_key', '')), int(payload.get('tatica_id', 0)), str(payload.get('tatica_name', '')), dict(payload.get('tatica_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_tatica_protect': return protect_p1_tatica_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_tatica_audit': return audit_p1_taticas(connection)
+    raise ValueError('P1_TATICA_ACTION_INVALID')
+
+def p1_formulario_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_formulario_contracts': return {'items': read_p1_formularios(connection), 'read_only': True}
+    if action == 'p1_formulario_state': return {'items': read_p1_formulario_state(connection, payload.get('formulario_key')), 'read_only': True}
+    if action == 'p1_formulario_validate': return validate_p1_formulario(connection, int(payload.get('item_id')))
+    if action == 'p1_formulario_persist': return persist_p1_formulario(connection, str(payload.get('formulario_key', '')), int(payload.get('formulario_id', 0)), str(payload.get('formulario_name', '')), dict(payload.get('formulario_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_formulario_protect': return protect_p1_formulario_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_formulario_audit': return audit_p1_formularios(connection)
+    raise ValueError('P1_FORMULARIO_ACTION_INVALID')
+
+def p1_unitario_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_unitario_contracts': return {'items': read_p1_unitarios(connection), 'read_only': True}
+    if action == 'p1_unitario_state': return {'items': read_p1_unitario_state(connection, payload.get('unitario_key')), 'read_only': True}
+    if action == 'p1_unitario_validate': return validate_p1_unitario(connection, int(payload.get('item_id')))
+    if action == 'p1_unitario_persist': return persist_p1_unitario(connection, str(payload.get('unitario_key', '')), int(payload.get('unitario_id', 0)), str(payload.get('unitario_name', '')), dict(payload.get('unitario_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_unitario_protect': return protect_p1_unitario_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_unitario_audit': return audit_p1_unitarios(connection)
+    raise ValueError('P1_UNITARIO_ACTION_INVALID')
+
+def p2_checkpoint_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p2_checkpoint_contracts': return {'items': read_p2_checkpoints(connection), 'read_only': True}
+    if action == 'p2_checkpoint_state': return {'items': read_p2_checkpoint_state(connection, payload.get('checkpoint_key')), 'read_only': True}
+    if action == 'p2_checkpoint_validate': return validate_p2_checkpoint(connection, int(payload.get('item_id')))
+    if action == 'p2_checkpoint_persist': return persist_p2_checkpoint(connection, str(payload.get('checkpoint_key', '')), int(payload.get('checkpoint_id', 0)), str(payload.get('checkpoint_name', '')), dict(payload.get('checkpoint_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p2_checkpoint_protect': return protect_p2_checkpoint_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p2_checkpoint_audit': return audit_p2_checkpoints(connection)
+    raise ValueError('P2_CHECKPOINT_ACTION_INVALID')
+
+def p1_replay_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_replay_contracts': return {'items': read_p1_replays(connection), 'read_only': True}
+    if action == 'p1_replay_state': return {'items': read_p1_replay_state(connection, payload.get('replay_key')), 'read_only': True}
+    if action == 'p1_replay_validate': return validate_p1_replay(connection, int(payload.get('item_id')))
+    if action == 'p1_replay_persist': return persist_p1_replay(connection, str(payload.get('replay_key', '')), int(payload.get('replay_id', 0)), str(payload.get('replay_name', '')), dict(payload.get('replay_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_replay_protect': return protect_p1_replay_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_replay_audit': return audit_p1_replays(connection)
+    raise ValueError('P1_REPLAY_ACTION_INVALID')
+
+def p1_auditoria_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_auditoria_contracts': return {'items': read_p1_auditorias(connection), 'read_only': True}
+    if action == 'p1_auditoria_state': return {'items': read_p1_auditoria_state(connection, payload.get('auditoria_key')), 'read_only': True}
+    if action == 'p1_auditoria_validate': return validate_p1_auditoria(connection, int(payload.get('item_id')))
+    if action == 'p1_auditoria_persist': return persist_p1_auditoria(connection, str(payload.get('auditoria_key', '')), int(payload.get('auditoria_id', 0)), str(payload.get('auditoria_name', '')), dict(payload.get('auditoria_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_auditoria_protect': return protect_p1_auditoria_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_auditoria_audit': return audit_p1_auditorias(connection)
+    raise ValueError('P1_AUDITORIA_ACTION_INVALID')
+
+def p1_privacidade_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_privacidade_contracts': return {'items': read_p1_privacidades(connection), 'read_only': True}
+    if action == 'p1_privacidade_state': return {'items': read_p1_privacidade_state(connection, payload.get('privacidade_key')), 'read_only': True}
+    if action == 'p1_privacidade_validate': return validate_p1_privacidade(connection, int(payload.get('item_id')))
+    if action == 'p1_privacidade_persist': return persist_p1_privacidade(connection, str(payload.get('privacidade_key', '')), int(payload.get('privacidade_id', 0)), str(payload.get('privacidade_name', '')), dict(payload.get('privacidade_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_privacidade_protect': return protect_p1_privacidade_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_privacidade_audit': return audit_p1_privacidades(connection)
+    raise ValueError('P1_PRIVACIDADE_ACTION_INVALID')
+
+def p1_commission_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_commission_contracts': return {'items': read_p1_commissions(connection), 'read_only': True}
+    if action == 'p1_commission_state': return {'items': read_p1_commission_state(connection, payload.get('commission_key')), 'read_only': True}
+    if action == 'p1_commission_validate': return validate_p1_commission(connection, int(payload.get('item_id')))
+    if action == 'p1_commission_persist': return persist_p1_commission(connection, str(payload.get('commission_key', '')), int(payload.get('commission_id', 0)), str(payload.get('commission_name', '')), dict(payload.get('commission_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_commission_protect': return protect_p1_commission_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_commission_audit': return audit_p1_commissions(connection)
+    raise ValueError('P1_COMMISSION_ACTION_INVALID')
+
+def p1_comissao_operacional_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_comissao_operacional_contracts': return {'items': read_p1_comissao_operacionals(connection), 'read_only': True}
+    if action == 'p1_comissao_operacional_state': return {'items': read_p1_comissao_operacional_state(connection, payload.get('comissao_operacional_key')), 'read_only': True}
+    if action == 'p1_comissao_operacional_validate': return validate_p1_comissao_operacional(connection, int(payload.get('item_id')))
+    if action == 'p1_comissao_operacional_persist': return persist_p1_comissao_operacional(connection, str(payload.get('comissao_operacional_key', '')), int(payload.get('comissao_operacional_id', 0)), str(payload.get('comissao_operacional_name', '')), dict(payload.get('comissao_operacional_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_comissao_operacional_protect': return protect_p1_comissao_operacional_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_comissao_operacional_audit': return audit_p1_comissao_operacionals(connection)
+    raise ValueError('P1_COMISSAO_OPERACIONAL_ACTION_INVALID')
+
+def p1_fifa_date_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_fifa_date_contracts': return {'items': read_p1_fifa_dates(connection), 'read_only': True}
+    if action == 'p1_fifa_date_state': return {'items': read_p1_fifa_date_state(connection, payload.get('fifa_date_key')), 'read_only': True}
+    if action == 'p1_fifa_date_validate': return validate_p1_fifa_date(connection, int(payload.get('item_id')))
+    if action == 'p1_fifa_date_persist': return persist_p1_fifa_date(connection, str(payload.get('fifa_date_key', '')), int(payload.get('fifa_date_id', 0)), str(payload.get('fifa_date_name', '')), dict(payload.get('fifa_date_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_fifa_date_protect': return protect_p1_fifa_date_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_fifa_date_audit': return audit_p1_fifa_dates(connection)
+    raise ValueError('P1_FIFA_DATE_ACTION_INVALID')
+
+def p1_ranking_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_ranking_contracts': return {'items': read_p1_rankings(connection), 'read_only': True}
+    if action == 'p1_ranking_state': return {'items': read_p1_ranking_state(connection, payload.get('ranking_key')), 'read_only': True}
+    if action == 'p1_ranking_validate': return validate_p1_ranking(connection, int(payload.get('item_id')))
+    if action == 'p1_ranking_persist': return persist_p1_ranking(connection, str(payload.get('ranking_key', '')), int(payload.get('ranking_id', 0)), str(payload.get('ranking_name', '')), dict(payload.get('ranking_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_ranking_protect': return protect_p1_ranking_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_ranking_audit': return audit_p1_rankings(connection)
+    raise ValueError('P1_RANKING_ACTION_INVALID')
+
+def p1_callup_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_callup_contracts': return {'items': read_p1_callups(connection), 'read_only': True}
+    if action == 'p1_callup_state': return {'items': read_p1_callup_state(connection, payload.get('callup_key')), 'read_only': True}
+    if action == 'p1_callup_validate': return validate_p1_callup(connection, int(payload.get('item_id')))
+    if action == 'p1_callup_persist': return persist_p1_callup(connection, str(payload.get('callup_key', '')), int(payload.get('callup_id', 0)), str(payload.get('callup_name', '')), dict(payload.get('callup_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_callup_protect': return protect_p1_callup_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_callup_audit': return audit_p1_callups(connection)
+    raise ValueError('P1_CALLUP_ACTION_INVALID')
+
+def p1_history_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_history_contracts': return {'items': read_p1_historys(connection), 'read_only': True}
+    if action == 'p1_history_state': return {'items': read_p1_history_state(connection, payload.get('history_key')), 'read_only': True}
+    if action == 'p1_history_validate': return validate_p1_history(connection, int(payload.get('item_id')))
+    if action == 'p1_history_persist': return persist_p1_history(connection, str(payload.get('history_key', '')), int(payload.get('history_id', 0)), str(payload.get('history_name', '')), dict(payload.get('history_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_history_protect': return protect_p1_history_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_history_audit': return audit_p1_historys(connection)
+    raise ValueError('P1_HISTORY_ACTION_INVALID')
+
+def p1_nationality_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_nationality_contracts': return {'items': read_p1_nationalitys(connection), 'read_only': True}
+    if action == 'p1_nationality_state': return {'items': read_p1_nationality_state(connection, payload.get('nationality_key')), 'read_only': True}
+    if action == 'p1_nationality_validate': return validate_p1_nationality(connection, int(payload.get('item_id')))
+    if action == 'p1_nationality_persist': return persist_p1_nationality(connection, str(payload.get('nationality_key', '')), int(payload.get('nationality_id', 0)), str(payload.get('nationality_name', '')), dict(payload.get('nationality_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_nationality_protect': return protect_p1_nationality_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_nationality_audit': return audit_p1_nationalitys(connection)
+    raise ValueError('P1_NATIONALITY_ACTION_INVALID')
+
+def p1_alias_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_alias_contracts': return {'items': read_p1_aliass(connection), 'read_only': True}
+    if action == 'p1_alias_state': return {'items': read_p1_alias_state(connection, payload.get('alias_key')), 'read_only': True}
+    if action == 'p1_alias_validate': return validate_p1_alias(connection, int(payload.get('item_id')))
+    if action == 'p1_alias_persist': return persist_p1_alias(connection, str(payload.get('alias_key', '')), int(payload.get('alias_id', 0)), str(payload.get('alias_name', '')), dict(payload.get('alias_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_alias_protect': return protect_p1_alias_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_alias_audit': return audit_p1_aliass(connection)
+    raise ValueError('P1_ALIAS_ACTION_INVALID')
+
+def p1_age_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_age_contracts': return {'items': read_p1_ages(connection), 'read_only': True}
+    if action == 'p1_age_state': return {'items': read_p1_age_state(connection, payload.get('age_key')), 'read_only': True}
+    if action == 'p1_age_validate': return validate_p1_age(connection, int(payload.get('item_id')))
+    if action == 'p1_age_persist': return persist_p1_age(connection, str(payload.get('age_key', '')), int(payload.get('age_id', 0)), str(payload.get('age_name', '')), dict(payload.get('age_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_age_protect': return protect_p1_age_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_age_audit': return audit_p1_ages(connection)
+    raise ValueError('P1_AGE_ACTION_INVALID')
+
+def p1_potential_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_potential_contracts': return {'items': read_p1_potentials(connection), 'read_only': True}
+    if action == 'p1_potential_state': return {'items': read_p1_potential_state(connection, payload.get('potential_key')), 'read_only': True}
+    if action == 'p1_potential_validate': return validate_p1_potential(connection, int(payload.get('item_id')))
+    if action == 'p1_potential_persist': return persist_p1_potential(connection, str(payload.get('potential_key', '')), int(payload.get('potential_id', 0)), str(payload.get('potential_name', '')), dict(payload.get('potential_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_potential_protect': return protect_p1_potential_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_potential_audit': return audit_p1_potentials(connection)
+    raise ValueError('P1_POTENTIAL_ACTION_INVALID')
+
+def p1_attribute_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_attribute_contracts': return {'items': read_p1_attributes(connection), 'read_only': True}
+    if action == 'p1_attribute_state': return {'items': read_p1_attribute_state(connection, payload.get('attribute_key')), 'read_only': True}
+    if action == 'p1_attribute_validate': return validate_p1_attribute(connection, int(payload.get('item_id')))
+    if action == 'p1_attribute_persist': return persist_p1_attribute(connection, str(payload.get('attribute_key', '')), int(payload.get('attribute_id', 0)), str(payload.get('attribute_name', '')), dict(payload.get('attribute_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_attribute_protect': return protect_p1_attribute_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_attribute_audit': return audit_p1_attributes(connection)
+    raise ValueError('P1_ATTRIBUTE_ACTION_INVALID')
+
+def p1_position_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_position_contracts': return {'items': read_p1_positions(connection), 'read_only': True}
+    if action == 'p1_position_state': return {'items': read_p1_position_state(connection, payload.get('position_key')), 'read_only': True}
+    if action == 'p1_position_validate': return validate_p1_position(connection, int(payload.get('item_id')))
+    if action == 'p1_position_persist': return persist_p1_position(connection, str(payload.get('position_key', '')), int(payload.get('position_id', 0)), str(payload.get('position_name', '')), dict(payload.get('position_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_position_protect': return protect_p1_position_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_position_audit': return audit_p1_positions(connection)
+    raise ValueError('P1_POSITION_ACTION_INVALID')
+
+def p1_stadium_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_stadium_contracts': return {'items': read_p1_stadiums(connection), 'read_only': True}
+    if action == 'p1_stadium_state': return {'items': read_p1_stadium_state(connection, payload.get('stadium_key')), 'read_only': True}
+    if action == 'p1_stadium_validate': return validate_p1_stadium(connection, int(payload.get('item_id')))
+    if action == 'p1_stadium_persist': return persist_p1_stadium(connection, str(payload.get('stadium_key', '')), int(payload.get('stadium_id', 0)), str(payload.get('stadium_name', '')), dict(payload.get('stadium_payload') or {}), payload.get('club_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_stadium_protect': return protect_p1_stadium_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_stadium_audit': return audit_p1_stadiums(connection)
+    raise ValueError('P1_STADIUM_ACTION_INVALID')
+
+def p1_profile_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_profile_contracts': return {'items': read_p1_profiles(connection), 'read_only': True}
+    if action == 'p1_profile_state': return {'items': read_p1_profile_state(connection, payload.get('profile_key')), 'read_only': True}
+    if action == 'p1_profile_validate': return validate_p1_profile(connection, int(payload.get('item_id')))
+    if action == 'p1_profile_persist': return persist_p1_profile(connection, str(payload.get('profile_key', '')), int(payload.get('profile_id')), str(payload.get('profile_name', '')), dict(payload.get('profile_payload') or {}), payload.get('manager_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_profile_protect': return protect_p1_profile_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_profile_audit': return audit_p1_profiles(connection)
+    raise ValueError('P1_PROFILE_ACTION_INVALID')
+
+
+def p1_identity_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_identity_contracts': return {'items': read_p1_identities(connection), 'read_only': True}
+    if action == 'p1_identity_state': return {'items': read_p1_identity_state(connection, payload.get('identity_key')), 'read_only': True}
+    if action == 'p1_identity_validate': return validate_p1_identity(connection, int(payload.get('item_id')))
+    if action == 'p1_identity_persist': return persist_p1_identity(connection, str(payload.get('identity_key', '')), int(payload.get('identity_id')), str(payload.get('identity_name', '')), dict(payload.get('identity_payload') or {}), payload.get('subject_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_identity_protect': return protect_p1_identity_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_identity_audit': return audit_p1_identities(connection)
+    raise ValueError('P1_IDENTITY_ACTION_INVALID')
+
+
+def p1_city_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_city_contracts': return {'items': read_p1_cities(connection), 'read_only': True}
+    if action == 'p1_city_state': return {'items': read_p1_city_state(connection, payload.get('city_key')), 'read_only': True}
+    if action == 'p1_city_validate': return validate_p1_city(connection, int(payload.get('item_id')))
+    if action == 'p1_city_persist': return persist_p1_city(connection, str(payload.get('city_key', '')), int(payload.get('city_id')), str(payload.get('city_name', '')), dict(payload.get('city_payload') or {}), payload.get('country_id'), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_city_protect': return protect_p1_city_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_city_audit': return audit_p1_cities(connection)
+    raise ValueError('P1_CITY_ACTION_INVALID')
+
+
+def p1_country_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_country_contracts': return {'items': read_p1_countries(connection), 'read_only': True}
+    if action == 'p1_country_state': return {'items': read_p1_country_state(connection, payload.get('country_key')), 'read_only': True}
+    if action == 'p1_country_validate': return validate_p1_country(connection, int(payload.get('item_id')))
+    if action == 'p1_country_persist': return persist_p1_country(connection, str(payload.get('country_key', '')), int(payload.get('country_id')), str(payload.get('country_name', '')), dict(payload.get('country_payload') or {}), str(payload.get('status', 'ACTIVE')), str(payload.get('actor', '')))
+    if action == 'p1_country_protect': return protect_p1_country_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_country_audit': return audit_p1_countries(connection)
+    raise ValueError('P1_COUNTRY_ACTION_INVALID')
+
+
 def p1_mfa_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
     if action == 'p1_mfa_contracts': return {'items': read_p1_mfas(connection), 'read_only': True}
     if action == 'p1_mfa_state': return {'items': read_p1_mfa_state(connection, payload.get('mfa_key')), 'read_only': True}
@@ -662,6 +2527,374 @@ def run(action: str, payload: dict, database_path: Path) -> dict:
             return {"ok": True, **p1_mfa_market(service.connection, action, payload)}
         if action in {"p1_consent_contracts", "p1_consent_state", "p1_consent_validate", "p1_consent_persist", "p1_consent_protect", "p1_consent_audit"}:
             return {"ok": True, **p1_consent_market(service.connection, action, payload)}
+        if action in {"p1_preferences_contracts", "p1_preferences_state", "p1_preferences_validate", "p1_preferences_persist", "p1_preferences_protect", "p1_preferences_audit"}:
+            return {"ok": True, **p1_preferences_market(service.connection, action, payload)}
+        if action in {"p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit"}:
+            return {"ok": True, **p1_stadium_market(service.connection, action, payload)}
+        if action in {"p1_throughput_contracts", "p1_throughput_state", "p1_throughput_validate", "p1_throughput_persist", "p1_throughput_protect", "p1_throughput_audit"}:
+            return {"ok": True, **p1_throughput_market(service.connection, action, payload)}
+        if action in {"p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit"}:
+            return {"ok": True, **p1_stadium_market(service.connection, action, payload)}
+        if action in {"p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit"}:
+            return {"ok": True, **p1_stadium_market(service.connection, action, payload)}
+        if action in {"p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit"}:
+            return {"ok": True, **p1_stadium_market(service.connection, action, payload)}
+        if action in {"p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit"}:
+            return {"ok": True, **p1_stadium_market(service.connection, action, payload)}
+        if action in {"p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit"}:
+            return {"ok": True, **p1_stadium_market(service.connection, action, payload)}
+        if action in {"p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit"}:
+            return {"ok": True, **p1_stadium_market(service.connection, action, payload)}
+        if action in {"p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit"}:
+            return {"ok": True, **p1_stadium_market(service.connection, action, payload)}
+        if action in {"p1_stadium_capacity_contracts", "p1_stadium_capacity_state", "p1_stadium_capacity_validate", "p1_stadium_capacity_persist", "p1_stadium_capacity_protect", "p1_stadium_capacity_audit"}:
+            return {"ok": True, **p1_stadium_capacity_market(service.connection, action, payload)}
+        if action in {"p1_stadium_components_contracts", "p1_stadium_components_state", "p1_stadium_components_validate", "p1_stadium_components_persist", "p1_stadium_components_protect", "p1_stadium_components_audit"}:
+            return {"ok": True, **p1_stadium_components_market(service.connection, action, payload)}
+        if action in {"p1_stadium_infrastructure_contracts", "p1_stadium_infrastructure_state", "p1_stadium_infrastructure_validate", "p1_stadium_infrastructure_persist", "p1_stadium_infrastructure_protect", "p1_stadium_infrastructure_audit"}:
+            return {"ok": True, **p1_stadium_infrastructure_market(service.connection, action, payload)}
+        if action in {"p1_position_contracts", "p1_position_state", "p1_position_validate", "p1_position_persist", "p1_position_protect", "p1_position_audit"}:
+            return {"ok": True, **p1_position_market(service.connection, action, payload)}
+        if action in {"p1_attribute_contracts", "p1_attribute_state", "p1_attribute_validate", "p1_attribute_persist", "p1_attribute_protect", "p1_attribute_audit"}:
+            return {"ok": True, **p1_attribute_market(service.connection, action, payload)}
+        if action in {"p1_potential_contracts", "p1_potential_state", "p1_potential_validate", "p1_potential_persist", "p1_potential_protect", "p1_potential_audit"}:
+            return {"ok": True, **p1_potential_market(service.connection, action, payload)}
+        if action in {"p1_age_contracts", "p1_age_state", "p1_age_validate", "p1_age_persist", "p1_age_protect", "p1_age_audit"}:
+            return {"ok": True, **p1_age_market(service.connection, action, payload)}
+        if action in {"p1_alias_contracts", "p1_alias_state", "p1_alias_validate", "p1_alias_persist", "p1_alias_protect", "p1_alias_audit"}:
+            return {"ok": True, **p1_alias_market(service.connection, action, payload)}
+        if action in {"p1_nationality_contracts", "p1_nationality_state", "p1_nationality_validate", "p1_nationality_persist", "p1_nationality_protect", "p1_nationality_audit"}:
+            return {"ok": True, **p1_nationality_market(service.connection, action, payload)}
+        if action in {"p1_history_contracts", "p1_history_state", "p1_history_validate", "p1_history_persist", "p1_history_protect", "p1_history_audit"}:
+            return {"ok": True, **p1_history_market(service.connection, action, payload)}
+        if action in {"p1_callup_contracts", "p1_callup_state", "p1_callup_validate", "p1_callup_persist", "p1_callup_protect", "p1_callup_audit"}:
+            return {"ok": True, **p1_callup_market(service.connection, action, payload)}
+        if action in {"p1_ranking_contracts", "p1_ranking_state", "p1_ranking_validate", "p1_ranking_persist", "p1_ranking_protect", "p1_ranking_audit"}:
+            return {"ok": True, **p1_ranking_market(service.connection, action, payload)}
+        if action in {"p1_fifa_date_contracts", "p1_fifa_date_state", "p1_fifa_date_validate", "p1_fifa_date_persist", "p1_fifa_date_protect", "p1_fifa_date_audit"}:
+            return {"ok": True, **p1_fifa_date_market(service.connection, action, payload)}
+        if action in {"p1_comissao_operacional_contracts", "p1_comissao_operacional_state", "p1_comissao_operacional_validate", "p1_comissao_operacional_persist", "p1_comissao_operacional_protect", "p1_comissao_operacional_audit"}:
+            return {"ok": True, **p1_comissao_operacional_market(service.connection, action, payload)}
+        if action in {"p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit"}:
+            return {"ok": True, **p1_commission_market(service.connection, action, payload)}
+        if action in {"p1_privacidade_contracts", "p1_privacidade_state", "p1_privacidade_validate", "p1_privacidade_persist", "p1_privacidade_protect", "p1_privacidade_audit"}:
+            return {"ok": True, **p1_privacidade_market(service.connection, action, payload)}
+        if action in {"p1_auditoria_contracts", "p1_auditoria_state", "p1_auditoria_validate", "p1_auditoria_persist", "p1_auditoria_protect", "p1_auditoria_audit"}:
+            return {"ok": True, **p1_auditoria_market(service.connection, action, payload)}
+        if action in {"p1_replay_contracts", "p1_replay_state", "p1_replay_validate", "p1_replay_persist", "p1_replay_protect", "p1_replay_audit"}:
+            return {"ok": True, **p1_replay_market(service.connection, action, payload)}
+        if action in {"p2_checkpoint_contracts", "p2_checkpoint_state", "p2_checkpoint_validate", "p2_checkpoint_persist", "p2_checkpoint_protect", "p2_checkpoint_audit"}:
+            return {"ok": True, **p2_checkpoint_market(service.connection, action, payload)}
+        if action in {"p1_unitario_contracts", "p1_unitario_state", "p1_unitario_validate", "p1_unitario_persist", "p1_unitario_protect", "p1_unitario_audit"}:
+            return {"ok": True, **p1_unitario_market(service.connection, action, payload)}
+        if action in {"p1_formulario_contracts", "p1_formulario_state", "p1_formulario_validate", "p1_formulario_persist", "p1_formulario_protect", "p1_formulario_audit"}:
+            return {"ok": True, **p1_formulario_market(service.connection, action, payload)}
+        if action in {"p1_tatica_contracts", "p1_tatica_state", "p1_tatica_validate", "p1_tatica_persist", "p1_tatica_protect", "p1_tatica_audit"}:
+            return {"ok": True, **p1_tatica_market(service.connection, action, payload)}
+        if action in {"p1_tabela_contracts", "p1_tabela_state", "p1_tabela_validate", "p1_tabela_persist", "p1_tabela_protect", "p1_tabela_audit"}:
+            return {"ok": True, **p1_tabela_market(service.connection, action, payload)}
+        if action in {"p1_navegacao_contracts", "p1_navegacao_state", "p1_navegacao_validate", "p1_navegacao_persist", "p1_navegacao_protect", "p1_navegacao_audit"}:
+            return {"ok": True, **p1_navegacao_market(service.connection, action, payload)}
+        if action in {"p1_legado_contracts", "p1_legado_state", "p1_legado_validate", "p1_legado_persist", "p1_legado_protect", "p1_legado_audit"}:
+            return {"ok": True, **p1_legado_market(service.connection, action, payload)}
+        if action in {"p1_aposentadoria_contracts", "p1_aposentadoria_state", "p1_aposentadoria_validate", "p1_aposentadoria_persist", "p1_aposentadoria_protect", "p1_aposentadoria_audit"}:
+            return {"ok": True, **p1_aposentadoria_market(service.connection, action, payload)}
+        if action in {"p1_troca_contracts", "p1_troca_state", "p1_troca_validate", "p1_troca_persist", "p1_troca_protect", "p1_troca_audit"}:
+            return {"ok": True, **p1_troca_market(service.connection, action, payload)}
+        if action in {"p1_oferta_contracts", "p1_oferta_state", "p1_oferta_validate", "p1_oferta_persist", "p1_oferta_protect", "p1_oferta_audit"}:
+            return {"ok": True, **p1_oferta_market(service.connection, action, payload)}
+        if action in {"p1_experiencia_contracts", "p1_experiencia_state", "p1_experiencia_validate", "p1_experiencia_persist", "p1_experiencia_protect", "p1_experiencia_audit"}:
+            return {"ok": True, **p1_experiencia_market(service.connection, action, payload)}
+        if action in {"p1_objetivo_contracts", "p1_objetivo_state", "p1_objetivo_validate", "p1_objetivo_persist", "p1_objetivo_protect", "p1_objetivo_audit"}:
+            return {"ok": True, **p1_objetivo_market(service.connection, action, payload)}
+        if action in {"p1_preferencia_contracts", "p1_preferencia_state", "p1_preferencia_validate", "p1_preferencia_persist", "p1_preferencia_protect", "p1_preferencia_audit"}:
+            return {"ok": True, **p1_preferencia_market(service.connection, action, payload)}
+        if action in {"p1_record_contracts", "p1_record_state", "p1_record_validate", "p1_record_persist", "p1_record_protect", "p1_record_audit"}:
+            return {"ok": True, **p1_record_market(service.connection, action, payload)}
+        if action in {"p1_tatica_contracts", "p1_tatica_state", "p1_tatica_validate", "p1_tatica_persist", "p1_tatica_protect", "p1_tatica_audit"}:
+            return {"ok": True, **p1_tatica_market(service.connection, action, payload)}
+        if action in {"p1_tatica_contracts", "p1_tatica_state", "p1_tatica_validate", "p1_tatica_persist", "p1_tatica_protect", "p1_tatica_audit"}:
+            return {"ok": True, **p1_tatica_market(service.connection, action, payload)}
+        if action in {"p1_severidade_contracts", "p1_severidade_state", "p1_severidade_validate", "p1_severidade_persist", "p1_severidade_protect", "p1_severidade_audit"}:
+            return {"ok": True, **p1_severidade_market(service.connection, action, payload)}
+        if action in {"p1_feed_contracts", "p1_feed_state", "p1_feed_validate", "p1_feed_persist", "p1_feed_protect", "p1_feed_audit"}:
+            return {"ok": True, **p1_feed_market(service.connection, action, payload)}
+        if action in {"p1_evento_contracts", "p1_evento_state", "p1_evento_validate", "p1_evento_persist", "p1_evento_protect", "p1_evento_audit"}:
+            return {"ok": True, **p1_evento_market(service.connection, action, payload)}
+        if action in {"p1_prioridade_contracts", "p1_prioridade_state", "p1_prioridade_validate", "p1_prioridade_persist", "p1_prioridade_protect", "p1_prioridade_audit"}:
+            return {"ok": True, **p1_prioridade_market(service.connection, action, payload)}
+        if action in {"p1_retomada_contracts", "p1_retomada_state", "p1_retomada_validate", "p1_retomada_persist", "p1_retomada_protect", "p1_retomada_audit"}:
+            return {"ok": True, **p1_retomada_market(service.connection, action, payload)}
+        if action in {"p1_falha_contracts", "p1_falha_state", "p1_falha_validate", "p1_falha_persist", "p1_falha_protect", "p1_falha_audit"}:
+            return {"ok": True, **p1_falha_market(service.connection, action, payload)}
+        if action in {"p1_checkpoint_contracts", "p1_checkpoint_state", "p1_checkpoint_validate", "p1_checkpoint_persist", "p1_checkpoint_protect", "p1_checkpoint_audit"}:
+            return {"ok": True, **p1_checkpoint_market(service.connection, action, payload)}
+        if action in {"p1_seed_contracts", "p1_seed_state", "p1_seed_validate", "p1_seed_persist", "p1_seed_protect", "p1_seed_audit"}:
+            return {"ok": True, **p1_seed_market(service.connection, action, payload)}
+        if action in {"p1_lote_contracts", "p1_lote_state", "p1_lote_validate", "p1_lote_persist", "p1_lote_protect", "p1_lote_audit"}:
+            return {"ok": True, **p1_lote_market(service.connection, action, payload)}
+        if action in {"p1_security_followup_contracts", "p1_security_followup_state", "p1_security_followup_validate", "p1_security_followup_persist", "p1_security_followup_protect", "p1_security_followup_audit"}:
+            return {"ok": True, **p1_security_followup_market(service.connection, action, payload)}
+        if action in {"p1_descanso_operacional_contracts", "p1_descanso_operacional_state", "p1_descanso_operacional_validate", "p1_descanso_operacional_persist", "p1_descanso_operacional_protect", "p1_descanso_operacional_audit"}:
+            return {"ok": True, **p1_descanso_operacional_market(service.connection, action, payload)}
+        if action in {"p1_seguranca_domain24_contracts", "p1_seguranca_domain24_state", "p1_seguranca_domain24_validate", "p1_seguranca_domain24_persist", "p1_seguranca_domain24_protect", "p1_seguranca_domain24_audit"}:
+            return {"ok": True, **p1_seguranca_domain24_market(service.connection, action, payload)}
+        if action in {"p1_setor_contracts", "p1_setor_state", "p1_setor_validate", "p1_setor_persist", "p1_setor_protect", "p1_setor_audit"}:
+            return {"ok": True, **p1_setor_market(service.connection, action, payload)}
+        if action in {"p1_inventario_contracts", "p1_inventario_state", "p1_inventario_validate", "p1_inventario_persist", "p1_inventario_protect", "p1_inventario_audit"}:
+            return {"ok": True, **p1_inventario_market(service.connection, action, payload)}
+        if action in {"p1_bonus_patrocinio_contracts", "p1_bonus_patrocinio_state", "p1_bonus_patrocinio_validate", "p1_bonus_patrocinio_persist", "p1_bonus_patrocinio_protect", "p1_bonus_patrocinio_audit"}:
+            return {"ok": True, **p1_bonus_patrocinio_market(service.connection, action, payload)}
+        if action in {"p1_missao_contracts", "p1_missao_state", "p1_missao_validate", "p1_missao_persist", "p1_missao_protect", "p1_missao_audit"}:
+            return {"ok": True, **p1_missao_market(service.connection, action, payload)}
+        if action in {"p1_estrela_contracts", "p1_estrela_state", "p1_estrela_validate", "p1_estrela_persist", "p1_estrela_protect", "p1_estrela_audit"}:
+            return {"ok": True, **p1_estrela_market(service.connection, action, payload)}
+        if action in {"p1_projecao_contracts", "p1_projecao_state", "p1_projecao_validate", "p1_projecao_persist", "p1_projecao_protect", "p1_projecao_audit"}:
+            return {"ok": True, **p1_projecao_market(service.connection, action, payload)}
+        if action in {"p1_orcamento_operacional_contracts", "p1_orcamento_operacional_state", "p1_orcamento_operacional_validate", "p1_orcamento_operacional_persist", "p1_orcamento_operacional_protect", "p1_orcamento_operacional_audit"}:
+            return {"ok": True, **p1_orcamento_operacional_market(service.connection, action, payload)}
+        if action in {"p1_ledger_contracts", "p1_ledger_state", "p1_ledger_validate", "p1_ledger_persist", "p1_ledger_protect", "p1_ledger_audit"}:
+            return {"ok": True, **p1_ledger_market(service.connection, action, payload)}
+        if action in {"p1_bonus_operacional_contracts", "p1_bonus_operacional_state", "p1_bonus_operacional_validate", "p1_bonus_operacional_persist", "p1_bonus_operacional_protect", "p1_bonus_operacional_audit"}:
+            return {"ok": True, **p1_bonus_operacional_market(service.connection, action, payload)}
+        if action in {"p1_despesa_contracts", "p1_despesa_state", "p1_despesa_validate", "p1_despesa_persist", "p1_despesa_protect", "p1_despesa_audit"}:
+            return {"ok": True, **p1_despesa_market(service.connection, action, payload)}
+        if action in {"p1_receita_contracts", "p1_receita_state", "p1_receita_validate", "p1_receita_persist", "p1_receita_protect", "p1_receita_audit"}:
+            return {"ok": True, **p1_receita_market(service.connection, action, payload)}
+        if action in {"p1_relatorio_contracts", "p1_relatorio_state", "p1_relatorio_validate", "p1_relatorio_persist", "p1_relatorio_protect", "p1_relatorio_audit"}:
+            return {"ok": True, **p1_relatorio_market(service.connection, action, payload)}
+        if action in {"p1_comparacao_contracts", "p1_comparacao_state", "p1_comparacao_validate", "p1_comparacao_persist", "p1_comparacao_protect", "p1_comparacao_audit"}:
+            return {"ok": True, **p1_comparacao_market(service.connection, action, payload)}
+        if action in {"p1_evidencia_contracts", "p1_evidencia_state", "p1_evidencia_validate", "p1_evidencia_persist", "p1_evidencia_protect", "p1_evidencia_audit"}:
+            return {"ok": True, **p1_evidencia_market(service.connection, action, payload)}
+        if action in {"p1_registration_contracts", "p1_registration_state", "p1_registration_validate", "p1_registration_persist", "p1_registration_protect", "p1_registration_audit"}:
+            return {"ok": True, **p1_registration_market(service.connection, action, payload)}
+        if action in {"p1_tatica_contracts", "p1_tatica_state", "p1_tatica_validate", "p1_tatica_persist", "p1_tatica_protect", "p1_tatica_audit"}:
+            return {"ok": True, **p1_tatica_market(service.connection, action, payload)}
+        if action in {"p1_posicao_contracts", "p1_posicao_state", "p1_posicao_validate", "p1_posicao_persist", "p1_posicao_protect", "p1_posicao_audit"}:
+            return {"ok": True, **p1_posicao_market(service.connection, action, payload)}
+        if action in {"p1_regiao_contracts", "p1_regiao_state", "p1_regiao_validate", "p1_regiao_persist", "p1_regiao_protect", "p1_regiao_audit"}:
+            return {"ok": True, **p1_regiao_market(service.connection, action, payload)}
+        if action in {"p1_registro_adicional_contracts", "p1_registro_adicional_state", "p1_registro_adicional_validate", "p1_registro_adicional_persist", "p1_registro_adicional_protect", "p1_registro_adicional_audit"}:
+            return {"ok": True, **p1_registro_adicional_market(service.connection, action, payload)}
+        if action in {"p1_opcao_contracts", "p1_opcao_state", "p1_opcao_validate", "p1_opcao_persist", "p1_opcao_protect", "p1_opcao_audit"}:
+            return {"ok": True, **p1_opcao_market(service.connection, action, payload)}
+        if action in {"p1_emprestimo_contracts", "p1_emprestimo_state", "p1_emprestimo_validate", "p1_emprestimo_persist", "p1_emprestimo_protect", "p1_emprestimo_audit"}:
+            return {"ok": True, **p1_emprestimo_market(service.connection, action, payload)}
+        if action in {"p1_valor_contracts", "p1_valor_state", "p1_valor_validate", "p1_valor_persist", "p1_valor_protect", "p1_valor_audit"}:
+            return {"ok": True, **p1_valor_market(service.connection, action, payload)}
+        if action in {"p1_contraproposta_contracts", "p1_contraproposta_state", "p1_contraproposta_validate", "p1_contraproposta_persist", "p1_contraproposta_protect", "p1_contraproposta_audit"}:
+            return {"ok": True, **p1_contraproposta_market(service.connection, action, payload)}
+        if action in {"p1_proposta_contracts", "p1_proposta_state", "p1_proposta_validate", "p1_proposta_persist", "p1_proposta_protect", "p1_proposta_audit"}:
+            return {"ok": True, **p1_proposta_market(service.connection, action, payload)}
+        if action in {"p1_potencial_contracts", "p1_potencial_state", "p1_potencial_validate", "p1_potencial_persist", "p1_potencial_protect", "p1_potencial_audit"}:
+            return {"ok": True, **p1_potencial_market(service.connection, action, payload)}
+        if action in {"p1_atributo_contracts", "p1_atributo_state", "p1_atributo_validate", "p1_atributo_persist", "p1_atributo_protect", "p1_atributo_audit"}:
+            return {"ok": True, **p1_atributo_market(service.connection, action, payload)}
+        if action in {"p1_tatica_contracts", "p1_tatica_state", "p1_tatica_validate", "p1_tatica_persist", "p1_tatica_protect", "p1_tatica_audit"}:
+            return {"ok": True, **p1_tatica_market(service.connection, action, payload)}
+        if action in {"p1_descanso_contracts", "p1_descanso_state", "p1_descanso_validate", "p1_descanso_persist", "p1_descanso_protect", "p1_descanso_audit"}:
+            return {"ok": True, **p1_descanso_market(service.connection, action, payload)}
+        if action in {"p1_intensidade_contracts", "p1_intensidade_state", "p1_intensidade_validate", "p1_intensidade_persist", "p1_intensidade_protect", "p1_intensidade_audit"}:
+            return {"ok": True, **p1_intensidade_market(service.connection, action, payload)}
+        if action in {"p1_objetivo_operacional_contracts", "p1_objetivo_operacional_state", "p1_objetivo_operacional_validate", "p1_objetivo_operacional_persist", "p1_objetivo_operacional_protect", "p1_objetivo_operacional_audit"}:
+            return {"ok": True, **p1_objetivo_operacional_market(service.connection, action, payload)}
+        if action in {"p1_suspensao_contracts", "p1_suspensao_state", "p1_suspensao_validate", "p1_suspensao_persist", "p1_suspensao_protect", "p1_suspensao_audit"}:
+            return {"ok": True, **p1_suspensao_market(service.connection, action, payload)}
+        if action in {"p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit"}:
+            return {"ok": True, **p1_level_domain10_market(service.connection, action, payload)}
+        if action in {"p1_risco_contracts", "p1_risco_state", "p1_risco_validate", "p1_risco_persist", "p1_risco_protect", "p1_risco_audit"}:
+            return {"ok": True, **p1_risco_market(service.connection, action, payload)}
+        if action in {"p1_retorno_contracts", "p1_retorno_state", "p1_retorno_validate", "p1_retorno_persist", "p1_retorno_protect", "p1_retorno_audit"}:
+            return {"ok": True, **p1_retorno_market(service.connection, action, payload)}
+        if action in {"p1_fisioterapia_contracts", "p1_fisioterapia_state", "p1_fisioterapia_validate", "p1_fisioterapia_persist", "p1_fisioterapia_protect", "p1_fisioterapia_audit"}:
+            return {"ok": True, **p1_fisioterapia_market(service.connection, action, payload)}
+        if action in {"p1_tratamento_contracts", "p1_tratamento_state", "p1_tratamento_validate", "p1_tratamento_persist", "p1_tratamento_protect", "p1_tratamento_audit"}:
+            return {"ok": True, **p1_tratamento_market(service.connection, action, payload)}
+        if action in {"p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit"}:
+            return {"ok": True, **p1_level_domain10_market(service.connection, action, payload)}
+        if action in {"p1_minutos_contracts", "p1_minutos_state", "p1_minutos_validate", "p1_minutos_persist", "p1_minutos_protect", "p1_minutos_audit"}:
+            return {"ok": True, **p1_minutos_market(service.connection, action, payload)}
+        if action in {"p1_educacao_contracts", "p1_educacao_state", "p1_educacao_validate", "p1_educacao_persist", "p1_educacao_protect", "p1_educacao_audit"}:
+            return {"ok": True, **p1_educacao_market(service.connection, action, payload)}
+        if action in {"p1_bolsa_contracts", "p1_bolsa_state", "p1_bolsa_validate", "p1_bolsa_persist", "p1_bolsa_protect", "p1_bolsa_audit"}:
+            return {"ok": True, **p1_bolsa_market(service.connection, action, payload)}
+        if action in {"p1_promocao_contracts", "p1_promocao_state", "p1_promocao_validate", "p1_promocao_persist", "p1_promocao_protect", "p1_promocao_audit"}:
+            return {"ok": True, **p1_promocao_market(service.connection, action, payload)}
+        if action in {"p1_desenvolvimento_contracts", "p1_desenvolvimento_state", "p1_desenvolvimento_validate", "p1_desenvolvimento_persist", "p1_desenvolvimento_protect", "p1_desenvolvimento_audit"}:
+            return {"ok": True, **p1_desenvolvimento_market(service.connection, action, payload)}
+        if action in {"p1_captacao_contracts", "p1_captacao_state", "p1_captacao_validate", "p1_captacao_persist", "p1_captacao_protect", "p1_captacao_audit"}:
+            return {"ok": True, **p1_captacao_market(service.connection, action, payload)}
+        if action in {"p1_category_domain10_contracts", "p1_category_domain10_state", "p1_category_domain10_validate", "p1_category_domain10_persist", "p1_category_domain10_protect", "p1_category_domain10_audit"}:
+            return {"ok": True, **p1_category_domain10_market(service.connection, action, payload)}
+        if action in {"p1_medicine_contracts", "p1_medicine_state", "p1_medicine_validate", "p1_medicine_persist", "p1_medicine_protect", "p1_medicine_audit"}:
+            return {"ok": True, **p1_medicine_market(service.connection, action, payload)}
+        if action in {"p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit"}:
+            return {"ok": True, **p1_level_domain10_market(service.connection, action, payload)}
+        if action in {"p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit"}:
+            return {"ok": True, **p1_level_domain10_market(service.connection, action, payload)}
+        if action in {"p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit"}:
+            return {"ok": True, **p1_level_domain10_market(service.connection, action, payload)}
+        if action in {"p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit"}:
+            return {"ok": True, **p1_level_domain10_market(service.connection, action, payload)}
+        if action in {"p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit"}:
+            return {"ok": True, **p1_level_domain10_market(service.connection, action, payload)}
+        if action in {"p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit"}:
+            return {"ok": True, **p1_level_domain10_market(service.connection, action, payload)}
+        if action in {"p1_contract_contracts", "p1_contract_state", "p1_contract_validate", "p1_contract_persist", "p1_contract_protect", "p1_contract_audit"}:
+            return {"ok": True, **p1_contract_market(service.connection, action, payload)}
+        if action in {"p1_vacancy_contracts", "p1_vacancy_state", "p1_vacancy_validate", "p1_vacancy_persist", "p1_vacancy_protect", "p1_vacancy_audit"}:
+            return {"ok": True, **p1_vacancy_market(service.connection, action, payload)}
+        if action in {"p1_level_contracts", "p1_level_state", "p1_level_validate", "p1_level_persist", "p1_level_protect", "p1_level_audit"}:
+            return {"ok": True, **p1_level_market(service.connection, action, payload)}
+        if action in {"p1_specialty_contracts", "p1_specialty_state", "p1_specialty_validate", "p1_specialty_persist", "p1_specialty_protect", "p1_specialty_audit"}:
+            return {"ok": True, **p1_specialty_market(service.connection, action, payload)}
+        if action in {"p1_scout_contracts", "p1_scout_state", "p1_scout_validate", "p1_scout_persist", "p1_scout_protect", "p1_scout_audit"}:
+            return {"ok": True, **p1_scout_market(service.connection, action, payload)}
+        if action in {"p1_doctor_contracts", "p1_doctor_state", "p1_doctor_validate", "p1_doctor_persist", "p1_doctor_protect", "p1_doctor_audit"}:
+            return {"ok": True, **p1_doctor_market(service.connection, action, payload)}
+        if action in {"p1_assistant_contracts", "p1_assistant_state", "p1_assistant_validate", "p1_assistant_persist", "p1_assistant_protect", "p1_assistant_audit"}:
+            return {"ok": True, **p1_assistant_market(service.connection, action, payload)}
+        if action in {"p1_option_contracts", "p1_option_state", "p1_option_validate", "p1_option_persist", "p1_option_protect", "p1_option_audit"}:
+            return {"ok": True, **p1_option_market(service.connection, action, payload)}
+        if action in {"p1_loan_contracts", "p1_loan_state", "p1_loan_validate", "p1_loan_persist", "p1_loan_protect", "p1_loan_audit"}:
+            return {"ok": True, **p1_loan_market(service.connection, action, payload)}
+        if action in {"p1_termination_contracts", "p1_termination_state", "p1_termination_validate", "p1_termination_persist", "p1_termination_protect", "p1_termination_audit"}:
+            return {"ok": True, **p1_termination_market(service.connection, action, payload)}
+        if action in {"p1_renewal_contracts", "p1_renewal_state", "p1_renewal_validate", "p1_renewal_persist", "p1_renewal_protect", "p1_renewal_audit"}:
+            return {"ok": True, **p1_renewal_market(service.connection, action, payload)}
+        if action in {"p1_clause_contracts", "p1_clause_state", "p1_clause_validate", "p1_clause_persist", "p1_clause_protect", "p1_clause_audit"}:
+            return {"ok": True, **p1_clause_market(service.connection, action, payload)}
+        if action in {"p1_bonus_contracts", "p1_bonus_state", "p1_bonus_validate", "p1_bonus_persist", "p1_bonus_protect", "p1_bonus_audit"}:
+            return {"ok": True, **p1_bonus_market(service.connection, action, payload)}
+        if action in {"p1_duration_contracts", "p1_duration_state", "p1_duration_validate", "p1_duration_persist", "p1_duration_protect", "p1_duration_audit"}:
+            return {"ok": True, **p1_duration_market(service.connection, action, payload)}
+        if action in {"p1_cohesion_contracts", "p1_cohesion_state", "p1_cohesion_validate", "p1_cohesion_persist", "p1_cohesion_protect", "p1_cohesion_audit"}:
+            return {"ok": True, **p1_cohesion_market(service.connection, action, payload)}
+        if action in {"p1_registration_contracts", "p1_registration_state", "p1_registration_validate", "p1_registration_persist", "p1_registration_protect", "p1_registration_audit"}:
+            return {"ok": True, **p1_registration_market(service.connection, action, payload)}
+        if action in {"p1_shirt_contracts", "p1_shirt_state", "p1_shirt_validate", "p1_shirt_persist", "p1_shirt_protect", "p1_shirt_audit"}:
+            return {"ok": True, **p1_shirt_market(service.connection, action, payload)}
+        if action in {"p1_minutes_contracts", "p1_minutes_state", "p1_minutes_validate", "p1_minutes_persist", "p1_minutes_protect", "p1_minutes_audit"}:
+            return {"ok": True, **p1_minutes_market(service.connection, action, payload)}
+        if action in {"p1_promise_contracts", "p1_promise_state", "p1_promise_validate", "p1_promise_persist", "p1_promise_protect", "p1_promise_audit"}:
+            return {"ok": True, **p1_promise_market(service.connection, action, payload)}
+        if action in {"p1_leadership_contracts", "p1_leadership_state", "p1_leadership_validate", "p1_leadership_persist", "p1_leadership_protect", "p1_leadership_audit"}:
+            return {"ok": True, **p1_leadership_market(service.connection, action, payload)}
+        if action in {"p1_reserve_contracts", "p1_reserve_state", "p1_reserve_validate", "p1_reserve_persist", "p1_reserve_protect", "p1_reserve_audit"}:
+            return {"ok": True, **p1_reserve_market(service.connection, action, payload)}
+        if action in {"p1_objective_contracts", "p1_objective_state", "p1_objective_validate", "p1_objective_persist", "p1_objective_protect", "p1_objective_audit"}:
+            return {"ok": True, **p1_objective_market(service.connection, action, payload)}
+        if action in {"p1_budget_contracts", "p1_budget_state", "p1_budget_validate", "p1_budget_persist", "p1_budget_protect", "p1_budget_audit"}:
+            return {"ok": True, **p1_budget_market(service.connection, action, payload)}
+        if action in {"p1_tactics_contracts", "p1_tactics_state", "p1_tactics_validate", "p1_tactics_persist", "p1_tactics_protect", "p1_tactics_audit"}:
+            return {"ok": True, **p1_tactics_market(service.connection, action, payload)}
+        if action in {"p1_training_contracts", "p1_training_state", "p1_training_validate", "p1_training_persist", "p1_training_protect", "p1_training_audit"}:
+            return {"ok": True, **p1_training_market(service.connection, action, payload)}
+        if action in {"p1_lineup_contracts", "p1_lineup_state", "p1_lineup_validate", "p1_lineup_persist", "p1_lineup_protect", "p1_lineup_audit"}:
+            return {"ok": True, **p1_lineup_market(service.connection, action, payload)}
+        if action in {"p1_sale_contracts", "p1_sale_state", "p1_sale_validate", "p1_sale_persist", "p1_sale_protect", "p1_sale_audit"}:
+            return {"ok": True, **p1_sale_market(service.connection, action, payload)}
+        if action in {"p1_hiring_contracts", "p1_hiring_state", "p1_hiring_validate", "p1_hiring_persist", "p1_hiring_protect", "p1_hiring_audit"}:
+            return {"ok": True, **p1_hiring_market(service.connection, action, payload)}
+        if action in {"p1_pass_contracts", "p1_pass_state", "p1_pass_validate", "p1_pass_persist", "p1_pass_protect", "p1_pass_audit"}:
+            return {"ok": True, **p1_pass_market(service.connection, action, payload)}
+        if action in {"p1_finalization_domain09_contracts", "p1_finalization_domain09_state", "p1_finalization_domain09_validate", "p1_finalization_domain09_persist", "p1_finalization_domain09_protect", "p1_finalization_domain09_audit"}:
+            return {"ok": True, **p1_finalization_domain09_market(service.connection, action, payload)}
+        if action in {"p1_map_contracts", "p1_map_state", "p1_map_validate", "p1_map_persist", "p1_map_protect", "p1_map_audit"}:
+            return {"ok": True, **p1_map_market(service.connection, action, payload)}
+        if action in {"p1_pressure_contracts", "p1_pressure_state", "p1_pressure_validate", "p1_pressure_persist", "p1_pressure_protect", "p1_pressure_audit"}:
+            return {"ok": True, **p1_pressure_market(service.connection, action, payload)}
+        if action in {"p1_duel_contracts", "p1_duel_state", "p1_duel_validate", "p1_duel_persist", "p1_duel_protect", "p1_duel_audit"}:
+            return {"ok": True, **p1_duel_market(service.connection, action, payload)}
+        if action in {"p1_possession_domain09_contracts", "p1_possession_domain09_state", "p1_possession_domain09_validate", "p1_possession_domain09_persist", "p1_possession_domain09_protect", "p1_possession_domain09_audit"}:
+            return {"ok": True, **p1_possession_domain09_market(service.connection, action, payload)}
+        if action in {"p1_xa_contracts", "p1_xa_state", "p1_xa_validate", "p1_xa_persist", "p1_xa_protect", "p1_xa_audit"}:
+            return {"ok": True, **p1_xa_market(service.connection, action, payload)}
+        if action in {"p1_substitution_contracts", "p1_substitution_state", "p1_substitution_validate", "p1_substitution_persist", "p1_substitution_protect", "p1_substitution_audit"}:
+            return {"ok": True, **p1_substitution_market(service.connection, action, payload)}
+        if action in {"p1_xg_contracts", "p1_xg_state", "p1_xg_validate", "p1_xg_persist", "p1_xg_protect", "p1_xg_audit"}:
+            return {"ok": True, **p1_xg_market(service.connection, action, payload)}
+        if action in {"p1_finalization_contracts", "p1_finalization_state", "p1_finalization_validate", "p1_finalization_persist", "p1_finalization_protect", "p1_finalization_audit"}:
+            return {"ok": True, **p1_finalization_market(service.connection, action, payload)}
+        if action in {"p1_possession_contracts", "p1_possession_state", "p1_possession_validate", "p1_possession_persist", "p1_possession_protect", "p1_possession_audit"}:
+            return {"ok": True, **p1_possession_market(service.connection, action, payload)}
+        if action in {"p1_score_contracts", "p1_score_state", "p1_score_validate", "p1_score_persist", "p1_score_protect", "p1_score_audit"}:
+            return {"ok": True, **p1_score_market(service.connection, action, payload)}
+        if action in {"p1_event_contracts", "p1_event_state", "p1_event_validate", "p1_event_persist", "p1_event_protect", "p1_event_audit"}:
+            return {"ok": True, **p1_event_market(service.connection, action, payload)}
+        if action in {"p1_tactic_contracts", "p1_tactic_state", "p1_tactic_validate", "p1_tactic_persist", "p1_tactic_protect", "p1_tactic_audit"}:
+            return {"ok": True, **p1_tactic_market(service.connection, action, payload)}
+        if action in {"p1_security_contracts", "p1_security_state", "p1_security_validate", "p1_security_persist", "p1_security_protect", "p1_security_audit"}:
+            return {"ok": True, **p1_security_market(service.connection, action, payload)}
+        if action in {"p1_climate_contracts", "p1_climate_state", "p1_climate_validate", "p1_climate_persist", "p1_climate_protect", "p1_climate_audit"}:
+            return {"ok": True, **p1_climate_market(service.connection, action, payload)}
+        if action in {"p1_timezone_contracts", "p1_timezone_state", "p1_timezone_validate", "p1_timezone_persist", "p1_timezone_protect", "p1_timezone_audit"}:
+            return {"ok": True, **p1_timezone_market(service.connection, action, payload)}
+        if action in {"p1_reschedule_contracts", "p1_reschedule_state", "p1_reschedule_validate", "p1_reschedule_persist", "p1_reschedule_protect", "p1_reschedule_audit"}:
+            return {"ok": True, **p1_reschedule_market(service.connection, action, payload)}
+        if action in {"p1_conflict_contracts", "p1_conflict_state", "p1_conflict_validate", "p1_conflict_persist", "p1_conflict_protect", "p1_conflict_audit"}:
+            return {"ok": True, **p1_conflict_market(service.connection, action, payload)}
+        if action in {"p1_window_contracts", "p1_window_state", "p1_window_validate", "p1_window_persist", "p1_window_protect", "p1_window_audit"}:
+            return {"ok": True, **p1_window_market(service.connection, action, payload)}
+        if action in {"p1_holiday_contracts", "p1_holiday_state", "p1_holiday_validate", "p1_holiday_persist", "p1_holiday_protect", "p1_holiday_audit"}:
+            return {"ok": True, **p1_holiday_market(service.connection, action, payload)}
+        if action in {"p1_prize_contracts", "p1_prize_state", "p1_prize_validate", "p1_prize_persist", "p1_prize_protect", "p1_prize_audit"}:
+            return {"ok": True, **p1_prize_market(service.connection, action, payload)}
+        if action in {"p1_record_domain08_contracts", "p1_record_domain08_state", "p1_record_domain08_validate", "p1_record_domain08_persist", "p1_record_domain08_protect", "p1_record_domain08_audit"}:
+            return {"ok": True, **p1_record_domain08_market(service.connection, action, payload)}
+        if action in {"p1_coefficient_contracts", "p1_coefficient_state", "p1_coefficient_validate", "p1_coefficient_persist", "p1_coefficient_protect", "p1_coefficient_audit"}:
+            return {"ok": True, **p1_coefficient_market(service.connection, action, payload)}
+        if action in {"p1_draw_domain08_contracts", "p1_draw_domain08_state", "p1_draw_domain08_validate", "p1_draw_domain08_persist", "p1_draw_domain08_protect", "p1_draw_domain08_audit"}:
+            return {"ok": True, **p1_draw_domain08_market(service.connection, action, payload)}
+        if action in {"p1_knockout_contracts", "p1_knockout_state", "p1_knockout_validate", "p1_knockout_persist", "p1_knockout_protect", "p1_knockout_audit"}:
+            return {"ok": True, **p1_knockout_market(service.connection, action, payload)}
+        if action in {"p1_group_contracts", "p1_group_state", "p1_group_validate", "p1_group_persist", "p1_group_protect", "p1_group_audit"}:
+            return {"ok": True, **p1_group_market(service.connection, action, payload)}
+        if action in {"p1_pot_contracts", "p1_pot_state", "p1_pot_validate", "p1_pot_persist", "p1_pot_protect", "p1_pot_audit"}:
+            return {"ok": True, **p1_pot_market(service.connection, action, payload)}
+        if action in {"p1_promotion_domain08_contracts", "p1_promotion_domain08_state", "p1_promotion_domain08_validate", "p1_promotion_domain08_persist", "p1_promotion_domain08_protect", "p1_promotion_domain08_audit"}:
+            return {"ok": True, **p1_promotion_domain08_market(service.connection, action, payload)}
+        if action in {"p1_table_domain08_contracts", "p1_table_domain08_state", "p1_table_domain08_validate", "p1_table_domain08_persist", "p1_table_domain08_protect", "p1_table_domain08_audit"}:
+            return {"ok": True, **p1_table_domain08_market(service.connection, action, payload)}
+        if action in {"p1_round_domain08_contracts", "p1_round_domain08_state", "p1_round_domain08_validate", "p1_round_domain08_persist", "p1_round_domain08_protect", "p1_round_domain08_audit"}:
+            return {"ok": True, **p1_round_domain08_market(service.connection, action, payload)}
+        if action in {"p1_fixture_contracts", "p1_fixture_state", "p1_fixture_validate", "p1_fixture_persist", "p1_fixture_protect", "p1_fixture_audit"}:
+            return {"ok": True, **p1_fixture_market(service.connection, action, payload)}
+        if action in {"p1_division_contracts", "p1_division_state", "p1_division_validate", "p1_division_persist", "p1_division_protect", "p1_division_audit"}:
+            return {"ok": True, **p1_division_market(service.connection, action, payload)}
+        if action in {"p1_draw_contracts", "p1_draw_state", "p1_draw_validate", "p1_draw_persist", "p1_draw_protect", "p1_draw_audit"}:
+            return {"ok": True, **p1_draw_market(service.connection, action, payload)}
+        if action in {"p1_membership_domain08_contracts", "p1_membership_domain08_state", "p1_membership_domain08_validate", "p1_membership_domain08_persist", "p1_membership_domain08_protect", "p1_membership_domain08_audit"}:
+            return {"ok": True, **p1_membership_domain08_market(service.connection, action, payload)}
+        if action in {"p1_record_contracts", "p1_record_state", "p1_record_validate", "p1_record_persist", "p1_record_protect", "p1_record_audit"}:
+            return {"ok": True, **p1_record_market(service.connection, action, payload)}
+        if action in {"p1_relegation_contracts", "p1_relegation_state", "p1_relegation_validate", "p1_relegation_persist", "p1_relegation_protect", "p1_relegation_audit"}:
+            return {"ok": True, **p1_relegation_market(service.connection, action, payload)}
+        if action in {"p1_promotion_contracts", "p1_promotion_state", "p1_promotion_validate", "p1_promotion_persist", "p1_promotion_protect", "p1_promotion_audit"}:
+            return {"ok": True, **p1_promotion_market(service.connection, action, payload)}
+        if action in {"p1_table_contracts", "p1_table_state", "p1_table_validate", "p1_table_persist", "p1_table_protect", "p1_table_audit"}:
+            return {"ok": True, **p1_table_market(service.connection, action, payload)}
+        if action in {"p1_round_contracts", "p1_round_state", "p1_round_validate", "p1_round_persist", "p1_round_protect", "p1_round_audit"}:
+            return {"ok": True, **p1_round_market(service.connection, action, payload)}
+        if action in {"p1_regulation_contracts", "p1_regulation_state", "p1_regulation_validate", "p1_regulation_persist", "p1_regulation_protect", "p1_regulation_audit"}:
+            return {"ok": True, **p1_regulation_market(service.connection, action, payload)}
+        if action in {"p1_membership_contracts", "p1_membership_state", "p1_membership_validate", "p1_membership_persist", "p1_membership_protect", "p1_membership_audit"}:
+            return {"ok": True, **p1_membership_market(service.connection, action, payload)}
+        if action in {"p1_calendar_contracts", "p1_calendar_state", "p1_calendar_validate", "p1_calendar_persist", "p1_calendar_protect", "p1_calendar_audit"}:
+            return {"ok": True, **p1_calendar_market(service.connection, action, payload)}
+        if action in {"p1_eligibility_contracts", "p1_eligibility_state", "p1_eligibility_validate", "p1_eligibility_persist", "p1_eligibility_protect", "p1_eligibility_audit"}:
+            return {"ok": True, **p1_eligibility_market(service.connection, action, payload)}
+        if action in {"p1_tournament_contracts", "p1_tournament_state", "p1_tournament_validate", "p1_tournament_persist", "p1_tournament_protect", "p1_tournament_audit"}:
+            return {"ok": True, **p1_tournament_market(service.connection, action, payload)}
+        if action in {"p1_profile_contracts", "p1_profile_state", "p1_profile_validate", "p1_profile_persist", "p1_profile_protect", "p1_profile_audit"}:
+            return {"ok": True, **p1_profile_market(service.connection, action, payload)}
+        if action in {"p1_identity_contracts", "p1_identity_state", "p1_identity_validate", "p1_identity_persist", "p1_identity_protect", "p1_identity_audit"}:
+            return {"ok": True, **p1_identity_market(service.connection, action, payload)}
+        if action in {"p1_city_contracts", "p1_city_state", "p1_city_validate", "p1_city_persist", "p1_city_protect", "p1_city_audit"}:
+            return {"ok": True, **p1_city_market(service.connection, action, payload)}
+        if action in {"p1_country_contracts", "p1_country_state", "p1_country_validate", "p1_country_persist", "p1_country_protect", "p1_country_audit"}:
+            return {"ok": True, **p1_country_market(service.connection, action, payload)}
         if action == "parallel_preview":
             return {"ok": True, **service.preview_parallel_league([int(value) for value in payload.get('selected_country_ids', [])], str(payload.get('target_type', 'club')), int(payload.get('target_id')))}
         if action in {"parallel_snapshot", "parallel_result", "parallel_close"}:
@@ -725,7 +2958,7 @@ def run(action: str, payload: dict, database_path: Path) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("action", choices=["catalog", "current", "parallel_preview", "roadmap_guard", "p0_contracts", "p0_contract_validate", "p0_contract_protect", "p0_contract_audit", "p1_procedure_contracts", "p1_procedure_validate", "p1_procedure_protect", "p1_procedure_audit", "p1_error_contracts", "p1_error_validate", "p1_error_protect", "p1_error_audit", "p1_version_contracts", "p1_version_validate", "p1_version_protect", "p1_version_audit", "p1_migration_contracts", "p1_migration_validate", "p1_migration_protect", "p1_migration_audit", "p1_domain_version_contracts", "p1_domain_version_validate", "p1_domain_version_protect", "p1_domain_version_audit", "p1_timeout_contracts", "p1_timeout_validate", "p1_timeout_protect", "p1_timeout_audit", "start", "contract_renew_approve", "economy_bootstrap_all", "economy_weekly_all", "economy_bootstrap", "economy_summary", "staff_catalog", "staff_hire", "staff_contract", "staff_terminate", "staff_replace", "department_offers", "department_upgrade", "economy_weekly", "training_departments", "training_budget", "training_plan", "training_objective", "training_preview", "training_approve", "training_cancel", "training_development", "training_alerts", "morale_summary", "morale_match", "weekly_training", "opponent_preparation", "weekly_load", "form_recommendations", "health_list", "health_alerts", "health_injury", "health_recover", "health_suspension", "ai_diagnosis", "ai_history", "ai_training", "ai_market", "ai_weekly", "ai_lineup", "ai_tactic", "ai_objective_progress", "ai_preview", "ai_approve", "ai_risk_limit", "ai_budget_alerts", "transferable_players", "transfer_open_window", "transfer_preview", "transfer_offer", "transfer_counter", "transfer_accept", "transfer_approve", "transfer_loan", "transfer_complete", "transfer_history", "transfer_alerts", "transfer_expire", "simulation_configure", "simulation_batch", "simulation_progress", "simulation_checkpoint", "simulation_divergence", "simulation_benchmark", "simulation_resume", "simulation_metrics", "simulation_failure_report", "scout_regions", "scout_create_region", "scout_mission", "scout_start", "scout_complete", "scout_opportunities", "scout_compare", "scout_confirm", "academy_enroll", "academy_progress", "academy_promote", "academy_maintenance", "finance_revenue", "finance_expense", "finance_budget", "finance_expense_preview", "finance_post_match_preview", "finance_projection", "finance_alert", "finance_world_report", "finance_audit", "travel_preview", "travel_summary", "finance_monthly_close", "finance_reconciliation", "finance_media_summary", "sponsor_bootstrap_all", "sponsor_weekly_all", "sponsor_bootstrap", "sponsor_summary", "sponsor_offers", "sponsor_accept", "sponsor_weekly", "stadium_bootstrap", "stadium_bootstrap_all", "stadium_summary", "stadium_preview", "stadium_upgrade", "ticket_price", "ticket_price_preview", "fan_segments", "social_timeline", "weekly_advance", "events_list", "events_mark_read", "career_snapshot", "career_snapshot_list", "career_snapshot_hash", "career_snapshot_compare", "career_snapshot_restore", "career_snapshot_audit", "parallel_snapshot", "parallel_result", "parallel_close"])
+    parser.add_argument("action", choices=["catalog", "current", "parallel_preview", "roadmap_guard", "p0_contracts", "p0_contract_validate", "p0_contract_protect", "p0_contract_audit", "p1_procedure_contracts", "p1_procedure_validate", "p1_procedure_protect", "p1_procedure_audit", "p1_error_contracts", "p1_error_validate", "p1_error_protect", "p1_error_audit", "p1_version_contracts", "p1_version_validate", "p1_version_protect", "p1_version_audit", "p1_migration_contracts", "p1_migration_validate", "p1_migration_protect", "p1_migration_audit", "p1_domain_version_contracts", "p1_domain_version_validate", "p1_domain_version_protect", "p1_domain_version_audit", "p1_timeout_contracts", "p1_timeout_validate", "p1_timeout_protect", "p1_timeout_audit", "p1_preferences_contracts", "p1_preferences_state", "p1_preferences_validate", "p1_preferences_persist", "p1_preferences_protect", "p1_preferences_audit", "p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit", "p1_throughput_contracts", "p1_throughput_state", "p1_throughput_validate", "p1_throughput_persist", "p1_throughput_protect", "p1_throughput_audit", "p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit", "p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit", "p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit", "p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit", "p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit", "p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit", "p1_stadium_contracts", "p1_stadium_state", "p1_stadium_validate", "p1_stadium_persist", "p1_stadium_protect", "p1_stadium_audit", "p1_stadium_capacity_contracts", "p1_stadium_capacity_state", "p1_stadium_capacity_validate", "p1_stadium_capacity_persist", "p1_stadium_capacity_protect", "p1_stadium_capacity_audit", "p1_stadium_components_contracts", "p1_stadium_components_state", "p1_stadium_components_validate", "p1_stadium_components_persist", "p1_stadium_components_protect", "p1_stadium_components_audit", "p1_stadium_infrastructure_contracts", "p1_stadium_infrastructure_state", "p1_stadium_infrastructure_validate", "p1_stadium_infrastructure_persist", "p1_stadium_infrastructure_protect", "p1_stadium_infrastructure_audit", "p1_position_contracts", "p1_position_state", "p1_position_validate", "p1_position_persist", "p1_position_protect", "p1_position_audit", "p1_attribute_contracts", "p1_attribute_state", "p1_attribute_validate", "p1_attribute_persist", "p1_attribute_protect", "p1_attribute_audit", "p1_potential_contracts", "p1_potential_state", "p1_potential_validate", "p1_potential_persist", "p1_potential_protect", "p1_potential_audit", "p1_age_contracts", "p1_age_state", "p1_age_validate", "p1_age_persist", "p1_age_protect", "p1_age_audit", "p1_alias_contracts", "p1_alias_state", "p1_alias_validate", "p1_alias_persist", "p1_alias_protect", "p1_alias_audit", "p1_nationality_contracts", "p1_nationality_state", "p1_nationality_validate", "p1_nationality_persist", "p1_nationality_protect", "p1_nationality_audit", "p1_history_contracts", "p1_history_state", "p1_history_validate", "p1_history_persist", "p1_history_protect", "p1_history_audit", "p1_callup_contracts", "p1_callup_state", "p1_callup_validate", "p1_callup_persist", "p1_callup_protect", "p1_callup_audit", "p1_ranking_contracts", "p1_ranking_state", "p1_ranking_validate", "p1_ranking_persist", "p1_ranking_protect", "p1_ranking_audit", "p1_fifa_date_contracts", "p1_fifa_date_state", "p1_fifa_date_validate", "p1_fifa_date_persist", "p1_fifa_date_protect", "p1_fifa_date_audit", "p1_comissao_operacional_contracts", "p1_comissao_operacional_state", "p1_comissao_operacional_validate", "p1_comissao_operacional_persist", "p1_comissao_operacional_protect", "p1_comissao_operacional_audit", "p1_commission_contracts", "p1_commission_state", "p1_commission_validate", "p1_commission_persist", "p1_commission_protect", "p1_commission_audit", "p1_privacidade_contracts", "p1_privacidade_state", "p1_privacidade_validate", "p1_privacidade_persist", "p1_privacidade_protect", "p1_privacidade_audit", "p1_auditoria_contracts", "p1_auditoria_state", "p1_auditoria_validate", "p1_auditoria_persist", "p1_auditoria_protect", "p1_auditoria_audit", "p1_replay_contracts", "p1_replay_state", "p1_replay_validate", "p1_replay_persist", "p1_replay_protect", "p1_replay_audit", "p2_checkpoint_contracts", "p2_checkpoint_state", "p2_checkpoint_validate", "p2_checkpoint_persist", "p2_checkpoint_protect", "p2_checkpoint_audit", "p1_unitario_contracts", "p1_unitario_state", "p1_unitario_validate", "p1_unitario_persist", "p1_unitario_protect", "p1_unitario_audit", "p1_formulario_contracts", "p1_formulario_state", "p1_formulario_validate", "p1_formulario_persist", "p1_formulario_protect", "p1_formulario_audit", "p1_tatica_contracts", "p1_tatica_state", "p1_tatica_validate", "p1_tatica_persist", "p1_tatica_protect", "p1_tatica_audit", "p1_tabela_contracts", "p1_tabela_state", "p1_tabela_validate", "p1_tabela_persist", "p1_tabela_protect", "p1_tabela_audit", "p1_navegacao_contracts", "p1_navegacao_state", "p1_navegacao_validate", "p1_navegacao_persist", "p1_navegacao_protect", "p1_navegacao_audit", "p1_legado_contracts", "p1_legado_state", "p1_legado_validate", "p1_legado_persist", "p1_legado_protect", "p1_legado_audit", "p1_aposentadoria_contracts", "p1_aposentadoria_state", "p1_aposentadoria_validate", "p1_aposentadoria_persist", "p1_aposentadoria_protect", "p1_aposentadoria_audit", "p1_troca_contracts", "p1_troca_state", "p1_troca_validate", "p1_troca_persist", "p1_troca_protect", "p1_troca_audit", "p1_oferta_contracts", "p1_oferta_state", "p1_oferta_validate", "p1_oferta_persist", "p1_oferta_protect", "p1_oferta_audit", "p1_experiencia_contracts", "p1_experiencia_state", "p1_experiencia_validate", "p1_experiencia_persist", "p1_experiencia_protect", "p1_experiencia_audit", "p1_objetivo_contracts", "p1_objetivo_state", "p1_objetivo_validate", "p1_objetivo_persist", "p1_objetivo_protect", "p1_objetivo_audit", "p1_preferencia_contracts", "p1_preferencia_state", "p1_preferencia_validate", "p1_preferencia_persist", "p1_preferencia_protect", "p1_preferencia_audit", "p1_record_contracts", "p1_record_state", "p1_record_validate", "p1_record_persist", "p1_record_protect", "p1_record_audit", "p1_tatica_contracts", "p1_tatica_state", "p1_tatica_validate", "p1_tatica_persist", "p1_tatica_protect", "p1_tatica_audit", "p1_tatica_contracts", "p1_tatica_state", "p1_tatica_validate", "p1_tatica_persist", "p1_tatica_protect", "p1_tatica_audit", "p1_severidade_contracts", "p1_severidade_state", "p1_severidade_validate", "p1_severidade_persist", "p1_severidade_protect", "p1_severidade_audit", "p1_feed_contracts", "p1_feed_state", "p1_feed_validate", "p1_feed_persist", "p1_feed_protect", "p1_feed_audit", "p1_evento_contracts", "p1_evento_state", "p1_evento_validate", "p1_evento_persist", "p1_evento_protect", "p1_evento_audit", "p1_prioridade_contracts", "p1_prioridade_state", "p1_prioridade_validate", "p1_prioridade_persist", "p1_prioridade_protect", "p1_prioridade_audit", "p1_retomada_contracts", "p1_retomada_state", "p1_retomada_validate", "p1_retomada_persist", "p1_retomada_protect", "p1_retomada_audit", "p1_falha_contracts", "p1_falha_state", "p1_falha_validate", "p1_falha_persist", "p1_falha_protect", "p1_falha_audit", "p1_checkpoint_contracts", "p1_checkpoint_state", "p1_checkpoint_validate", "p1_checkpoint_persist", "p1_checkpoint_protect", "p1_checkpoint_audit", "p1_seed_contracts", "p1_seed_state", "p1_seed_validate", "p1_seed_persist", "p1_seed_protect", "p1_seed_audit", "p1_lote_contracts", "p1_lote_state", "p1_lote_validate", "p1_lote_persist", "p1_lote_protect", "p1_lote_audit", "p1_security_followup_contracts", "p1_security_followup_state", "p1_security_followup_validate", "p1_security_followup_persist", "p1_security_followup_protect", "p1_security_followup_audit", "p1_descanso_operacional_contracts", "p1_descanso_operacional_state", "p1_descanso_operacional_validate", "p1_descanso_operacional_persist", "p1_descanso_operacional_protect", "p1_descanso_operacional_audit", "p1_seguranca_domain24_contracts", "p1_seguranca_domain24_state", "p1_seguranca_domain24_validate", "p1_seguranca_domain24_persist", "p1_seguranca_domain24_protect", "p1_seguranca_domain24_audit", "p1_setor_contracts", "p1_setor_state", "p1_setor_validate", "p1_setor_persist", "p1_setor_protect", "p1_setor_audit", "p1_inventario_contracts", "p1_inventario_state", "p1_inventario_validate", "p1_inventario_persist", "p1_inventario_protect", "p1_inventario_audit", "p1_bonus_patrocinio_contracts", "p1_bonus_patrocinio_state", "p1_bonus_patrocinio_validate", "p1_bonus_patrocinio_persist", "p1_bonus_patrocinio_protect", "p1_bonus_patrocinio_audit", "p1_projecao_contracts", "p1_projecao_state", "p1_projecao_validate", "p1_projecao_persist", "p1_projecao_protect", "p1_projecao_audit", "p1_orcamento_operacional_contracts", "p1_orcamento_operacional_state", "p1_orcamento_operacional_validate", "p1_orcamento_operacional_persist", "p1_orcamento_operacional_protect", "p1_orcamento_operacional_audit", "p1_ledger_contracts", "p1_ledger_state", "p1_ledger_validate", "p1_ledger_persist", "p1_ledger_protect", "p1_ledger_audit", "p1_bonus_operacional_contracts", "p1_bonus_operacional_state", "p1_bonus_operacional_validate", "p1_bonus_operacional_persist", "p1_bonus_operacional_protect", "p1_bonus_operacional_audit", "p1_despesa_contracts", "p1_despesa_state", "p1_despesa_validate", "p1_despesa_persist", "p1_despesa_protect", "p1_despesa_audit", "p1_receita_contracts", "p1_receita_state", "p1_receita_validate", "p1_receita_persist", "p1_receita_protect", "p1_receita_audit", "p1_relatorio_contracts", "p1_relatorio_state", "p1_relatorio_validate", "p1_relatorio_persist", "p1_relatorio_protect", "p1_relatorio_audit", "p1_comparacao_contracts", "p1_comparacao_state", "p1_comparacao_validate", "p1_comparacao_persist", "p1_comparacao_protect", "p1_comparacao_audit", "p1_evidencia_contracts", "p1_evidencia_state", "p1_evidencia_validate", "p1_evidencia_persist", "p1_evidencia_protect", "p1_evidencia_audit", "p1_registration_contracts", "p1_registration_state", "p1_registration_validate", "p1_registration_persist", "p1_registration_protect", "p1_registration_audit", "p1_tatica_contracts", "p1_tatica_state", "p1_tatica_validate", "p1_tatica_persist", "p1_tatica_protect", "p1_tatica_audit", "p1_posicao_contracts", "p1_posicao_state", "p1_posicao_validate", "p1_posicao_persist", "p1_posicao_protect", "p1_posicao_audit", "p1_regiao_contracts", "p1_regiao_state", "p1_regiao_validate", "p1_regiao_persist", "p1_regiao_protect", "p1_regiao_audit", "p1_registro_adicional_contracts", "p1_registro_adicional_state", "p1_registro_adicional_validate", "p1_registro_adicional_persist", "p1_registro_adicional_protect", "p1_registro_adicional_audit", "p1_opcao_contracts", "p1_opcao_state", "p1_opcao_validate", "p1_opcao_persist", "p1_opcao_protect", "p1_opcao_audit", "p1_emprestimo_contracts", "p1_emprestimo_state", "p1_emprestimo_validate", "p1_emprestimo_persist", "p1_emprestimo_protect", "p1_emprestimo_audit", "p1_valor_contracts", "p1_valor_state", "p1_valor_validate", "p1_valor_persist", "p1_valor_protect", "p1_valor_audit", "p1_contraproposta_contracts", "p1_contraproposta_state", "p1_contraproposta_validate", "p1_contraproposta_persist", "p1_contraproposta_protect", "p1_contraproposta_audit", "p1_proposta_contracts", "p1_proposta_state", "p1_proposta_validate", "p1_proposta_persist", "p1_proposta_protect", "p1_proposta_audit", "p1_potencial_contracts", "p1_potencial_state", "p1_potencial_validate", "p1_potencial_persist", "p1_potencial_protect", "p1_potencial_audit", "p1_atributo_contracts", "p1_atributo_state", "p1_atributo_validate", "p1_atributo_persist", "p1_atributo_protect", "p1_atributo_audit", "p1_tatica_contracts", "p1_tatica_state", "p1_tatica_validate", "p1_tatica_persist", "p1_tatica_protect", "p1_tatica_audit", "p1_descanso_contracts", "p1_descanso_state", "p1_descanso_validate", "p1_descanso_persist", "p1_descanso_protect", "p1_descanso_audit", "p1_intensidade_contracts", "p1_intensidade_state", "p1_intensidade_validate", "p1_intensidade_persist", "p1_intensidade_protect", "p1_intensidade_audit", "p1_objetivo_operacional_contracts", "p1_objetivo_operacional_state", "p1_objetivo_operacional_validate", "p1_objetivo_operacional_persist", "p1_objetivo_operacional_protect", "p1_objetivo_operacional_audit", "p1_suspensao_contracts", "p1_suspensao_state", "p1_suspensao_validate", "p1_suspensao_persist", "p1_suspensao_protect", "p1_suspensao_audit", "p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit", "p1_risco_contracts", "p1_risco_state", "p1_risco_validate", "p1_risco_persist", "p1_risco_protect", "p1_risco_audit", "p1_retorno_contracts", "p1_retorno_state", "p1_retorno_validate", "p1_retorno_persist", "p1_retorno_protect", "p1_retorno_audit", "p1_fisioterapia_contracts", "p1_fisioterapia_state", "p1_fisioterapia_validate", "p1_fisioterapia_persist", "p1_fisioterapia_protect", "p1_fisioterapia_audit", "p1_tratamento_contracts", "p1_tratamento_state", "p1_tratamento_validate", "p1_tratamento_persist", "p1_tratamento_protect", "p1_tratamento_audit", "p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit", "p1_minutos_contracts", "p1_minutos_state", "p1_minutos_validate", "p1_minutos_persist", "p1_minutos_protect", "p1_minutos_audit", "p1_educacao_contracts", "p1_educacao_state", "p1_educacao_validate", "p1_educacao_persist", "p1_educacao_protect", "p1_educacao_audit", "p1_bolsa_contracts", "p1_bolsa_state", "p1_bolsa_validate", "p1_bolsa_persist", "p1_bolsa_protect", "p1_bolsa_audit", "p1_promocao_contracts", "p1_promocao_state", "p1_promocao_validate", "p1_promocao_persist", "p1_promocao_protect", "p1_promocao_audit", "p1_desenvolvimento_contracts", "p1_desenvolvimento_state", "p1_desenvolvimento_validate", "p1_desenvolvimento_persist", "p1_desenvolvimento_protect", "p1_desenvolvimento_audit", "p1_captacao_contracts", "p1_captacao_state", "p1_captacao_validate", "p1_captacao_persist", "p1_captacao_protect", "p1_captacao_audit", "p1_category_domain10_contracts", "p1_category_domain10_state", "p1_category_domain10_validate", "p1_category_domain10_persist", "p1_category_domain10_protect", "p1_category_domain10_audit", "p1_medicine_contracts", "p1_medicine_state", "p1_medicine_validate", "p1_medicine_persist", "p1_medicine_protect", "p1_medicine_audit", "p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit", "p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit", "p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit", "p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit", "p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit", "p1_level_domain10_contracts", "p1_level_domain10_state", "p1_level_domain10_validate", "p1_level_domain10_persist", "p1_level_domain10_protect", "p1_level_domain10_audit", "p1_contract_contracts", "p1_contract_state", "p1_contract_validate", "p1_contract_persist", "p1_contract_protect", "p1_contract_audit", "p1_vacancy_contracts", "p1_vacancy_state", "p1_vacancy_validate", "p1_vacancy_persist", "p1_vacancy_protect", "p1_vacancy_audit", "p1_level_contracts", "p1_level_state", "p1_level_validate", "p1_level_persist", "p1_level_protect", "p1_level_audit", "p1_specialty_contracts", "p1_specialty_state", "p1_specialty_validate", "p1_specialty_persist", "p1_specialty_protect", "p1_specialty_audit", "p1_scout_contracts", "p1_scout_state", "p1_scout_validate", "p1_scout_persist", "p1_scout_protect", "p1_scout_audit", "p1_doctor_contracts", "p1_doctor_state", "p1_doctor_validate", "p1_doctor_persist", "p1_doctor_protect", "p1_doctor_audit", "p1_assistant_contracts", "p1_assistant_state", "p1_assistant_validate", "p1_assistant_persist", "p1_assistant_protect", "p1_assistant_audit", "p1_option_contracts", "p1_option_state", "p1_option_validate", "p1_option_persist", "p1_option_protect", "p1_option_audit", "p1_loan_contracts", "p1_loan_state", "p1_loan_validate", "p1_loan_persist", "p1_loan_protect", "p1_loan_audit", "p1_termination_contracts", "p1_termination_state", "p1_termination_validate", "p1_termination_persist", "p1_termination_protect", "p1_termination_audit", "p1_renewal_contracts", "p1_renewal_state", "p1_renewal_validate", "p1_renewal_persist", "p1_renewal_protect", "p1_renewal_audit", "p1_clause_contracts", "p1_clause_state", "p1_clause_validate", "p1_clause_persist", "p1_clause_protect", "p1_clause_audit", "p1_bonus_contracts", "p1_bonus_state", "p1_bonus_validate", "p1_bonus_persist", "p1_bonus_protect", "p1_bonus_audit", "p1_duration_contracts", "p1_duration_state", "p1_duration_validate", "p1_duration_persist", "p1_duration_protect", "p1_duration_audit", "p1_cohesion_contracts", "p1_cohesion_state", "p1_cohesion_validate", "p1_cohesion_persist", "p1_cohesion_protect", "p1_cohesion_audit", "p1_registration_contracts", "p1_registration_state", "p1_registration_validate", "p1_registration_persist", "p1_registration_protect", "p1_registration_audit", "p1_shirt_contracts", "p1_shirt_state", "p1_shirt_validate", "p1_shirt_persist", "p1_shirt_protect", "p1_shirt_audit", "p1_minutes_contracts", "p1_minutes_state", "p1_minutes_validate", "p1_minutes_persist", "p1_minutes_protect", "p1_minutes_audit", "p1_promise_contracts", "p1_promise_state", "p1_promise_validate", "p1_promise_persist", "p1_promise_protect", "p1_promise_audit", "p1_leadership_contracts", "p1_leadership_state", "p1_leadership_validate", "p1_leadership_persist", "p1_leadership_protect", "p1_leadership_audit", "p1_reserve_contracts", "p1_reserve_state", "p1_reserve_validate", "p1_reserve_persist", "p1_reserve_protect", "p1_reserve_audit", "p1_objective_contracts", "p1_objective_state", "p1_objective_validate", "p1_objective_persist", "p1_objective_protect", "p1_objective_audit", "p1_budget_contracts", "p1_budget_state", "p1_budget_validate", "p1_budget_persist", "p1_budget_protect", "p1_budget_audit", "p1_tactics_contracts", "p1_tactics_state", "p1_tactics_validate", "p1_tactics_persist", "p1_tactics_protect", "p1_tactics_audit", "p1_training_contracts", "p1_training_state", "p1_training_validate", "p1_training_persist", "p1_training_protect", "p1_training_audit", "p1_lineup_contracts", "p1_lineup_state", "p1_lineup_validate", "p1_lineup_persist", "p1_lineup_protect", "p1_lineup_audit", "p1_sale_contracts", "p1_sale_state", "p1_sale_validate", "p1_sale_persist", "p1_sale_protect", "p1_sale_audit", "p1_hiring_contracts", "p1_hiring_state", "p1_hiring_validate", "p1_hiring_persist", "p1_hiring_protect", "p1_hiring_audit", "p1_pass_contracts", "p1_pass_state", "p1_pass_validate", "p1_pass_persist", "p1_pass_protect", "p1_pass_audit", "p1_finalization_domain09_contracts", "p1_finalization_domain09_state", "p1_finalization_domain09_validate", "p1_finalization_domain09_persist", "p1_finalization_domain09_protect", "p1_finalization_domain09_audit", "p1_map_contracts", "p1_map_state", "p1_map_validate", "p1_map_persist", "p1_map_protect", "p1_map_audit", "p1_pressure_contracts", "p1_pressure_state", "p1_pressure_validate", "p1_pressure_persist", "p1_pressure_protect", "p1_pressure_audit", "p1_duel_contracts", "p1_duel_state", "p1_duel_validate", "p1_duel_persist", "p1_duel_protect", "p1_duel_audit", "p1_possession_domain09_contracts", "p1_possession_domain09_state", "p1_possession_domain09_validate", "p1_possession_domain09_persist", "p1_possession_domain09_protect", "p1_possession_domain09_audit", "p1_xa_contracts", "p1_xa_state", "p1_xa_validate", "p1_xa_persist", "p1_xa_protect", "p1_xa_audit", "p1_substitution_contracts", "p1_substitution_state", "p1_substitution_validate", "p1_substitution_persist", "p1_substitution_protect", "p1_substitution_audit", "p1_xg_contracts", "p1_xg_state", "p1_xg_validate", "p1_xg_persist", "p1_xg_protect", "p1_xg_audit", "p1_finalization_contracts", "p1_finalization_state", "p1_finalization_validate", "p1_finalization_persist", "p1_finalization_protect", "p1_finalization_audit", "p1_possession_contracts", "p1_possession_state", "p1_possession_validate", "p1_possession_persist", "p1_possession_protect", "p1_possession_audit", "p1_score_contracts", "p1_score_state", "p1_score_validate", "p1_score_persist", "p1_score_protect", "p1_score_audit", "p1_event_contracts", "p1_event_state", "p1_event_validate", "p1_event_persist", "p1_event_protect", "p1_event_audit", "p1_tactic_contracts", "p1_tactic_state", "p1_tactic_validate", "p1_tactic_persist", "p1_tactic_protect", "p1_tactic_audit", "p1_security_contracts", "p1_security_state", "p1_security_validate", "p1_security_persist", "p1_security_protect", "p1_security_audit", "p1_climate_contracts", "p1_climate_state", "p1_climate_validate", "p1_climate_persist", "p1_climate_protect", "p1_climate_audit", "p1_timezone_contracts", "p1_timezone_state", "p1_timezone_validate", "p1_timezone_persist", "p1_timezone_protect", "p1_timezone_audit", "p1_reschedule_contracts", "p1_reschedule_state", "p1_reschedule_validate", "p1_reschedule_persist", "p1_reschedule_protect", "p1_reschedule_audit", "p1_conflict_contracts", "p1_conflict_state", "p1_conflict_validate", "p1_conflict_persist", "p1_conflict_protect", "p1_conflict_audit", "p1_window_contracts", "p1_window_state", "p1_window_validate", "p1_window_persist", "p1_window_protect", "p1_window_audit", "p1_holiday_contracts", "p1_holiday_state", "p1_holiday_validate", "p1_holiday_persist", "p1_holiday_protect", "p1_holiday_audit", "p1_prize_contracts", "p1_prize_state", "p1_prize_validate", "p1_prize_persist", "p1_prize_protect", "p1_prize_audit", "p1_record_domain08_contracts", "p1_record_domain08_state", "p1_record_domain08_validate", "p1_record_domain08_persist", "p1_record_domain08_protect", "p1_record_domain08_audit", "p1_coefficient_contracts", "p1_coefficient_state", "p1_coefficient_validate", "p1_coefficient_persist", "p1_coefficient_protect", "p1_coefficient_audit", "p1_draw_domain08_contracts", "p1_draw_domain08_state", "p1_draw_domain08_validate", "p1_draw_domain08_persist", "p1_draw_domain08_protect", "p1_draw_domain08_audit", "p1_knockout_contracts", "p1_knockout_state", "p1_knockout_validate", "p1_knockout_persist", "p1_knockout_protect", "p1_knockout_audit", "p1_group_contracts", "p1_group_state", "p1_group_validate", "p1_group_persist", "p1_group_protect", "p1_group_audit", "p1_pot_contracts", "p1_pot_state", "p1_pot_validate", "p1_pot_persist", "p1_pot_protect", "p1_pot_audit", "p1_promotion_domain08_contracts", "p1_promotion_domain08_state", "p1_promotion_domain08_validate", "p1_promotion_domain08_persist", "p1_promotion_domain08_protect", "p1_promotion_domain08_audit", "p1_table_domain08_contracts", "p1_table_domain08_state", "p1_table_domain08_validate", "p1_table_domain08_persist", "p1_table_domain08_protect", "p1_table_domain08_audit", "p1_round_domain08_contracts", "p1_round_domain08_state", "p1_round_domain08_validate", "p1_round_domain08_persist", "p1_round_domain08_protect", "p1_round_domain08_audit", "p1_fixture_contracts", "p1_fixture_state", "p1_fixture_validate", "p1_fixture_persist", "p1_fixture_protect", "p1_fixture_audit", "p1_division_contracts", "p1_division_state", "p1_division_validate", "p1_division_persist", "p1_division_protect", "p1_division_audit", "p1_draw_contracts", "p1_draw_state", "p1_draw_validate", "p1_draw_persist", "p1_draw_protect", "p1_draw_audit", "p1_membership_domain08_contracts", "p1_membership_domain08_state", "p1_membership_domain08_validate", "p1_membership_domain08_persist", "p1_membership_domain08_protect", "p1_membership_domain08_audit", "p1_record_contracts", "p1_record_state", "p1_record_validate", "p1_record_persist", "p1_record_protect", "p1_record_audit", "p1_relegation_contracts", "p1_relegation_state", "p1_relegation_validate", "p1_relegation_persist", "p1_relegation_protect", "p1_relegation_audit", "p1_promotion_contracts", "p1_promotion_state", "p1_promotion_validate", "p1_promotion_persist", "p1_promotion_protect", "p1_promotion_audit", "p1_table_contracts", "p1_table_state", "p1_table_validate", "p1_table_persist", "p1_table_protect", "p1_table_audit", "p1_round_contracts", "p1_round_state", "p1_round_validate", "p1_round_persist", "p1_round_protect", "p1_round_audit", "p1_regulation_contracts", "p1_regulation_state", "p1_regulation_validate", "p1_regulation_persist", "p1_regulation_protect", "p1_regulation_audit", "p1_membership_contracts", "p1_membership_state", "p1_membership_validate", "p1_membership_persist", "p1_membership_protect", "p1_membership_audit", "p1_calendar_contracts", "p1_calendar_state", "p1_calendar_validate", "p1_calendar_persist", "p1_calendar_protect", "p1_calendar_audit", "p1_eligibility_contracts", "p1_eligibility_state", "p1_eligibility_validate", "p1_eligibility_persist", "p1_eligibility_protect", "p1_eligibility_audit", "p1_tournament_contracts", "p1_tournament_state", "p1_tournament_validate", "p1_tournament_persist", "p1_tournament_protect", "p1_tournament_audit", "p1_profile_contracts", "p1_profile_state", "p1_profile_validate", "p1_profile_persist", "p1_profile_protect", "p1_profile_audit", "p1_identity_contracts", "p1_identity_state", "p1_identity_validate", "p1_identity_persist", "p1_identity_protect", "p1_identity_audit", "p1_city_contracts", "p1_city_state", "p1_city_validate", "p1_city_persist", "p1_city_protect", "p1_city_audit", "p1_country_contracts", "p1_country_state", "p1_country_validate", "p1_country_persist", "p1_country_protect", "p1_country_audit", "start", "contract_renew_approve", "economy_bootstrap_all", "economy_weekly_all", "economy_bootstrap", "economy_summary", "staff_catalog", "staff_hire", "staff_contract", "staff_terminate", "staff_replace", "department_offers", "department_upgrade", "economy_weekly", "training_departments", "training_budget", "training_plan", "training_objective", "training_preview", "training_approve", "training_cancel", "training_development", "training_alerts", "morale_summary", "morale_match", "weekly_training", "opponent_preparation", "weekly_load", "form_recommendations", "health_list", "health_alerts", "health_injury", "health_recover", "health_suspension", "ai_diagnosis", "ai_history", "ai_training", "ai_market", "ai_weekly", "ai_lineup", "ai_tactic", "ai_objective_progress", "ai_preview", "ai_approve", "ai_risk_limit", "ai_budget_alerts", "transferable_players", "transfer_open_window", "transfer_preview", "transfer_offer", "transfer_counter", "transfer_accept", "transfer_approve", "transfer_loan", "transfer_complete", "transfer_history", "transfer_alerts", "transfer_expire", "simulation_configure", "simulation_batch", "simulation_progress", "simulation_checkpoint", "simulation_divergence", "simulation_benchmark", "simulation_resume", "simulation_metrics", "simulation_failure_report", "scout_regions", "scout_create_region", "scout_mission", "scout_start", "scout_complete", "scout_opportunities", "scout_compare", "scout_confirm", "academy_enroll", "academy_progress", "academy_promote", "academy_maintenance", "finance_revenue", "finance_expense", "finance_budget", "finance_expense_preview", "finance_post_match_preview", "finance_projection", "finance_alert", "finance_world_report", "finance_audit", "travel_preview", "travel_summary", "finance_monthly_close", "finance_reconciliation", "finance_media_summary", "sponsor_bootstrap_all", "sponsor_weekly_all", "sponsor_bootstrap", "sponsor_summary", "sponsor_offers", "sponsor_accept", "sponsor_weekly", "stadium_bootstrap", "stadium_bootstrap_all", "stadium_summary", "stadium_preview", "stadium_upgrade", "ticket_price", "ticket_price_preview", "fan_segments", "social_timeline", "weekly_advance", "events_list", "events_mark_read", "career_snapshot", "career_snapshot_list", "career_snapshot_hash", "career_snapshot_compare", "career_snapshot_restore", "career_snapshot_audit", "parallel_snapshot", "parallel_result", "parallel_close"])
     parser.add_argument("--database", default=str(ROOT / "data/state/game.db"))
     arguments = parser.parse_args()
     try:

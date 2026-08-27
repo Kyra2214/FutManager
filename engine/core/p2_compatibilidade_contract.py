@@ -1,0 +1,75 @@
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+import sqlite3
+from datetime import datetime, timezone
+from typing import Any
+
+from engine.core.domain_errors import DomainError, DomainErrorCode
+
+ITEM_IDS = tuple(range(1071, 1081))
+ACTIONS = ('DEFINE_CONTRACT', 'VALIDATE_RULES', 'PERSIST_STATE', 'EXPOSE_READ', 'PROTECT_MUTATION', 'AUDIT_FLOW', 'OPTIMIZE_QUERY', 'SIMULATE_SCENARIO', 'DOCUMENT_CYCLE', 'TEST_INTEGRATION')
+SEMVER = re.compile(r'^\d+\.\d+\.\d+$')
+
+
+def _now() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def ensure_p2_compatibilidade_registry(connection: sqlite3.Connection) -> None:
+    connection.executescript('''
+    CREATE TABLE IF NOT EXISTS roadmap_p1_compatibilidades(
+      item_id INTEGER PRIMARY KEY, domain_id INTEGER NOT NULL, compatibilidade_name TEXT NOT NULL,
+      compatibilidade_value TEXT NOT NULL, action TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'CONSOLIDATED',
+      source_of_truth TEXT NOT NULL DEFAULT 'SQL_GAMESTATE', contract_json TEXT NOT NULL,
+      created_at TEXT NOT NULL, updated_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS roadmap_p1_compatibilidade_audit(
+      audit_id INTEGER PRIMARY KEY AUTOINCREMENT, item_id INTEGER NOT NULL, action TEXT NOT NULL,
+      allowed INTEGER NOT NULL, reason TEXT NOT NULL, payload TEXT NOT NULL, created_at TEXT NOT NULL,
+      UNIQUE(item_id, action)
+    );
+    CREATE INDEX IF NOT EXISTS idx_roadmap_p1_compatibilidade_lookup ON roadmap_p1_compatibilidades(compatibilidade_name, action, status);
+    CREATE INDEX IF NOT EXISTS idx_roadmap_p1_compatibilidade_audit_item ON roadmap_p1_compatibilidade_audit(item_id, audit_id);
+    ''')
+    now = _now()
+    for item_id, action in zip(ITEM_IDS, ACTIONS):
+        contract = {'item_id': item_id, 'domain_id': 2, 'compatibilidade_name': 'career_gateway', 'compatibilidade_value': '1.0.0', 'action': action, 'source_of_truth': 'SQL_GAMESTATE', 'schema_compatibilidade': 1}
+        connection.execute('INSERT OR IGNORE INTO roadmap_p1_compatibilidades(item_id,domain_id,compatibilidade_name,compatibilidade_value,action,status,source_of_truth,contract_json,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?)', (item_id, 2, 'career_gateway', '1.0.0', action, 'CONSOLIDATED', 'SQL_GAMESTATE', json.dumps(contract, ensure_ascii=False, sort_keys=True, separators=(',', ':')), now, now))
+    connection.commit()
+
+
+def validate_p1_compatibilidade(connection: sqlite3.Connection, item_id: int) -> dict[str, Any]:
+    row = connection.execute('SELECT * FROM roadmap_p1_compatibilidades WHERE item_id=?', (item_id,)).fetchone()
+    if row is None: raise ValueError('P2_COMPATIBILIDADE_NOT_FOUND')
+    contract = json.loads(row['contract_json'])
+    checks = {'item_id': int(contract.get('item_id')) == int(item_id), 'domain_id': int(contract.get('domain_id')) == 2, 'compatibilidade_name': contract.get('compatibilidade_name') == 'career_gateway', 'compatibilidade_value': bool(SEMVER.match(str(contract.get('compatibilidade_value')))), 'action': contract.get('action') in ACTIONS, 'source_of_truth': contract.get('source_of_truth') == 'SQL_GAMESTATE'}
+    return {'status': 'VALID' if all(checks.values()) else 'INVALID', 'item_id': item_id, 'checks': checks, 'contract': contract, 'read_only': True}
+
+
+def read_p1_compatibilidades(connection: sqlite3.Connection) -> list[dict[str, Any]]:
+    return [{**dict(row), 'contract_json': json.loads(row['contract_json'])} for row in connection.execute('SELECT * FROM roadmap_p1_compatibilidades ORDER BY item_id').fetchall()]
+
+
+def protect_p1_compatibilidade_mutation(connection: sqlite3.Connection, item_id: int, actor: str, payload: dict[str, Any]) -> dict[str, Any]:
+    validation = validate_p1_compatibilidade(connection, item_id)
+    allowed = bool(actor == 'AUTHORIZED_SQL_SERVICE' and validation['status'] == 'VALID')
+    serialized = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
+    connection.execute('INSERT OR REPLACE INTO roadmap_p1_compatibilidade_audit(item_id,action,allowed,reason,payload,created_at) VALUES(?,?,?,?,?,?)', (item_id, 'PROTECT_MUTATION', int(allowed), 'ALLOWED' if allowed else 'SQL_SERVICE_AUTHORIZATION_REQUIRED', serialized, _now()))
+    connection.commit()
+    if not allowed: raise DomainError(DomainErrorCode.P0_MUTATION_AUTHORIZATION_REQUIRED)
+    return {'allowed': True, 'item_id': item_id, 'payload_hash': hashlib.sha256(serialized.encode()).hexdigest()}
+
+
+def audit_p2_compatibilidades(connection: sqlite3.Connection) -> dict[str, Any]:
+    rows = connection.execute('SELECT item_id,domain_id,compatibilidade_name,compatibilidade_value,action,status,source_of_truth,contract_json FROM roadmap_p1_compatibilidades ORDER BY item_id').fetchall()
+    invalid = []
+    for row in rows:
+        try:
+            contract = json.loads(row['contract_json'])
+            if not (int(contract.get('item_id')) == int(row['item_id']) and int(contract.get('domain_id')) == 2 and contract.get('compatibilidade_name') == 'career_gateway' and SEMVER.match(str(contract.get('compatibilidade_value'))) and contract.get('action') in ACTIONS and contract.get('source_of_truth') == 'SQL_GAMESTATE'): invalid.append(int(row['item_id']))
+        except (TypeError, ValueError, json.JSONDecodeError): invalid.append(int(row['item_id']))
+    checks = {'count_10': len(rows) == 10, 'expected_ids': {int(row['item_id']) for row in rows} == set(ITEM_IDS), 'all_consolidated': all(row['status'] == 'CONSOLIDATED' for row in rows), 'sql_game_state': all(row['source_of_truth'] == 'SQL_GAMESTATE' for row in rows), 'valid_contracts': not invalid}
+    return {'status': 'VALID' if all(checks.values()) else 'INVALID', 'compatibilidade_count': len(rows), 'checks': checks, 'invalid_items': invalid, 'read_only': True}

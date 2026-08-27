@@ -1,0 +1,78 @@
+name: FutManager CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: Backend and engine
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install test tooling
+        run: python -m pip install --upgrade pip pytest
+      - name: Compile Python modules
+        run: python -m compileall -q engine scripts
+      - name: Prepare temporary GameState
+        run: |
+          mkdir -p engine/data/state
+          if [ -f engine/data/state/game.db.gz ]; then
+            gunzip -c engine/data/state/game.db.gz > engine/data/state/game.db
+          else
+            cp engine/data/database/game.db engine/data/state/game.db
+          fi
+      - name: Run backend and contract tests
+        env:
+          PYTHONPATH: .:engine:engine/tests
+        run: python -m pytest --import-mode=importlib -q engine/tests
+      - name: Run complete season simulation
+        env:
+          PYTHONPATH: .:engine:engine/tests
+        run: python engine/scripts/season_simulation.py
+      - name: Validate delivery and state guards
+        env:
+          PYTHONPATH: .:engine:engine/tests
+        run: |
+          python engine/scripts/validate_delivery.py
+          python engine/scripts/validate_service_state_guards.py
+          python engine/scripts/audit_roadmap_3000.py > docs/audit/roadmap_3000_ci.json
+      - name: Upload audit artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: futmanager-audit-reports
+          path: docs/audit/*.json
+
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+      - name: Enable pnpm
+        run: corepack enable
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm check
+      - name: Test frontend
+        run: pnpm test
+      - name: Build frontend
+        run: pnpm build

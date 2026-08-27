@@ -35,4 +35,13 @@ def test_training_plan_is_idempotent_and_respects_injury(tmp_path):
     report=service.individual_development(1)
     healthy = next(item for item in report if item['player_id'] == 10)
     assert healthy['performance_gap'] == 20
+    objective = service.create_objective(1, 10, 2026, 'MINUTES', 900)
+    assert objective['status'] == 'ACTIVE' and objective['target'] == 900
+    preview = service.preview_plan(first['plan_id'])
+    assert preview['preview']['persisted'] is False
+    approved = service.approve_plan(first['plan_id'])
+    assert approved['status'] == 'APPROVED'
+    assert service.approve_plan(first['plan_id'])['status'] == 'APPROVED'
+    cancelled = service.cancel_plan(first['plan_id'], version=2)
+    assert cancelled['status'] == 'CANCELLED'
     service.close()

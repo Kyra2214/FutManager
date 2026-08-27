@@ -111,7 +111,8 @@ describe("careerGateway", () => {
     const afterDepartment = getClubEconomySummary(path);
     expect(upgraded.target_level).toBe(1);
     expect(afterDepartment.cash).toBe(before.cash - upgraded.cost);
-    expect(afterDepartment.weekly_department_maintenance).toBe(upgraded.maintenance);
+    // A manutenção só entra no perfil após a conclusão persistida da construção.
+    expect(afterDepartment.weekly_department_maintenance).toBe(0);
     const contract = getStaffContract(doctor.staff_id, path);
     expect(contract).toMatchObject({ staff_id: doctor.staff_id, status: "ACTIVE", termination_fee: hired.weekly_salary * 4 });
     const replacementCandidate = listAvailableStaff("medico", path)[0];

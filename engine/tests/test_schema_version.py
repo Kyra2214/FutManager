@@ -11,8 +11,8 @@ from engine.core.schema import ensure_schema_version
 
 def test_schema_version_is_idempotent_and_monotonic():
     connection = sqlite3.connect(":memory:")
-    assert ensure_schema_version(connection) == 2
-    assert ensure_schema_version(connection) == 2
+    assert ensure_schema_version(connection) == 3
+    assert ensure_schema_version(connection) == 3
     assert ensure_schema_version(connection, version=3) == 3
     row = connection.execute("SELECT component, version FROM schema_versions").fetchone()
     assert row == ("game_state", 3)
@@ -25,7 +25,7 @@ def test_manager_service_initializes_schema_version_in_temporary_gamestate(tmp_p
     shutil.copy2(base, state)
     service = ManagerService(state)
     row = service.connection.execute("SELECT version FROM schema_versions WHERE component='game_state'").fetchone()
-    assert row[0] == 2
+    assert row[0] == 3
     service.close()
 
 
