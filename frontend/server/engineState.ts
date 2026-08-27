@@ -289,7 +289,28 @@ function getControlledClub(db: SQLiteDatabase): MatchesDashboard["controlledClub
   };
 }
 
+const PARALLEL_COMPETITION_ID_BASE = 900_000_000;
+
+function getParallelCareerId(competitionId: number) {
+  return competitionId - PARALLEL_COMPETITION_ID_BASE;
+}
+
+function getParallelCompetitionRows(db: SQLiteDatabase, season?: number): CompetitionSummary[] {
+  if (!tableExists(db, "career_parallel_leagues")) return [];
+  const activeCareer = tableExists(db, "manager_careers")
+    ? db.prepare("SELECT career_id FROM manager_careers WHERE status='ACTIVE' ORDER BY updated_at DESC, career_id DESC LIMIT 1").get() as SQLiteRow | undefined
+    : undefined;
+  const careerId = activeCareer ? asNumber(activeCareer.career_id) : null;
+  const rows = db.prepare(`SELECT league.career_id, league.name, league.season_id, league.total_clubs, league.division_count, league.created_at, (SELECT COUNT(*) FROM career_parallel_fixtures fixture WHERE fixture.career_id=league.career_id AND fixture.season_number=1 AND fixture.status='SCHEDULED') AS scheduled_fixtures, (SELECT COUNT(*) FROM career_parallel_fixtures fixture WHERE fixture.career_id=league.career_id AND fixture.season_number=1 AND fixture.status='PLAYED') AS played_matches FROM career_parallel_leagues league WHERE (? IS NULL OR league.career_id=?) ORDER BY league.career_id DESC`).all(careerId, careerId) as SQLiteRow[];
+  return rows.filter((row) => season === undefined || season === null || season >= 2026).map((row) => ({
+    competitionId: PARALLEL_COMPETITION_ID_BASE + asNumber(row.career_id),
+    name: asText(row.name, "Liga da carreira"), type: "CAREER_PARALLEL", format: `${asNumber(row.division_count, 4)} divisões`, status: "ACTIVE",
+    seasonId: asNumber(row.season_id, 1), seasonYear: 2026 + Math.max(0, asNumber(row.season_id, 1) - 1), registeredClubs: asNumber(row.total_clubs), scheduledFixtures: asNumber(row.scheduled_fixtures), playedMatches: asNumber(row.played_matches), currentPhase: null, tiebreakers: ["points", "wins", "goal_difference", "goals_for"],
+  }));
+}
+
 function getCompetitionRows(db: SQLiteDatabase, season?: number): CompetitionSummary[] {
+  if (!tableExists(db, "competitions")) return getParallelCompetitionRows(db, season);
   const rows = db
     .prepare(
       `SELECT
@@ -318,7 +339,15 @@ function getCompetitionRows(db: SQLiteDatabase, season?: number): CompetitionSum
     )
     .all(season ?? null, season ?? null) as SQLiteRow[];
 
-  return rows.map(toCompetition);
+  const competitions = rows.map(toCompetition);
+  return competitions.length ? competitions : getParallelCompetitionRows(db, season);
+}
+
+function getParallelStandings(db: SQLiteDatabase, competitionId: number, controlledClubId: number | null): StandingRow[] {
+  const careerId = getParallelCareerId(competitionId);
+  if (!tableExists(db, "career_parallel_standings")) return [];
+  const rows = db.prepare("SELECT standings.*, teams.nome AS club_name FROM career_parallel_standings standings LEFT JOIN times teams ON teams.time_id=standings.club_id WHERE standings.career_id=? AND standings.season_number=1 ORDER BY standings.division, standings.position").all(careerId) as SQLiteRow[];
+  return rows.map((row, index) => ({ position: index + 1, clubId: asNumber(row.club_id), clubName: asText(row.club_name, `Clube #${asNumber(row.club_id)}`), played: asNumber(row.played), wins: asNumber(row.wins), draws: asNumber(row.draws), losses: asNumber(row.losses), goalsFor: asNumber(row.goals_for), goalsAgainst: asNumber(row.goals_against), goalDifference: asNumber(row.goals_for) - asNumber(row.goals_against), points: asNumber(row.points), isControlledClub: asNumber(row.club_id) === controlledClubId }));
 }
 
 function getStandings(db: SQLiteDatabase, competitionId: number, controlledClubId: number | null): StandingRow[] {
@@ -356,6 +385,15 @@ function getStandings(db: SQLiteDatabase, competitionId: number, controlledClubI
     points: asNumber(row.points),
     isControlledClub: asNumber(row.club_id) === controlledClubId,
   }));
+}
+
+function getParallelMatches(db: SQLiteDatabase, competitionId: number): MatchCard[] {
+  const careerId = getParallelCareerId(competitionId);
+  if (!tableExists(db, "career_parallel_fixtures")) return [];
+  const rows = db.prepare("SELECT fixture_id, scheduled_date AS scheduled_at, status, matchday AS round_number, home_club_id, away_club_id, home_goals, away_goals FROM career_parallel_fixtures WHERE career_id=? AND season_number=1 ORDER BY scheduled_date, matchday, fixture_id").all(careerId) as SQLiteRow[];
+  const names = new Map<number, string>();
+  if (tableExists(db, "times")) for (const row of db.prepare("SELECT time_id,nome FROM times").all() as SQLiteRow[]) names.set(asNumber(row.time_id), asText(row.nome, `Clube #${asNumber(row.time_id)}`));
+  return rows.map((row) => toMatchCard({ ...row, home_club_name: names.get(asNumber(row.home_club_id)), away_club_name: names.get(asNumber(row.away_club_id)), match_id: null }));
 }
 
 function getMatches(db: SQLiteDatabase, competitionId: number, phaseId?: number): MatchCard[] {
@@ -465,7 +503,8 @@ export function getMatchesDashboard(
       };
     }
 
-    const allMatches = getMatches(db, selectedCompetition.competitionId, phaseId);
+    const isParallelCompetition = selectedCompetition.competitionId >= PARALLEL_COMPETITION_ID_BASE;
+    const allMatches = isParallelCompetition ? getParallelMatches(db, selectedCompetition.competitionId) : getMatches(db, selectedCompetition.competitionId, phaseId);
     return {
       filters: { competitionId: selectedCompetition.competitionId, season: season ?? selectedCompetition.seasonYear ?? null, phaseId: phaseId ?? null },
       source: {
@@ -478,7 +517,7 @@ export function getMatchesDashboard(
       competitions,
       selectedCompetitionId: selectedCompetition.competitionId,
       selectedCompetition,
-      standings: getStandings(db, selectedCompetition.competitionId, controlledClub?.clubId ?? null),
+      standings: isParallelCompetition ? getParallelStandings(db, selectedCompetition.competitionId, controlledClub?.clubId ?? null) : getStandings(db, selectedCompetition.competitionId, controlledClub?.clubId ?? null),
       upcomingFixtures: allMatches.filter((match) => !match.isPlayed),
       recentResults: allMatches.filter((match) => match.isPlayed).reverse(),
     };
