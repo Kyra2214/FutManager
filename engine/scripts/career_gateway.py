@@ -35,6 +35,7 @@ from engine.core.p1_version_contract import audit_p1_versions, protect_p1_versio
 from engine.core.p1_migration_contract import audit_p1_migrations, protect_p1_migration_mutation, read_p1_migrations, validate_p1_migration
 from engine.core.p1_domain_version_contract import audit_p1_domain_versions, protect_p1_domain_version_mutation, read_p1_domain_versions, validate_p1_domain_version
 from engine.core.p1_timeout_contract import audit_p1_timeouts, protect_p1_timeout_mutation, read_p1_timeouts, validate_p1_timeout
+from engine.core.p1_telemetry_contract import audit_p1_telemetry, protect_p1_telemetry_mutation, read_p1_telemetry_contracts, read_p1_telemetry_events, record_p1_telemetry_event, validate_p1_telemetry
 from engine.social.attendance import AttendanceService
 from engine.social.stadium_fans import SocialService
 from engine.stadiums.service import StadiumService
@@ -524,6 +525,14 @@ def p1_domain_version_market(connection: sqlite3.Connection, action: str, payloa
     raise ValueError('P1_DOMAIN_VERSION_ACTION_INVALID')
 
 
+def p1_telemetry_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
+    if action == 'p1_telemetry_contracts': return {'items': read_p1_telemetry_contracts(connection), 'read_only': True}
+    if action == 'p1_telemetry_events': return {'items': read_p1_telemetry_events(connection, payload.get('career_id'), payload.get('limit', 100)), 'read_only': True}
+    if action == 'p1_telemetry_validate': return validate_p1_telemetry(connection, int(payload.get('item_id')))
+    if action == 'p1_telemetry_record': return record_p1_telemetry_event(connection, str(payload.get('event_key', '')), str(payload.get('event_name', '')), dict(payload.get('event_payload') or {}), payload.get('career_id'), payload.get('season_number'), payload.get('week_number'), str(payload.get('actor', '')))
+    if action == 'p1_telemetry_protect': return protect_p1_telemetry_mutation(connection, int(payload.get('item_id')), str(payload.get('actor', '')), dict(payload.get('mutation') or {}))
+    if action == 'p1_telemetry_audit': return audit_p1_telemetry(connection)
+    raise ValueError('P1_TELEMETRY_ACTION_INVALID')
 def p1_timeout_market(connection: sqlite3.Connection, action: str, payload: dict) -> dict:
     if action == 'p1_timeout_contracts': return {'items': read_p1_timeouts(connection), 'read_only': True}
     if action == 'p1_timeout_validate': return validate_p1_timeout(connection, int(payload.get('item_id')))
@@ -570,6 +579,8 @@ def run(action: str, payload: dict, database_path: Path) -> dict:
             return {"ok": True, **p1_domain_version_market(service.connection, action, payload)}
         if action in {"p1_timeout_contracts", "p1_timeout_validate", "p1_timeout_protect", "p1_timeout_audit"}:
             return {"ok": True, **p1_timeout_market(service.connection, action, payload)}
+        if action in {"p1_telemetry_contracts", "p1_telemetry_events", "p1_telemetry_validate", "p1_telemetry_record", "p1_telemetry_protect", "p1_telemetry_audit"}:
+            return {"ok": True, **p1_telemetry_market(service.connection, action, payload)}
         if action == "parallel_preview":
             return {"ok": True, **service.preview_parallel_league([int(value) for value in payload.get('selected_country_ids', [])], str(payload.get('target_type', 'club')), int(payload.get('target_id')))}
         if action in {"parallel_snapshot", "parallel_result", "parallel_close"}:

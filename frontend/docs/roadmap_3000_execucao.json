@@ -7,8 +7,8 @@
   },
   "summary": {
     "total": 3000,
-    "done": 420,
-    "pending": 2580,
+    "done": 430,
+    "pending": 2570,
     "P0": 300,
     "P1": 2100,
     "P2": 600
@@ -1965,8 +1965,14 @@
       "title": "definir contrato para timeout",
       "dependency": "1100",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_timeout_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_timeout_contract.py",
+        "docs/p1_timeout_1101_1110.md"
+      ]
     },
     {
       "item_id": 1102,
@@ -1974,8 +1980,14 @@
       "title": "validar regras de timeout",
       "dependency": "1101",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_timeout_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_timeout_contract.py",
+        "docs/p1_timeout_1101_1110.md"
+      ]
     },
     {
       "item_id": 1103,
@@ -1983,8 +1995,14 @@
       "title": "persistir estado de timeout",
       "dependency": "1102",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_timeout_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_timeout_contract.py",
+        "docs/p1_timeout_1101_1110.md"
+      ]
     },
     {
       "item_id": 1104,
@@ -1992,8 +2010,14 @@
       "title": "expor leitura de timeout",
       "dependency": "1103",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_timeout_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_timeout_contract.py",
+        "docs/p1_timeout_1101_1110.md"
+      ]
     },
     {
       "item_id": 1105,
@@ -2001,8 +2025,14 @@
       "title": "proteger mutação de timeout",
       "dependency": "1104",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_timeout_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_timeout_contract.py",
+        "docs/p1_timeout_1101_1110.md"
+      ]
     },
     {
       "item_id": 1106,
@@ -2010,8 +2040,14 @@
       "title": "auditar fluxo de timeout",
       "dependency": "1105",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_timeout_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_timeout_contract.py",
+        "docs/p1_timeout_1101_1110.md"
+      ]
     },
     {
       "item_id": 1107,
@@ -2019,8 +2055,14 @@
       "title": "otimizar consulta de timeout",
       "dependency": "1106",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_timeout_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_timeout_contract.py",
+        "docs/p1_timeout_1101_1110.md"
+      ]
     },
     {
       "item_id": 1108,
@@ -2028,8 +2070,14 @@
       "title": "simular cenário de timeout",
       "dependency": "1107",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_timeout_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_timeout_contract.py",
+        "docs/p1_timeout_1101_1110.md"
+      ]
     },
     {
       "item_id": 1109,
@@ -2037,8 +2085,14 @@
       "title": "documentar ciclo de timeout",
       "dependency": "1108",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_timeout_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_timeout_contract.py",
+        "docs/p1_timeout_1101_1110.md"
+      ]
     },
     {
       "item_id": 1110,
@@ -2046,8 +2100,14 @@
       "title": "testar integração de timeout",
       "dependency": "1109",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_timeout_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_timeout_contract.py",
+        "docs/p1_timeout_1101_1110.md"
+      ]
     },
     {
       "item_id": 1111,
@@ -2055,8 +2115,14 @@
       "title": "definir contrato para telemetria",
       "dependency": "1110",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1112,
@@ -2064,8 +2130,14 @@
       "title": "validar regras de telemetria",
       "dependency": "1111",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1113,
@@ -2073,8 +2145,14 @@
       "title": "persistir estado de telemetria",
       "dependency": "1112",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1114,
@@ -2082,8 +2160,14 @@
       "title": "expor leitura de telemetria",
       "dependency": "1113",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1115,
@@ -2091,8 +2175,14 @@
       "title": "proteger mutação de telemetria",
       "dependency": "1114",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1116,
@@ -2100,8 +2190,14 @@
       "title": "auditar fluxo de telemetria",
       "dependency": "1115",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1117,
@@ -2109,8 +2205,14 @@
       "title": "otimizar consulta de telemetria",
       "dependency": "1116",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1118,
@@ -2118,8 +2220,14 @@
       "title": "simular cenário de telemetria",
       "dependency": "1117",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1119,
@@ -2127,8 +2235,14 @@
       "title": "documentar ciclo de telemetria",
       "dependency": "1118",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1120,
@@ -2136,8 +2250,14 @@
       "title": "testar integração de telemetria",
       "dependency": "1119",
       "criterion": "teste/fixture do domínio 02, leitura SQLite e auditoria do contrato",
-      "status": "PENDING",
-      "evidence": []
+      "status": "DONE",
+      "evidence": [
+        "brasfoot_engine/engine/core/p1_telemetry_contract.py",
+        "brasfoot_engine/engine/manager/career.py",
+        "brasfoot_engine/scripts/career_gateway.py",
+        "brasfoot_engine/tests/test_p1_telemetry_contract.py",
+        "docs/p1_telemetry_1111_1120.md"
+      ]
     },
     {
       "item_id": 1121,

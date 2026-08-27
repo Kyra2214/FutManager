@@ -573,11 +573,27 @@
 - [x] Remover países genéricos do catálogo visual e apresentar países principais com dados oficiais de primeira divisão.
 - [x] Adicionar testes para uma liga, múltiplas ligas e catálogo amplo de países.
 - [ ] Executar as 3.000 melhorias do roadmap em ordem, respeitando P0_GLOBAL_GATE e P1_GLOBAL_GATE, com evidências registradas.
+- [x] Permitir clube de qualquer país na liga escolhida, sem erro de incompatibilidade nacional.
+- [x] Fixar a liga paralela em 4 divisões de 20 clubes, totalizando 80 clubes.
+- [x] Completar vagas com clubes canônicos adicionais do SQL, sem placeholders ou clubes fictícios.
+- [x] Liberar todos os países com membership oficial válido no catálogo de seleção.
+- [x] Importar memberships oficiais validadas para Alemanha e França com matching canônico no SQL.
+- [x] Validar memberships adicionais: Inglaterra, Argentina e Turquia permanecem no pool SQL por overall até matching integral e fonte validada, sem bloquear a seleção.
+- [x] Ocultar da interface a distinção entre membership oficial e seleção por overall, mantendo-a apenas internamente.
+- [x] Registrar fonte, temporada, checksum e evidência de cada membership importado.
+- [x] Gerar e persistir checksums determinísticos das listas oficiais e da regra de seleção por overall.
+- [x] Remover alertas técnicos de erro da interface e substituir por estados editoriais úteis.
+- [x] Ocultar clubes sem nome ou escudo válido do catálogo de seleção.
+- [x] Selecionar clubes de países sem membership declarada pelo maior overall institucional persistido no SQL, com desempate determinístico.
+- [x] Completar e explicar a distribuição das divisões usando somente clubes canônicos do SQL.
+- [x] Atualizar testes legados de ligas paralelas para a regra fixa 80 clubes e calendários de 20 clubes por divisão.
 - [x] Consolidar todos os itens P0 restantes do roadmap 941–3940 antes de liberar o P1_GLOBAL_GATE.
 - [x] Implementar e validar o lote P1 1051–1060 após abertura do P0_GLOBAL_GATE.
 - [x] Implementar e validar o lote P1 1061–1070: contrato e governança de erros do gateway.
 - [x] Implementar e validar o lote P1 1071–1080: contrato e governança de versionamento.
 - [x] Implementar e validar o lote P1 1081–1090: contrato e governança de migração.
 - [x] Implementar e validar o lote P1 1091–1100: contrato e governança de versão do domínio 02.
+- [x] Implementar e validar o lote P1 1101–1110: contrato e governança de timeout.
 - [x] Implementar lote P0 1041–1050: contrato, validação, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de payload.
 - [x] Integrar o guard real do career_gateway.py ao manifesto 941–3940, mantendo o guard legado para fronts 1–25 e bloqueando P1/P2 pelos gates globais.
+- [x] Implementar e validar o lote P1 1111–1120: contrato, regras, persistência, leitura, proteção, auditoria, índice, simulação, documentação e integração de telemetria.
