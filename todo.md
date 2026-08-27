@@ -816,3 +816,4 @@
 - [x] Produzir o lote P1 3811–3820: contrato de legado derivado do histórico existente, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3851–3860: contrato de navegação derivado das preferências existentes, integração ao gateway e validação mínima.
 - [x] Produzir o lote P1 3861–3870: contrato de tabela derivado do contrato existente, integração ao gateway e validação mínima.
+- [x] Corrigir aliases plurais do contrato de navegação reportados no carregamento do gateway.
