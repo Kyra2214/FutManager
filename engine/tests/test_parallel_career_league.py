@@ -12,7 +12,7 @@ STATE = Path(__file__).resolve().parents[1] / 'data/state/game.db'
 
 @pytest.mark.parametrize(
     ('countries', 'expected_total'),
-    [([29], 20), ([29, 104], 40), ([29, 104, 65], 60), ([29, 104, 65, 154], 78)],
+    [([29], 20), ([29, 104], 80), ([29, 104, 65], 80), ([29, 104, 65, 154], 80)],
 )
 def test_parallel_league_uses_all_official_first_division_clubs(tmp_path, countries, expected_total):
     db_path = tmp_path / 'game.db'
@@ -52,19 +52,19 @@ def test_parallel_league_generates_round_trip_calendar_and_closes_idempotently(t
     career_id = result['career_id']
     snapshot = service.parallel_league_snapshot(career_id)
 
-    assert snapshot['fixture_count'] == 1444
+    assert snapshot['fixture_count'] == 1520
     assert snapshot['played_count'] == 0
     assert all(fixture['scheduled_date'] >= '2026-08-01' for fixture in snapshot['fixtures'])
-    assert len(snapshot['standings']) == 78
+    assert len(snapshot['standings']) == 80
     assert {row['division'] for row in snapshot['standings']} == {1, 2, 3, 4}
 
     closed = service.close_parallel_season(career_id)
     repeated = service.close_parallel_season(career_id)
     assert closed['status'] == 'CLOSED'
     assert closed['next_season'] == 2
-    assert closed['next_fixtures'] == 1444
+    assert closed['next_fixtures'] == 1520
     assert repeated['status'] == 'ALREADY_CLOSED'
-    assert service.parallel_league_snapshot(career_id, 2)['fixture_count'] == 1444
+    assert service.parallel_league_snapshot(career_id, 2)['fixture_count'] == 1520
 
 
 def test_single_country_uses_national_flow_and_main_country_names(tmp_path):
@@ -120,7 +120,7 @@ def test_backup_manifest_is_deterministic_and_idempotent(tmp_path):
     assert first['state_hash'] == repeated['state_hash']
     assert first['backup_id'] == repeated['backup_id']
     assert first['status'] == 'VERIFIED'
-    assert first['row_counts']['career_parallel_fixtures'] == 360
+    assert first['row_counts']['career_parallel_fixtures'] == 1520
     assert len(manifests) == 1
 
 

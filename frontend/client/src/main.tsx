@@ -25,7 +25,8 @@ queryClient.getQueryCache().subscribe(event => {
   if (event.type === "updated" && event.action.type === "error") {
     const error = event.query.state.error;
     redirectToLoginIfUnauthorized(error);
-    console.error("[API Query Error]", error);
+          // Erros de consulta são apresentados pela própria tela; não duplicar no overlay global.
+
   }
 });
 
@@ -33,7 +34,8 @@ queryClient.getMutationCache().subscribe(event => {
   if (event.type === "updated" && event.action.type === "error") {
     const error = event.mutation.state.error;
     redirectToLoginIfUnauthorized(error);
-    console.error("[API Mutation Error]", error);
+          // Erros de mutação são apresentados pela própria tela; não duplicar no overlay global.
+
   }
 });
 
