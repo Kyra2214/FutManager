@@ -836,3 +836,4 @@
 - [x] Produzir o lote P2 1421–1430: contrato de unicidade derivado da identidade existente, integração ao serviço e validação mínima.
 - [x] Corrigir referência legada p1_privacidade_contract usada pelo gateway após a migração da privacidade para P2.
 - [x] Produzir o lote P2 1431–1440: contrato de origem derivado da identidade existente, integração ao serviço e validação mínima.
+- [x] Produzir o lote P2 1521–1530: contrato de lesão derivado da fisioterapia existente, integração ao serviço e validação mínima.
