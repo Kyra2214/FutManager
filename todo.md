@@ -718,3 +718,4 @@
 - [x] Produzir o lote P1 2551–2560: contrato de nível do domínio 10, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2561–2570: contrato de capacidade do domínio 10, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
 - [x] Produzir o lote P1 2571–2580: contrato de manutenção, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
+- [x] Produzir o lote P1 2581–2590: contrato de upgrade, regras, leitura GameState, proteção, auditoria, índice e integração ao gateway; validação mínima durante a produção.
