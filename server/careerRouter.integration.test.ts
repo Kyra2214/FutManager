@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { appRouter } from "./routers";
 
-const ENGINE_STATE = "/home/ubuntu/brasfoot_engine/data/state/game.db";
+const ENGINE_STATE = process.env.FUTMANAGER_ENGINE_STATE_PATH || join(process.cwd(), "engine/data/state/game.db");
 const folders: string[] = [];
 const originalStatePath = process.env.FUTMANAGER_ENGINE_STATE_PATH;
 type WritableDb = { close: () => void; exec: (sql: string) => void };

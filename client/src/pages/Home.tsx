@@ -5,6 +5,7 @@
  */
 import React, { useEffect, useMemo, useState } from "react";
 import { Capacitor } from "@capacitor/core";
+import { DataBootstrap } from "@/components/DataBootstrap";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import { localDomain } from "@/lib/offline/localDomain";
@@ -398,7 +399,7 @@ function SponsorshipPage() {
   return <><section className="page-intro sponsorship-intro"><div><span className="eyebrow">SEU CLUBE / VALOR DE MARCA</span><h1>Patrocinadores</h1><p>O elenco, o CT e o estádio definem o overall institucional. Esse valor abre propostas melhores, mas cada janela exige decisão antes de expirar.</p></div></section><SponsorshipPanel /></>;
 }
 
-export default function Home({ section = "inicio", onSectionChange = () => undefined }: { section?: AppSection; onSectionChange?: (section: AppSection) => void }) {
+function HomeContent({ section = "inicio", onSectionChange = () => undefined }: { section?: AppSection; onSectionChange?: (section: AppSection) => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const isNative = Capacitor.isNativePlatform();
   const careerQuery = trpc.career.current.useQuery(undefined, { retry: 1, enabled: !isNative });
@@ -420,4 +421,8 @@ export default function Home({ section = "inicio", onSectionChange = () => undef
     return <MatchdayPage onBack={() => onSectionChange("partidas")} />;
   }
   return <div className="app-shell"><Sidebar section={section} onSectionChange={onSectionChange} open={menuOpen} onClose={() => setMenuOpen(false)} /><main className="app-main"><Header section={section} onMenu={() => setMenuOpen(true)} /><div className="page-wrap">{main}</div><footer className="page-footer"><span>FUTMANAGER / EDITORIAL DE ARQUIBANCADA</span><span>GESTÃO · CAMPO · FUTURO</span></footer></main></div>;
+}
+
+export default function Home(props: { section?: AppSection; onSectionChange?: (section: AppSection) => void }) {
+  return <DataBootstrap><HomeContent {...props} /></DataBootstrap>;
 }

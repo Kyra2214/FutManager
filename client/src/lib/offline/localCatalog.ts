@@ -1,4 +1,6 @@
+import { Capacitor } from "@capacitor/core";
 import { queryLocal } from "./localStore";
+import { NativeEngine } from "./nativeEngine";
 import type { OfflineAssetReference, OfflineEntityId } from "./contracts";
 
 export type OfflineCountry = {
@@ -14,10 +16,12 @@ export type OfflineCountry = {
 let offlineCountriesPromise: Promise<OfflineCountry[]> | undefined;
 
 export function loadLocalCountries(search = "") {
-  offlineCountriesPromise ??= fetch("/assets/offline-countries.json").then((response) => {
-    if (!response.ok) throw new Error("Catálogo de países offline indisponível.");
-    return response.json() as Promise<OfflineCountry[]>;
-  });
+  offlineCountriesPromise ??= Capacitor.isNativePlatform()
+    ? NativeEngine.readDataFile({ path: "offline-countries.json" }).then(({ content }) => JSON.parse(content) as OfflineCountry[])
+    : fetch("/assets/offline-countries.json").then((response) => {
+      if (!response.ok) throw new Error("Catálogo de países offline indisponível.");
+      return response.json() as Promise<OfflineCountry[]>;
+    });
   const normalized = search.trim().toLocaleLowerCase();
   return offlineCountriesPromise.then((countries) => normalized
     ? countries.filter((country) => `${country.name} ${country.code ?? ""}`.toLocaleLowerCase().includes(normalized))
@@ -44,6 +48,13 @@ function searchPattern(search: string) {
   return `%${search.trim()}%`;
 }
 
+async function resolveAssetUrl(assetPath: string | null) {
+  if (!assetPath) return null;
+  if (!Capacitor.isNativePlatform()) return `/${assetPath}`;
+  const { uri } = await NativeEngine.getDataAssetUrl({ path: assetPath });
+  return Capacitor.convertFileSrc(uri);
+}
+
 export async function listLocalClubs(search = "", limit = 48) {
   const rows = await queryLocal<ClubRow>(
     `
@@ -64,14 +75,14 @@ export async function listLocalClubs(search = "", limit = 48) {
     [searchPattern(search), Math.max(1, Math.min(limit, 200))],
   );
 
-  return rows.map((row) => ({
+  return Promise.all(rows.map(async (row) => ({
     entityId: row.entityId,
     name: row.name,
     countryId: row.countryId,
     mappingStatus: row.mappingStatus ?? "NO_SOURCE_ASSET",
-    assetUrl: row.assetPath ? `/${row.assetPath}` : null,
+    assetUrl: await resolveAssetUrl(row.assetPath),
     assetKind: row.assetPath ? "crest" as const : null,
-  }));
+  })));
 }
 
 export async function listLocalSelections(search = "", limit = 48) {
@@ -94,14 +105,14 @@ export async function listLocalSelections(search = "", limit = 48) {
     [searchPattern(search), Math.max(1, Math.min(limit, 200))],
   );
 
-  return rows.map((row) => ({
+  return Promise.all(rows.map(async (row) => ({
     entityId: row.entityId,
     name: row.name,
     countryId: row.countryId,
     mappingStatus: row.mappingStatus ?? "SOURCE_NOT_PROVIDED",
-    assetUrl: row.assetPath ? `/${row.assetPath}` : null,
+    assetUrl: await resolveAssetUrl(row.assetPath),
     assetKind: row.assetPath ? "kit" as const : null,
-  }));
+  })));
 }
 
 export async function resolveLocalAsset(entityType: "team" | "selection", entityId: OfflineEntityId): Promise<OfflineAssetReference> {
@@ -113,5 +124,5 @@ export async function resolveLocalAsset(entityType: "team" | "selection", entity
     [entityId],
   );
   const path = rows[0]?.assetPath ?? null;
-  return { entityId, kind: entityType === "team" ? "club" : "selection", path: path ? `/${path}` : null };
+  return { entityId, kind: entityType === "team" ? "club" : "selection", path: path ? await resolveAssetUrl(path) : null };
 }

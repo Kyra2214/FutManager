@@ -46,7 +46,22 @@ export type NativeDashboard = {
   recentResults: NativeMatchCard[];
 };
 
+export type NativeDataStatus = {
+  ready: boolean;
+  version?: string | null;
+};
+
+export type NativeDataPreparationResult = {
+  ready: true;
+  version: string;
+  bytes: number;
+};
+
 export type NativeEnginePlugin = {
+  getDataStatus(): Promise<NativeDataStatus>;
+  prepareData(input: { manifestUrl: string }): Promise<NativeDataPreparationResult>;
+  readDataFile(input: { path: string }): Promise<{ content: string }>;
+  getDataAssetUrl(input: { path: string }): Promise<{ uri: string }>;
   getDashboard(input?: { competitionId?: number }): Promise<NativeDashboard>;
   advanceUntilMatch(input: { matchId: number; seed?: number }): Promise<{ status: string; match_id: number; weeks_advanced: number; target_season: number | null; target_round: number | null; notice: string | null; cycles: Array<{ season: number; week: number; matches: number; world_events: unknown[] }> }>;
   startCareer(input: NativeCareerStartInput): Promise<NativeCareerResult>;

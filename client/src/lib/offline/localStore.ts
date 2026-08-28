@@ -1,4 +1,5 @@
 import { Capacitor } from "@capacitor/core";
+import { NativeEngine } from "./nativeEngine";
 import {
   CapacitorSQLite,
   SQLiteConnection,
@@ -10,7 +11,6 @@ const DATABASE_VERSION = 1;
 
 let connection: SQLiteConnection | undefined;
 let database: SQLiteDBConnection | undefined;
-let assetsCopied = false;
 
 function getConnection() {
   connection ??= new SQLiteConnection(CapacitorSQLite);
@@ -32,11 +32,10 @@ async function getDatabase() {
 
   if (database) return database;
 
+  const dataStatus = await NativeEngine.getDataStatus();
+  if (!dataStatus.ready) throw new Error("NATIVE_ENGINE_DATA_NOT_PREPARED");
+
   const sqlite = getConnection();
-  if (!assetsCopied) {
-    await sqlite.copyFromAssets(false);
-    assetsCopied = true;
-  }
   const consistency = await sqlite.checkConnectionsConsistency();
   const hasConnection = consistency.result && (await sqlite.isConnection(DATABASE_NAME, false)).result;
 
