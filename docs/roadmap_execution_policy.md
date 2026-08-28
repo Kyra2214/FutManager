@@ -14,13 +14,13 @@ A consolidação de um P0 exige implementação no módulo correto, migração i
 
 ## Fonte única da verdade
 
-O estado de carreira, jogadores, clubes, partidas, calendário, classificação, estádio, torcida, público, caixa, ledger, folha, patrocinadores, missões e eventos deve existir no **SQLite/GameState**. O banco-base `data/database/game.db` é imutável e serve como origem canônica de consulta; `data/state/game.db` é o estado mutável da carreira e do mundo.
+O estado de carreira, jogadores, clubes, partidas, calendário, classificação, estádio, torcida, público, caixa, ledger, folha, patrocinadores, missões e eventos deve existir no **SQLite/GameState**. Durante o desenvolvimento, o banco-base canônico é somente leitura e o GameState é o estado mutável de testes. Na distribuição Android híbrida, o GameState sanitizado é publicado no pacote versionado de `Kyra2214/FutManager-data` e baixado na primeira execução; ele não deve ser embutido no APK.
 
 O frontend não deve manter um estado esportivo paralelo, calcular saldo, inventar jogadores, aceitar propostas automaticamente ou escrever diretamente no banco. Leituras seguem `SQL/GameState → serviço → gateway Python → tRPC → React`; mutações seguem `React → tRPC → gateway Python → serviço transacional → SQL/GameState`. Qualquer regra que exista somente no React, em um fixture, em mock de produção ou em uma segunda base é considerada não consolidada.
 
 ## Processo obrigatório para cada passo
 
-Antes de iniciar um item, registrar o ID, a prioridade, as dependências e as tabelas/serviços afetados. Durante a implementação, manter uma única unidade transacional para cada comando de domínio. Depois, executar testes de sucesso, erro, rollback, idempotência e determinismo quando aplicável. Por fim, validar os dois bancos, salvar checkpoint e atualizar o gate.
+Antes de iniciar um item, registrar o ID, a prioridade, as dependências e as tabelas/serviços afetados. Durante a implementação, manter uma única unidade transacional para cada comando de domínio. Depois, executar testes de sucesso, erro, rollback, idempotência e determinismo quando aplicável. Por fim, validar as bases de desenvolvimento, o seed sanitizado do pacote remoto e o contrato do APK híbrido, salvar checkpoint e atualizar o gate.
 
 Um item P1/P2 iniciado enquanto o gate estiver fechado deve ser tratado como bloqueado, mesmo que seu código seja tecnicamente independente. A exceção é documentação, análise de dependência ou preparação não executável; ela não pode alterar o estado do jogo nem ser apresentada como funcionalidade concluída.
 
