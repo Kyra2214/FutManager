@@ -1,12 +1,14 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { copyFileSync, mkdtempSync, rmSync } from "node:fs";
+import { copyFileSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { gunzipSync } from "node:zlib";
 import { createRequire } from "node:module";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { appRouter } from "./routers";
 
-const ENGINE_ROOT = process.env.FUTMANAGER_ENGINE_ROOT || resolve(import.meta.dirname, "../../engine");
-const ENGINE_STATE = process.env.FUTMANAGER_ENGINE_STATE_PATH || join(ENGINE_ROOT, "data/state/game.db");
+const ENGINE_STATE = process.env.FUTMANAGER_ENGINE_STATE_PATH;
+const DEFAULT_ENGINE_STATE = join(process.cwd(), "../engine/data/state/game.db");
+const ENGINE_STATE_GZ = process.env.FUTMANAGER_ENGINE_STATE_GZ || join(process.cwd(), "../engine/data/state/game.db.gz");
 const folders: string[] = [];
 const originalStatePath = process.env.FUTMANAGER_ENGINE_STATE_PATH;
 type WritableDb = { close: () => void; exec: (sql: string) => void };
@@ -24,11 +26,13 @@ afterEach(() => {
 });
 
 describe("careerRouter integration", () => {
-  it("cria uma carreira usando o contrato tRPC e o gateway real em banco temporário", async () => {
+  it.skipIf(!ENGINE_STATE && !existsSync(ENGINE_STATE_GZ) && !existsSync(DEFAULT_ENGINE_STATE))("cria uma carreira usando o contrato tRPC e o gateway real em banco temporário", async () => {
     const folder = mkdtempSync(join(tmpdir(), "futmanager-career-router-"));
     folders.push(folder);
     const databasePath = join(folder, "game.db");
-    copyFileSync(ENGINE_STATE, databasePath);
+    if (ENGINE_STATE) copyFileSync(ENGINE_STATE, databasePath);
+    else if (existsSync(ENGINE_STATE_GZ)) writeFileSync(databasePath, gunzipSync(readFileSync(ENGINE_STATE_GZ)));
+    else copyFileSync(DEFAULT_ENGINE_STATE, databasePath);
     const isolatedDb = new DatabaseSync(databasePath);
     isolatedDb.exec("DELETE FROM manager_selection_assignments; DELETE FROM manager_careers; DELETE FROM managers;");
     isolatedDb.close();

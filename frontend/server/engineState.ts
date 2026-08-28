@@ -1,5 +1,6 @@
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
-import { join, resolve } from "node:path";
 
 type SQLiteStatement = {
   all: (...parameters: unknown[]) => unknown[];
@@ -21,8 +22,8 @@ const { DatabaseSync } = runtimeRequire(["node", "sqlite"].join(":")) as {
   DatabaseSync: SQLiteDatabaseConstructor;
 };
 
-const ENGINE_ROOT = process.env.FUTMANAGER_ENGINE_ROOT || resolve(import.meta.dirname, "../../engine");
-const DEFAULT_ENGINE_STATE_PATH = process.env.FUTMANAGER_ENGINE_STATE_PATH || join(ENGINE_ROOT, "data/state/game.db");
+const MODULE_ROOT = dirname(fileURLToPath(import.meta.url));
+const DEFAULT_ENGINE_STATE_PATH = resolve(MODULE_ROOT, "../../engine/data/state/game.db");
 const ENGINE_ASSET_URL_PREFIX = "/engine-assets/";
 
 type SQLiteRow = Record<string, unknown>;
