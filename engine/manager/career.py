@@ -165,7 +165,6 @@ from engine.core.p1_checkpoint_contract import ensure_p1_checkpoint_registry
 from engine.core.p1_throughput_contract import ensure_p1_throughput_registry
 from engine.core.p1_falha_contract import ensure_p1_falha_registry
 from engine.core.p1_prioridade_contract import ensure_p1_prioridade_registry
-from engine.core.p1_evento_contract import ensure_p1_evento_registry
 from engine.core.p1_feed_contract import ensure_p1_feed_registry
 from engine.core.p1_severidade_contract import ensure_p1_severidade_registry
 from engine.core.p1_filter_contract import ensure_p1_filter_registry
@@ -491,7 +490,6 @@ class ManagerService:
         ensure_p1_throughput_registry(self.connection)
         ensure_p1_falha_registry(self.connection)
         ensure_p1_prioridade_registry(self.connection)
-        ensure_p1_evento_registry(self.connection)
         ensure_p1_feed_registry(self.connection)
         ensure_p1_severidade_registry(self.connection)
         ensure_p1_filter_registry(self.connection)
