@@ -1,0 +1,70 @@
+name: Android release
+
+on:
+  push:
+    branches: [main, offline-android-release, android-roadmap-corrections]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Android offline release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Android source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.4.1 --activate
+
+      - name: Install frontend dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Fetch canonical engine and editorial assets
+        run: |
+          git fetch origin main
+          mkdir -p "$RUNNER_TEMP/futmanager-source"
+          git archive origin/main engine assets | tar -x -C "$RUNNER_TEMP/futmanager-source"
+
+      - name: Build web assets and prepare sanitized Android assets
+        env:
+          FUTMANAGER_ENGINE_ROOT: ${{ runner.temp }}/futmanager-source/engine
+          FUTMANAGER_ASSET_ROOT: ${{ runner.temp }}/futmanager-source/assets
+        run: pnpm android:sync
+
+      - name: Assemble release APK
+        working-directory: android
+        run: ./gradlew --no-daemon assembleRelease
+
+      - name: Validate database embedded in APK
+        run: python3 scripts/validate-android-apk.py android/app/build/outputs/apk/release/app-release.apk
+
+      - name: Upload release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: futmanager-android-release
+          path: android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error

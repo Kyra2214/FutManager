@@ -1,15 +1,15 @@
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, cpSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, cpSync, statSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
+import { tmpdir } from "node:os";
 
 const projectRoot = resolve(import.meta.dirname, "..");
 const candidates = [
   process.env.FUTMANAGER_ENGINE_ROOT,
+  resolve(projectRoot, "engine"),
   resolve(projectRoot, "../engine"),
-  resolve(projectRoot, "../brasfoot_engine"),
-  "/home/ubuntu/brasfoot_engine",
 ].filter(Boolean);
 
 const engineRoot = candidates.find((candidate) => existsSync(candidate));
@@ -23,8 +23,8 @@ const database = join(engineRoot, "data/state/game.db");
 const shields = join(engineRoot, "assets/escudos");
 const assetRoots = [
   process.env.FUTMANAGER_ASSET_ROOT,
-  resolve(projectRoot, "../FutManager/assets"),
-  "/home/ubuntu/webdev-static-assets",
+  resolve(projectRoot, "assets"),
+  resolve(projectRoot, "../assets"),
   join(engineRoot, "assets"),
 ].filter(Boolean);
 if (!existsSync(database)) {
@@ -35,6 +35,7 @@ if (!existsSync(shields)) {
 }
 
 const targetRoot = join(projectRoot, "android/app/src/main/assets/public/assets");
+const releaseSeedScript = join(projectRoot, "scripts/release_seed.py");
 const appAssetsTarget = join(targetRoot, "app");
 const editorialAssets = [
   "futmanager-program-texture.jpg",
@@ -49,7 +50,14 @@ const countryIndexTarget = join(targetRoot, "offline-countries.json");
 mkdirSync(databaseTarget, { recursive: true });
 mkdirSync(shieldsTarget, { recursive: true });
 mkdirSync(appAssetsTarget, { recursive: true });
-cpSync(database, join(databaseTarget, "game.db"));
+const seedTempDir = mkdtempSync(join(tmpdir(), "futmanager-release-seed-"));
+const sanitizedDatabase = join(seedTempDir, "game.db");
+const sanitized = spawnSync("python3", [releaseSeedScript, "sanitize", database, sanitizedDatabase], { encoding: "utf8" });
+if (sanitized.status !== 0) {
+  rmSync(seedTempDir, { recursive: true, force: true });
+  throw new Error(sanitized.stderr || sanitized.stdout || "Falha ao limpar o GameState para release.");
+}
+cpSync(sanitizedDatabase, join(databaseTarget, "game.db"));
 cpSync(shields, shieldsTarget, { recursive: true });
 for (const assetName of editorialAssets) {
   const source = assetRoots.map((root) => join(root, assetName)).find((candidate) => existsSync(candidate));
@@ -63,7 +71,7 @@ const index = spawnSync(
   "python3",
   [
     join(projectRoot, "scripts/build-offline-asset-index.py"),
-    database,
+    sanitizedDatabase,
     assetIndexTarget,
   ],
   { encoding: "utf8" },
@@ -80,7 +88,7 @@ const countries = spawnSync(
     engineRoot,
     countryIndexTarget,
   ],
-  { encoding: "utf8" },
+  { encoding: "utf8", env: { ...process.env, PYTHONPATH: [resolve(engineRoot, ".."), engineRoot, process.env.PYTHONPATH].filter(Boolean).join(":") } },
 );
 if (countries.status !== 0) {
   throw new Error(countries.stderr || "Falha ao gerar catálogo local de países.");
@@ -102,7 +110,8 @@ writeFileSync(
   ) + "\n",
 );
 
-const sizeMb = (statSync(database).size / 1024 / 1024).toFixed(1);
+const sizeMb = (statSync(sanitizedDatabase).size / 1024 / 1024).toFixed(1);
+rmSync(seedTempDir, { recursive: true, force: true });
 console.log(`Assets offline preparados a partir de ${engineRoot}`);
-console.log(`GameState: ${sizeMb} MB`);
+console.log(`GameState de release sanitizado: ${sizeMb} MB`);
 console.log(`Destino: ${targetRoot}`);
