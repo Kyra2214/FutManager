@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { FeedbackProvider } from "./contexts/FeedbackContext";
 import Home from "./pages/Home";
 
 export type AppSection = "inicio" | "clube" | "partidas" | "partida" | "estadio" | "time" | "ct" | "mercado" | "patrocinadores" | "transferencias" | "financas" | "operacoes";
@@ -27,10 +28,12 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
-        <TooltipProvider>
-          <Toaster position="bottom-right" />
-          <Home section={section} onSectionChange={navigate} />
-        </TooltipProvider>
+        <FeedbackProvider>
+          <TooltipProvider>
+            <Toaster position="bottom-right" />
+            <Home section={section} onSectionChange={navigate} />
+          </TooltipProvider>
+        </FeedbackProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );

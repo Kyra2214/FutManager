@@ -1,0 +1,1443 @@
+{
+  "python": {
+    "cases": 315,
+    "files": 160,
+    "items": [
+      {
+        "file": "test_all_state_service_guards.py",
+        "name": "test_read_only_database_repository_can_read_immutable_base"
+      },
+      {
+        "file": "test_all_state_service_guards.py",
+        "name": "test_every_path_opening_entrypoint_rejects_immutable_base"
+      },
+      {
+        "file": "test_all_state_service_guards.py",
+        "name": "test_every_path_opening_entrypoint_accepts_temporary_state"
+      },
+      {
+        "file": "test_board_governance_p2.py",
+        "name": "test_board_quorum_conflict_minutes_history_and_pending"
+      },
+      {
+        "file": "test_calendar_p1.py",
+        "name": "test_calendar_preview_phase_and_deterministic_draw"
+      },
+      {
+        "file": "test_calendar_service.py",
+        "name": "test_calendar_preseason_rest_conflict_empty_week_and_congestion"
+      },
+      {
+        "file": "test_calendar_service.py",
+        "name": "test_logical_clock_day_week_history_and_restore"
+      },
+      {
+        "file": "test_calendar_world_p1.py",
+        "name": "test_calendar_holidays_fifa_timezone_priority_and_adjustment"
+      },
+      {
+        "file": "test_career_gateway.py",
+        "name": "test_gateway_catalog_start_and_current_career"
+      },
+      {
+        "file": "test_career_gateway_roadmap_guard.py",
+        "name": "test_gateway_serializes_immutable_base_domain_error"
+      },
+      {
+        "file": "test_career_gateway_roadmap_guard.py",
+        "name": "test_front_dependency_is_enforced_by_real_gateway"
+      },
+      {
+        "file": "test_career_gateway_roadmap_guard.py",
+        "name": "test_p2_is_blocked_and_released_only_after_both_gates_open"
+      },
+      {
+        "file": "test_career_gateway_roadmap_guard.py",
+        "name": "test_gateway_serializes_mutable_service_domain_error"
+      },
+      {
+        "file": "test_career_selection_rules.py",
+        "name": "test_parallel_league_is_always_80_and_accepts_foreign_target"
+      },
+      {
+        "file": "test_career_selection_rules.py",
+        "name": "test_single_country_preserves_national_flow"
+      },
+      {
+        "file": "test_career_selection_rules.py",
+        "name": "test_sql_pool_uses_highest_institutional_overall"
+      },
+      {
+        "file": "test_career_selection_rules.py",
+        "name": "test_catalog_exposes_named_supported_countries"
+      },
+      {
+        "file": "test_career_snapshots_p1.py",
+        "name": "test_snapshot_hash_compare_selective_restore_retention_and_audit"
+      },
+      {
+        "file": "test_club_ai_increment.py",
+        "name": "test_ai_weekly_is_idempotent_and_financially_conservative"
+      },
+      {
+        "file": "test_club_ai_increment.py",
+        "name": "test_ai_lineup_tactic_and_unknown_player_guard"
+      },
+      {
+        "file": "test_club_ai_increment.py",
+        "name": "test_ai_reputation_objective_and_diagnosis_benchmark"
+      },
+      {
+        "file": "test_club_ai_p1.py",
+        "name": "test_ai_decision_approval_and_audit"
+      },
+      {
+        "file": "test_club_events.py",
+        "name": "test_club_events_are_idempotent_and_support_read_state"
+      },
+      {
+        "file": "test_club_identity.py",
+        "name": "test_identity_schema_and_documented_extensions_are_idempotent"
+      },
+      {
+        "file": "test_club_identity.py",
+        "name": "test_documentation_is_required_for_rivalry_and_name_history"
+      },
+      {
+        "file": "test_club_identity.py",
+        "name": "test_identity_rejects_immutable_base"
+      },
+      {
+        "file": "test_club_identity.py",
+        "name": "test_base_hash_is_unchanged_by_read_only_identity_workflow"
+      },
+      {
+        "file": "test_commercial_controls_p1.py",
+        "name": "test_sponsorship_preview_approval_audience_expiry_and_audit"
+      },
+      {
+        "file": "test_competition_formats_p1.py",
+        "name": "test_competition_formats_draw_tie_and_phase_prize"
+      },
+      {
+        "file": "test_competition_structure.py",
+        "name": "test_rules_penalties_champion_prizes_transitions_and_alerts_are_idempotent"
+      },
+      {
+        "file": "test_competition_structure.py",
+        "name": "test_transition_and_penalty_limits_are_enforced"
+      },
+      {
+        "file": "test_contract_lifecycle.py",
+        "name": "test_renewal_requires_explicit_manager_approval"
+      },
+      {
+        "file": "test_contract_lifecycle.py",
+        "name": "test_renewal_posts_accessory_costs_and_updates_payroll_atomically"
+      },
+      {
+        "file": "test_contract_lifecycle.py",
+        "name": "test_salary_cap_rejection_rolls_back_contract_and_ledger"
+      },
+      {
+        "file": "test_controlled_match_gateway.py",
+        "name": "test_controlled_match_is_played_and_external_match_is_rejected"
+      },
+      {
+        "file": "test_ct_upgrades_p1.py",
+        "name": "test_ct_department_preview_approval_cash_and_audit"
+      },
+      {
+        "file": "test_engine.py",
+        "name": "test_original_and_state_copy_exist"
+      },
+      {
+        "file": "test_engine.py",
+        "name": "test_sqlite_integrity_and_foreign_keys"
+      },
+      {
+        "file": "test_engine.py",
+        "name": "test_expected_dataset_counts"
+      },
+      {
+        "file": "test_engine.py",
+        "name": "test_positions_and_repositories"
+      },
+      {
+        "file": "test_engine.py",
+        "name": "test_game_state_initializes"
+      },
+      {
+        "file": "test_execution_contracts.py",
+        "name": "test_execution_context_round_trips_without_game_state"
+      },
+      {
+        "file": "test_execution_contracts.py",
+        "name": "test_execution_context_rejects_invalid_values"
+      },
+      {
+        "file": "test_execution_contracts.py",
+        "name": "test_domain_error_catalog_has_stable_serialization"
+      },
+      {
+        "file": "test_execution_contracts.py",
+        "name": "test_read_and_command_boundaries_are_explicit"
+      },
+      {
+        "file": "test_final_roadmap_evidence.py",
+        "name": "test_single_and_multiple_season_world_scenarios_are_reproducible"
+      },
+      {
+        "file": "test_finance_controls_p1.py",
+        "name": "test_finance_preview_reconciliation_and_budget_alert"
+      },
+      {
+        "file": "test_finance_forecast_p1.py",
+        "name": "test_finance_recurring_budget_forecast_and_weekly_balance"
+      },
+      {
+        "file": "test_finance_media_close_p1.py",
+        "name": "test_media_reconciliation_and_monthly_close"
+      },
+      {
+        "file": "test_fixture_operations_p1.py",
+        "name": "test_fixture_preview_configuration_and_cancel"
+      },
+      {
+        "file": "test_fixture_operations_p1.py",
+        "name": "test_played_fixture_can_be_closed_formally"
+      },
+      {
+        "file": "test_form_morale.py",
+        "name": "test_form_morale_is_seeded_and_rest_is_recommended"
+      },
+      {
+        "file": "test_full_season_gamestate_p1.py",
+        "name": "test_full_season_uses_real_gamestate_with_checkpoint_and_finance_report"
+      },
+      {
+        "file": "test_gateway_contracts_p0.py",
+        "name": "test_gateway_contracts_validation_idempotency_and_scope"
+      },
+      {
+        "file": "test_governance_compliance_p1.py",
+        "name": "test_confirmation_whitelist_undo_replay_and_compliance"
+      },
+      {
+        "file": "test_health_cycle_p1.py",
+        "name": "test_health_catalog_injury_preview_reassessment_and_recovery"
+      },
+      {
+        "file": "test_health_cycle_p1.py",
+        "name": "test_health_recurrence_is_recorded_after_previous_injury"
+      },
+      {
+        "file": "test_health_protocol_p1.py",
+        "name": "test_health_return_protocol_selection_treatment_and_audit"
+      },
+      {
+        "file": "test_health_service.py",
+        "name": "test_health_cycle_alerts_filters_and_suspension"
+      },
+      {
+        "file": "test_individual_training_p1.py",
+        "name": "test_individual_training_preview_approval_and_evolution_are_idempotent"
+      },
+      {
+        "file": "test_individual_training_p1.py",
+        "name": "test_individual_training_blocks_extreme_medical_risk"
+      },
+      {
+        "file": "test_institutional_power.py",
+        "name": "test_institutional_profile_prepares_squad_ct_and_stadium_scores"
+      },
+      {
+        "file": "test_licensing_inventory_p1.py",
+        "name": "test_licensing_inventory_sales_refunds_alerts_and_segments"
+      },
+      {
+        "file": "test_lifecycle_interfaces.py",
+        "name": "test_generation_is_parameterized_and_not_persisted"
+      },
+      {
+        "file": "test_lifecycle_interfaces.py",
+        "name": "test_lifecycle_behavior_is_deferred"
+      },
+      {
+        "file": "test_lineup_profiles_p1.py",
+        "name": "test_tactical_profile_and_lineup_preview_are_persisted_separately"
+      },
+      {
+        "file": "test_manager_career_p0.py",
+        "name": "test_schema_v3_and_preferences_are_scoped"
+      },
+      {
+        "file": "test_manager_career_p0.py",
+        "name": "test_career_snapshot_close_and_resume"
+      },
+      {
+        "file": "test_manager_career_p0.py",
+        "name": "test_switch_club_is_idempotent_by_reference"
+      },
+      {
+        "file": "test_manager_career_p0.py",
+        "name": "test_second_active_career_is_rejected"
+      },
+      {
+        "file": "test_market_scouting.py",
+        "name": "test_transfer_atomic_finance_history_and_idempotency"
+      },
+      {
+        "file": "test_market_scouting.py",
+        "name": "test_scout_mission_filters_seed_and_report"
+      },
+      {
+        "file": "test_market_scouting.py",
+        "name": "test_invalid_scout_duration_and_rollback"
+      },
+      {
+        "file": "test_market_scouting.py",
+        "name": "test_scout_seed_expiration_reports_and_missing_fields"
+      },
+      {
+        "file": "test_match_advanced_stats_p1.py",
+        "name": "test_advanced_match_stats_preview_and_persistence"
+      },
+      {
+        "file": "test_match_controls_p1.py",
+        "name": "test_match_conditions_fatigue_discipline_and_event_review"
+      },
+      {
+        "file": "test_match_events_p1.py",
+        "name": "test_events_are_ordered_and_preview_does_not_persist"
+      },
+      {
+        "file": "test_match_events_p1.py",
+        "name": "test_official_summary_and_reprocess_audit"
+      },
+      {
+        "file": "test_match_integration_p1.py",
+        "name": "test_match_official_report_recovery_audit_and_idempotent_reprocess"
+      },
+      {
+        "file": "test_matchday_revenue.py",
+        "name": "test_matchday_credits_ledger_once_and_respects_played_match"
+      },
+      {
+        "file": "test_matchday_revenue.py",
+        "name": "test_competition_prize_uses_final_standing_and_is_idempotent"
+      },
+      {
+        "file": "test_membership_checksums.py",
+        "name": "test_membership_checksum_report_is_complete_and_deterministic"
+      },
+      {
+        "file": "test_news_feed_p1.py",
+        "name": "test_news_catalog_feed_filters_cursor_read_and_archive"
+      },
+      {
+        "file": "test_notifications_p1.py",
+        "name": "test_notification_preferences_snooze_group_bulk_read_and_failure"
+      },
+      {
+        "file": "test_official_membership_sources.py",
+        "name": "test_new_official_memberships_match_canonical_sql"
+      },
+      {
+        "file": "test_official_membership_sources.py",
+        "name": "test_memberships_persist_in_gamestate"
+      },
+      {
+        "file": "test_official_membership_sources.py",
+        "name": "test_sources_have_official_urls_and_seasons"
+      },
+      {
+        "file": "test_opponent_scouting_p1.py",
+        "name": "test_opponent_observation_report_plan_quality_and_expiry"
+      },
+      {
+        "file": "test_orchestrator.py",
+        "name": "test_weekly_obligations_and_idempotent_posting"
+      },
+      {
+        "file": "test_orchestrator.py",
+        "name": "test_expired_contract_does_not_pay"
+      },
+      {
+        "file": "test_orchestrator.py",
+        "name": "test_context_failure_rolls_back"
+      },
+      {
+        "file": "test_orchestrator.py",
+        "name": "test_process_context_can_join_external_transaction_without_commit"
+      },
+      {
+        "file": "test_p0_17_finance_ledger.py",
+        "name": "test_ledger_has_single_currency_categories_and_idempotent_natural_reference"
+      },
+      {
+        "file": "test_p0_17_finance_ledger.py",
+        "name": "test_projection_alert_reports_and_controlled_deficit"
+      },
+      {
+        "file": "test_p0_17_finance_ledger.py",
+        "name": "test_ledger_rejects_non_integer_amount_and_invalid_category"
+      },
+      {
+        "file": "test_p0_contracts.py",
+        "name": "test_p0_registry_has_exactly_300_sql_contracts"
+      },
+      {
+        "file": "test_p0_contracts.py",
+        "name": "test_p0_mutation_requires_authorized_sql_service"
+      },
+      {
+        "file": "test_p1_age_contract.py",
+        "name": "test_age_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_alias_contract.py",
+        "name": "test_alias_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_attribute_contract.py",
+        "name": "test_attribute_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_calendar_contract.py",
+        "name": "test_calendar_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_callup_contract.py",
+        "name": "test_callup_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_climate_contract.py",
+        "name": "test_climate_contract_is_idemclimateent_and_protected"
+      },
+      {
+        "file": "test_p1_coefficient_contract.py",
+        "name": "test_coefficient_contract_is_idemcoefficientent_and_protected"
+      },
+      {
+        "file": "test_p1_commission_contract.py",
+        "name": "test_commission_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_conflict_contract.py",
+        "name": "test_conflict_contract_is_idemconflictent_and_protected"
+      },
+      {
+        "file": "test_p1_consent_contract.py",
+        "name": "test_consent_contract_bootstrap"
+      },
+      {
+        "file": "test_p1_consent_contract.py",
+        "name": "test_consent_upsert"
+      },
+      {
+        "file": "test_p1_consent_contract.py",
+        "name": "test_consent_requires_sql_actor"
+      },
+      {
+        "file": "test_p1_country_contract.py",
+        "name": "test_country_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_division_contract.py",
+        "name": "test_division_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_domain_version_contract.py",
+        "name": "test_domain_version_registry_is_idempotent_and_valid"
+      },
+      {
+        "file": "test_p1_draw_contract.py",
+        "name": "test_draw_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_draw_domain08_contract.py",
+        "name": "test_draw_domain08_contract_is_idemdraw_domain08ent_and_protected"
+      },
+      {
+        "file": "test_p1_eligibility_contract.py",
+        "name": "test_eligibility_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_error_contract.py",
+        "name": "test_p1_error_registry_is_idempotent_and_complete"
+      },
+      {
+        "file": "test_p1_error_contract.py",
+        "name": "test_p1_error_mutation_is_authorized_only_by_sql_service"
+      },
+      {
+        "file": "test_p1_event_contract.py",
+        "name": "test_event_contract_is_idemeventent_and_protected"
+      },
+      {
+        "file": "test_p1_fifa_date_contract.py",
+        "name": "test_fifa_date_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_finalization_contract.py",
+        "name": "test_finalization_contract_is_idemfinalizationent_and_protected"
+      },
+      {
+        "file": "test_p1_fixture_contract.py",
+        "name": "test_fixture_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_group_contract.py",
+        "name": "test_group_contract_is_idemgroupent_and_protected"
+      },
+      {
+        "file": "test_p1_history_contract.py",
+        "name": "test_history_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_holiday_contract.py",
+        "name": "test_holiday_contract_is_idemholidayent_and_protected"
+      },
+      {
+        "file": "test_p1_identity_contract.py",
+        "name": "test_identity_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_invite_contract.py",
+        "name": "test_invite_contract_bootstrap_audit"
+      },
+      {
+        "file": "test_p1_invite_contract.py",
+        "name": "test_invite_upsert_and_read"
+      },
+      {
+        "file": "test_p1_invite_contract.py",
+        "name": "test_invite_mutation_requires_sql_actor"
+      },
+      {
+        "file": "test_p1_knockout_contract.py",
+        "name": "test_knockout_contract_is_idemknockoutent_and_protected"
+      },
+      {
+        "file": "test_p1_membership_contract.py",
+        "name": "test_membership_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_membership_domain08_contract.py",
+        "name": "test_membership_domain08_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_mfa_contract.py",
+        "name": "test_mfa_contract_bootstrap"
+      },
+      {
+        "file": "test_p1_mfa_contract.py",
+        "name": "test_mfa_upsert"
+      },
+      {
+        "file": "test_p1_mfa_contract.py",
+        "name": "test_mfa_requires_sql_actor"
+      },
+      {
+        "file": "test_p1_migration_contract.py",
+        "name": "test_migration_registry_is_idempotent"
+      },
+      {
+        "file": "test_p1_migration_contract.py",
+        "name": "test_migration_mutation_requires_sql_service"
+      },
+      {
+        "file": "test_p1_nationality_contract.py",
+        "name": "test_nationality_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_position_contract.py",
+        "name": "test_position_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_possession_contract.py",
+        "name": "test_possession_contract_is_idempossessionent_and_protected"
+      },
+      {
+        "file": "test_p1_pot_contract.py",
+        "name": "test_pot_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_potential_contract.py",
+        "name": "test_potential_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_preferences_contract.py",
+        "name": "test_preferences_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_prize_contract.py",
+        "name": "test_prize_contract_is_idemprizeent_and_protected"
+      },
+      {
+        "file": "test_p1_procedure_contract.py",
+        "name": "test_p1_procedure_registry_is_idempotent_and_complete"
+      },
+      {
+        "file": "test_p1_procedure_contract.py",
+        "name": "test_p1_procedure_mutation_is_authorized_only_by_sql_service"
+      },
+      {
+        "file": "test_p1_profile_contract.py",
+        "name": "test_profile_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_promotion_contract.py",
+        "name": "test_promotion_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_promotion_domain08_contract.py",
+        "name": "test_promotion_domain08_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_ranking_contract.py",
+        "name": "test_ranking_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_record_contract.py",
+        "name": "test_record_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_record_domain08_contract.py",
+        "name": "test_record_domain08_contract_is_idemrecord_domain08ent_and_protected"
+      },
+      {
+        "file": "test_p1_regulation_contract.py",
+        "name": "test_regulation_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_relegation_contract.py",
+        "name": "test_relegation_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_reschedule_contract.py",
+        "name": "test_reschedule_contract_is_idemrescheduleent_and_protected"
+      },
+      {
+        "file": "test_p1_revocation_contract.py",
+        "name": "test_revocation_contract_bootstrap"
+      },
+      {
+        "file": "test_p1_revocation_contract.py",
+        "name": "test_revocation_upsert"
+      },
+      {
+        "file": "test_p1_revocation_contract.py",
+        "name": "test_revocation_requires_sql_actor"
+      },
+      {
+        "file": "test_p1_round_contract.py",
+        "name": "test_round_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_round_domain08_contract.py",
+        "name": "test_round_domain08_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_scope_contract.py",
+        "name": "test_scope_bootstrap_and_audit"
+      },
+      {
+        "file": "test_p1_scope_contract.py",
+        "name": "test_scope_state_is_idempotent"
+      },
+      {
+        "file": "test_p1_scope_contract.py",
+        "name": "test_scope_mutation_requires_sql_actor"
+      },
+      {
+        "file": "test_p1_score_contract.py",
+        "name": "test_score_contract_is_idemscoreent_and_protected"
+      },
+      {
+        "file": "test_p1_security_contract.py",
+        "name": "test_security_contract_is_idemsecurityent_and_protected"
+      },
+      {
+        "file": "test_p1_session_contract.py",
+        "name": "test_session_contract_bootstrap_and_audit"
+      },
+      {
+        "file": "test_p1_session_contract.py",
+        "name": "test_session_state_is_upserted_and_readable"
+      },
+      {
+        "file": "test_p1_session_contract.py",
+        "name": "test_session_mutation_requires_sql_actor"
+      },
+      {
+        "file": "test_p1_stadium_capacity_contract.py",
+        "name": "test_stadium_capacity_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_stadium_components_contract.py",
+        "name": "test_stadium_components_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_stadium_contract.py",
+        "name": "test_stadium_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_stadium_infrastructure_contract.py",
+        "name": "test_stadium_infrastructure_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_table_contract.py",
+        "name": "test_table_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_table_domain08_contract.py",
+        "name": "test_table_domain08_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_tactic_contract.py",
+        "name": "test_tactic_contract_is_idemtacticent_and_protected"
+      },
+      {
+        "file": "test_p1_telemetry_contract.py",
+        "name": "test_contracts_are_bootstrapped_and_auditable"
+      },
+      {
+        "file": "test_p1_telemetry_contract.py",
+        "name": "test_event_record_is_idempotent_and_read_is_bounded"
+      },
+      {
+        "file": "test_p1_telemetry_contract.py",
+        "name": "test_event_mutation_requires_authorized_sql_service"
+      },
+      {
+        "file": "test_p1_timeout_contract.py",
+        "name": "test_timeout_registry_is_idempotent_and_valid"
+      },
+      {
+        "file": "test_p1_timezone_contract.py",
+        "name": "test_timezone_contract_is_idemtimezoneent_and_protected"
+      },
+      {
+        "file": "test_p1_tournament_contract.py",
+        "name": "test_tournament_contract_is_idempotent_and_protected"
+      },
+      {
+        "file": "test_p1_version_contract.py",
+        "name": "test_p1_version_registry_is_idempotent_and_semver_valid"
+      },
+      {
+        "file": "test_p1_version_contract.py",
+        "name": "test_p1_version_mutation_requires_sql_service"
+      },
+      {
+        "file": "test_p1_window_contract.py",
+        "name": "test_window_contract_is_idemwindowent_and_protected"
+      },
+      {
+        "file": "test_parallel_career_league.py",
+        "name": "test_parallel_league_uses_all_official_first_division_clubs"
+      },
+      {
+        "file": "test_parallel_career_league.py",
+        "name": "test_parallel_league_generates_round_trip_calendar_and_closes_idempotently"
+      },
+      {
+        "file": "test_parallel_career_league.py",
+        "name": "test_single_country_uses_national_flow_and_main_country_names"
+      },
+      {
+        "file": "test_parallel_career_league.py",
+        "name": "test_constraint_audit_is_read_only_and_validates_parallel_state"
+      },
+      {
+        "file": "test_parallel_career_league.py",
+        "name": "test_index_audit_confirms_calendar_and_standings_plans"
+      },
+      {
+        "file": "test_parallel_career_league.py",
+        "name": "test_backup_manifest_is_deterministic_and_idempotent"
+      },
+      {
+        "file": "test_parallel_career_league.py",
+        "name": "test_snapshot_audit_confirms_scope_and_hashes"
+      },
+      {
+        "file": "test_parallel_career_league.py",
+        "name": "test_restore_preview_is_read_only_and_reports_field_diff"
+      },
+      {
+        "file": "test_parallel_career_league.py",
+        "name": "test_journal_is_sequenced_scoped_and_idempotent"
+      },
+      {
+        "file": "test_payload_contract_p0.py",
+        "name": "test_payload_contract_normalizes_and_fingerprints_deterministically"
+      },
+      {
+        "file": "test_payload_contract_p0.py",
+        "name": "test_payload_contract_rejects_invalid_shapes_and_size"
+      },
+      {
+        "file": "test_payload_contract_p0.py",
+        "name": "test_gateway_emits_payload_fingerprint_and_stable_error"
+      },
+      {
+        "file": "test_phase18_integration.py",
+        "name": "test_global_tick_order_idempotency_and_rollback"
+      },
+      {
+        "file": "test_phase18_integration.py",
+        "name": "test_global_failure_is_audited"
+      },
+      {
+        "file": "test_phase18_integration.py",
+        "name": "test_consistency_and_balance_config"
+      },
+      {
+        "file": "test_phases10_11.py",
+        "name": "test_phases_rounds_fixtures_calendar_and_finish"
+      },
+      {
+        "file": "test_phases10_11.py",
+        "name": "test_configurable_points_and_scorer_query"
+      },
+      {
+        "file": "test_phases12_13.py",
+        "name": "test_economy_obligation_debt_health_and_investment"
+      },
+      {
+        "file": "test_phases12_13.py",
+        "name": "test_overdue_and_bankruptcy_history"
+      },
+      {
+        "file": "test_phases12_13.py",
+        "name": "test_club_ai_reads_state_and_audits_deterministic_decision"
+      },
+      {
+        "file": "test_phases14_15.py",
+        "name": "test_stadium_fans_attendance_revenue_and_reputation"
+      },
+      {
+        "file": "test_phases14_15.py",
+        "name": "test_sponsor_bonus_media_and_expiration"
+      },
+      {
+        "file": "test_phases16_17.py",
+        "name": "test_world_simulation_batch_and_idempotency"
+      },
+      {
+        "file": "test_phases16_17.py",
+        "name": "test_manager_career_contract_objective_inbox_and_resign"
+      },
+      {
+        "file": "test_phases16_17.py",
+        "name": "test_manager_starts_a_single_career_with_club_or_selection"
+      },
+      {
+        "file": "test_phases16_17.py",
+        "name": "test_world_simulation_cooperative_cancellation"
+      },
+      {
+        "file": "test_phases16_17.py",
+        "name": "test_match_can_be_postponed_and_rescheduled_in_temporary_state"
+      },
+      {
+        "file": "test_player_contract_controls_p1.py",
+        "name": "test_contract_preview_termination_history_and_audit"
+      },
+      {
+        "file": "test_player_contracts_p1.py",
+        "name": "test_player_registration_roles_clause_and_bonuses"
+      },
+      {
+        "file": "test_player_engine.py",
+        "name": "test_player_engine_returns_domain_objects"
+      },
+      {
+        "file": "test_player_engine.py",
+        "name": "test_native_attributes_are_preserved_separately"
+      },
+      {
+        "file": "test_player_engine.py",
+        "name": "test_position_labels_are_confirmed"
+      },
+      {
+        "file": "test_player_extensions.py",
+        "name": "test_extensions_are_created_idempotently_and_accept_observed_rows"
+      },
+      {
+        "file": "test_player_extensions.py",
+        "name": "test_extensions_reject_invalid_observation_without_partial_write"
+      },
+      {
+        "file": "test_player_extensions.py",
+        "name": "test_read_reports_use_canonical_base_without_writing"
+      },
+      {
+        "file": "test_player_extensions.py",
+        "name": "test_mutable_extensions_reject_immutable_base"
+      },
+      {
+        "file": "test_reputation_p1.py",
+        "name": "test_competition_reputation_preview_snapshot_alert_and_recovery_plan"
+      },
+      {
+        "file": "test_roadmap_gate.py",
+        "name": "test_p0_allowed_but_p1_and_p2_blocked_until_p0_is_open"
+      },
+      {
+        "file": "test_roadmap_gate.py",
+        "name": "test_p1_requires_open_p0_and_p2_requires_open_p1"
+      },
+      {
+        "file": "test_roadmap_gate.py",
+        "name": "test_front_dependencies_block_until_all_dependencies_are_consolidated"
+      },
+      {
+        "file": "test_roadmap_gate.py",
+        "name": "test_gate_requires_sql_game_state_source_of_truth"
+      },
+      {
+        "file": "test_rules_engine.py",
+        "name": "test_new_player_starts_at_16_and_seed_is_reproducible"
+      },
+      {
+        "file": "test_rules_engine.py",
+        "name": "test_strength_is_bounded_by_potential_and_curve_is_smooth"
+      },
+      {
+        "file": "test_rules_engine.py",
+        "name": "test_retirement_return_and_new_generation"
+      },
+      {
+        "file": "test_rules_engine.py",
+        "name": "test_transaction_rolls_back"
+      },
+      {
+        "file": "test_rules_engine.py",
+        "name": "test_base_hash_unchanged"
+      },
+      {
+        "file": "test_safe_undo.py",
+        "name": "test_safe_undo_is_explicit_and_idempotent"
+      },
+      {
+        "file": "test_safe_undo.py",
+        "name": "test_unknown_undo_target_is_rejected"
+      },
+      {
+        "file": "test_schema_version.py",
+        "name": "test_schema_version_is_idempotent_and_monotonic"
+      },
+      {
+        "file": "test_schema_version.py",
+        "name": "test_manager_service_initializes_schema_version_in_temporary_gamestate"
+      },
+      {
+        "file": "test_schema_version.py",
+        "name": "test_schema_version_creates_indexes_and_preserves_integrity_in_temporary_gamestate"
+      },
+      {
+        "file": "test_schema_version.py",
+        "name": "test_schema_version_creates_available_cycle_indexes"
+      },
+      {
+        "file": "test_schema_version.py",
+        "name": "test_schema_version_rejects_regression"
+      },
+      {
+        "file": "test_social_attendance.py",
+        "name": "test_match_result_moves_social_metrics_gradually_and_once"
+      },
+      {
+        "file": "test_social_attendance.py",
+        "name": "test_social_preview_segments_and_timeline_are_read_only_and_paginated"
+      },
+      {
+        "file": "test_social_attendance.py",
+        "name": "test_attendance_is_seeded_limited_by_capacity_and_idempotent"
+      },
+      {
+        "file": "test_sponsorships.py",
+        "name": "test_offers_expire_and_rotate_with_institutional_stars"
+      },
+      {
+        "file": "test_sponsorships.py",
+        "name": "test_acceptance_pays_upfront_and_weekly_income_is_idempotent"
+      },
+      {
+        "file": "test_sponsorships.py",
+        "name": "test_completed_mission_pays_once"
+      },
+      {
+        "file": "test_sponsorships.py",
+        "name": "test_offer_window_crosses_to_the_next_season_without_week_zero"
+      },
+      {
+        "file": "test_sponsorships.py",
+        "name": "test_match_mission_uses_persisted_match_and_matchday_once"
+      },
+      {
+        "file": "test_sponsorships.py",
+        "name": "test_match_mission_rejects_missing_or_not_played_match"
+      },
+      {
+        "file": "test_stadium_service.py",
+        "name": "test_bootstrap_stadium_has_four_components_and_level_one"
+      },
+      {
+        "file": "test_stadium_service.py",
+        "name": "test_upgrade_charges_ledger_and_updates_capacity_once"
+      },
+      {
+        "file": "test_stadium_service.py",
+        "name": "test_level_ten_blocks_an_upgrade_without_partial_charge"
+      },
+      {
+        "file": "test_stadium_service.py",
+        "name": "test_bootstrap_reconciles_existing_social_stadium_with_components"
+      },
+      {
+        "file": "test_stadium_service.py",
+        "name": "test_successive_upgrades_reach_level_ten_and_rollback_after_ledger_error"
+      },
+      {
+        "file": "test_stadium_service.py",
+        "name": "test_world_bootstrap_creates_only_source_backed_stadiums_and_is_idempotent"
+      },
+      {
+        "file": "test_staff_club.py",
+        "name": "test_staff_creation_experience_transfer_retirement_and_department"
+      },
+      {
+        "file": "test_staff_club.py",
+        "name": "test_staff_seed_and_strength_components"
+      },
+      {
+        "file": "test_staff_club.py",
+        "name": "test_staff_and_department_read_models_are_sql_canonical"
+      },
+      {
+        "file": "test_staff_club.py",
+        "name": "test_staff_domain_effects_capacity_bonus_and_specialists"
+      },
+      {
+        "file": "test_staff_contracts_p1.py",
+        "name": "test_staff_preview_requires_explicit_approval_and_records_affinity"
+      },
+      {
+        "file": "test_staff_contracts_p1.py",
+        "name": "test_staff_role_evaluation_absence_and_history_are_persisted"
+      },
+      {
+        "file": "test_staff_governance_p1.py",
+        "name": "test_staff_levels_vacancies_org_bonus_and_audit"
+      },
+      {
+        "file": "test_staff_market_economy.py",
+        "name": "test_initial_cash_contracts_staff_and_department_weekly_costs"
+      },
+      {
+        "file": "test_staff_market_economy.py",
+        "name": "test_department_upgrade_waits_for_construction_deadline"
+      },
+      {
+        "file": "test_staff_market_economy.py",
+        "name": "test_economy_bootstrap_creates_staff_schema_when_it_is_absent"
+      },
+      {
+        "file": "test_staff_market_economy.py",
+        "name": "test_world_bootstrap_is_explicit_and_idempotent"
+      },
+      {
+        "file": "test_staff_market_economy.py",
+        "name": "test_hiring_rolls_back_when_history_cannot_be_recorded"
+      },
+      {
+        "file": "test_staff_market_economy.py",
+        "name": "test_world_weekly_processing_is_idempotent"
+      },
+      {
+        "file": "test_staff_market_economy.py",
+        "name": "test_summary_is_read_only_after_bootstrap"
+      },
+      {
+        "file": "test_staff_market_economy.py",
+        "name": "test_staff_contract_lifecycle_and_replacement"
+      },
+      {
+        "file": "test_staff_market_economy.py",
+        "name": "test_staff_catalog_covers_canonical_roles_and_attribute_ranges"
+      },
+      {
+        "file": "test_staff_market_economy.py",
+        "name": "test_staff_catalog_filters_levels_and_exposes_cost_benefit"
+      },
+      {
+        "file": "test_standings_history_p1.py",
+        "name": "test_standings_snapshot_history_and_reconciliation"
+      },
+      {
+        "file": "test_state_manifest_p0.py",
+        "name": "test_state_manifest_migration_checksum_drift_snapshot_and_fk"
+      },
+      {
+        "file": "test_state_recovery.py",
+        "name": "test_save_close_reopen_and_backup_restore"
+      },
+      {
+        "file": "test_state_store.py",
+        "name": "test_immutable_base_path_is_rejected"
+      },
+      {
+        "file": "test_state_store.py",
+        "name": "test_temporary_state_file_and_memory_connection_are_allowed"
+      },
+      {
+        "file": "test_ticketing_sectors_p1.py",
+        "name": "test_sector_ticketing_capacity_courtesy_refund_and_occupancy"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_squad_training_injury_recovery_lineup"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_competition_fixture_match_standings_and_replay"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_match_replay_deterministic"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_squad_summary_and_minimum_lineup_validation"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_saved_formation_is_scoped_to_competition_and_match_lineup_is_validated"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_automatic_lineup_prioritizes_positions_and_is_deterministic"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_planned_substitution_is_persisted_and_idempotent"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_player_match_stats_are_upserted_idempotently"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_substitution_application_updates_effective_lineup_once"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_cards_are_recomputed_from_persisted_match_events"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_player_season_totals_are_read_only_aggregates"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_calculate_chemistry_is_derived_and_deterministic"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_calculate_morale_impact_uses_persisted_form_and_fatigue"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_injured_player_is_blocked_from_saved_formation_and_lineup"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_suspended_player_is_blocked_from_lineup"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_squad_depth_report_is_grouped_by_canonical_position"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_position_coverage_alerts_are_derived_and_configurable"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_player_roles_are_unique_and_require_available_club_member"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_tactical_decision_history_is_structured_and_chronological"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_physical_condition_and_fatigue_risk_are_derived"
+      },
+      {
+        "file": "test_ticks8_9.py",
+        "name": "test_lineup_confirmation_validates_competition_and_is_idempotent"
+      },
+      {
+        "file": "test_training_microcycle_p1.py",
+        "name": "test_training_microcycle_overtraining_and_audit"
+      },
+      {
+        "file": "test_training_service.py",
+        "name": "test_training_plan_is_idempotent_and_respects_injury"
+      },
+      {
+        "file": "test_transfer_controls_p1.py",
+        "name": "test_transfer_window_offer_counter_loan_and_audit"
+      },
+      {
+        "file": "test_transfer_market_increment.py",
+        "name": "test_transfer_approval_costs_and_loan"
+      },
+      {
+        "file": "test_transfer_market_increment.py",
+        "name": "test_transfer_requires_approval_when_accepted_without_manager"
+      },
+      {
+        "file": "test_transfer_market_increment.py",
+        "name": "test_transfer_guards_suspension_and_roster_capacity"
+      },
+      {
+        "file": "test_transfer_market_increment.py",
+        "name": "test_transfer_history_expiration_and_budget_filter"
+      },
+      {
+        "file": "test_transfer_market_increment.py",
+        "name": "test_transfer_completion_is_single_winner"
+      },
+      {
+        "file": "test_transfer_market_p1.py",
+        "name": "test_market_valuation_and_shortlist_are_persisted"
+      },
+      {
+        "file": "test_travel_costs.py",
+        "name": "test_preview_is_read_only_and_distinguishes_routes"
+      },
+      {
+        "file": "test_travel_costs.py",
+        "name": "test_post_is_idempotent_and_debits_visitor_cash"
+      },
+      {
+        "file": "test_travel_costs.py",
+        "name": "test_home_club_has_no_travel_expense"
+      },
+      {
+        "file": "test_validate_delivery.py",
+        "name": "test_base_manifest_accepts_canonical_copy_and_rejects_tampering"
+      },
+      {
+        "file": "test_validate_delivery.py",
+        "name": "test_state_is_mutable_and_not_required_to_match_stale_manifest"
+      },
+      {
+        "file": "test_weekly_cycle.py",
+        "name": "test_weekly_cycle_processes_match_social_revenue_and_costs_once"
+      },
+      {
+        "file": "test_weekly_cycle.py",
+        "name": "test_explicit_week_is_idempotent_after_completion"
+      },
+      {
+        "file": "test_weekly_cycle.py",
+        "name": "test_weekly_cycle_rolls_back_clock_match_and_cash_on_ledger_failure"
+      },
+      {
+        "file": "test_weekly_cycle.py",
+        "name": "test_weekly_cycle_rolls_back_every_post_match_write_on_payroll_failure"
+      },
+      {
+        "file": "test_world_economy.py",
+        "name": "test_world_week_combines_sponsorship_income_and_payroll_idempotently"
+      },
+      {
+        "file": "test_world_simulation_p1.py",
+        "name": "test_world_simulation_batch_checkpoint_metrics_and_resume"
+      }
+    ]
+  },
+  "total": 357,
+  "vitest": {
+    "cases": 42,
+    "files": 19,
+    "items": [
+      {
+        "file": "frontend/server/CareerStart.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/CareerStart.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/CareerStart.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/CareerStart.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/CareerStart.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/CareerStart.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/CtHiringShortcuts.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/OperationsPanel.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/OperationsPanel.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/SponsorshipPanel.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/SponsorshipPanel.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/StadiumOperationsPanel.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/StadiumOperationsPanel.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/StaffEconomyPanel.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/StaffEconomyPanel.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/StaffEconomyPanel.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/TableSkeleton.ui.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/auth.logout.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/careerGateway.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/careerGateway.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/careerGateway.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/careerGateway.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/careerGateway.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/careerGateway.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/careerGateway.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/careerGateway.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/careerGateway.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/careerRouter.integration.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/clubWorkspace.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/engineAssets.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/engineAssets.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/engineState.parallel.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/engineState.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/engineState.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/engineState.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/engineState.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/matchesPage.weekly.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/matchesPage.weekly.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/matchesPage.weekly.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/matchesPage.weekly.test.tsx",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/operations.test.ts",
+        "name": "anonymous"
+      },
+      {
+        "file": "frontend/server/operations.test.ts",
+        "name": "anonymous"
+      }
+    ]
+  }
+}

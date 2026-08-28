@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { AlertTriangle, ChevronRight, CirclePause, Flag, Goal, Pause, Play, RotateCcw, ShieldAlert, Shuffle, Sparkles, Swords, Target, Timer, Zap } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { useFeedback } from "@/contexts/FeedbackContext";
 import type { MatchControlDecisions } from "../../../server/careerGateway";
 
 type Match = {
@@ -38,6 +39,7 @@ function eventIcon(tone: MatchEvent["tone"]) {
 
 export function InteractiveMatchCenter({ match, players, onAfterPlay }: { match: Match; players: Player[]; onAfterPlay?: () => void }) {
   const utils = trpc.useUtils();
+  const { notify } = useFeedback();
   const [isLive, setIsLive] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [step, setStep] = useState(-1);
@@ -53,12 +55,14 @@ export function InteractiveMatchCenter({ match, players, onAfterPlay }: { match:
       setEvents((current) => [...current, { minute: 90, title: "Resultado oficial", detail: `${result.home_goals} × ${result.away_goals} registrado na carreira.`, tone: "neutral" }]);
       await Promise.all([utils.matches.dashboard.invalidate(), utils.career.current.invalidate(), utils.events.list.invalidate()]);
       toast.success(`Resultado oficial: ${result.home_goals} × ${result.away_goals}.`);
+      notify("success");
       onAfterPlay?.();
     },
     onError: () => {
       setIsLive(false);
       setIsPaused(false);
       toast.error("A partida não pôde ser registrada. Nenhum resultado foi alterado.");
+      notify("error");
     },
   });
 

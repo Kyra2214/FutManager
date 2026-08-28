@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
+import { useFeedback } from "@/contexts/FeedbackContext";
 import { Building2, CircleDollarSign, Gauge, Landmark, Sparkles, Users } from "lucide-react";
 
 const componentLabels = {
@@ -16,6 +17,7 @@ function formatCash(value: number | null | undefined) {
 
 export function StadiumOperationsPanel() {
   const utils = trpc.useUtils();
+  const { notify } = useFeedback();
   const summaryQuery = trpc.stadium.summary.useQuery(undefined, { retry: 1 });
   const summary = summaryQuery.data;
   const [ticketPrice, setTicketPrice] = useState("35");
@@ -38,16 +40,16 @@ export function StadiumOperationsPanel() {
     ]);
   };
   const bootstrap = trpc.stadium.bootstrap.useMutation({
-    onSuccess: async () => { await refresh(); toast.success("Estádio preparado para a temporada."); },
-    onError: (error) => toast.error(error.message),
+    onSuccess: async () => { await refresh(); toast.success("Estádio preparado para a temporada."); notify("success"); },
+    onError: (error) => { toast.error(error.message); notify("error"); },
   });
   const upgrade = trpc.stadium.upgrade.useMutation({
-    onSuccess: async () => { await refresh(); toast.success("Evolução registrada nas contas do clube."); },
-    onError: (error) => toast.error(error.message),
+    onSuccess: async () => { await refresh(); toast.success("Evolução registrada nas contas do clube."); notify("success"); },
+    onError: (error) => { toast.error(error.message); notify("error"); },
   });
   const savePrice = trpc.stadium.ticketPrice.useMutation({
-    onSuccess: async () => { await refresh(); toast.success("Preço-base de ingresso atualizado."); },
-    onError: (error) => toast.error(error.message),
+    onSuccess: async () => { await refresh(); toast.success("Preço-base de ingresso atualizado."); notify("success"); },
+    onError: (error) => { toast.error(error.message); notify("error"); },
   });
   if (summaryQuery.isLoading) return <section className="stadium-operations loading"><span className="eyebrow">ESTÁDIO / ATUALIZAÇÃO</span><h2>Carregando a operação do dia de jogo…</h2></section>;
   if (summaryQuery.error) return <section className="stadium-operations error"><span className="eyebrow">ESTÁDIO / INDISPONÍVEL</span><h2>Não foi possível carregar a operação do estádio.</h2><p>Tente atualizar esta página em alguns instantes.</p></section>;
