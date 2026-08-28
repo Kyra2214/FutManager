@@ -55,6 +55,18 @@ jobs:
       - name: Validate hybrid APK contract
         run: python3 scripts/validate-android-apk.py android/app/build/outputs/apk/release/app-release.apk
 
+      - name: Validate remote data package
+        run: |
+          curl --fail --location --silent --show-error \
+            https://github.com/Kyra2214/FutManager-data/releases/download/v1.0.0/manifest.json \
+            --output "$RUNNER_TEMP/futmanager-manifest.json"
+          curl --fail --location --silent --show-error \
+            https://github.com/Kyra2214/FutManager-data/releases/download/v1.0.0/futmanager-data-v1.0.0.zip \
+            --output "$RUNNER_TEMP/futmanager-data.zip"
+          python3 scripts/validate-data-package.py \
+            "$RUNNER_TEMP/futmanager-data.zip" \
+            "$RUNNER_TEMP/futmanager-manifest.json"
+
       - name: Upload release APK
         uses: actions/upload-artifact@v4
         with:

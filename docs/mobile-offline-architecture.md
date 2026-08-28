@@ -1,73 +1,88 @@
-# FutManager — arquitetura do APK offline-first
+# FutManager — arquitetura móvel híbrida e offline-first
 
 ## Objetivo
 
-A versão Android deverá funcionar sem servidor remoto, sem OAuth, sem tRPC, sem S3 e sem chamadas de rede para executar uma carreira. O APK deverá conter a interface, o catálogo inicial, os escudos, o banco local e as regras necessárias para criar, avançar e retomar uma carreira.
+A versão Android funciona sem servidor remoto depois que o pacote inicial de dados é baixado. A conexão é necessária somente na primeira preparação ou quando o usuário optar por atualizar os dados. O APK não contém o banco completo nem os assets editoriais pesados; ele contém a interface, o bridge nativo, o runtime Python/SQLite e o manifesto do pacote remoto.
 
 ## Decisão arquitetural
 
-A base de distribuição será um contêiner **Capacitor Android** sobre o frontend React existente. Essa escolha preserva a maior parte da interface web responsiva já construída e permite adicionar plugins nativos para SQLite, sistema de arquivos, compartilhamento e ciclo de vida do aplicativo. O build de produção não iniciará Express/Vite e não dependerá de uma URL externa.
+A base Android é um contêiner Capacitor sobre o frontend React existente. Essa escolha preserva a interface responsiva e permite usar plugins nativos para SQLite, sistema de arquivos, compartilhamento e ciclo de vida. O build de produção não inicia Express/Vite e não depende de uma URL externa para executar uma carreira já preparada.
 
-O tRPC continuará apenas como contrato transitório durante a migração. No APK, cada procedimento será substituído por uma chamada para `localDomain`, uma camada TypeScript local que implementará os mesmos contratos públicos e delegará a persistência ao SQLite do dispositivo.
+A fonte de dados de release é o repositório [`Kyra2214/FutManager-data`](https://github.com/Kyra2214/FutManager-data/releases). O APK consome o manifesto versionado, não arquivos diretamente de um branch Git.
 
-## Camadas no APK
+## Camadas do aplicativo
 
 | Camada | Responsabilidade | Fonte de verdade |
-| --- | --- | --- |
+|---|---|---|
 | React + Capacitor | Navegação, telas, partidas, timeline e interação | Estado derivado do domínio |
-| `localDomain` | Casos de uso equivalentes às procedures atuais | Serviços locais |
-| `localStore` | Transações, migrações, backup e restauração | SQLite/GameState local |
-| Engine local | Ciclo semanal, calendário, partidas, economia e regras | SQLite/GameState local |
-| Assets embarcados | Escudos, ícones e imagens licenciadas já auditadas | Arquivos incluídos no APK |
+| `DataBootstrap` | Bloquear consultas até os dados serem preparados | Status retornado pelo bridge |
+| `NativeEnginePlugin` | Manifesto, download, SHA-256, extração e instalação atômica | Pacote remoto validado |
+| `localDomain` | Casos de uso locais equivalentes às procedures | Serviços e engine locais |
+| `localStore` | Abertura, transações, migrações, backup e restauração | SQLite/GameState local |
+| Assets locais | Escudos, ícones e imagens editoriais | Diretório privado do pacote |
 
-## O que será removido do caminho offline
+## Preparação inicial
 
-A versão instalada não usará `server/_core/index.ts`, Express, `careerGateway.ts` via `execFileSync`, banco MySQL/TiDB, Manus OAuth, chamadas Forge, proxy de storage, notificações server-side, LLM remoto ou qualquer endpoint `/api/trpc`. Recursos que dependem de rede deverão aparecer como indisponíveis, nunca como erro de execução da carreira.
+`databasePath()` não copia banco de assets e não possui fallback silencioso. Se o banco ainda não foi instalado, ele lança `NATIVE_ENGINE_DATA_NOT_PREPARED`. A preparação ocorre antes, por meio de `NativeEngine.prepareData()` acionado pela tela `DataBootstrap`.
 
-## Engine Python
+O bridge baixa o manifesto remoto e o ZIP, compara o SHA-256 dos bytes recebidos, bloqueia caminhos de extração que escapem do diretório privado, exige `database/game.db` e promove o pacote por troca atômica. Só depois disso o banco é copiado para o caminho operacional do SQLite.
 
-O Python atual não pode ser executado diretamente pelo navegador ou por um APK Capacitor sem um runtime nativo adicional. Para manter o APK simples e confiável, a regra de negócio será portada gradualmente para TypeScript, começando pelos contratos usados no fluxo principal: criação da carreira, leitura do clube, calendário, avanço semanal, ida até a partida, partida controlada, eventos da timeline e persistência de decisões táticas.
+O banco e os assets são mantidos em:
 
-A engine Python continuará sendo a referência de comportamento durante a portabilidade. Cada contrato portado deverá possuir comparação determinística contra uma cópia temporária do GameState, usando seed explícita e sem inventar dados. O SQL/GameState permanece a fonte única da verdade; o frontend não criará placares, jogadores, clubes ou eventos.
+```text
+/data/user/0/com.futmanager.app/files/futmanager-data/
+/data/user/0/com.futmanager.app/databases/game.db
+```
 
-## Persistência e dados embarcados
+Uma falha de rede ou checksum não substitui o pacote funcional anterior. Após a preparação, `localStore`, `localCatalog` e `EntityAsset` usam os arquivos locais.
 
-O banco-base canônico será empacotado como recurso somente leitura de inicialização. Na primeira execução, o aplicativo copiará esse banco para o armazenamento privado do Android e aplicará migrações versionadas. A carreira e as mutações ocorrerão apenas na cópia local do GameState. O banco-base nunca será aberto como destino de escrita.
+## Execução offline
 
-O backup local será exportado por arquivo, com versão de esquema, integridade SQLite e identificação da carreira. A restauração deverá ocorrer em transação, com validação antes da substituição do estado ativo.
+Depois da primeira preparação, o aplicativo pode iniciar sem rede, listar entidades, criar e continuar carreiras, avançar semanas, disputar partidas e consultar assets. Não há promessa de disponibilidade de atualizações sem internet; atualizações são opcionais e devem ser instaladas somente depois de baixar e validar um novo pacote completo.
 
-## Sequência de migração
+## Conteúdo do APK e conteúdo remoto
 
-1. Criar o shell Android e uma configuração de build sem servidor.
-2. Extrair contratos públicos do gateway para tipos compartilhados.
-3. Criar `localStore` e a ponte SQLite nativa.
-4. Portar o bootstrap e a leitura de carreira.
-5. Portar avanço semanal, viagem e timeline.
-6. Portar partida controlada e decisões táticas.
-7. Substituir progressivamente o cliente tRPC por `localDomain`.
-8. Embarcar banco-base e assets com manifesto e verificação de integridade.
-9. Implementar backup/restauração e migrações locais.
-10. Gerar e testar o APK em dispositivo Android real.
+| Conteúdo | APK | Pacote remoto |
+|---|---:|---:|
+| Interface React e CSS/JavaScript | Sim | Não |
+| Bridge Capacitor/Android | Sim | Não |
+| Runtime e regras Python | Sim | Não |
+| Manifesto de dados | Sim | Também |
+| `database/game.db` completo | Não | Sim |
+| Índices de catálogo | Não | Sim |
+| Escudos e assets editoriais | Não | Sim |
 
-## Critérios de aceite
+O validador `scripts/validate-android-apk.py` confirma esse contrato: exige `offline-manifest.json` e falha se encontrar banco ou diretórios pesados no APK.
 
-O APK será considerado preparado quando iniciar sem rede, criar uma carreira, listar entidades e escudos, avançar semanas, simular apenas o mundo externo, abrir a partida controlada, persistir decisões táticas, exibir a timeline acionável, fechar e reabrir mantendo o GameState, e exportar/restaurar um backup válido.
+## Motor Python
 
-## Limitação atual do ambiente
+O runtime Python é incorporado por bridge nativa Android. A engine continua sendo a referência das regras, enquanto a interface chama o domínio local por métodos nativos. O banco local continua sendo a fonte única da verdade; o React não cria jogadores, placares, calendários ou estados contratuais em memória permanente.
 
-A auditoria encontrou Node e Java, mas não encontrou `adb`, Gradle ou projeto Expo/Capacitor no repositório. Portanto, a configuração de código pode ser preparada agora, mas a instalação em aparelho e a geração final assinada do APK exigirão a toolchain Android disponível ou um ambiente de build equivalente.
+## Pacote e atualizações
 
-## Referências técnicas
+O pacote atual é `v1.0.0`. O gerador `scripts/build-data-package.py` sanitiza o release seed, reconstrói índices e escreve o ZIP e o manifesto. O seed não pode conter `manager_careers`, `managers` ou `manager_selection_assignments` de uma carreira pré-existente.
 
-[1]: https://developer.android.com/tools — Android Developers, “Command-line tools”.
-[2]: https://developer.android.com/tools/sdkmanager — Android Developers, “sdkmanager”.
+Cada atualização deve receber uma nova versão, com novo ZIP, novo SHA-256 e novo manifesto. O app deve conservar a versão anterior até que a nova instalação seja concluída e validada.
 
-A documentação oficial confirma que o SDK é composto por pacotes instaláveis via `sdkmanager`, que o `platform-tools` fornece o `adb` e que plataformas/build-tools específicos podem ser instalados por caminhos como `platforms;android-36` e `build-tools;36.0.0` [1] [2].
+## Validação
 
-## Estratégia da engine
+A preparação de release deve executar:
 
-A auditoria do repositório encontrou **341 módulos Python** e um gateway de **3.038 linhas**, sem manifesto de dependências externas; os imports observados são majoritariamente biblioteca padrão, SQLite e módulos internos. Copiar os `.py` para o APK não os torna executáveis pelo WebView. Há duas estratégias tecnicamente válidas: portar os casos de uso gradualmente para TypeScript/SQLite, ou incorporar um runtime Python por bridge nativa Android. A implementação atual segue o port gradual, porque preserva o GameState como fonte única e evita introduzir um runtime nativo adicional antes de medir o escopo de cada contrato.
+```bash
+pnpm check
+pnpm test
+pnpm build
+pnpm android:sync
+cd android
+./gradlew assembleRelease
+cd ..
+python3 scripts/validate-android-apk.py android/app/build/outputs/apk/release/app-release.apk
+```
 
-A documentação do Chaquopy 17.0 confirma que o plugin pode ser aplicado ao módulo Android, exige `minSdk` 24, configura o Python em `src/main/python` e requer `abiFilters`; também informa que cada ABI acrescenta alguns megabytes ao aplicativo e que o Python precisa estar disponível na máquina de build [3]. Como a engine atual possui 341 módulos e um gateway de 3.038 linhas, essa opção é viável em princípio, mas aumentará o tamanho e a complexidade do APK.
+A validação do APK prova que os dados pesados não estão embutidos e que o manifesto remoto está presente. A validação da carreira limpa exige também baixar o pacote remoto, instalar os dados e iniciar o app em uma instalação limpa. A inspeção estática do APK, sozinha, não prova a execução da primeira preparação.
 
-[3]: https://chaquo.com/chaquopy/doc/current/android.html — Chaquopy 17.0, “Gradle plugin”.
+## Limitações e histórico
+
+A auditoria antiga descrevia um banco-base empacotado e uma cópia automática de assets. Essa descrição não corresponde ao código atual. A implementação vigente é APK enxuto com download inicial obrigatório e funcionamento offline posterior.
+
+Relatórios históricos podem citar `/home/ubuntu/brasfoot_engine`, `data/state/game.db` ou um banco embutido. Esses valores devem ser preservados como evidência de época, mas não devem ser usados para configurar o aplicativo atual.
