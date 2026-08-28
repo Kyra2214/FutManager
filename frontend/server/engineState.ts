@@ -1,4 +1,5 @@
 import { createRequire } from "node:module";
+import { join, resolve } from "node:path";
 
 type SQLiteStatement = {
   all: (...parameters: unknown[]) => unknown[];
@@ -20,7 +21,8 @@ const { DatabaseSync } = runtimeRequire(["node", "sqlite"].join(":")) as {
   DatabaseSync: SQLiteDatabaseConstructor;
 };
 
-const DEFAULT_ENGINE_STATE_PATH = "/home/ubuntu/brasfoot_engine/data/state/game.db";
+const ENGINE_ROOT = process.env.FUTMANAGER_ENGINE_ROOT || resolve(import.meta.dirname, "../../engine");
+const DEFAULT_ENGINE_STATE_PATH = process.env.FUTMANAGER_ENGINE_STATE_PATH || join(ENGINE_ROOT, "data/state/game.db");
 const ENGINE_ASSET_URL_PREFIX = "/engine-assets/";
 
 type SQLiteRow = Record<string, unknown>;

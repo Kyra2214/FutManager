@@ -1,10 +1,11 @@
 import { execFileSync } from "node:child_process";
+import { join, resolve } from "node:path";
 
 import { getMatchesDashboard } from "./engineState";
 
-const ENGINE_ROOT = process.env.FUTMANAGER_ENGINE_ROOT || "/home/ubuntu/brasfoot_engine";
-const GATEWAY_PATH = `${ENGINE_ROOT}/scripts/career_gateway.py`;
-const DEFAULT_ENGINE_STATE_PATH = `${ENGINE_ROOT}/data/state/game.db`;
+const ENGINE_ROOT = process.env.FUTMANAGER_ENGINE_ROOT || resolve(import.meta.dirname, "../../engine");
+const GATEWAY_PATH = join(ENGINE_ROOT, "scripts/career_gateway.py");
+const DEFAULT_ENGINE_STATE_PATH = join(ENGINE_ROOT, "data/state/game.db");
 
 export type CareerTargetType = "club" | "selection";
 
@@ -161,8 +162,10 @@ export function getClubEconomySummary(databasePath?: string) {
   return staffMarketAction<GatewayResult & { cash: number; budget: number; payroll: number; expense_accumulated: number; weekly_player_payroll: number; weekly_staff_payroll: number; weekly_department_maintenance: number; weekly_total: number; initial_cash: number; team_power: number; country_factor: number; base_level: number }>("economy_summary", {}, databasePath);
 }
 
-export function listAvailableStaff(role?: string, minLevel?: number, maxLevel?: number, databasePath?: string) {
-  return staffMarketAction<GatewayResult & { items: Array<{ staff_id: number; name: string; role: string; age: number; experience: number; reputation: number; level: number; potential: number; specialization: string | null; weekly_salary: number; cost_benefit: number }> }>("staff_catalog", { role, min_level: minLevel, max_level: maxLevel }, databasePath).items;
+export function listAvailableStaff(role?: string, minLevel?: number | string, maxLevel?: number, databasePath?: string) {
+  const effectiveMinLevel = typeof minLevel === "number" ? minLevel : undefined;
+  const effectiveDatabasePath = typeof minLevel === "string" ? minLevel : databasePath;
+  return staffMarketAction<GatewayResult & { items: Array<{ staff_id: number; name: string; role: string; age: number; experience: number; reputation: number; level: number; potential: number; specialization: string | null; weekly_salary: number; cost_benefit: number }> }>("staff_catalog", { role, min_level: effectiveMinLevel, max_level: maxLevel }, effectiveDatabasePath).items;
 }
 
 export function hireAvailableStaff(staffId: number, databasePath?: string) {

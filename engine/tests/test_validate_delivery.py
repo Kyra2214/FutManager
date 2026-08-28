@@ -14,9 +14,11 @@ STATE = ROOT / "data" / "state" / "game.db"
 
 def test_base_manifest_accepts_canonical_copy_and_rejects_tampering(tmp_path: Path):
     base_copy = tmp_path / "game.db"
-    manifest = base_copy.with_suffix(".db.sha256")
+    archive_copy = tmp_path / "game.db.gz"
+    manifest = tmp_path / "game.db.sha256"
     shutil.copy2(BASE, base_copy)
-    manifest.write_text(hashlib.sha256(base_copy.read_bytes()).hexdigest() + "\n", encoding="utf-8")
+    shutil.copy2(BASE.with_suffix(BASE.suffix + ".gz"), archive_copy)
+    manifest.write_text(hashlib.sha256(archive_copy.read_bytes()).hexdigest() + "  game.db.gz\n", encoding="utf-8")
 
     accepted = subprocess.run(
         [sys.executable, str(VALIDATOR), "--base", str(base_copy), "--state", str(STATE)],
@@ -26,7 +28,7 @@ def test_base_manifest_accepts_canonical_copy_and_rejects_tampering(tmp_path: Pa
     )
     assert accepted.returncode == 0, accepted.stderr
 
-    with base_copy.open("ab") as handle:
+    with archive_copy.open("ab") as handle:
         handle.write(b"\x01")
     rejected = subprocess.run(
         [sys.executable, str(VALIDATOR), "--base", str(base_copy), "--state", str(STATE)],

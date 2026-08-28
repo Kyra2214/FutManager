@@ -16,7 +16,9 @@ STATE = ROOT / "data/state/game.db"
 def test_original_and_state_copy_exist():
     assert DB.exists()
     assert STATE.exists()
-    assert hashlib.sha256(DB.read_bytes()).hexdigest() == (ROOT / "data/database/game.db.sha256").read_text().strip()
+    archive = DB.with_suffix(DB.suffix + ".gz")
+    expected = (ROOT / "data/database/game.db.sha256").read_text().split()[0]
+    assert hashlib.sha256(archive.read_bytes()).hexdigest() == expected
     assert STATE.stat().st_size >= DB.stat().st_size
 
 

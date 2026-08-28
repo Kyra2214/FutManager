@@ -65,4 +65,6 @@ def test_transaction_rolls_back():
 
 
 def test_base_hash_unchanged():
-    assert hashlib.sha256(BASE.read_bytes()).hexdigest()==Path(ROOT/'data/database/game.db.sha256').read_text().strip()
+    archive = BASE.with_suffix(BASE.suffix + '.gz')
+    expected = Path(ROOT/'data/database/game.db.sha256').read_text().split()[0]
+    assert hashlib.sha256(archive.read_bytes()).hexdigest() == expected

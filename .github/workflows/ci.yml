@@ -33,6 +33,10 @@ jobs:
           else
             cp engine/data/database/game.db engine/data/state/game.db
           fi
+      - name: Validate release seed and archive checksums
+        run: |
+          python engine/scripts/release_seed.py validate engine/data/state/game.db.gz
+          python engine/scripts/validate_delivery.py
       - name: Run backend and contract tests
         env:
           PYTHONPATH: .:engine:engine/tests
@@ -56,11 +60,15 @@ jobs:
           python engine/scripts/validate_delivery.py
           python engine/scripts/validate_service_state_guards.py
           python engine/scripts/audit_roadmap_3000.py > docs/audit/roadmap_3000_ci.json
+      - name: Generate reconciled audit report
+        run: python engine/scripts/generate_audit_report.py
       - name: Upload audit artifacts
         uses: actions/upload-artifact@v4
         with:
           name: futmanager-audit-reports
-          path: docs/audit/*.json
+          path: |
+            docs/audit/*.json
+            docs/audit/relatorio_pos_roadmap.md
 
   frontend:
     name: Frontend
