@@ -11,14 +11,13 @@ STATE = ROOT / 'data' / 'state' / 'game.db'
 GATEWAY = ROOT / 'scripts' / 'career_gateway.py'
 
 
-def invoke_action(state: Path, action: str, payload: dict, gate: Path | None = None) -> dict:
+def invoke(state: Path, gate: Path, priority: str, front: int | None = None) -> dict:
     environment = os.environ.copy()
     environment['PYTHONPATH'] = str(ROOT)
-    if gate is not None:
-        environment['FUTMANAGER_ROADMAP_GATE_PATH'] = str(gate)
+    environment['FUTMANAGER_ROADMAP_GATE_PATH'] = str(gate)
     result = subprocess.run(
-        [sys.executable, str(GATEWAY), action, '--database', str(state)],
-        input=json.dumps(payload),
+        [sys.executable, str(GATEWAY), 'roadmap_guard', '--database', str(state)],
+        input=json.dumps({'priority': priority, **({'front': front} if front is not None else {})}),
         capture_output=True,
         text=True,
         cwd=ROOT,
@@ -26,10 +25,6 @@ def invoke_action(state: Path, action: str, payload: dict, gate: Path | None = N
         check=True,
     )
     return json.loads(result.stdout)
-
-
-def invoke(state: Path, gate: Path, priority: str, front: int | None = None) -> dict:
-    return invoke_action(state, 'roadmap_guard', {'priority': priority, **({'front': front} if front is not None else {})}, gate)
 
 
 def test_gateway_serializes_immutable_base_domain_error():
@@ -97,11 +92,15 @@ def test_p2_is_blocked_and_released_only_after_both_gates_open(tmp_path: Path):
 def test_gateway_serializes_mutable_service_domain_error(tmp_path: Path):
     state = tmp_path / 'state.db'
     shutil.copy2(STATE, state)
-    started = invoke_action(
-        state,
-        'start',
-        {'manager_name': 'Teste', 'nationality': 'BR', 'age': 30, 'career_name': 'Validação', 'target_type': 'club', 'target_id': 3280},
+    environment = os.environ.copy()
+    environment['PYTHONPATH'] = str(ROOT)
+    result = subprocess.run(
+        [sys.executable, str(GATEWAY), 'ticket_price', '--database', str(state)],
+        input=json.dumps({'club_id': 3280, 'base_price': 0}),
+        capture_output=True,
+        text=True,
+        cwd=ROOT,
+        env=environment,
+        check=True,
     )
-    assert started['ok'] is True
-    result = invoke_action(state, 'ticket_price', {'club_id': 3280, 'base_price': 0})
-    assert result == {'ok': False, 'error': 'INVALID_TICKET_PRICE'}
+    assert json.loads(result.stdout) == {'ok': False, 'error': 'INVALID_TICKET_PRICE'}

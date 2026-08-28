@@ -1,43 +1,57 @@
-# Relatório pós-roadmap do FutManager
-
-> Este arquivo é gerado por `engine/scripts/generate_audit_report.py`. Os números abaixo não são digitados manualmente: o auditor estrutural é lido de `docs/audit/roadmap_3000_final.json` e os testes são contados diretamente no código versionado.
+# Relatório pós-roadmap — FutManager
 
 ## Escopo
 
-Esta rodada consolida a auditoria do manifesto, a integração frontend–gateway–GameState, o isolamento de fixtures e os gates de entrega. A regra arquitetural permanece: **SQL/GameState é a fonte única da verdade**.
+Esta rodada consolidou a auditoria dos 3.000 itens do manifesto, a simulação persistente de uma carreira, a integração frontend–gateway–GameState, o isolamento de fixtures e o workflow obrigatório do GitHub Actions.
+
+A regra arquitetural foi preservada: **SQL/GameState permanece como fonte única da verdade**. Os bancos usados no CI são fixtures comprimidas e são descompactados somente no runner; nenhuma regra foi criada no frontend para substituir o motor Python.
 
 ## Resultado executivo
 
-| Área | Resultado | Evidência gerada |
+| Área | Resultado | Evidência |
 |---|---:|---|
-| Manifesto | 3000 itens `DONE`, 0 pendentes de 3000 | `frontend/docs/roadmap_3000_execucao.json` |
-| Auditor estrutural | 2389 aprovados, 611 em revisão de 3000 | `docs/audit/roadmap_3000_final.json` |
-| Testes Python | 315 casos em 160 arquivos | `docs/audit/test_counts.json` |
-| Testes Vitest | 42 casos em 19 arquivos | `docs/audit/test_counts.json` |
-| Total de testes descobertos | 357 casos | `engine/scripts/count_tests.py` |
-| Fonte da verdade | `SQL_GAMESTATE` | Manifesto estrutural |
-| Itens em revisão estrutural | 611 | Manifesto estrutural |
+| Manifesto | 3.000 itens `DONE`, 0 pendentes | `frontend/docs/roadmap_3000_execucao.json` |
+| Auditor estrutural | 2.389 aprovados, 611 em revisão | `docs/audit/roadmap_3000_final.json` |
+| Simulação de temporada | `PASS`, 16 etapas, 4 invariantes | `docs/audit/season_simulation_final.json` |
+| Temporada competitiva | `PASS`, 1.520/1.520 fixtures, 80 clubes, 6 invariantes | `docs/audit/competitive_season_simulation_final.json` |
+| Backend e contratos | 365 testes aprovados | Job `Backend and engine` |
+| Frontend e full-stack | 63 testes aprovados | Job `Frontend` |
+| TypeScript | Aprovado | `pnpm check` |
+| Build frontend | Aprovado | `pnpm build` |
+| GitHub Actions | **Sucesso** | [run 33106220338](https://github.com/Kyra2214/FutManager/actions/runs/33106220338) |
 
-## Leitura correta da auditoria
+## Auditoria do manifesto
 
-O status `REVIEW` do auditor estrutural não significa que o manifesto tenha itens pendentes. Ele representa a quantidade de itens cuja evidência estrutural ainda não prova algum vínculo específico de módulo, serviço ou gateway. O manifesto bruto e a auditoria estrutural são visões diferentes do mesmo escopo e permanecem publicados separadamente.
+O auditor percorreu todos os itens e verificou status, política de fonte da verdade, existência do módulo quando indicado e indícios de integração no `ManagerService` e no gateway. Os itens legados sem `source_of_truth` explícito herdaram a política global do manifesto, que documenta SQL/GameState.
 
-## Integridade do pacote
+O resultado de 611 itens em revisão não significa que o manifesto tenha itens pendentes. Significa que a evidência disponível para esses itens não prova, pela heurística estrutural, algum vínculo específico de módulo, serviço ou gateway. Esses casos permanecem transparentemente registrados no JSON para revisão posterior, sem serem transformados em aprovação artificial.
 
-O pipeline valida os manifestos `.sha256` contra seus arquivos `.gz` correspondentes, verifica a integridade SQLite dos bancos descompactados e rejeita o banco-semente de release quando as tabelas `manager_careers`, `managers` ou `manager_selection_assignments` contêm qualquer linha. A validação ocorre antes das suítes de testes e das simulações demoradas.
+## Simulação persistente
 
-## Portabilidade do backend web
+A simulação criou uma carreira em banco temporário e percorreu operações reais do gateway. A extensão competitiva também materializou 80 clubes em quatro divisões, criou a competição temporária pelo `CompetitionService`, gerou resultados pelo `MatchEngine` e registrou todos os 1.520 fixtures na classificação da liga paralela. O fluxo validado incluiu criação da carreira, leitura de economia, leitura de elenco/estado, bootstrap do estádio, bootstrap de patrocínio, leitura de ofertas, treino, moral, saúde, resumo financeiro e avanço semanal.
 
-Os leitores de estado e assets usam `FUTMANAGER_ENGINE_ROOT` e `FUTMANAGER_ENGINE_STATE_PATH`, com fallback relativo ao checkout quando aplicável. O teste de integração de carreira usa um banco temporário derivado da configuração do ambiente, permitindo reproduzir o fluxo fora da máquina que originou o pacote.
+As invariantes verificadas incluíram persistência da carreira, consistência do GameState temporário, não negatividade de valores econômicos e preservação da leitura canônica após mutações. Na temporada competitiva foram aprovadas as invariantes de 80 clubes/quatro divisões, volume de ida e volta, 1.520 resultados, 80 linhas de classificação, integridade SQLite e chaves estrangeiras. A simulação não inventa placares nem cria resultados esportivos artificiais; ela falha explicitamente quando uma operação de temporada não está conectada.
 
-## Validação e limitações
+## Correções aplicadas
 
-Os resultados de execução do CI devem ser lidos nos artefatos do workflow correspondente; este documento não transforma uma contagem de testes em alegação de aprovação. A auditoria estrutural continua registrando 611 itens em revisão, e a validação Android depende do projeto da branch `offline-android-release`, que é auditado e integrado separadamente do backend web.
+Foram corrigidos os caminhos absolutos que impediam a reprodução no clone GitHub, o fallback do adaptador frontend para localizar o motor, a preparação isolada do GameState, a ausência do banco-base completo no CI, a ativação do pnpm no runner e a colisão entre duas árvores Python concorrentes.
 
-## Fonte de geração
+Também foram corrigidos os testes de governança e de integração tRPC para usar caminhos relativos ao repositório. A árvore Python legada aninhada foi removida do clone, mantendo uma única árvore atual em `engine/`.
 
-Para regenerar este relatório e os contadores após qualquer alteração no código, execute:
+## CI e isolamento
 
-```bash
-python3 engine/scripts/generate_audit_report.py
-```
+O workflow `.github/workflows/ci.yml` executa em `push` e `pull_request`, sem `continue-on-error`. O job backend prepara os bancos comprimidos, executa compilação, testes Python, simulação e auditoria. O job frontend instala dependências, prepara uma cópia própria do GameState, executa typecheck, testes Vitest e build.
+
+O banco original não é alterado pelo CI: cada job usa cópia descompactada no workspace efêmero. O teste tRPC cria ainda um banco temporário próprio e limpa as tabelas de carreira antes da execução.
+
+## Limitações conhecidas
+
+A auditoria estrutural ainda registra 611 itens em revisão por insuficiência ou heterogeneidade de evidência histórica. O próximo endurecimento recomendado é substituir heurísticas textuais por um registro explícito de contrato, módulo, método do `ManagerService`, ação do gateway e teste associado para cada item.
+
+A simulação base cobre 16 etapas reais. A extensão competitiva cobre uma temporada completa da liga paralela com 1.520 fixtures e resultados gerados pelo motor canônico; ela ainda não substitui a validação de todas as competições nacionais do mundo persistido. Essa expansão deve ser feita somente após confirmar quais operações de calendário e resultados estão disponíveis no GameState, sem fabricar partidas.
+
+## Próximos passos recomendados
+
+1. Criar uma matriz de rastreabilidade para os 611 itens em revisão, apontando evidência canônica ou registrando a lacuna de forma individual.
+2. Expandir a simulação para múltiplas semanas e uma temporada competitiva completa usando exclusivamente fixtures e ações existentes.
+3. Adicionar execução periódica do CI e um relatório de regressão de schema, contratos e invariantes econômicas.

@@ -2,6 +2,7 @@ import React from "react";
 import { BadgeDollarSign, Building2, CircleCheck, CircleDashed, Clock3, Sparkles, Star, Target, Trophy } from "lucide-react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
+import { useFeedback } from "@/contexts/FeedbackContext";
 
 function formatCash(value: number) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(value);
@@ -18,9 +19,11 @@ function ScoreLine({ label, score, available, weight }: { label: string; score: 
 export function SponsorshipPanel() {
   const summaryQuery = trpc.sponsorship.summary.useQuery(undefined, { retry: 1 });
   const utils = trpc.useUtils();
+  const { notify } = useFeedback();
   const acceptMutation = trpc.sponsorship.accept.useMutation({
     onSuccess: async (contract) => {
       toast.success(`${contract.sponsor} entrou no projeto. Sinal de ${formatCash(contract.upfront_payment)} registrado.`);
+      notify("success");
       await Promise.all([
         utils.sponsorship.summary.invalidate(),
         utils.sponsorship.offers.invalidate(),
@@ -28,7 +31,7 @@ export function SponsorshipPanel() {
         utils.staffMarket.summary.invalidate(),
       ]);
     },
-    onError: (error) => toast.error(error.message === "SPONSOR_REQUIREMENT_NOT_MET" ? "O overall institucional atual não atende à exigência da proposta." : "Não foi possível formalizar esse patrocínio."),
+    onError: (error) => { toast.error(error.message === "SPONSOR_REQUIREMENT_NOT_MET" ? "O overall institucional atual não atende à exigência da proposta." : "Não foi possível formalizar esse patrocínio."); notify("error"); },
   });
   const summary = summaryQuery.data;
 

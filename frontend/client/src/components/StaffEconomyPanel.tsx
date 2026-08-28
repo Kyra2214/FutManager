@@ -2,6 +2,10 @@ import React, { useMemo, useState } from "react";
 import { ArrowUpRight, BriefcaseBusiness, Building2, CircleDollarSign, HeartPulse, UsersRound } from "lucide-react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
+import { StatBar } from "@/components/StatBar";
+import { CtFloorPlan } from "@/components/CtFloorPlan";
+import { EmptyState } from "@/components/EmptyState";
+import { useFeedback } from "@/contexts/FeedbackContext";
 
 type Mode = "market" | "ct";
 
@@ -25,6 +29,7 @@ function roleLabel(role: string) {
 
 export function StaffEconomyPanel({ mode, onNavigateToMarket }: { mode: Mode; onNavigateToMarket: () => void }) {
   const utils = trpc.useUtils();
+  const { notify } = useFeedback();
   const [role, setRole] = useState<(typeof roles)[number][0]>("todos");
   const [minimumLevel, setMinimumLevel] = useState<number | undefined>(undefined);
   const [activeConstruction, setActiveConstruction] = useState<{ department: string; label: string; target_level: number; completion_at: string; duration_weeks: number } | null>(null);
@@ -40,23 +45,25 @@ export function StaffEconomyPanel({ mode, onNavigateToMarket }: { mode: Mode; on
   const hireMutation = trpc.staffMarket.hire.useMutation({
     onSuccess: (result) => {
       toast.success(`${result.name} contratado(a) por ${cash(result.weekly_salary)} por semana.`);
+      notify("success");
       void utils.staffMarket.summary.invalidate();
       void utils.staffMarket.catalog.invalidate();
       void utils.staffMarket.departmentOffers.invalidate();
       void utils.club.workspace.invalidate();
     },
-    onError: (error) => toast.error(error.message === "STAFF_UNAVAILABLE" ? "Esse profissional não está mais disponível." : "Não foi possível concluir a contratação."),
+    onError: (error) => { toast.error(error.message === "STAFF_UNAVAILABLE" ? "Esse profissional não está mais disponível." : "Não foi possível concluir a contratação."); notify("error"); },
   });
   const departmentMutation = trpc.staffMarket.upgradeDepartment.useMutation({
     onSuccess: (result) => {
       setActiveConstruction({ department: result.department, label: result.label, target_level: result.target_level, completion_at: result.completion_at, duration_weeks: result.duration_weeks });
       toast.success(`${result.label} entrou em obras. Conclusão prevista para ${new Date(`${result.completion_at}T12:00:00`).toLocaleDateString("pt-BR")}.`);
+      notify("success");
       void utils.staffMarket.summary.invalidate();
       void utils.staffMarket.catalog.invalidate();
       void utils.staffMarket.departmentOffers.invalidate();
       void utils.club.workspace.invalidate();
     },
-    onError: (error) => toast.error(error.message === "INSUFFICIENT_CASH" ? "O caixa não cobre esta evolução." : error.message === "DEPARTMENT_MAX_LEVEL" ? "Este departamento já está no nível máximo." : error.message.includes("DEPARTMENT_CONSTRUCTION_IN_PROGRESS") ? "Este departamento já está em obras." : "Não foi possível evoluir o departamento."),
+    onError: (error) => { toast.error(error.message === "INSUFFICIENT_CASH" ? "O caixa não cobre esta evolução." : error.message === "DEPARTMENT_MAX_LEVEL" ? "Este departamento já está no nível máximo." : error.message.includes("DEPARTMENT_CONSTRUCTION_IN_PROGRESS") ? "Este departamento já está em obras." : "Não foi possível evoluir o departamento."); notify("error"); },
   });
   const economy = economyQuery.data;
   const loading = economyQuery.isLoading;
@@ -98,7 +105,11 @@ export function StaffEconomyPanel({ mode, onNavigateToMarket }: { mode: Mode; on
               <div className="staff-card-top"><span>{roleLabel(staff.role).toUpperCase()}</span><b>NÍVEL {staff.level}</b></div>
               <h3>{staff.name}</h3>
               <p>{staff.specialization ?? "Especialização não informada"}</p>
-              <dl><div><dt>REPUTAÇÃO</dt><dd>{staff.reputation}</dd></div><div><dt>POTENCIAL</dt><dd>{staff.potential}</dd></div><div><dt>CUSTO-BENEFÍCIO</dt><dd>{(staff.cost_benefit ?? 0).toFixed(4)}</dd></div></dl>
+              <div className="staff-card-stats">
+                <StatBar label="REPUTAÇÃO" value={staff.reputation} max={100} compact />
+                <StatBar label="POTENCIAL" value={staff.potential} max={99} compact />
+                <div className="stat-bar stat-bar-compact stat-bar-static"><div className="stat-bar-head"><span>CUSTO-BENEFÍCIO</span><b>{(staff.cost_benefit ?? 0).toFixed(4)}</b></div></div>
+              </div>
               <div className="staff-card-action"><div><span>SALÁRIO SEMANAL</span><strong>{cash(staff.weekly_salary)}</strong></div><button type="button" onClick={() => { if (window.confirm(`Contratar ${staff.name} por ${cash(staff.weekly_salary)} por semana?`)) hireMutation.mutate({ staffId: staff.staff_id }); }} disabled={hireMutation.isPending}>{hireMutation.isPending ? "Contratando…" : "Contratar"}<ArrowUpRight size={15} /></button></div>
             </article>)}
           </div> : <div className="economy-empty">Não há profissional disponível nessa função.</div>}
@@ -107,9 +118,9 @@ export function StaffEconomyPanel({ mode, onNavigateToMarket }: { mode: Mode; on
         <div className="department-command-body">
           <div className="ct-state-summary">
             <div className="market-command-toolbar"><div><span className="eyebrow">COMISSÃO ATIVA / ESTADO OFICIAL</span><h3>Quem sustenta o clube</h3></div><span className="economy-status"><i /> {workspaceQuery.isLoading ? "LENDO" : workspaceQuery.data?.staff?.members?.length ? `${workspaceQuery.data.staff.members.length} ATIVO(S)` : "SEM CONTRATOS"}</span></div>
-            {workspaceQuery.isLoading ? <div className="economy-empty">Consultando comissão e departamentos persistidos…</div> : workspaceQuery.error ? <div className="economy-empty">A comissão técnica não pôde ser consultada.</div> : <><div className="ct-state-kpis"><div><span>PROFISSIONAIS</span><strong>{workspaceQuery.data?.staff?.members?.length ?? 0}</strong></div><div><span>MÉDIA DE NÍVEL</span><strong>{workspaceQuery.data?.staff?.averageLevel?.toFixed(1) ?? "0.0"}</strong></div><div><span>DECISÕES REGISTRADAS</span><strong>{workspaceQuery.data?.staff?.history?.length ?? 0}</strong></div></div><div className="ct-state-grid"><div><span className="eyebrow">EQUIPE ATIVA</span>{workspaceQuery.data?.staff?.members?.length ? workspaceQuery.data?.staff?.members?.map((member) => <div className="ct-member-row" key={member.staffId}><div><b>{member.name}</b><small>{roleLabel(member.role)} · {member.specialization ?? "especialização não informada"}</small></div><strong>NÍVEL {member.level}</strong></div>) : <p className="ct-state-empty">Nenhum profissional contratado. Consulte o Mercado para contratar.</p>}</div><div><span className="eyebrow">DEPARTAMENTOS ATUAIS</span>{workspaceQuery.data?.staff?.departments?.length ? workspaceQuery.data?.staff?.departments?.map((department) => <div className="ct-member-row" key={department.department}><div><b>{department.department.replaceAll("_", " ")}</b><small>capacidade {department.capacity} · eficiência {(department.efficiency * 100).toFixed(0)}%</small></div><strong>NÍVEL {department.level}</strong></div>) : <p className="ct-state-empty">Nenhum departamento persistido. A primeira evolução pode ser feita abaixo.</p>}</div></div></>}
+            {workspaceQuery.isLoading ? <div className="economy-empty">Consultando comissão e departamentos persistidos…</div> : workspaceQuery.error ? <div className="economy-empty">A comissão técnica não pôde ser consultada.</div> : <><div className="ct-state-kpis"><div><span>PROFISSIONAIS</span><strong>{workspaceQuery.data?.staff?.members?.length ?? 0}</strong></div><div><span>MÉDIA DE NÍVEL</span><strong>{workspaceQuery.data?.staff?.averageLevel?.toFixed(1) ?? "0.0"}</strong></div><div><span>DECISÕES REGISTRADAS</span><strong>{workspaceQuery.data?.staff?.history?.length ?? 0}</strong></div></div><div className="ct-state-grid"><div><span className="eyebrow">EQUIPE ATIVA</span>{workspaceQuery.data?.staff?.members?.length ? workspaceQuery.data?.staff?.members?.map((member) => <div className="ct-member-row" key={member.staffId}><div><b>{member.name}</b><small>{roleLabel(member.role)} · {member.specialization ?? "especialização não informada"}</small></div><strong>NÍVEL {member.level}</strong></div>) : <EmptyState icon={UsersRound} title="Nenhum profissional contratado" description="A comissão técnica ainda não tem membros. Contrate no Mercado para preencher esta área." actionLabel="Ir para o Mercado" onAction={onNavigateToMarket} />}</div><div><span className="eyebrow">DEPARTAMENTOS ATUAIS</span>{workspaceQuery.data?.staff?.departments?.length ? <CtFloorPlan departments={workspaceQuery.data.staff.departments} /> : <EmptyState icon={Building2} title="Nenhum departamento persistido" description="A primeira evolução do CT pode ser feita logo abaixo, assim que houver caixa disponível." />}</div></div></>}
           </div>
-          {trainingDepartmentsQuery?.data?.length ? <div className="ct-training-readout"><div><span className="eyebrow">TREINAMENTO / INVENTÁRIO PERSISTIDO</span><h3>Estrutura que sustenta a evolução</h3></div><div className="ct-training-grid">{trainingDepartmentsQuery.data.map((department) => <div key={department.department}><b>{department.label}</b><small>Nível {department.level}/{department.max_level} · capacidade {department.capacity}</small><strong>{(department.efficiency * 100).toFixed(0)}% eficiência</strong></div>)}</div><p>{trainingDevelopmentQuery?.isLoading ? "Lendo evolução individual…" : `${trainingDevelopmentQuery?.data?.length ?? 0} atleta(s) disponíveis para um plano de desenvolvimento baseado no estado persistido.`}</p></div> : null}
+          {trainingDepartmentsQuery?.data?.length ? <div className="ct-training-readout"><div><span className="eyebrow">TREINAMENTO / INVENTÁRIO PERSISTIDO</span><h3>Estrutura que sustenta a evolução</h3></div><div className="ct-training-grid">{trainingDepartmentsQuery.data.map((department) => <div key={department.department}><b>{department.label}</b><small>Nível {department.level}/{department.max_level} · capacidade {department.capacity}</small><StatBar label="EFICIÊNCIA" value={Math.round(department.efficiency * 100)} max={100} suffix="%" compact /></div>)}</div><p>{trainingDevelopmentQuery?.isLoading ? "Lendo evolução individual…" : `${trainingDevelopmentQuery?.data?.length ?? 0} atleta(s) disponíveis para um plano de desenvolvimento baseado no estado persistido.`}</p></div> : null}
           <div className="ct-health-readout"><div><span className="eyebrow">DEPARTAMENTO MÉDICO / ESTADO OFICIAL</span><h3>{healthQuery?.isLoading ? "Consultando saúde…" : healthQuery?.data?.length ? `${healthQuery.data.length} lesão(ões) ativa(s)` : "Nenhuma lesão ativa registrada"}</h3></div>{healthQuery?.data?.length ? <div className="ct-health-list">{healthQuery.data.slice(0, 4).map((injury) => <div key={injury.injury_id}><b>{injury.player_name}</b><small>{injury.injury_type} · {injury.severity}</small><strong>{injury.estimated_days} dias estimados</strong></div>)}</div> : <p>O motor não registra lesões ativas para o clube controlado.</p>}</div>
           <div className="market-command-toolbar"><div><span className="eyebrow">DEPARTAMENTOS DO CT</span><h3>Comprar ou evoluir estrutura</h3></div><button type="button" className="economy-market-link" onClick={onNavigateToMarket}>Ver profissionais <ArrowUpRight size={15} /></button></div>
           {activeConstruction ? <div className="ct-construction-banner" role="status"><span className="eyebrow">OBRA EM ANDAMENTO</span><strong>{activeConstruction.label} · nível {activeConstruction.target_level}</strong><p>Prazo de {activeConstruction.duration_weeks} semana(s). Previsão de conclusão: {new Date(`${activeConstruction.completion_at}T12:00:00`).toLocaleDateString("pt-BR")}.</p></div> : null}

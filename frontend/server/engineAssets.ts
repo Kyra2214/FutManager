@@ -1,8 +1,7 @@
 import express, { type Express } from "express";
-import { join, resolve } from "node:path";
+import { resolve } from "node:path";
 
-const ENGINE_ROOT = process.env.FUTMANAGER_ENGINE_ROOT || resolve(import.meta.dirname, "../../engine");
-const ENGINE_ASSETS_ROOT = join(ENGINE_ROOT, "assets");
+const ENGINE_ASSETS_ROOT = "/home/ubuntu/brasfoot_engine/assets";
 
 export function registerEngineAssetFiles(app: Express) {
   app.use(
