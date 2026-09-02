@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { approveTransferOffer, bootstrapClubEconomy, createTrainingPlan, createTransferLoan, createTransferOffer, getAiDiagnosis, getAiHistory, getAiLineup, getAiTactic, getClubEconomySummary, getFormRecommendations, getMoraleSummary, getStaffContract, getWeeklyLoad, hireAvailableStaff, listAvailableStaff, listDepartmentOffers, listHealth, listHealthAlerts, listTrainingAlerts, listTrainingBudget, listTrainingDepartments, listTrainingDevelopment, listTransferablePlayers, recoverPlayers, registerInjury, registerSuspension, replaceStaff, runAiWeekly, terminateStaff, upgradeClubDepartment } from "../careerGateway";
+import { approveTransferOffer, bootstrapClubEconomy, createTrainingPlan, createTransferLoan, createTransferOffer, getAiDiagnosis, getAiHistory, getAiLineup, getAiTactic, getClubEconomySummary, getFormRecommendations, getMoraleSummary, getStaffContract, getWeeklyLoad, hireAvailableStaff, listAvailableStaff, listDepartmentOffers, listHealth, listHealthAlerts, listTrainingAlerts, listTrainingBudget, listTrainingDepartments, listTrainingDevelopment, listTransferablePlayers, recoverPlayers, registerInjury, registerSuspension, replaceStaff, terminateStaff, upgradeClubDepartment } from "../careerGateway";
+import { runAiWeeklyWithLogicalClock } from "../clubAiRuntime";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 
 function toTrpcError(error: unknown) {
@@ -41,7 +42,7 @@ export const staffMarketRouter = router({
   trainingPlan: protectedProcedure.input(z.object({ season: z.number().int().positive(), week: z.number().int().min(1).max(53), planType: z.enum(["GENERAL", "TECHNICAL", "TACTICAL", "PHYSICAL", "SET_PIECES", "REST"]), load: z.number().int().min(0).max(100) })).mutation(({ input }) => { try { return createTrainingPlan(input.season, input.week, input.planType, input.load); } catch (error) { throw toTrpcError(error); } }),
   aiDiagnosis: publicProcedure.query(() => { try { return getAiDiagnosis(); } catch (error) { throw toTrpcError(error); } }),
   aiHistory: publicProcedure.query(() => { try { return getAiHistory(); } catch (error) { throw toTrpcError(error); } }),
-  aiWeekly: protectedProcedure.input(z.object({ seed: z.number().int().optional() }).optional()).mutation(({ input }) => { try { return runAiWeekly(input?.seed); } catch (error) { throw toTrpcError(error); } }),
+  aiWeekly: protectedProcedure.input(z.object({ seed: z.number().int().optional() }).optional()).mutation(({ input }) => { try { return runAiWeeklyWithLogicalClock(input?.seed); } catch (error) { throw toTrpcError(error); } }),
   aiLineup: protectedProcedure.input(z.object({ seed: z.number().int().optional() }).optional()).mutation(({ input }) => { try { return getAiLineup(input?.seed); } catch (error) { throw toTrpcError(error); } }),
   aiTactic: protectedProcedure.input(z.object({ seed: z.number().int().optional() }).optional()).mutation(({ input }) => { try { return getAiTactic(input?.seed); } catch (error) { throw toTrpcError(error); } }),
   transferables: publicProcedure.query(() => { try { return listTransferablePlayers(); } catch (error) { throw toTrpcError(error); } }),
