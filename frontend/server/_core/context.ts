@@ -1,7 +1,7 @@
 import type { CreateExpressContextOptions } from "@trpc/server/adapters/express";
 import type { User } from "../../drizzle/schema";
 import { sdk } from "./sdk";
-import { DEFAULT_SAVE_SLOT, SAVE_SLOT_COOKIE, resolveSaveDatabasePath, touchSaveSlot } from "../saveManager";
+import { DEFAULT_SAVE_SLOT, SAVE_SLOT_COOKIE, resolveSaveDatabasePath } from "../saveManager";
 
 export type TrpcContext = {
   req: CreateExpressContextOptions["req"];
@@ -44,7 +44,6 @@ export async function createContext(
   // selects the active database for the process. This keeps all existing engine
   // services on the same isolated SQLite file without duplicating every API.
   process.env.FUTMANAGER_ENGINE_STATE_PATH = databasePath;
-  touchSaveSlot(saveSlot);
 
   return {
     req: opts.req,
