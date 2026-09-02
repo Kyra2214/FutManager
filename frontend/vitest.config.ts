@@ -13,6 +13,7 @@ export default defineConfig({
       "@": path.resolve(templateRoot, "client", "src"),
       "@shared": path.resolve(templateRoot, "shared"),
       "@assets": path.resolve(templateRoot, "attached_assets"),
+      "sqlite": "node:sqlite",
     },
   },
   test: {
