@@ -1,4 +1,5 @@
 import { getClubFinanceLedger, getClubWorkspaceDashboard, getPlayerContracts, getPlayerProfile, comparePlayerEvolution, previewContractRenewal } from "../engineState";
+import { getCurrentLogicalSeason } from "../careerRead";
 import { approvePlayerContractRenewal, getClubFinanceAlert, getClubFinanceAudit } from "../careerGateway";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { z } from "zod";
@@ -11,7 +12,7 @@ export const clubRouter = router({
   playerProfile: publicProcedure.input(z.object({ playerId: z.number().int().positive(), season: z.number().int().positive().optional() })).query(({ input }) => getPlayerProfile(input.playerId, input.season)),
   contracts: publicProcedure.input(z.object({ clubId: z.number().int().positive(), season: z.number().int().positive().optional(), week: z.number().int().min(1).max(52).optional(), withinWeeks: z.number().int().min(0).max(52).optional() })).query(({ input }) => getPlayerContracts(input.clubId, input.season, input.week, input.withinWeeks)),
   finance: publicProcedure.query(() => getClubWorkspaceDashboard().finance),
-  financeHistory: publicProcedure.input(z.object({ season: z.number().int().min(1).optional() }).optional()).query(({ input }) => getClubFinanceAudit(input?.season ?? 2026)),
+  financeHistory: publicProcedure.input(z.object({ season: z.number().int().min(1).optional() }).optional()).query(({ input }) => getClubFinanceAudit(input?.season ?? getCurrentLogicalSeason())),
   financeAlert: publicProcedure.input(z.object({ thresholdWeeks: z.number().int().min(1).max(52).optional() }).optional()).query(({ input }) => getClubFinanceAlert(input?.thresholdWeeks ?? 4)),
   financeLedger: publicProcedure.input(z.object({ season: z.number().int().optional(), category: z.string().trim().min(1).optional() }).optional()).query(({ input }) => getClubFinanceLedger(input?.season, input?.category)),
 });
