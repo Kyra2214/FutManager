@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { advanceUntilControlledMatch, advanceWorldWeek, getCurrentCareer, getParallelLeaguePreview, listCareerTargets, listWorldCountries, startCareer } from "../careerGateway";
+import { listTeamCatalog } from "../teamCatalog";
 import { publicProcedure, router } from "../_core/trpc";
 
 function toTrpcError(error: unknown) {
@@ -30,6 +31,7 @@ export const careerRouter = router({
     .input(z.object({ targetType: z.enum(["club", "selection"]), search: z.string().max(120).default(""), limit: z.number().int().min(1).max(96).default(48) }))
     .query(({ input }) => {
       try {
+        if (input.targetType === "club") return listTeamCatalog(input.search.trim(), input.limit);
         return listCareerTargets(input.targetType, input.search.trim(), input.limit);
       } catch (error) {
         throw toTrpcError(error);
