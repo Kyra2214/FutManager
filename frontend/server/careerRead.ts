@@ -10,8 +10,24 @@ function tableExists(db: DatabaseSync, table: string) {
   return Boolean(db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?").get(table));
 }
 
+function openReadOnly(databasePath: string) {
+  return new DatabaseSync(databasePath, { readOnly: true });
+}
+
+export function getCurrentLogicalSeason(databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH) {
+  const db = openReadOnly(databasePath);
+  try {
+    if (!tableExists(db, "logical_clock")) return 2026;
+    const row = db.prepare("SELECT current_season FROM logical_clock WHERE clock_id=1").get() as { current_season?: number } | undefined;
+    const season = Number(row?.current_season);
+    return Number.isInteger(season) && season > 0 ? season : 2026;
+  } finally {
+    db.close();
+  }
+}
+
 export function getCurrentCareerReadOnly(databasePath = process.env.FUTMANAGER_ENGINE_STATE_PATH || DEFAULT_ENGINE_STATE_PATH) {
-  const db = new DatabaseSync(databasePath, { readOnly: true });
+  const db = openReadOnly(databasePath);
   try {
     if (!tableExists(db, "manager_careers")) return { ok: true, started: false };
 
