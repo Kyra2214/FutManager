@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { advanceUntilControlledMatch, advanceWorldWeek, getCurrentCareer, getParallelLeaguePreview, listCareerTargets, listWorldCountries, startCareer } from "../careerGateway";
+import { advanceUntilControlledMatch, advanceWorldWeek, getParallelLeaguePreview, listCareerTargets, listWorldCountries, startCareer } from "../careerGateway";
+import { getCurrentCareerReadOnly } from "../careerRead";
 import { listTeamCatalog } from "../teamCatalog";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 
@@ -12,7 +13,7 @@ function toTrpcError(error: unknown) {
 
 export const careerRouter = router({
   current: publicProcedure.query(() => {
-    try { return getCurrentCareer(); } catch (error) { throw toTrpcError(error); }
+    try { return getCurrentCareerReadOnly(); } catch (error) { throw toTrpcError(error); }
   }),
   worldCountries: publicProcedure
     .input(z.object({ search: z.string().max(120).default(""), limit: z.number().int().min(1).max(96).default(48) }))
