@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { acceptSponsorshipOffer, bootstrapClubSponsorships, getClubSponsorshipSummary, listSponsorshipOffers } from "../careerGateway";
-import { publicProcedure, router } from "../_core/trpc";
+import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 
 function toTrpcError(error: unknown) {
   const message = error instanceof Error ? error.message : "SPONSORSHIP_ACTION_FAILED";
@@ -10,7 +10,7 @@ function toTrpcError(error: unknown) {
 }
 
 export const sponsorshipRouter = router({
-  bootstrap: publicProcedure.mutation(() => {
+  bootstrap: protectedProcedure.mutation(() => {
     try { return bootstrapClubSponsorships(); } catch (error) { throw toTrpcError(error); }
   }),
   summary: publicProcedure.query(() => {
@@ -19,7 +19,7 @@ export const sponsorshipRouter = router({
   offers: publicProcedure.query(() => {
     try { return listSponsorshipOffers(); } catch (error) { throw toTrpcError(error); }
   }),
-  accept: publicProcedure.input(z.object({ offerId: z.number().int().positive() })).mutation(({ input }) => {
+  accept: protectedProcedure.input(z.object({ offerId: z.number().int().positive() })).mutation(({ input }) => {
     try { return acceptSponsorshipOffer(input.offerId); } catch (error) { throw toTrpcError(error); }
   }),
 });
