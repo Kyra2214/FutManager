@@ -21,7 +21,7 @@ jobs:
       - name: Install test tooling
         run: python -m pip install --upgrade pip pytest
       - name: Compile Python modules
-        run: python -m compileall -q engine scripts
+        run: python -m compileall -q engine frontend/scripts
       - name: Prepare temporary GameState
         run: |
           mkdir -p engine/data/state
