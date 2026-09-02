@@ -33,6 +33,7 @@ vi.mock("@/lib/trpc", () => ({
 import CareerStart from "../client/src/pages/CareerStart";
 
 const club = { entityId: 7, name: "Clube Exemplo", countryId: 29, mappingStatus: "COMPLETE", assetUrl: "/engine-assets/escudos/clubes/exemplo.png", assetKind: "crest" as const };
+const unlinkedClub = { entityId: 8, name: "Clube Sem Escudo", countryId: 29, mappingStatus: "NO_SOURCE_ASSET", assetUrl: null, assetKind: null };
 const selection = { entityId: 4, name: "Argentina", mappingStatus: "SOURCE_NOT_PROVIDED", assetUrl: "/engine-assets/selecoes/camisas/ARG.png", assetKind: "kit" as const };
 
 function Harness() {
@@ -67,6 +68,22 @@ describe("CareerStart UI", () => {
     expect(mocks.mutate).toHaveBeenCalledWith(expect.objectContaining({ managerName: "Ana", targetType: "club", targetId: 7, selectedCountryIds: [29] }));
     expect(mocks.invalidate).toHaveBeenCalled();
     expect(screen.getByText("Dashboard liberado")).toBeTruthy();
+  });
+
+  it("permite selecionar um clube mesmo sem escudo mapeado", async () => {
+    const user = userEvent.setup();
+    mocks.catalog.mockImplementation(({ targetType }: { targetType: "club" | "selection" }) => ({
+      data: targetType === "club" ? [unlinkedClub] : [selection],
+      isLoading: false,
+      isError: false,
+    }));
+    render(<CareerStart onStarted={vi.fn()} />);
+    await user.type(screen.getByPlaceholderText("Como o manager será chamado?"), "Ana");
+    await user.click(screen.getByRole("button", { name: /Brasil/i }));
+    await user.click(screen.getByRole("button", { name: /Clube Sem Escudo/i }));
+    await user.click(screen.getByRole("button", { name: /Começar carreira/i }));
+
+    expect(mocks.mutate).toHaveBeenCalledWith(expect.objectContaining({ targetType: "club", targetId: 8, selectedCountryIds: [29] }));
   });
 
   it("bloqueia o início quando nenhuma liga foi selecionada", async () => {
