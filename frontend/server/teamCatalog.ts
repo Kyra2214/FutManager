@@ -1,7 +1,9 @@
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { DatabaseSync } from "node:sqlite";
 
-const ENGINE_ROOT = process.env.FUTMANAGER_ENGINE_ROOT || resolve(process.cwd(), "../engine");
+const MODULE_ROOT = dirname(fileURLToPath(import.meta.url));
+const ENGINE_ROOT = process.env.FUTMANAGER_ENGINE_ROOT || resolve(MODULE_ROOT, "../../engine");
 const DEFAULT_ENGINE_STATE_PATH = resolve(ENGINE_ROOT, "data/state/game.db");
 
 export type TeamCatalogItem = {
@@ -16,7 +18,7 @@ export type TeamCatalogItem = {
 function normalize(value: string) {
   return value
     .normalize("NFD")
-    .replace(/[\\u0300-\\u036f]/g, "")
+    .replace(/[\u0300-\u036f]/g, "")
     .toLocaleLowerCase("pt-BR")
     .trim();
 }
@@ -32,6 +34,7 @@ export function listTeamCatalog(search = "", limit = 48, databasePath = process.
     const rows = db.prepare(`
       SELECT team.time_id AS entity_id,
              team.nome AS entity_name,
+             team.arquivo_origem AS source_file,
              team.pais_id AS country_id,
              COALESCE(link.mapping_status, 'NO_SOURCE_ASSET') AS mapping_status,
              crest.relative_path AS crest_path,
@@ -50,7 +53,7 @@ export function listTeamCatalog(search = "", limit = 48, databasePath = process.
       .filter((row) => {
         if (!needle) return true;
         return normalize(String(row.entity_name ?? "")).includes(needle)
-          || normalize(String(row.arquivo_origem ?? "")).includes(needle);
+          || normalize(String(row.source_file ?? "")).includes(needle);
       })
       .slice(0, Math.min(Math.max(limit, 1), 96))
       .map((row) => {
