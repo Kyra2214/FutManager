@@ -11,6 +11,13 @@ export type TrpcContext = {
   databasePath: string;
 };
 
+function readCookie(req: CreateExpressContextOptions["req"], name: string) {
+  const raw = req.headers.cookie || "";
+  const prefix = `${name}=`;
+  const item = raw.split(";").map(part => part.trim()).find(part => part.startsWith(prefix));
+  return item ? decodeURIComponent(item.slice(prefix.length)) : undefined;
+}
+
 export async function createContext(
   opts: CreateExpressContextOptions
 ): Promise<TrpcContext> {
@@ -23,9 +30,7 @@ export async function createContext(
     user = null;
   }
 
-  const requestedSlot = typeof opts.req.cookies?.[SAVE_SLOT_COOKIE] === "string"
-    ? opts.req.cookies[SAVE_SLOT_COOKIE]
-    : DEFAULT_SAVE_SLOT;
+  const requestedSlot = readCookie(opts.req, SAVE_SLOT_COOKIE) || DEFAULT_SAVE_SLOT;
   let saveSlot = DEFAULT_SAVE_SLOT;
   let databasePath = resolveSaveDatabasePath(DEFAULT_SAVE_SLOT);
   try {
