@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { copyFileSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
-import { createRequire } from "node:module";
+import { DatabaseSync } from "node:sqlite";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { appRouter } from "./routers";
@@ -11,10 +11,6 @@ const DEFAULT_ENGINE_STATE = join(process.cwd(), "../engine/data/state/game.db")
 const ENGINE_STATE_GZ = process.env.FUTMANAGER_ENGINE_STATE_GZ || join(process.cwd(), "../engine/data/state/game.db.gz");
 const folders: string[] = [];
 const originalStatePath = process.env.FUTMANAGER_ENGINE_STATE_PATH;
-type WritableDb = { close: () => void; exec: (sql: string) => void };
-type WritableDbConstructor = new (path: string) => WritableDb;
-const runtimeRequire = createRequire(import.meta.url);
-const { DatabaseSync } = runtimeRequire(["node", "sqlite"].join(":")) as { DatabaseSync: WritableDbConstructor };
 
 afterEach(() => {
   if (originalStatePath === undefined) delete process.env.FUTMANAGER_ENGINE_STATE_PATH;
