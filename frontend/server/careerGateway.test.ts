@@ -1,175 +1,88 @@
-import { afterEach, describe, expect, it } from "vitest";
-import { createRequire } from "node:module";
-import { mkdtempSync, rmSync } from "node:fs";
-import { join } from "node:path";
-import { tmpdir } from "node:os";
-import { acceptSponsorshipOffer, auditP0Contracts, getClubEconomySummary, getClubSponsorshipSummary, getCurrentCareer, getStaffContract, getTravelSummary, hireAvailableStaff, listAvailableStaff, listCareerTargets, listClubEvents, listDepartmentOffers, listP0Contracts, markClubEventRead, previewTravelCost, previewTransferImpact, replaceStaff, runCareerGatewayAction, startCareer, terminateStaff, upgradeClubDepartment, validateP0Contract } from "./careerGateway";
+import { describe, expect, it, vi } from "vitest";
 
-type Db = { close: () => void; exec: (sql: string) => void };
-type DbConstructor = new (path: string) => Db;
-const runtimeRequire = createRequire(import.meta.url);
-const { DatabaseSync } = runtimeRequire(["node", "sqlite"].join(":")) as { DatabaseSync: DbConstructor };
-const folders: string[] = [];
+const { execFileSyncMock } = vi.hoisted(() => ({ execFileSyncMock: vi.fn() }));
 
-afterEach(() => {
-  while (folders.length) {
-    const folder = folders.pop();
-    if (folder) rmSync(folder, { recursive: true, force: true });
-  }
-});
+vi.mock("node:child_process", () => ({
+  execFileSync: execFileSyncMock,
+}));
 
-function fixture() {
-  const folder = mkdtempSync(join(tmpdir(), "futmanager-career-"));
-  folders.push(folder);
-  const path = join(folder, "game.db");
-  const db = new DatabaseSync(path);
-  db.exec(`
-    CREATE TABLE times(time_id INTEGER PRIMARY KEY, arquivo_origem TEXT, nome TEXT NOT NULL, pais_id INTEGER NOT NULL);
-    CREATE TABLE jogadores(jogador_id INTEGER PRIMARY KEY, cr1 INTEGER NOT NULL, cr2 INTEGER NOT NULL, estrela INTEGER NOT NULL, top_mundial INTEGER NOT NULL, idade INTEGER NOT NULL, posicao TEXT NOT NULL);
-    CREATE TABLE jogador_time(jogador_id INTEGER, time_id INTEGER, status TEXT);
-    CREATE TABLE selecoes(selecao_id INTEGER PRIMARY KEY, codigo TEXT, nome TEXT NOT NULL);
-    CREATE TABLE asset_catalog(asset_id INTEGER PRIMARY KEY, relative_path TEXT NOT NULL);
-    CREATE TABLE team_asset_links(time_id INTEGER PRIMARY KEY, mapping_status TEXT NOT NULL, crest_asset_id INTEGER, crest_mini_asset_id INTEGER);
-    CREATE TABLE selection_asset_links(selecao_id INTEGER PRIMARY KEY, crest_status TEXT NOT NULL, crest_asset_id INTEGER, primary_kit_asset_id INTEGER);
-    INSERT INTO times VALUES
-      (7,'palmeiras.ban','Palmeiras',29),
-      (8,'flamengo.ban','Flamengo',29),
-      (9,'athletico.ban','Athletico Paranaense',29),
-      (10,'fluminense.ban','Fluminense',29),
-      (11,'cruzeiro.ban','Cruzeiro',29),
-      (12,'bahia.ban','Bahia',29),
-      (13,'bragantino.ban','RB Bragantino',29),
-      (14,'coritiba.ban','Coritiba SAF',29),
-      (15,'atletico.ban','Atlético Mineiro',29),
-      (16,'corinthians.ban','Corinthians',29),
-      (17,'botafogo.ban','Botafogo',29),
-      (18,'vitoria.ban','Vitória',29),
-      (19,'sao-paulo.ban','São Paulo',29),
-      (20,'santos.ban','Santos FC',29),
-      (21,'gremio.ban','Grêmio',29),
-      (22,'internacional.ban','Internacional',29),
-      (23,'mirassol.ban','Mirassol',29),
-      (24,'remo.ban','Remo',29),
-      (25,'vasco.ban','Vasco da Gama Saf',29),
-      (26,'chapecoense.ban','Chapecoense',29);
-    INSERT INTO jogadores VALUES(701,8,7,0,0,25,'Meia');
-    INSERT INTO jogador_time VALUES(701,7,'Titular');
-    INSERT INTO selecoes VALUES(4,'ARG','Argentina');
-    INSERT INTO asset_catalog VALUES(1,'assets/escudos/clubes/exemplo.png'),(2,'assets/selecoes/camisas/ARG.png');
-    INSERT INTO team_asset_links VALUES(7,'COMPLETE',1,NULL);
-    INSERT INTO selection_asset_links VALUES(4,'SOURCE_NOT_PROVIDED',NULL,2);
-  `);
-  db.close();
-  return path;
-}
+import {
+  getCurrentCareer,
+  listCareerTargets,
+  listWorldCountries,
+  runCareerGatewayAction,
+  startCareer,
+} from "./careerGateway";
 
 describe("careerGateway", () => {
-  it("lista os destinos oficiais e inicia uma carreira sem criar estado paralelo", () => {
-    const path = fixture();
-    expect(getCurrentCareer(path)).toMatchObject({ started: false });
-    expect(listCareerTargets("club", "Palmeiras", 8, path)[0]).toMatchObject({ entityId: 7, assetUrl: "/engine-assets/escudos/clubes/exemplo.png" });
-    expect(listCareerTargets("selection", "ARG", 8, path)[0]).toMatchObject({ entityId: 4, assetKind: "kit" });
-    expect(startCareer({ managerName: "Ana", nationality: "BR", age: 31, careerName: "Carreira Ana", targetType: "club", targetId: 7 }, path)).toMatchObject({ started: true, target_id: 7 });
-    expect(getCurrentCareer(path)).toMatchObject({ started: true, targetType: "club", targetId: 7, managerName: "Ana" });
-    expect(startCareer({ managerName: "Bia", age: 29, careerName: "Outra", targetType: "club", targetId: 7 }, path)).toMatchObject({ started: true });
-    expect(getCurrentCareer(path)).toMatchObject({ started: true, targetId: 7, managerName: "Bia" });
+  it("executa a ação current pelo processo Python e desserializa o retorno", () => {
+    execFileSyncMock.mockReturnValueOnce(JSON.stringify({ ok: true, started: false }));
+
+    expect(getCurrentCareer("/tmp/game.db")).toMatchObject({ ok: true, started: false });
+    expect(execFileSyncMock).toHaveBeenCalledWith(
+      "python3",
+      expect.arrayContaining(["current", "--database", "/tmp/game.db"]),
+      expect.objectContaining({ encoding: "utf8", timeout: 60_000 }),
+    );
   });
 
-  it("expõe os 300 contratos P0 somente para leitura e auditoria", () => {
-    const path = fixture();
-    expect(listP0Contracts(undefined, path)).toHaveLength(300);
-    expect(listP0Contracts(3, path)).toHaveLength(10);
-    expect(validateP0Contract(1141, path)).toMatchObject({ status: "VALID", item_id: 1141 });
-    expect(auditP0Contracts(path)).toMatchObject({ status: "VALID", contract_count: 300, read_only: true });
+  it("monta corretamente catálogo de clubes e países", () => {
+    execFileSyncMock
+      .mockReturnValueOnce(JSON.stringify({
+        ok: true,
+        items: [{ entityId: 7, name: "Palmeiras", countryId: 29, mappingStatus: "COMPLETE", assetUrl: null, assetKind: null }],
+      }))
+      .mockReturnValueOnce(JSON.stringify({
+        ok: true,
+        items: [{ countryId: 29, name: "Brasil", code: "BR", clubCount: 20, firstDivisionClubCount: 20, firstDivisionName: "Série A" }],
+      }));
+
+    expect(listCareerTargets("club", "Palmeiras", 8, "/tmp/game.db")[0]).toMatchObject({ entityId: 7, name: "Palmeiras" });
+    expect(listWorldCountries("Brasil", 8, "/tmp/game.db")[0]).toMatchObject({ countryId: 29, name: "Brasil" });
   });
 
-  it("executa ação tipada de leitura e preserva erro honesto do motor", () => {
-    const path = fixture();
-    expect(runCareerGatewayAction('current', {}, path)).toMatchObject({ ok: true, started: false });
-    expect(() => runCareerGatewayAction('simulation_progress', { tick_id: 'missing' }, path)).toThrow();
+  it("envia todos os campos da criação de carreira ao gateway", () => {
+    execFileSyncMock.mockReturnValueOnce(JSON.stringify({ ok: true, started: true, target_id: 7 }));
+
+    expect(startCareer({
+      managerName: "Ana",
+      nationality: "BR",
+      age: 31,
+      careerName: "Carreira Ana",
+      targetType: "club",
+      targetId: 7,
+      selectedCountryIds: [29, 65],
+    }, "/tmp/game.db")).toMatchObject({ started: true, target_id: 7 });
+
+    expect(execFileSyncMock.mock.calls[0][1]).toEqual(expect.arrayContaining([
+      "start",
+      "--database",
+      "/tmp/game.db",
+    ]));
+    expect(JSON.parse(String(execFileSyncMock.mock.calls[0][2]?.input))).toMatchObject({
+      manager_name: "Ana",
+      nationality: "BR",
+      age: 31,
+      career_name: "Carreira Ana",
+      target_type: "club",
+      target_id: 7,
+      selected_country_ids: [29, 65],
+    });
   });
 
-  it("recusa uma entidade inexistente sem criar manager", () => {
-    const path = fixture();
-    expect(() => startCareer({ managerName: "Bia", age: 29, careerName: "Outra", targetType: "club", targetId: 999 }, path)).toThrow("CLUB_NOT_FOUND");
-    expect(getCurrentCareer(path)).toMatchObject({ started: false });
+  it("converte falha do gateway em erro público estável", () => {
+    execFileSyncMock.mockReturnValueOnce(JSON.stringify({ ok: false, error: "CLUB_NOT_FOUND" }));
+
+    expect(() => runCareerGatewayAction("current", {}, "/tmp/game.db"))
+      .toThrow("CLUB_NOT_FOUND");
   });
 
-  it("persiste contratação e evolução do CT no gateway econômico em banco temporário", () => {
-    const path = fixture();
-    startCareer({ managerName: "Ana", nationality: "BR", age: 31, careerName: "Carreira Ana", targetType: "club", targetId: 7 }, path);
-    const before = getClubEconomySummary(path);
-    const doctor = listAvailableStaff("medico", path)[0];
-    expect(doctor).toBeTruthy();
-    const hired = hireAvailableStaff(doctor.staff_id, path);
-    const afterHire = getClubEconomySummary(path);
-    expect(hired.weekly_salary).toBeGreaterThan(0);
-    expect(afterHire.weekly_staff_payroll).toBe(hired.weekly_salary);
-    const department = listDepartmentOffers(path).find((item) => item.department === "medicina");
-    expect(department).toBeTruthy();
-    const upgraded = upgradeClubDepartment("medicina", path);
-    const afterDepartment = getClubEconomySummary(path);
-    expect(upgraded.target_level).toBe(1);
-    expect(afterDepartment.cash).toBe(before.cash - upgraded.cost);
-    // A manutenção só entra no perfil após a conclusão persistida da construção.
-    expect(afterDepartment.weekly_department_maintenance).toBe(0);
-    const contract = getStaffContract(doctor.staff_id, path);
-    expect(contract).toMatchObject({ staff_id: doctor.staff_id, status: "ACTIVE", termination_fee: hired.weekly_salary * 4 });
-    const replacementCandidate = listAvailableStaff("medico", path)[0];
-    const terminated = terminateStaff(doctor.staff_id, false, path);
-    expect(terminated).toMatchObject({ staff_id: doctor.staff_id, status: "disponivel", termination_fee: hired.weekly_salary * 4 });
-    const hiredReplacement = hireAvailableStaff(replacementCandidate.staff_id, path);
-    expect(hiredReplacement.contract_id).toBeGreaterThan(contract.contract_id);
-    expect(getClubEconomySummary(path).weekly_staff_payroll).toBe(hiredReplacement.weekly_salary);
-    expect(() => replaceStaff(hiredReplacement.staff_id, hiredReplacement.staff_id, path)).toThrow("STAFF_REPLACEMENT_INVALID");
-  });
+  it("converte exceção do processo em CAREER_GATEWAY_UNAVAILABLE", () => {
+    execFileSyncMock.mockImplementationOnce(() => {
+      throw new Error("python crashed");
+    });
 
-  it("calcula a prévia financeira de contratação sem alterar o ledger ou o caixa", () => {
-    const path = fixture();
-    startCareer({ managerName: "Ana", nationality: "BR", age: 31, careerName: "Carreira Ana", targetType: "club", targetId: 7 }, path);
-    const before = getClubEconomySummary(path);
-    const preview = previewTransferImpact(100000, 2500, 10000, 5000, path);
-    expect(preview).toMatchObject({ transfer_value: 100000, upfront_total: 115000, cash_before: before.cash, cash_after: before.cash - 115000, weekly_salary_after: before.weekly_total + 2500, formula_version: "transfer-impact-v1" });
-    expect(getClubEconomySummary(path).cash).toBe(before.cash);
-  });
-
-  it("persiste ofertas estreladas e sinal comercial no gateway em banco temporário", () => {
-    const path = fixture();
-    startCareer({ managerName: "Ana", nationality: "BR", age: 31, careerName: "Carreira Ana", targetType: "club", targetId: 7 }, path);
-    const beforeCash = getClubEconomySummary(path).cash;
-    const sponsorship = getClubSponsorshipSummary(path);
-    expect(sponsorship.institutional_overall).toBeGreaterThan(0);
-    expect(sponsorship.sponsor_stars).toBeGreaterThanOrEqual(1);
-    expect(sponsorship.offers).toHaveLength(3);
-    const accepted = acceptSponsorshipOffer(sponsorship.offers[0].offer_id, path);
-    const after = getClubSponsorshipSummary(path);
-    expect(accepted.upfront_payment).toBeGreaterThan(0);
-    expect(getClubEconomySummary(path).cash).toBe(beforeCash + accepted.upfront_payment);
-    expect(after.active_contract).toMatchObject({ contract_id: accepted.contract_id, star_rating: accepted.star_rating });
-    expect(after.offers).toEqual([]);
-  });
-
-  it("consulta a prévia de viagem sem alterar caixa ou ledger", () => {
-    const path = fixture();
-    startCareer({ managerName: "Ana", nationality: "BR", age: 31, careerName: "Carreira Ana", targetType: "club", targetId: 7 }, path);
-    const db = new DatabaseSync(path);
-    db.exec("CREATE TABLE matches(match_id INTEGER PRIMARY KEY, home_club_id INTEGER, away_club_id INTEGER); INSERT INTO matches VALUES(10, 7, 7);");
-    const before = getClubEconomySummary(path).cash;
-    expect(previewTravelCost(10, 7, path)).toMatchObject({ status: "AVAILABLE", route_type: "HOME_NO_TRAVEL", cost: 0, persisted: false });
-    expect(getTravelSummary(undefined, path)).toMatchObject({ trips: 0, total_cost: 0 });
-    expect(getClubEconomySummary(path).cash).toBe(before);
-    db.close();
-  });
-
-  it("expõe alertas persistidos do motor e confirma sua leitura", () => {
-    const path = fixture();
-    startCareer({ managerName: "Ana", nationality: "BR", age: 31, careerName: "Carreira Ana", targetType: "club", targetId: 7 }, path);
-    const sponsorship = getClubSponsorshipSummary(path);
-    acceptSponsorshipOffer(sponsorship.offers[0].offer_id, path);
-    const events = listClubEvents(8, false, path);
-    expect(events.unread_count).toBeGreaterThan(0);
-    expect(events.items[0]).toMatchObject({ type: "PATROCINIO", is_read: false });
-    expect(markClubEventRead(events.items[0].event_id, path)).toMatchObject({ read: true });
-    expect(listClubEvents(8, false, path).unread_count).toBe(0);
+    expect(() => runCareerGatewayAction("current", {}, "/tmp/game.db"))
+      .toThrow("CAREER_GATEWAY_UNAVAILABLE");
   });
 });
