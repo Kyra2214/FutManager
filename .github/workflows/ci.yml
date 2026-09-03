@@ -65,6 +65,7 @@ jobs:
   frontend:
     name: Frontend
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: frontend
@@ -95,6 +96,6 @@ jobs:
         env:
           FUTMANAGER_ENGINE_ROOT: ${{ github.workspace }}/engine
           FUTMANAGER_ENGINE_STATE_PATH: ${{ github.workspace }}/engine/data/state/game.db
-        run: pnpm test
+        run: pnpm test -- --reporter=verbose
       - name: Build frontend
         run: pnpm build
