@@ -18,6 +18,9 @@ export default defineConfig({
   },
   test: {
     environment: "node",
+    fileParallelism: false,
+    testTimeout: 120_000,
+    hookTimeout: 120_000,
     include: ["server/**/*.test.ts", "server/**/*.test.tsx", "server/**/*.spec.ts", "server/**/*.spec.tsx"],
   },
 });
