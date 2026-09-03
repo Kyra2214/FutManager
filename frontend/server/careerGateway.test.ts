@@ -1,11 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-
-const { execFileSyncMock } = vi.hoisted(() => ({ execFileSyncMock: vi.fn() }));
-
-vi.mock("node:child_process", async () => ({
-  ...(await vi.importActual<typeof import("node:child_process")>("node:child_process")),
-  execFileSync: execFileSyncMock,
-}));
+import * as childProcess from "node:child_process";
 
 import {
   getCurrentCareer,
@@ -16,8 +10,10 @@ import {
 } from "./careerGateway";
 
 describe("careerGateway", () => {
+  const execFileSyncMock = vi.spyOn(childProcess, "execFileSync");
+
   it("executa a ação current pelo processo Python e desserializa o retorno", () => {
-    execFileSyncMock.mockReturnValueOnce(JSON.stringify({ ok: true, started: false }));
+    execFileSyncMock.mockReturnValueOnce(JSON.stringify({ ok: true, started: false }) as never);
 
     expect(getCurrentCareer("/tmp/game.db")).toMatchObject({ ok: true, started: false });
     expect(execFileSyncMock).toHaveBeenCalledWith(
@@ -32,18 +28,18 @@ describe("careerGateway", () => {
       .mockReturnValueOnce(JSON.stringify({
         ok: true,
         items: [{ entityId: 7, name: "Palmeiras", countryId: 29, mappingStatus: "COMPLETE", assetUrl: null, assetKind: null }],
-      }))
+      }) as never)
       .mockReturnValueOnce(JSON.stringify({
         ok: true,
         items: [{ countryId: 29, name: "Brasil", code: "BR", clubCount: 20, firstDivisionClubCount: 20, firstDivisionName: "Série A" }],
-      }));
+      }) as never);
 
     expect(listCareerTargets("club", "Palmeiras", 8, "/tmp/game.db")[0]).toMatchObject({ entityId: 7, name: "Palmeiras" });
     expect(listWorldCountries("Brasil", 8, "/tmp/game.db")[0]).toMatchObject({ countryId: 29, name: "Brasil" });
   });
 
   it("envia todos os campos da criação de carreira ao gateway", () => {
-    execFileSyncMock.mockReturnValueOnce(JSON.stringify({ ok: true, started: true, target_id: 7 }));
+    execFileSyncMock.mockReturnValueOnce(JSON.stringify({ ok: true, started: true, target_id: 7 }) as never);
 
     expect(startCareer({
       managerName: "Ana",
@@ -72,7 +68,7 @@ describe("careerGateway", () => {
   });
 
   it("converte falha do gateway em erro público estável", () => {
-    execFileSyncMock.mockReturnValueOnce(JSON.stringify({ ok: false, error: "CLUB_NOT_FOUND" }));
+    execFileSyncMock.mockReturnValueOnce(JSON.stringify({ ok: false, error: "CLUB_NOT_FOUND" }) as never);
 
     expect(() => runCareerGatewayAction("current", {}, "/tmp/game.db"))
       .toThrow("CLUB_NOT_FOUND");
