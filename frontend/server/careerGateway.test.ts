@@ -2,7 +2,8 @@ import { describe, expect, it, vi } from "vitest";
 
 const { execFileSyncMock } = vi.hoisted(() => ({ execFileSyncMock: vi.fn() }));
 
-vi.mock("node:child_process", () => ({
+vi.mock("node:child_process", async () => ({
+  ...(await vi.importActual<typeof import("node:child_process")>("node:child_process")),
   execFileSync: execFileSyncMock,
 }));
 
